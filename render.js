@@ -14,6 +14,12 @@ const fs = require('fs');
 const path = require('path');
 
 const TEMPLATE_PATH = path.join(__dirname, 'template.html');
+const LOGO_PATH = path.join(__dirname, 'profitzon-logo.png');
+
+// Pre-load logo as base64 data URI
+const logoBase64 = fs.existsSync(LOGO_PATH)
+  ? 'data:image/png;base64,' + fs.readFileSync(LOGO_PATH).toString('base64')
+  : '';
 
 // ============================================================
 // HELPERS
@@ -179,6 +185,7 @@ function renderHTML(data) {
   const reportId = `PZ-${Date.now().toString(36).toUpperCase().slice(-6)}`;
 
   const replacements = {
+    '{{logoBase64}}': logoBase64,
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
     '{{reportId}}': reportId,

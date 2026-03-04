@@ -55,24 +55,23 @@
     position: relative; z-index: 1;
   }
 
-  .logo-group { display: flex; align-items: center; gap: 12px; }
-
-  .logo-icon {
-    width: 40px; height: 40px;
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+  .logo-group {
+    background: #fff;
+    border-radius: 8px;
+    padding: 5px 14px;
+    height: 38px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
-  .logo-icon svg { width: 22px; height: 22px; }
-
-  .logo-text {
-    font-size: 22px; font-weight: 800;
-    color: #fff; letter-spacing: -0.5px;
+  .logo-group img {
+    height: 50px;
+    object-fit: cover;
+    object-position: left top;
+    display: block;
   }
-
-  .logo-text span { color: #818cf8; }
 
   .report-badge {
     background: rgba(239,68,68,0.12);
@@ -434,12 +433,7 @@
     <div class="header-glow-2"></div>
     <div class="header-top">
       <div class="logo-group">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white"/>
-          </svg>
-        </div>
-        <div class="logo-text">Profit<span>zon</span></div>
+        <img src="{{logoBase64}}" alt="Profitzon">
       </div>
       <div class="report-badge">&#9888; Brand Health Audit</div>
     </div>
