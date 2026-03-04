@@ -317,6 +317,13 @@ async function startServer(port) {
     }
   });
 
+  app.get('/deck', (req, res) => {
+    const deckPath = path.join(__dirname, 'profitzon-deck.pdf');
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="Profitzon_Capital_Partner.pdf"');
+    fs.createReadStream(deckPath).pipe(res);
+  });
+
   app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer' }));
 
   app.listen(port, () => {
