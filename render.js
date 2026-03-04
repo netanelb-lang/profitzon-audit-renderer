@@ -301,9 +301,10 @@ async function startServer(port) {
       }
 
       const pdf = await renderPDF(data);
+      const pdfBuffer = Buffer.from(pdf);
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`);
-      res.send(pdf);
+      res.send(pdfBuffer);
     } catch (err) {
       console.error('Render error:', err);
       res.status(500).json({ error: err.message });
