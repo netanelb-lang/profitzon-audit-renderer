@@ -255,6 +255,7 @@ function renderHTML(data) {
 
 async function renderPDF(data) {
   const puppeteer = require('puppeteer');
+  const os = require('os');
   const html = renderHTML(data);
 
   const launchOptions = {
@@ -268,14 +269,20 @@ async function renderPDF(data) {
 
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
-  const pdf = await page.pdf({
+
+  // Write PDF to temp file to guarantee proper Buffer (Puppeteer v24 returns Uint8Array)
+  const tmpPath = path.join(os.tmpdir(), `audit-${Date.now()}.pdf`);
+  await page.pdf({
+    path: tmpPath,
     width: '794px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
 
   await browser.close();
-  return pdf;
+  const pdfBuffer = fs.readFileSync(tmpPath);
+  fs.unlinkSync(tmpPath);
+  return pdfBuffer;
 }
 
 // ============================================================
@@ -300,13 +307,9 @@ async function startServer(port) {
         return res.send(html);
       }
 
-      const pdf = await renderPDF(data);
-      const pdfBuffer = Buffer.isBuffer(pdf) ? pdf : Buffer.from(pdf);
-      res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-Length': pdfBuffer.length,
-        'Content-Disposition': `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`
-      });
+      const pdfBuffer = await renderPDF(data);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`);
       res.end(pdfBuffer);
     } catch (err) {
       console.error('Render error:', err);
