@@ -280,9 +280,7 @@ async function renderPDF(data) {
   });
 
   await browser.close();
-  const pdfBuffer = fs.readFileSync(tmpPath);
-  fs.unlinkSync(tmpPath);
-  return pdfBuffer;
+  return tmpPath;
 }
 
 // ============================================================
@@ -307,10 +305,12 @@ async function startServer(port) {
         return res.send(html);
       }
 
-      const pdfBuffer = await renderPDF(data);
+      const pdfPath = await renderPDF(data);
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`);
-      res.end(pdfBuffer);
+      const stream = fs.createReadStream(pdfPath);
+      stream.pipe(res);
+      stream.on('end', () => { try { fs.unlinkSync(pdfPath); } catch(e) {} });
     } catch (err) {
       console.error('Render error:', err);
       res.status(500).json({ error: err.message });
@@ -350,8 +350,9 @@ async function main() {
       fs.writeFileSync(output.replace('.pdf', '.html'), html);
       console.log('HTML saved to', output.replace('.pdf', '.html'));
     } else {
-      const pdf = await renderPDF(data);
-      fs.writeFileSync(output, pdf);
+      const tmpPdf = await renderPDF(data);
+      fs.copyFileSync(tmpPdf, output);
+      fs.unlinkSync(tmpPdf);
       console.log('PDF saved to', output);
     }
     return;
