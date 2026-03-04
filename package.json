@@ -1,0 +1,13 @@
+{
+  "name": "profitzon-audit-renderer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node render.js --serve --port 3100",
+    "demo": "node render.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "puppeteer": "^24.0.0"
+  }
+}

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon Brand Health Audit - {{brandName}} | Profitzon</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #f0f1f5;
+    color: #1a1d26;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 794px;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* === HEADER === */
+  .header {
+    background: linear-gradient(145deg, #0c0f1a 0%, #151b2e 40%, #1a2342 100%);
+    padding: 36px 44px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header-glow-1 {
+    position: absolute; top: -80px; right: -40px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+
+  .header-glow-2 {
+    position: absolute; bottom: -60px; left: 20%;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+  }
+
+  .logo-group { display: flex; align-items: center; gap: 12px; }
+
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+  }
+
+  .logo-icon svg { width: 22px; height: 22px; }
+
+  .logo-text {
+    font-size: 22px; font-weight: 800;
+    color: #fff; letter-spacing: -0.5px;
+  }
+
+  .logo-text span { color: #818cf8; }
+
+  .report-badge {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.25);
+    color: #fca5a5;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+  }
+
+  .brand-name {
+    font-size: 34px; font-weight: 900;
+    color: #fff; letter-spacing: -1px;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+
+  .report-subtitle {
+    color: #94a3b8; font-size: 13px;
+    position: relative; z-index: 1;
+  }
+
+  .report-subtitle strong { color: #cbd5e1; }
+
+  /* === HEALTH SCORE BANNER === */
+  .score-banner {
+    display: flex;
+    margin: -28px 28px 0;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    position: relative; z-index: 2;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+
+  .score-main {
+    flex: 0 0 210px;
+    padding: 24px 28px;
+    text-align: center;
+    position: relative;
+  }
+
+  .score-main.critical { background: linear-gradient(135deg, #dc2626, #b91c1c); color: #fff; }
+  .score-main.warning { background: linear-gradient(135deg, #d97706, #b45309); color: #fff; }
+  .score-main.healthy { background: linear-gradient(135deg, #059669, #047857); color: #fff; }
+
+  .score-eyebrow {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 1.5px; opacity: 0.8;
+    margin-bottom: 4px; font-weight: 600;
+  }
+
+  .score-number {
+    font-size: 64px; font-weight: 900;
+    line-height: 1; margin-bottom: 0;
+  }
+
+  .score-of { font-size: 18px; font-weight: 400; opacity: 0.7; }
+
+  .score-label {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 1px; opacity: 0.85; font-weight: 700;
+    margin-top: 4px;
+  }
+
+  .score-details {
+    flex: 1; background: #fff;
+    display: flex; padding: 16px 20px; gap: 0;
+  }
+
+  .score-detail {
+    flex: 1; text-align: center;
+    padding: 8px 8px;
+    border-right: 1px solid #f1f5f9;
+  }
+
+  .score-detail:last-child { border-right: none; }
+
+  .score-detail-value {
+    font-size: 12px; font-weight: 700;
+    margin-bottom: 4px; padding: 3px 10px;
+    border-radius: 5px; display: inline-block;
+  }
+
+  .score-detail-label {
+    font-size: 9px; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;
+  }
+
+  /* Status colors */
+  .s-green { background: #ecfdf5; color: #059669; }
+  .s-yellow { background: #fffbeb; color: #d97706; }
+  .s-red { background: #fef2f2; color: #dc2626; }
+  .s-gray { background: #f8fafc; color: #64748b; }
+  .s-purple { background: #f5f3ff; color: #7c3aed; }
+
+  /* === ALERT BAR === */
+  .alert-bar {
+    margin: 20px 28px 0;
+    background: linear-gradient(90deg, #fef2f2, #fff5f5);
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .alert-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: #fee2e2; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .alert-text {
+    font-size: 13px; color: #991b1b; font-weight: 600; line-height: 1.4;
+  }
+
+  .alert-text span { color: #dc2626; font-weight: 800; }
+
+  /* === CONTENT === */
+  .content { padding: 28px 28px 24px; }
+
+  .section-title {
+    font-size: 15px; font-weight: 800;
+    color: #0f172a; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .section-icon {
+    width: 28px; height: 28px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+
+  /* === METRICS GRID === */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .metric-card {
+    border-radius: 10px; padding: 14px 14px;
+    position: relative; overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+
+  .metric-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+  }
+
+  .metric-card.c-green { background: #f0fdf4; } .metric-card.c-green::before { background: #10b981; }
+  .metric-card.c-yellow { background: #fffbeb; } .metric-card.c-yellow::before { background: #f59e0b; }
+  .metric-card.c-red { background: #fef2f2; } .metric-card.c-red::before { background: #ef4444; }
+  .metric-card.c-gray { background: #f8fafc; } .metric-card.c-gray::before { background: #94a3b8; }
+
+  .metric-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 6px;
+  }
+
+  .metric-title {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #64748b; font-weight: 700;
+  }
+
+  .metric-badge {
+    font-size: 9px; font-weight: 800;
+    padding: 2px 7px; border-radius: 4px;
+  }
+
+  .metric-value {
+    font-size: 18px; font-weight: 800;
+    color: #0f172a; margin-bottom: 2px;
+  }
+
+  .metric-desc {
+    font-size: 10px; color: #94a3b8; line-height: 1.3;
+  }
+
+  /* === URGENT FINDINGS === */
+  .findings-section { margin-bottom: 24px; }
+
+  .finding-row {
+    display: flex; align-items: flex-start;
+    padding: 12px 16px; border-radius: 10px;
+    margin-bottom: 8px; gap: 12px;
+  }
+
+  .finding-row.issue { background: #fef2f2; border-left: 4px solid #ef4444; }
+  .finding-row.opportunity { background: #f0fdf4; border-left: 4px solid #10b981; }
+  .finding-row.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
+  .finding-row.competitor { background: #eff6ff; border-left: 4px solid #3b82f6; }
+
+  .finding-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .finding-content { flex: 1; }
+
+  .finding-label {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.8px; font-weight: 800; margin-bottom: 2px;
+  }
+
+  .finding-row.issue .finding-label { color: #dc2626; }
+  .finding-row.opportunity .finding-label { color: #059669; }
+  .finding-row.warning .finding-label { color: #d97706; }
+  .finding-row.competitor .finding-label { color: #2563eb; }
+
+  .finding-text {
+    font-size: 12px; color: #334155;
+    line-height: 1.5; font-weight: 500;
+  }
+
+  /* === PRODUCTS TABLE === */
+  .products-table {
+    width: 100%; border-collapse: separate;
+    border-spacing: 0; margin-bottom: 24px;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid #e5e7eb;
+  }
+
+  .products-table th {
+    background: #f8fafc; padding: 10px 12px;
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #64748b;
+    font-weight: 700; text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .products-table td {
+    padding: 8px 12px; font-size: 11px;
+    border-bottom: 1px solid #f1f5f9; color: #334155;
+  }
+
+  .products-table tr:last-child td { border-bottom: none; }
+
+  .badge-sm {
+    font-size: 8px; font-weight: 800;
+    padding: 1px 5px; border-radius: 3px;
+    display: inline-block; margin-right: 2px;
+  }
+
+  .badge-prime { background: #dbeafe; color: #1d4ed8; }
+  .badge-choice { background: #fef3c7; color: #92400e; }
+  .badge-bestseller { background: #fee2e2; color: #991b1b; }
+  .badge-sponsored { background: #f3e8ff; color: #6b21a8; }
+  .badge-notbrand { background: #fef2f2; color: #dc2626; font-size: 8px; }
+
+  .stars { color: #f59e0b; font-size: 11px; letter-spacing: -1px; }
+
+  /* === WHAT YOU'RE LOSING === */
+  .loss-section {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    border-radius: 14px; padding: 22px 24px;
+    margin-bottom: 24px; color: #fff;
+  }
+
+  .loss-title {
+    font-size: 14px; font-weight: 800;
+    margin-bottom: 14px; display: flex;
+    align-items: center; gap: 8px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .loss-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .loss-item {
+    text-align: center; padding: 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .loss-value {
+    font-size: 22px; font-weight: 900;
+    color: #fca5a5; margin-bottom: 2px;
+  }
+
+  .loss-label {
+    font-size: 10px; color: #c4b5fd;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  /* === CTA === */
+  .cta-section {
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    border: 2px solid #c4b5fd;
+    border-radius: 14px; padding: 24px;
+    margin-bottom: 24px; text-align: center;
+  }
+
+  .cta-title {
+    font-size: 18px; font-weight: 900;
+    color: #4c1d95; margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .cta-subtitle {
+    font-size: 13px; color: #6d28d9;
+    margin-bottom: 16px; line-height: 1.5;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff; padding: 12px 32px;
+    border-radius: 10px; font-size: 14px;
+    font-weight: 700; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+  }
+
+  .cta-trust {
+    margin-top: 12px; font-size: 11px;
+    color: #7c3aed; font-weight: 500;
+  }
+
+  /* === FOOTER === */
+  .footer {
+    background: #0c0f1a;
+    padding: 22px 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left { color: #94a3b8; font-size: 11px; }
+  .footer-left strong { color: #fff; font-weight: 700; }
+  .footer-right { color: #64748b; font-size: 10px; text-align: right; }
+  .footer-right a { color: #818cf8; text-decoration: none; }
+
+  .confidential {
+    text-align: center; padding: 8px;
+    font-size: 9px; color: #94a3b8;
+    background: #0c0f1a; letter-spacing: 0.5px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-glow-1"></div>
+    <div class="header-glow-2"></div>
+    <div class="header-top">
+      <div class="logo-group">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white"/>
+          </svg>
+        </div>
+        <div class="logo-text">Profit<span>zon</span></div>
+      </div>
+      <div class="report-badge">&#9888; Brand Health Audit</div>
+    </div>
+    <div class="brand-name">{{brandName}}</div>
+    <div class="report-subtitle">Amazon Marketplace Health Analysis &middot; <strong>{{reportDate}}</strong> &middot; Confidential</div>
+  </div>
+
+  <!-- HEALTH SCORE -->
+  <div class="score-banner">
+    <div class="score-main {{healthScoreClass}}">
+      <div class="score-eyebrow">Amazon Health</div>
+      <div class="score-number">{{healthScore}}<span class="score-of">/100</span></div>
+      <div class="score-label">{{healthScoreLabel}}</div>
+    </div>
+    <div class="score-details">
+      <div class="score-detail">
+        <div class="score-detail-value {{brandMaturityClass}}">{{brandMaturity}}</div>
+        <div class="score-detail-label">Maturity</div>
+      </div>
+      <div class="score-detail">
+        <div class="score-detail-value {{issueSeverityClass}}">{{issueSeverity}}</div>
+        <div class="score-detail-label">Issues Found</div>
+      </div>
+      <div class="score-detail">
+        <div class="score-detail-value s-gray">{{brandProductCount}} / {{totalResults}}</div>
+        <div class="score-detail-label">Brand Products</div>
+      </div>
+      <div class="score-detail">
+        <div class="score-detail-value {{competitorClass}}">{{competitorCount}} Competitors</div>
+        <div class="score-detail-label">On Your Terms</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERT BAR -->
+  {{alertBar}}
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- METRICS GRID -->
+    <div class="section-title">
+      <div class="section-icon" style="background:#eff6ff;color:#3b82f6;">&#128200;</div>
+      Marketplace Breakdown
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card c-{{storefrontColor}}">
+        <div class="metric-header">
+          <div class="metric-title">Storefront</div>
+          <div class="metric-badge {{storefrontClass}}">{{storefront}}</div>
+        </div>
+        <div class="metric-value">{{catalogSize}} SKUs</div>
+        <div class="metric-desc">Brand products on Amazon</div>
+      </div>
+
+      <div class="metric-card c-{{fbaColor}}">
+        <div class="metric-header">
+          <div class="metric-title">FBA Coverage</div>
+          <div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div>
+        </div>
+        <div class="metric-value">{{fbaPercent}}% Prime</div>
+        <div class="metric-desc">{{fbaDetail}}</div>
+      </div>
+
+      <div class="metric-card c-{{listingColor}}">
+        <div class="metric-header">
+          <div class="metric-title">Listing Quality</div>
+          <div class="metric-badge {{listingClass}}">{{listingQuality}}</div>
+        </div>
+        <div class="metric-value">{{avgRating}} &#9733;</div>
+        <div class="metric-desc">Avg rating across products</div>
+      </div>
+
+      <div class="metric-card c-{{ppcColor}}">
+        <div class="metric-header">
+          <div class="metric-title">Advertising</div>
+          <div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div>
+        </div>
+        <div class="metric-value">{{ppcCount}} Ads</div>
+        <div class="metric-desc">{{ppcDetail}}</div>
+      </div>
+
+      <div class="metric-card c-{{priceColor}}">
+        <div class="metric-header">
+          <div class="metric-title">Price Control</div>
+          <div class="metric-badge {{priceClass}}">{{priceStability}}</div>
+        </div>
+        <div class="metric-value">{{priceRange}}</div>
+        <div class="metric-desc">Price variance detected</div>
+      </div>
+
+      <div class="metric-card c-{{sellerColor}}">
+        <div class="metric-header">
+          <div class="metric-title">Seller Control</div>
+          <div class="metric-badge {{sellerClass}}">{{sellerRisk}}</div>
+        </div>
+        <div class="metric-value">{{sellerCount}} Sellers</div>
+        <div class="metric-desc">Active on your listings</div>
+      </div>
+    </div>
+
+    <!-- URGENT FINDINGS -->
+    <div class="section-title">
+      <div class="section-icon" style="background:#fef2f2;color:#dc2626;">&#9888;</div>
+      Key Findings
+    </div>
+
+    <div class="findings-section">
+      {{findings}}
+    </div>
+
+    <!-- TOP PRODUCTS -->
+    <div class="section-title">
+      <div class="section-icon" style="background:#ecfdf5;color:#059669;">&#128230;</div>
+      Products Analyzed
+    </div>
+
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th style="width:38%">Product</th>
+          <th>Price</th>
+          <th>Rating</th>
+          <th>Reviews</th>
+          <th>Sales</th>
+          <th>Badges</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{productRows}}
+      </tbody>
+    </table>
+
+    <!-- WHAT YOU'RE LOSING -->
+    <div class="loss-section">
+      <div class="loss-title">&#128308; What This Is Costing You</div>
+      <div class="loss-grid">
+        <div class="loss-item">
+          <div class="loss-value">{{lostBuyBox}}</div>
+          <div class="loss-label">Buy Box Loss Risk</div>
+        </div>
+        <div class="loss-item">
+          <div class="loss-value">{{lostVisibility}}</div>
+          <div class="loss-label">Visibility Gap</div>
+        </div>
+        <div class="loss-item">
+          <div class="loss-value">{{lostConversion}}</div>
+          <div class="loss-label">Conversion Drag</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="cta-title">Let's Fix This Together</div>
+      <div class="cta-subtitle">Profitzon specializes in turning Amazon channel problems into growth.<br>We'll show you a custom action plan in 15 minutes.</div>
+      <a href="https://profitzon.net" class="cta-button">Book Your Free Strategy Call &#8594;</a>
+      <div class="cta-trust">&#9989; No commitment &middot; &#128202; Custom action plan included &middot; &#128337; 15 minutes</div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <strong>Profitzon</strong> &middot; Amazon Growth Agency<br>
+      gal@profitzon.net &middot; <a href="https://profitzon.net" style="color:#818cf8;text-decoration:none">profitzon.net</a>
+    </div>
+    <div class="footer-right">
+      Prepared for <strong style="color:#cbd5e1">{{brandName}}</strong><br>
+      Report ID: {{reportId}}
+    </div>
+  </div>
+  <div class="confidential">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
+
+</div>
+</body>
+</html>
