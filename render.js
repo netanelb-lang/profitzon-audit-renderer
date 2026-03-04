@@ -301,10 +301,13 @@ async function startServer(port) {
       }
 
       const pdf = await renderPDF(data);
-      const pdfBuffer = Buffer.from(pdf);
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`);
-      res.send(pdfBuffer);
+      const pdfBuffer = Buffer.isBuffer(pdf) ? pdf : Buffer.from(pdf);
+      res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Length': pdfBuffer.length,
+        'Content-Disposition': `attachment; filename="${data.brandName.replace(/[^a-zA-Z0-9]/g, '_')}_Amazon_Audit.pdf"`
+      });
+      res.end(pdfBuffer);
     } catch (err) {
       console.error('Render error:', err);
       res.status(500).json({ error: err.message });
