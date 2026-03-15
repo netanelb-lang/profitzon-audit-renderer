@@ -323,6 +323,105 @@ function computeLosses(data) {
 }
 
 // ============================================================
+// NORMALIZE AGENT OUTPUT → RENDERER FORMAT
+// ============================================================
+
+function normalizeAgentData(input) {
+  // If already in renderer format (has brandName), pass through
+  if (input.brandName) return input;
+
+  // Agent format has report_data, seller_analysis, top_asins, etc.
+  const rd = input.report_data || {};
+  const sa = input.seller_analysis || {};
+  const sections = rd.sections || {};
+  const topAsins = input.top_asins || [];
+  const bestProduct = topAsins[0] || {};
+  const ps = parseInt(input.priority_score || 50);
+
+  // Compute issue severity from priority score
+  let issueSeverity = 'Low Impact';
+  if (ps > 70) issueSeverity = 'High Impact';
+  else if (ps > 40) issueSeverity = 'Medium Impact';
+
+  // Map rating_stars_distribution [{rating,percentage}] → [{stars,percentage}]
+  let ratingDist = rd.rating_stars_distribution || input.ratingDistribution || [];
+  if (ratingDist.length && ratingDist[0].rating !== undefined && ratingDist[0].stars === undefined) {
+    ratingDist = ratingDist.map(d => ({ stars: d.rating, percentage: d.percentage }));
+  }
+
+  return {
+    brandName: rd.brand_name || input.brand_name || 'Unknown Brand',
+    reportDate: rd.report_date || input.report_date || new Date().toISOString().split('T')[0],
+    priorityScore: ps,
+    brandMaturity: input.brand_maturity || 'Mixed',
+    outreachApproach: input.outreach_approach || 'Operational',
+    issueSeverity: issueSeverity,
+
+    // Section statuses
+    storefront: (sections.storefront || {}).status || 'Missing',
+    fbaStatus: (sections.fulfillment || {}).status || 'FBM Only',
+    listingQuality: (sections.listings || {}).status || 'Adequate',
+    ppcStatus: (sections.advertising || {}).status || 'None',
+    priceStability: (sections.pricing || {}).status || 'Stable',
+
+    // Counts
+    sellerCount: sa.total_sellers || rd.seller_count || 0,
+    catalogSize: rd.catalog_size || rd.brand_product_count || 0,
+    brandProductCount: rd.brand_product_count || rd.catalog_size || 0,
+    totalResults: rd.total_results || 0,
+    competitorCount: rd.competitor_count || 0,
+    fbaPercent: rd.fba_percent || 0,
+    avgRating: rd.avg_rating || '0.0',
+    ppcCount: rd.ppc_count || 0,
+    priceRange: rd.price_range || 'N/A',
+
+    // Best product
+    bestAsin: bestProduct.asin || '',
+    bestAsinTitle: bestProduct.title || '',
+    buyBoxSellerName: rd.buy_box_seller || sa.buy_box_holder || '',
+    buyBoxIsTheBrand: rd.buy_box_is_brand !== undefined ? rd.buy_box_is_brand : true,
+    buyBoxIsFba: rd.buy_box_is_fba !== undefined ? rd.buy_box_is_fba : false,
+    buyBoxPrice: bestProduct.price || 0,
+    pricingOfferCount: bestProduct.sellers || sa.total_sellers || 0,
+
+    // BSR
+    bsrSubcategory: bestProduct.bsr_sub || '',
+
+    // Listing details
+    listingHasVideo: rd.listing_has_video || false,
+    listingImageCount: rd.listing_image_count || 0,
+    listingBulletCount: rd.listing_bullet_count || 0,
+    answeredQuestionsCount: rd.answered_questions || 0,
+    onPageCompetitorCount: rd.on_page_competitor_count || parseInt(rd.competitor_count || 0),
+    reviewHighlights: rd.review_highlights || '',
+
+    // Rating distribution
+    ratingDistribution: ratingDist,
+
+    // Findings & products (pass through)
+    findings: rd.findings || input.findings || [],
+    topProducts: topAsins.map(p => ({
+      asin: p.asin,
+      title: p.title,
+      price: p.price,
+      rating: p.rating,
+      reviews_count: p.reviews_count,
+      is_prime: p.is_prime,
+      sellers: p.sellers,
+      monthly_sales: p.monthly_sales,
+      bsr: p.bsr,
+      bsr_sub: p.bsr_sub,
+      sales_volume: p.sales_volume,
+      is_amazons_choice: p.is_amazons_choice,
+      best_seller: p.best_seller,
+      is_sponsored: p.is_sponsored,
+      notBrand: p.notBrand,
+      pos: p.pos
+    }))
+  };
+}
+
+// ============================================================
 // MAIN RENDER
 // ============================================================
 
@@ -490,10 +589,11 @@ async function startServer(port) {
 
   app.post('/render', async (req, res) => {
     try {
-      const data = req.body;
-      if (!data || !data.brandName) {
-        return res.status(400).json({ error: 'Missing brandName in request body' });
+      const raw = req.body;
+      if (!raw || (!raw.brandName && !raw.report_data && !raw.brand_name)) {
+        return res.status(400).json({ error: 'Missing brand data in request body' });
       }
+      const data = normalizeAgentData(raw);
       if (req.query.format === 'html') {
         return res.setHeader('Content-Type', 'text/html').send(renderHTML(data));
       }
@@ -516,7 +616,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v3' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
