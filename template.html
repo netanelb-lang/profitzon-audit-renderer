@@ -7,44 +7,44 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; background: #07090f; color: #e2e8f0; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-  .page { width: 794px; height: 1123px; margin: 0 auto; background: #07090f; position: relative; overflow: hidden; page-break-after: always; }
+  .page { width: 1000px; height: 1414px; margin: 0 auto; background: #07090f; position: relative; overflow: hidden; page-break-after: always; }
   .page:last-child { page-break-after: avoid; }
   .page + .page { page-break-before: always; }
 
   /* PAGE FOOTER */
-  .page-footer { background: #030507; padding: 14px 36px; display: flex; justify-content: space-between; align-items: center; position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid rgba(212,165,74,0.15); }
-  .page-footer-left { color: #64748b; font-size: 9px; }
+  .page-footer { background: #030507; padding: 16px 44px; display: flex; justify-content: space-between; align-items: center; position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid rgba(212,165,74,0.15); }
+  .page-footer-left { color: #64748b; font-size: 11px; }
   .page-footer-left strong { color: #d4a54a; }
-  .page-footer-right { color: #475569; font-size: 9px; }
+  .page-footer-right { color: #475569; font-size: 11px; }
 
   /* HEADER */
-  .header { background: linear-gradient(145deg, #07090f 0%, #0c1120 40%, #111a30 100%); padding: 34px 36px 48px; position: relative; overflow: hidden; border-bottom: 2px solid rgba(212,165,74,0.3); }
+  .header { background: linear-gradient(145deg, #07090f 0%, #0c1120 40%, #111a30 100%); padding: 42px 44px 58px; position: relative; overflow: hidden; border-bottom: 2px solid rgba(212,165,74,0.3); }
   .header-glow { position: absolute; border-radius: 50%; }
-  .header-glow-1 { top: -80px; right: -40px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(212,165,74,0.08) 0%, transparent 65%); }
-  .header-glow-2 { bottom: -60px; left: 20%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(212,165,74,0.05) 0%, transparent 65%); }
-  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; position: relative; z-index: 1; }
-  .logo-group { background: #fff; border-radius: 8px; padding: 4px 12px; height: 34px; display: flex; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
-  .logo-group img { height: 44px; object-fit: cover; object-position: left top; display: block; }
-  .report-badge { background: rgba(212,165,74,0.15); border: 1px solid rgba(212,165,74,0.4); color: #d4a54a; padding: 5px 14px; border-radius: 20px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; }
-  .brand-name { font-size: 34px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 6px; position: relative; z-index: 1; }
-  .report-subtitle { color: #64748b; font-size: 12px; position: relative; z-index: 1; }
+  .header-glow-1 { top: -80px; right: -40px; width: 340px; height: 340px; background: radial-gradient(circle, rgba(212,165,74,0.08) 0%, transparent 65%); }
+  .header-glow-2 { bottom: -60px; left: 20%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,165,74,0.05) 0%, transparent 65%); }
+  .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; position: relative; z-index: 1; }
+  .logo-group { background: #fff; border-radius: 10px; padding: 5px 16px; height: 42px; display: flex; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+  .logo-group img { height: 54px; object-fit: cover; object-position: left top; display: block; }
+  .report-badge { background: rgba(212,165,74,0.15); border: 1px solid rgba(212,165,74,0.4); color: #d4a54a; padding: 6px 18px; border-radius: 22px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; }
+  .brand-name { font-size: 42px; font-weight: 900; color: #fff; letter-spacing: -1px; margin-bottom: 8px; position: relative; z-index: 1; }
+  .report-subtitle { color: #64748b; font-size: 15px; position: relative; z-index: 1; }
   .report-subtitle strong { color: #94a3b8; }
 
   /* HEALTH SCORE BANNER */
-  .score-banner { display: flex; margin: -24px 28px 0; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-  .score-main { flex: 0 0 175px; padding: 20px 22px; text-align: center; }
+  .score-banner { display: flex; margin: -28px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+  .score-main { flex: 0 0 220px; padding: 24px 28px; text-align: center; }
   .score-main.critical { background: linear-gradient(135deg, #991b1b, #7f1d1d); color: #fff; }
   .score-main.warning { background: linear-gradient(135deg, #92400e, #78350f); color: #fff; }
   .score-main.healthy { background: linear-gradient(135deg, #065f46, #064e3b); color: #fff; }
-  .score-eyebrow { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; font-weight: 600; }
-  .score-number { font-size: 50px; font-weight: 900; line-height: 1; }
-  .score-of { font-size: 16px; font-weight: 400; opacity: 0.6; }
-  .score-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; font-weight: 700; }
-  .score-details { flex: 1; background: #0d1117; display: flex; padding: 14px 16px; }
-  .score-detail { flex: 1; text-align: center; padding: 8px 4px; border-right: 1px solid rgba(255,255,255,0.06); }
+  .score-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; font-weight: 600; }
+  .score-number { font-size: 62px; font-weight: 900; line-height: 1; }
+  .score-of { font-size: 20px; font-weight: 400; opacity: 0.6; }
+  .score-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; font-weight: 700; }
+  .score-details { flex: 1; background: #0d1117; display: flex; padding: 18px 20px; }
+  .score-detail { flex: 1; text-align: center; padding: 10px 6px; border-right: 1px solid rgba(255,255,255,0.06); }
   .score-detail:last-child { border-right: none; }
-  .score-detail-value { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 4px; display: inline-block; }
-  .score-detail-label { font-size: 8px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
+  .score-detail-value { font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 5px; display: inline-block; }
+  .score-detail-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 5px; }
 
   /* STATUS COLORS (dark theme) */
   .s-green { background: rgba(16,185,129,0.15); color: #34d399; }
@@ -53,166 +53,165 @@
   .s-gray { background: rgba(148,163,184,0.1); color: #94a3b8; }
 
   /* BUY BOX ALERT */
-  .buybox-alert { margin: 18px 28px 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
-  .buybox-alert-icon { width: 40px; height: 40px; flex-shrink: 0; background: #dc2626; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff; }
-  .buybox-alert-text { font-size: 12px; color: #fca5a5; font-weight: 500; line-height: 1.5; }
+  .buybox-alert { margin: 22px 34px 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 14px; padding: 20px 26px; display: flex; align-items: center; gap: 16px; }
+  .buybox-alert-icon { width: 48px; height: 48px; flex-shrink: 0; background: #dc2626; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
+  .buybox-alert-text { font-size: 15px; color: #fca5a5; font-weight: 500; line-height: 1.5; }
   .buybox-alert-text strong { color: #f87171; font-weight: 800; }
 
   /* CONTENT */
-  .content { padding: 18px 28px; }
-  .page3-content { padding: 12px 28px 70px; }
+  .content { padding: 24px 38px; }
+  .page3-content { padding: 16px 38px 90px; }
 
-  .section-title { font-size: 13px; font-weight: 800; color: #d4a54a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
-  .section-icon { width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .section-title { font-size: 16px; font-weight: 800; color: #d4a54a; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .section-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 
   /* EXEC SUMMARY */
-  .exec-summary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; }
-  .exec-summary-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 12px; color: #cbd5e1; line-height: 1.6; }
+  .exec-summary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 24px 28px; margin-bottom: 26px; }
+  .exec-summary-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; color: #cbd5e1; line-height: 1.6; }
   .exec-summary-row:last-child { margin-bottom: 0; }
-  .exec-bullet { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; margin-top: 1px; }
+  .exec-bullet { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; margin-top: 2px; }
   .exec-bullet.red { background: #dc2626; } .exec-bullet.green { background: #059669; }
   .exec-bullet.blue { background: #3b82f6; } .exec-bullet.amber { background: #d97706; }
 
   /* SEARCH OWNERSHIP */
-  .ownership-bar { display: flex; align-items: center; gap: 18px; background: rgba(212,165,74,0.06); border: 1px solid rgba(212,165,74,0.2); border-radius: 12px; padding: 18px 24px; margin-bottom: 22px; }
-  .ownership-pct { font-size: 40px; font-weight: 900; line-height: 1; }
+  .ownership-bar { display: flex; align-items: center; gap: 22px; background: rgba(212,165,74,0.06); border: 1px solid rgba(212,165,74,0.2); border-radius: 14px; padding: 24px 30px; margin-bottom: 28px; }
+  .ownership-pct { font-size: 50px; font-weight: 900; line-height: 1; }
   .ownership-pct.low { color: #f87171; } .ownership-pct.mid { color: #fbbf24; } .ownership-pct.high { color: #34d399; }
   .ownership-info { flex: 1; }
-  .ownership-label { font-size: 12px; font-weight: 700; color: #e2e8f0; }
-  .ownership-desc { font-size: 10px; color: #64748b; }
-  .ownership-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
-  .ownership-fill { height: 100%; border-radius: 5px; }
+  .ownership-label { font-size: 15px; font-weight: 700; color: #e2e8f0; }
+  .ownership-desc { font-size: 13px; color: #64748b; }
+  .ownership-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+  .ownership-fill { height: 100%; border-radius: 6px; }
   .ownership-fill.low { background: linear-gradient(90deg, #ef4444, #f87171); }
   .ownership-fill.mid { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
   .ownership-fill.high { background: linear-gradient(90deg, #10b981, #34d399); }
 
   /* METRICS GRID */
-  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .metric-card { border-radius: 12px; padding: 18px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
-  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .metric-card { border-radius: 14px; padding: 22px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
   .metric-card.c-green { background: rgba(16,185,129,0.06); } .metric-card.c-green::before { background: #10b981; }
   .metric-card.c-yellow { background: rgba(245,158,11,0.06); } .metric-card.c-yellow::before { background: #f59e0b; }
   .metric-card.c-red { background: rgba(239,68,68,0.06); } .metric-card.c-red::before { background: #ef4444; }
   .metric-card.c-gray { background: rgba(148,163,184,0.04); } .metric-card.c-gray::before { background: #475569; }
-  .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .metric-title { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; }
-  .metric-badge { font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 4px; }
-  .metric-value { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 3px; }
-  .metric-desc { font-size: 9px; color: #475569; }
+  .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .metric-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; }
+  .metric-badge { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 5px; }
+  .metric-value { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .metric-desc { font-size: 12px; color: #475569; }
 
   /* PAGE 2 HEADER */
-  .page-header { background: rgba(212,165,74,0.04); padding: 18px 28px; border-bottom: 1px solid rgba(212,165,74,0.2); }
-  .page-header-title { font-size: 17px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-  .page-header-sub { font-size: 10px; color: #64748b; }
+  .page-header { background: rgba(212,165,74,0.04); padding: 22px 38px; border-bottom: 1px solid rgba(212,165,74,0.2); }
+  .page-header-title { font-size: 21px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+  .page-header-sub { font-size: 13px; color: #64748b; }
 
   /* DEEP DIVE CARD */
-  .deep-dive { border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
-  .deep-dive-header { background: linear-gradient(135deg, #0d1117, #151b2e); padding: 18px 24px; border-bottom: 1px solid rgba(212,165,74,0.15); }
-  .deep-dive-asin { font-size: 9px; color: #d4a54a; font-weight: 600; letter-spacing: 0.5px; }
-  .deep-dive-title { font-size: 14px; font-weight: 700; color: #e2e8f0; line-height: 1.4; margin-top: 3px; }
-  .deep-dive-body { padding: 20px 24px; background: rgba(255,255,255,0.02); }
-  .deep-dive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .dd-section { margin-bottom: 16px; }
-  .dd-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; margin-bottom: 5px; }
-  .dd-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-  .dd-value { font-size: 14px; font-weight: 700; color: #fff; }
-  .dd-badge { font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 4px; }
+  .deep-dive { border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+  .deep-dive-header { background: linear-gradient(135deg, #0d1117, #151b2e); padding: 22px 30px; border-bottom: 1px solid rgba(212,165,74,0.15); }
+  .deep-dive-asin { font-size: 11px; color: #d4a54a; font-weight: 600; letter-spacing: 0.5px; }
+  .deep-dive-title { font-size: 17px; font-weight: 700; color: #e2e8f0; line-height: 1.4; margin-top: 4px; }
+  .deep-dive-body { padding: 24px 30px; background: rgba(255,255,255,0.02); }
+  .deep-dive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .dd-section { margin-bottom: 20px; }
+  .dd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; margin-bottom: 6px; }
+  .dd-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+  .dd-value { font-size: 17px; font-weight: 700; color: #fff; }
+  .dd-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 5px; }
   .dd-badge.brand { background: rgba(16,185,129,0.15); color: #34d399; }
   .dd-badge.thirdparty { background: rgba(239,68,68,0.15); color: #f87171; }
   .dd-badge.fba { background: rgba(59,130,246,0.15); color: #60a5fa; }
   .dd-badge.fbm { background: rgba(245,158,11,0.15); color: #fbbf24; }
-  .dd-sub { font-size: 10px; color: #475569; }
+  .dd-sub { font-size: 13px; color: #475569; }
 
   /* RATING BARS */
-  .rating-bars { margin-bottom: 4px; }
-  .rating-bar-row { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
-  .rating-bar-label { font-size: 10px; font-weight: 600; color: #64748b; width: 22px; text-align: right; }
-  .rating-bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
-  .rating-bar-fill { height: 100%; border-radius: 5px; }
+  .rating-bars { margin-bottom: 6px; }
+  .rating-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .rating-bar-label { font-size: 13px; font-weight: 600; color: #64748b; width: 28px; text-align: right; }
+  .rating-bar-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
+  .rating-bar-fill { height: 100%; border-radius: 6px; }
   .rating-bar-fill.r5 { background: #10b981; } .rating-bar-fill.r4 { background: #34d399; }
   .rating-bar-fill.r3 { background: #fbbf24; } .rating-bar-fill.r2 { background: #f97316; }
   .rating-bar-fill.r1 { background: #ef4444; }
-  .rating-bar-pct { font-size: 9px; font-weight: 700; color: #94a3b8; width: 30px; }
+  .rating-bar-pct { font-size: 12px; font-weight: 700; color: #94a3b8; width: 36px; }
 
   /* LISTING HEALTH */
-  .listing-health { display: flex; gap: 14px; flex-wrap: wrap; }
-  .health-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #94a3b8; }
-  .health-check { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; }
+  .listing-health { display: flex; gap: 18px; flex-wrap: wrap; }
+  .health-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #94a3b8; }
+  .health-check { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
   .health-check.good { background: rgba(16,185,129,0.2); color: #34d399; }
   .health-check.bad { background: rgba(239,68,68,0.2); color: #f87171; }
   .health-check.warn { background: rgba(245,158,11,0.2); color: #fbbf24; }
 
   /* COMPARISON TABLE */
-  .comparison { display: grid; grid-template-columns: 1fr 80px 1fr; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; }
-  .comp-col { padding: 16px 18px; }
+  .comparison { display: grid; grid-template-columns: 1fr 100px 1fr; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+  .comp-col { padding: 20px 22px; }
   .comp-col.brand-col { background: rgba(239,68,68,0.04); }
   .comp-col.vs-col { background: rgba(255,255,255,0.02); display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .comp-col.competitor-col { background: rgba(16,185,129,0.04); }
-  .comp-header { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; text-align: center; }
+  .comp-header { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; text-align: center; }
   .comp-col.brand-col .comp-header { color: #f87171; }
   .comp-col.competitor-col .comp-header { color: #34d399; }
-  .comp-metric-value { font-size: 15px; font-weight: 800; text-align: center; margin-bottom: 2px; }
-  .comp-metric-sub { font-size: 9px; color: #475569; text-align: center; margin-bottom: 12px; }
+  .comp-metric-value { font-size: 19px; font-weight: 800; text-align: center; margin-bottom: 3px; }
+  .comp-metric-sub { font-size: 11px; color: #475569; text-align: center; margin-bottom: 14px; }
 
   /* PRODUCTS TABLE */
-  .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-  .products-table th { background: rgba(212,165,74,0.06); padding: 12px 10px; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .products-table td { padding: 11px 10px; font-size: 11px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
+  .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+  .products-table th { background: rgba(212,165,74,0.06); padding: 14px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .products-table td { padding: 14px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
   .products-table tr:last-child td { border-bottom: none; }
   .products-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .badge-sm { font-size: 7px; font-weight: 800; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-right: 2px; }
+  .badge-sm { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 4px; display: inline-block; margin-right: 3px; }
   .badge-prime { background: rgba(59,130,246,0.2); color: #60a5fa; }
   .badge-choice { background: rgba(245,158,11,0.2); color: #fbbf24; }
   .badge-bestseller { background: rgba(239,68,68,0.2); color: #f87171; }
   .badge-sponsored { background: rgba(168,85,247,0.2); color: #c084fc; }
   .badge-notbrand { background: rgba(239,68,68,0.15); color: #f87171; }
-  .pos-badge { font-size: 11px; font-weight: 800; color: #d4a54a; }
+  .pos-badge { font-size: 14px; font-weight: 800; color: #d4a54a; }
 
   /* PAGE 3: FINDINGS */
-  .finding-row { display: flex; align-items: flex-start; padding: 8px 14px; border-radius: 8px; margin-bottom: 5px; gap: 8px; page-break-inside: avoid; }
+  .finding-row { display: flex; align-items: flex-start; padding: 12px 18px; border-radius: 10px; margin-bottom: 8px; gap: 10px; page-break-inside: avoid; }
   .finding-row.issue { background: rgba(239,68,68,0.06); border-left: 4px solid #ef4444; }
   .finding-row.opportunity { background: rgba(16,185,129,0.06); border-left: 4px solid #10b981; }
   .finding-row.warning { background: rgba(245,158,11,0.06); border-left: 4px solid #f59e0b; }
   .finding-row.competitor { background: rgba(59,130,246,0.06); border-left: 4px solid #3b82f6; }
-  .finding-icon { font-size: 17px; flex-shrink: 0; margin-top: 1px; }
+  .finding-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .finding-content { flex: 1; }
-  .finding-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 800; margin-bottom: 3px; }
+  .finding-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 800; margin-bottom: 3px; }
   .finding-row.issue .finding-label { color: #f87171; }
   .finding-row.opportunity .finding-label { color: #34d399; }
   .finding-row.warning .finding-label { color: #fbbf24; }
   .finding-row.competitor .finding-label { color: #60a5fa; }
-  .finding-text { font-size: 11px; color: #cbd5e1; line-height: 1.5; font-weight: 500; }
+  .finding-text { font-size: 14px; color: #cbd5e1; line-height: 1.5; font-weight: 500; }
 
   /* LOSS SECTION */
-  .loss-section { background: linear-gradient(135deg, rgba(212,165,74,0.08) 0%, rgba(212,165,74,0.03) 100%); border: 1px solid rgba(212,165,74,0.2); border-radius: 14px; padding: 18px 24px; margin-bottom: 16px; }
-  .loss-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
-  .loss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .loss-item { text-align: center; padding: 14px 12px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
-  .loss-value { font-size: 24px; font-weight: 900; color: #f87171; }
-  .loss-label { font-size: 9px; color: #d4a54a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-top: 4px; }
+  .loss-section { background: linear-gradient(135deg, rgba(212,165,74,0.08) 0%, rgba(212,165,74,0.03) 100%); border: 1px solid rgba(212,165,74,0.2); border-radius: 16px; padding: 22px 28px; margin-bottom: 18px; }
+  .loss-title { font-size: 16px; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
+  .loss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .loss-item { text-align: center; padding: 18px 14px; background: rgba(0,0,0,0.3); border-radius: 14px; border: 1px solid rgba(255,255,255,0.06); }
+  .loss-value { font-size: 30px; font-weight: 900; color: #f87171; }
+  .loss-label { font-size: 11px; color: #d4a54a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-top: 5px; }
 
   /* ACTION PLAN */
-  .action-item { display: flex; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; margin-bottom: 5px; page-break-inside: avoid; }
-  .action-num { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
+  .action-item { display: flex; gap: 12px; padding: 12px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; margin-bottom: 8px; page-break-inside: avoid; }
+  .action-num { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
   .action-content { flex: 1; }
-  .action-title { font-size: 12px; font-weight: 700; color: #fff; }
-  .action-desc { font-size: 10px; color: #94a3b8; line-height: 1.4; margin-top: 1px; }
-  .action-impact { font-size: 8px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(16,185,129,0.15); color: #34d399; display: inline-block; margin-top: 3px; }
+  .action-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .action-desc { font-size: 13px; color: #94a3b8; line-height: 1.4; margin-top: 2px; }
+  .action-impact { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: rgba(16,185,129,0.15); color: #34d399; display: inline-block; margin-top: 4px; }
 
   /* CTA */
-  .cta-section { background: linear-gradient(135deg, rgba(212,165,74,0.1), rgba(212,165,74,0.04)); border: 2px solid rgba(212,165,74,0.3); border-radius: 14px; padding: 22px 24px; text-align: center; }
-  .cta-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; }
-  .cta-subtitle { font-size: 11px; color: #94a3b8; margin-bottom: 12px; line-height: 1.5; }
-  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; padding: 12px 32px; border-radius: 10px; font-size: 13px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(212,165,74,0.25); letter-spacing: 0.3px; }
-  .cta-trust { margin-top: 10px; font-size: 9px; color: #64748b; }
+  .cta-section { background: linear-gradient(135deg, rgba(212,165,74,0.1), rgba(212,165,74,0.04)); border: 2px solid rgba(212,165,74,0.3); border-radius: 16px; padding: 28px 30px; text-align: center; }
+  .cta-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+  .cta-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5; }
+  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; padding: 14px 38px; border-radius: 12px; font-size: 16px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(212,165,74,0.25); letter-spacing: 0.3px; }
+  .cta-trust { margin-top: 12px; font-size: 11px; color: #64748b; }
 
   /* FOOTER */
-  .footer { background: #030507; padding: 18px 36px; display: flex; justify-content: space-between; align-items: center; position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid rgba(212,165,74,0.15); }
-  .footer-left { color: #64748b; font-size: 10px; }
+  .footer { background: #030507; padding: 20px 44px; display: flex; justify-content: space-between; align-items: center; position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid rgba(212,165,74,0.15); }
+  .footer-left { color: #64748b; font-size: 13px; }
   .footer-left strong { color: #d4a54a; font-weight: 700; }
-  .footer-right { color: #475569; font-size: 9px; text-align: right; }
+  .footer-right { color: #475569; font-size: 11px; text-align: right; }
   .footer-right a { color: #d4a54a; text-decoration: none; }
-  .confidential { text-align: center; padding: 8px; font-size: 8px; color: #475569; background: #030507; letter-spacing: 0.5px; position: absolute; bottom: 0; left: 0; right: 0; }
 
   @media print { body { background: #07090f; } .page { box-shadow: none; margin: 0; } }
 </style>
@@ -283,50 +282,32 @@
     </div>
     <div class="metrics-grid">
       <div class="metric-card c-{{storefrontColor}}">
-        <div class="metric-header">
-          <div class="metric-title">Storefront</div>
-          <div class="metric-badge {{storefrontClass}}">{{storefront}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">Storefront</div><div class="metric-badge {{storefrontClass}}">{{storefront}}</div></div>
         <div class="metric-value">{{catalogSize}} SKUs</div>
         <div class="metric-desc">Brand products on Amazon</div>
       </div>
       <div class="metric-card c-{{fbaColor}}">
-        <div class="metric-header">
-          <div class="metric-title">FBA Coverage</div>
-          <div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">FBA Coverage</div><div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div></div>
         <div class="metric-value">{{fbaPercent}}% Prime</div>
         <div class="metric-desc">{{fbaDetail}}</div>
       </div>
       <div class="metric-card c-{{listingColor}}">
-        <div class="metric-header">
-          <div class="metric-title">Listing Quality</div>
-          <div class="metric-badge {{listingClass}}">{{listingQuality}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">Listing Quality</div><div class="metric-badge {{listingClass}}">{{listingQuality}}</div></div>
         <div class="metric-value">{{avgRating}} &#9733;</div>
         <div class="metric-desc">Avg rating across products</div>
       </div>
       <div class="metric-card c-{{ppcColor}}">
-        <div class="metric-header">
-          <div class="metric-title">Advertising</div>
-          <div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">Advertising</div><div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div></div>
         <div class="metric-value">{{ppcCount}} Ads</div>
         <div class="metric-desc">{{ppcDetail}}</div>
       </div>
       <div class="metric-card c-{{priceColor}}">
-        <div class="metric-header">
-          <div class="metric-title">Price Control</div>
-          <div class="metric-badge {{priceClass}}">{{priceStability}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">Price Control</div><div class="metric-badge {{priceClass}}">{{priceStability}}</div></div>
         <div class="metric-value">{{priceRange}}</div>
         <div class="metric-desc">Price range detected</div>
       </div>
       <div class="metric-card c-{{sellerColor}}">
-        <div class="metric-header">
-          <div class="metric-title">Seller Control</div>
-          <div class="metric-badge {{sellerClass}}">{{sellerRisk}}</div>
-        </div>
+        <div class="metric-header"><div class="metric-title">Seller Control</div><div class="metric-badge {{sellerClass}}">{{sellerRisk}}</div></div>
         <div class="metric-value">{{sellerCount}} Sellers</div>
         <div class="metric-desc">Active on your listings</div>
       </div>
@@ -402,9 +383,9 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:12px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
           <div class="dd-label">Review Highlights</div>
-          <div style="font-size:11px;color:#94a3b8;line-height:1.6;margin-top:5px;">{{reviewHighlights}}</div>
+          <div style="font-size:14px;color:#94a3b8;line-height:1.6;margin-top:6px;">{{reviewHighlights}}</div>
         </div>
       </div>
     </div>
@@ -415,7 +396,7 @@
     </div>
     {{brandVsCompetitor}}
 
-    <div style="height:20px;"></div>
+    <div style="height:24px;"></div>
 
     <div class="section-title">
       <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">&#128230;</div>
@@ -451,58 +432,58 @@
 <!-- ================================================================ -->
 <div class="page">
 
-  <div class="page-header" style="padding:14px 28px;">
-    <div class="page-header-title" style="font-size:15px;">&#9888; Findings & Recommended Actions</div>
+  <div class="page-header">
+    <div class="page-header-title">&#9888; Findings & Recommended Actions</div>
     <div class="page-header-sub">Critical issues identified and our recommended next steps</div>
   </div>
 
   <div class="page3-content">
 
-    <div class="section-title" style="margin-bottom:8px;">
+    <div class="section-title" style="margin-bottom:10px;">
       <div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;">&#9888;</div>
       Key Findings
     </div>
-    <div class="findings-section" style="margin-bottom:10px;">
+    <div style="margin-bottom:14px;">
       {{findings}}
     </div>
 
-    <div class="loss-section" style="padding:14px 20px;margin-bottom:10px;">
-      <div class="loss-title" style="margin-bottom:8px;font-size:12px;">&#128308; What This Is Costing You</div>
-      <div class="loss-grid" style="gap:10px;">
-        <div class="loss-item" style="padding:10px 10px;">
-          <div class="loss-value" style="font-size:20px;">{{lostBuyBox}}</div>
+    <div class="loss-section">
+      <div class="loss-title">&#128308; What This Is Costing You</div>
+      <div class="loss-grid">
+        <div class="loss-item">
+          <div class="loss-value">{{lostBuyBox}}</div>
           <div class="loss-label">Buy Box Loss Risk</div>
         </div>
-        <div class="loss-item" style="padding:10px 10px;">
-          <div class="loss-value" style="font-size:20px;">{{lostVisibility}}</div>
+        <div class="loss-item">
+          <div class="loss-value">{{lostVisibility}}</div>
           <div class="loss-label">Visibility Gap</div>
         </div>
-        <div class="loss-item" style="padding:10px 10px;">
-          <div class="loss-value" style="font-size:20px;">{{lostConversion}}</div>
+        <div class="loss-item">
+          <div class="loss-value">{{lostConversion}}</div>
           <div class="loss-label">Conversion Drag</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title" style="margin-bottom:6px;">
+    <div class="section-title" style="margin-bottom:8px;">
       <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">&#9989;</div>
       Recommended Action Plan
     </div>
-    <div class="action-plan" style="margin-bottom:10px;">
+    <div style="margin-bottom:14px;">
       {{actionPlan}}
     </div>
 
-    <div class="cta-section" style="padding:16px 20px;">
-      <div class="cta-title" style="font-size:18px;margin-bottom:4px;">Let's Fix This Together</div>
-      <div class="cta-subtitle" style="font-size:10px;margin-bottom:10px;">Profitzon specializes in turning Amazon channel problems into growth. We'll show you a custom action plan in 15 minutes.</div>
-      <a href="https://profitzon.net" class="cta-button" style="padding:10px 28px;font-size:12px;">Book Your Free Strategy Call &#8594;</a>
-      <div class="cta-trust" style="margin-top:8px;">&#9989; No commitment &middot; &#128202; Custom action plan &middot; &#128337; 15 minutes</div>
+    <div class="cta-section">
+      <div class="cta-title">Let's Fix This Together</div>
+      <div class="cta-subtitle">Profitzon specializes in turning Amazon channel problems into growth.<br>We'll show you a custom action plan in 15 minutes.</div>
+      <a href="https://profitzon.net" class="cta-button">Book Your Free Strategy Call &#8594;</a>
+      <div class="cta-trust">&#9989; No commitment &middot; &#128202; Custom action plan &middot; &#128337; 15 minutes</div>
     </div>
 
   </div>
 
   <div style="position:absolute;bottom:0;left:0;right:0;">
-    <div style="text-align:center;padding:5px;font-size:8px;color:#475569;background:#030507;letter-spacing:0.5px;border-top:1px solid rgba(212,165,74,0.1);">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
+    <div style="text-align:center;padding:6px;font-size:10px;color:#475569;background:#030507;letter-spacing:0.5px;border-top:1px solid rgba(212,165,74,0.1);">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
     <div class="footer" style="position:static;border-top:none;">
       <div class="footer-left">
         <strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>

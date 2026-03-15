@@ -605,7 +605,7 @@ async function renderPDF(data) {
   // Render cover page (no external resources, fast load)
   await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
   const coverPdfBytes = await page.pdf({
-    width: '794px', height: '1123px',
+    width: '1000px', height: '1414px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
@@ -613,7 +613,7 @@ async function renderPDF(data) {
   // Render audit pages
   await page.setContent(auditHtml, { waitUntil: 'load', timeout: 15000 });
   const auditPdfBytes = await page.pdf({
-    width: '794px', height: '1123px',
+    width: '1000px', height: '1414px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
@@ -628,7 +628,7 @@ async function renderPDF(data) {
   const coverPages = await merged.copyPages(coverDoc, coverDoc.getPageIndices());
   coverPages.forEach(p => merged.addPage(p));
 
-  // 2. Deck pages
+  // 2. Deck pages — native sizes
   if (deckDoc) {
     try {
       const deckPages = await merged.copyPages(deckDoc, deckDoc.getPageIndices());
@@ -687,7 +687,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v7-cover' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8-uniform' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
