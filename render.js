@@ -310,9 +310,9 @@ function renderExpectedLift() {
     { label: 'Revenue', value: '+15-40%' }
   ];
   return items.map(i =>
-    `<div style="flex:1;text-align:center;padding:8px 4px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px;">
-      <div style="font-size:16px;font-weight:800;color:#34d399;">${i.value}</div>
-      <div style="font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-top:2px;">${i.label}</div>
+    `<div style="flex:1;text-align:center;padding:6px 3px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px;">
+      <div style="font-size:14px;font-weight:800;color:#34d399;">${i.value}</div>
+      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-top:1px;">${i.label}</div>
     </div>`
   ).join('\n');
 }
