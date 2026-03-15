@@ -32,7 +32,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-COPY render.js template.html profitzon-deck.pdf profitzon-logo.png ./
+COPY render.js template.html cover-template.html profitzon-deck.pdf profitzon-logo.png ./
 
 EXPOSE 10000
 
