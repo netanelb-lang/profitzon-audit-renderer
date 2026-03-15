@@ -254,7 +254,7 @@ function renderProductRows(products) {
   }
   return products.slice(0, 6).map(p => {
     const pos = p.pos ? `<span class="pos-badge">#${p.pos}</span>` : '<span style="color:#cbd5e1">-</span>';
-    const asin = p.asin ? `<span style="font-size:9px;color:#6366f1;font-family:monospace">${p.asin.slice(-5)}</span>` : '-';
+    const asin = p.asin ? `<span style="font-size:9px;color:#d4a54a;font-family:monospace">${p.asin}</span>` : '-';
     return `<tr${p.notBrand ? ' style="opacity:0.6"' : ''}>
       <td>${pos}</td>
       <td style="font-weight:500">${escapeHtml(truncate(p.title, 40))}</td>
