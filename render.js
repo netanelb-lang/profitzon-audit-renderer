@@ -184,43 +184,43 @@ function renderBrandVsCompetitor(data) {
   const row = (label, bVal, cVal, highlight) => {
     const bBetter = highlight === 'lower' ? bVal <= cVal : bVal >= cVal;
     return `<div style="display:flex;align-items:center;margin-bottom:6px;">
-      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${bBetter ? '#059669' : '#dc2626'}">${bVal}</div>
-      <div style="width:80px;text-align:center;font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">${label}</div>
-      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${!bBetter ? '#059669' : '#dc2626'}">${cVal}</div>
+      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${bBetter ? '#34d399' : '#f87171'}">${bVal}</div>
+      <div style="width:80px;text-align:center;font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">${label}</div>
+      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${!bBetter ? '#34d399' : '#f87171'}">${cVal}</div>
     </div>`;
   };
 
   return `<div class="comparison">
     <div class="comp-col brand-col">
       <div class="comp-header">Your Brand (${brandProducts.length})</div>
-      <div class="comp-metric-value" style="color:#dc2626">$${brandAvgPrice.toFixed(2)}</div>
+      <div class="comp-metric-value" style="color:#f87171">$${brandAvgPrice.toFixed(2)}</div>
       <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:#dc2626">${brandAvgRating.toFixed(1)} &#9733;</div>
+      <div class="comp-metric-value" style="color:#f87171">${brandAvgRating.toFixed(1)} &#9733;</div>
       <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:#dc2626">${fmt(Math.round(brandAvgReviews))}</div>
+      <div class="comp-metric-value" style="color:#f87171">${fmt(Math.round(brandAvgReviews))}</div>
       <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:#dc2626">${brandPrime}/${brandProducts.length}</div>
+      <div class="comp-metric-value" style="color:#f87171">${brandPrime}/${brandProducts.length}</div>
       <div class="comp-metric-sub">Prime Eligible</div>
     </div>
     <div class="comp-col vs-col">
-      <div style="font-size:20px;font-weight:900;color:#cbd5e1;margin-bottom:16px;">VS</div>
-      <div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Price</div>
+      <div style="font-size:20px;font-weight:900;color:#475569;margin-bottom:16px;">VS</div>
+      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Price</div>
       <div style="height:24px"></div>
-      <div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Rating</div>
+      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Rating</div>
       <div style="height:24px"></div>
-      <div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Reviews</div>
+      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Reviews</div>
       <div style="height:24px"></div>
-      <div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Prime</div>
+      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Prime</div>
     </div>
     <div class="comp-col competitor-col">
       <div class="comp-header">Competitors (${compProducts.length})</div>
-      <div class="comp-metric-value" style="color:#059669">$${compAvgPrice.toFixed(2)}</div>
+      <div class="comp-metric-value" style="color:#34d399">$${compAvgPrice.toFixed(2)}</div>
       <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:#059669">${compAvgRating.toFixed(1)} &#9733;</div>
+      <div class="comp-metric-value" style="color:#34d399">${compAvgRating.toFixed(1)} &#9733;</div>
       <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:#059669">${fmt(Math.round(compAvgReviews))}</div>
+      <div class="comp-metric-value" style="color:#34d399">${fmt(Math.round(compAvgReviews))}</div>
       <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:#059669">${compPrime}/${compProducts.length}</div>
+      <div class="comp-metric-value" style="color:#34d399">${compPrime}/${compProducts.length}</div>
       <div class="comp-metric-sub">Prime Eligible</div>
     </div>
   </div>`;
@@ -518,9 +518,9 @@ function renderHTML(data) {
     '{{buyBoxFbaClass}}': data.buyBoxIsFba ? 'fba' : 'fbm',
     '{{buyBoxFbaLabel}}': data.buyBoxIsFba ? 'FBA &#10003;' : 'FBM',
     '{{buyBoxPrice}}': buyBoxPrice > 0 ? buyBoxPrice.toFixed(2) : 'N/A',
-    '{{priceStrikethroughHtml}}': strikethrough > 0 ? `<span style="text-decoration:line-through;color:#94a3b8;font-size:11px;margin-left:4px">$${strikethrough.toFixed(2)}</span>` : '',
-    '{{discountBadgeHtml}}': discount > 0 ? `<span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:#dcfce7;color:#166534;margin-left:4px">-${discount}%</span>` : '',
-    '{{couponHtml}}': coupon ? `<div class="dd-sub" style="color:#059669;font-weight:600">Coupon: ${escapeHtml(coupon)}</div>` : '',
+    '{{priceStrikethroughHtml}}': strikethrough > 0 ? `<span style="text-decoration:line-through;color:#475569;font-size:11px;margin-left:4px">$${strikethrough.toFixed(2)}</span>` : '',
+    '{{discountBadgeHtml}}': discount > 0 ? `<span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.15);color:#34d399;margin-left:4px">-${discount}%</span>` : '',
+    '{{couponHtml}}': coupon ? `<div class="dd-sub" style="color:#34d399;font-weight:600">Coupon: ${escapeHtml(coupon)}</div>` : '',
     '{{pricingOfferCount}}': String(data.pricingOfferCount || 1),
 
     '{{bsrSubcategory}}': data.bsrSubcategory || 'N/A',
@@ -616,7 +616,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v5-dark' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
