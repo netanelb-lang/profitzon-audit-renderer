@@ -549,8 +549,11 @@ function renderHTML(data) {
 // PDF GENERATION
 // ============================================================
 
+const DECK_PATH = path.join(__dirname, 'profitzon-deck.pdf');
+
 async function renderPDF(data) {
   const puppeteer = require('puppeteer');
+  const { PDFDocument } = require('pdf-lib');
   const os = require('os');
   const html = renderHTML(data);
 
@@ -565,9 +568,7 @@ async function renderPDF(data) {
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: 'networkidle0' });
 
-  const tmpPath = path.join(os.tmpdir(), `audit-${Date.now()}.pdf`);
-  await page.pdf({
-    path: tmpPath,
+  const auditPdfBytes = await page.pdf({
     width: '794px',
     height: '1123px',
     printBackground: true,
@@ -575,6 +576,27 @@ async function renderPDF(data) {
   });
 
   await browser.close();
+
+  // Merge audit pages with the Profitzon deck
+  const merged = await PDFDocument.create();
+  const auditDoc = await PDFDocument.load(auditPdfBytes);
+  const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
+  auditPages.forEach(p => merged.addPage(p));
+
+  if (fs.existsSync(DECK_PATH)) {
+    try {
+      const deckBytes = fs.readFileSync(DECK_PATH);
+      const deckDoc = await PDFDocument.load(deckBytes, { ignoreEncryption: true });
+      const deckPages = await merged.copyPages(deckDoc, deckDoc.getPageIndices());
+      deckPages.forEach(p => merged.addPage(p));
+    } catch (e) {
+      console.error('Could not merge deck PDF:', e.message);
+    }
+  }
+
+  const mergedBytes = await merged.save();
+  const tmpPath = path.join(os.tmpdir(), `audit-${Date.now()}.pdf`);
+  fs.writeFileSync(tmpPath, mergedBytes);
   return tmpPath;
 }
 
@@ -616,7 +638,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v5-dark' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v6-deck' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
