@@ -372,7 +372,9 @@ function normalizeAgentData(input) {
   }
 
   return {
-    brandName: rd.brand_name || input.brand_name || 'Unknown Brand',
+    // Prefer input.brand_name (Monday board item name) over rd.brand_name (agent output)
+    // Agent sometimes puts the Buy Box seller name in rd.brand_name by mistake
+    brandName: input.brand_name || rd.brand_name || 'Unknown Brand',
     reportDate: rd.report_date || input.report_date || new Date().toISOString().split('T')[0],
     priorityScore: ps,
     brandMaturity: input.brand_maturity || 'Mixed',
@@ -392,7 +394,7 @@ function normalizeAgentData(input) {
     brandProductCount: rd.brand_product_count || rd.catalog_size || 0,
     totalResults: rd.total_results || 0,
     competitorCount: rd.competitor_count || 0,
-    fbaPercent: rd.fba_percent || 0,
+    fbaPercent: Math.round(rd.fba_percent || 0),
     avgRating: rd.avg_rating || '0.0',
     ppcCount: rd.ppc_count || 0,
     priceRange: rd.price_range || 'N/A',
