@@ -169,7 +169,7 @@ function renderBrandVsCompetitor(data) {
   const compProducts = products.filter(p => p.notBrand);
 
   if (brandProducts.length === 0 || compProducts.length === 0) {
-    return '<div style="font-size:11px;color:#94a3b8;text-align:center;padding:20px;">Not enough data for comparison</div>';
+    return '';
   }
 
   const avg = (arr, key) => arr.length ? (arr.reduce((s, p) => s + (parseFloat(p[key]) || 0), 0) / arr.length) : 0;
@@ -555,7 +555,11 @@ function renderHTML(data) {
     '{{onPageCompetitorCount}}': String(data.onPageCompetitorCount || 0),
     '{{reviewHighlights}}': escapeHtml(data.reviewHighlights || 'No review data available.'),
 
-    '{{brandVsCompetitor}}': renderBrandVsCompetitor(data),
+    '{{brandVsCompetitorSection}}': (() => {
+      const comp = renderBrandVsCompetitor(data);
+      if (!comp) return '';
+      return `<div class="section-title"><div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;font-size:11px;font-weight:900;">VS</div>Your Brand vs Top Competitors</div>${comp}<div style="height:24px;"></div>`;
+    })(),
     '{{productRows}}': renderProductRows(data.topProducts),
 
     // Page 3
