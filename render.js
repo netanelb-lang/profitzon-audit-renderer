@@ -15,6 +15,7 @@ const fs = require('fs');
 const path = require('path');
 
 const TEMPLATE_PATH = path.join(__dirname, 'template.html');
+const COVER_TEMPLATE_PATH = path.join(__dirname, 'cover-template.html');
 const LOGO_PATH = path.join(__dirname, 'profitzon-logo.png');
 
 const logoBase64 = fs.existsSync(LOGO_PATH)
@@ -551,11 +552,45 @@ function renderHTML(data) {
 
 const DECK_PATH = path.join(__dirname, 'profitzon-deck.pdf');
 
+function renderCoverHTML(data, deckPageCount) {
+  let html = fs.readFileSync(COVER_TEMPLATE_PATH, 'utf8');
+  const deckEnd = 1 + deckPageCount;           // cover=1, deck starts at 2
+  const auditStart = deckEnd + 1;
+  const auditEnd = auditStart + 2;             // 3 audit pages
+  const replacements = {
+    '{{logoBase64}}': logoBase64,
+    '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
+    '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
+    '{{deckEndPage}}': String(deckEnd),
+    '{{auditStartPage}}': String(auditStart),
+    '{{auditEndPage}}': String(auditEnd),
+  };
+  for (const [key, value] of Object.entries(replacements)) {
+    html = html.split(key).join(value);
+  }
+  return html;
+}
+
 async function renderPDF(data) {
   const puppeteer = require('puppeteer');
   const { PDFDocument } = require('pdf-lib');
   const os = require('os');
-  const html = renderHTML(data);
+
+  // Determine deck page count for cover TOC
+  let deckPageCount = 0;
+  let deckDoc = null;
+  if (fs.existsSync(DECK_PATH)) {
+    try {
+      const deckBytes = fs.readFileSync(DECK_PATH);
+      deckDoc = await PDFDocument.load(deckBytes, { ignoreEncryption: true });
+      deckPageCount = deckDoc.getPageCount();
+    } catch (e) {
+      console.error('Could not load deck PDF:', e.message);
+    }
+  }
+
+  const auditHtml = renderHTML(data);
+  const coverHtml = renderCoverHTML(data, deckPageCount);
 
   const launchOptions = {
     headless: 'new',
@@ -566,33 +601,47 @@ async function renderPDF(data) {
   }
   const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: 'networkidle0' });
 
+  // Render cover page (no external resources, fast load)
+  await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
+  const coverPdfBytes = await page.pdf({
+    width: '794px', height: '1123px',
+    printBackground: true,
+    margin: { top: 0, right: 0, bottom: 0, left: 0 }
+  });
+
+  // Render audit pages
+  await page.setContent(auditHtml, { waitUntil: 'load', timeout: 15000 });
   const auditPdfBytes = await page.pdf({
-    width: '794px',
-    height: '1123px',
+    width: '794px', height: '1123px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
 
   await browser.close();
 
-  // Merge audit pages with the Profitzon deck
+  // Merge: Cover → Deck → Audit
   const merged = await PDFDocument.create();
-  const auditDoc = await PDFDocument.load(auditPdfBytes);
-  const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
-  auditPages.forEach(p => merged.addPage(p));
 
-  if (fs.existsSync(DECK_PATH)) {
+  // 1. Cover page
+  const coverDoc = await PDFDocument.load(coverPdfBytes);
+  const coverPages = await merged.copyPages(coverDoc, coverDoc.getPageIndices());
+  coverPages.forEach(p => merged.addPage(p));
+
+  // 2. Deck pages
+  if (deckDoc) {
     try {
-      const deckBytes = fs.readFileSync(DECK_PATH);
-      const deckDoc = await PDFDocument.load(deckBytes, { ignoreEncryption: true });
       const deckPages = await merged.copyPages(deckDoc, deckDoc.getPageIndices());
       deckPages.forEach(p => merged.addPage(p));
     } catch (e) {
       console.error('Could not merge deck PDF:', e.message);
     }
   }
+
+  // 3. Audit pages
+  const auditDoc = await PDFDocument.load(auditPdfBytes);
+  const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
+  auditPages.forEach(p => merged.addPage(p));
 
   const mergedBytes = await merged.save();
   const tmpPath = path.join(os.tmpdir(), `audit-${Date.now()}.pdf`);
@@ -638,7 +687,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v6-deck' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v7-cover' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);

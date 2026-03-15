@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; background: #07090f; -webkit-font-smoothing: antialiased; }
+
+  .cover {
+    width: 794px; height: 1123px; background: #07090f;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  /* Ambient glows */
+  .glow-1 { position: absolute; top: -120px; right: -80px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,165,74,0.1) 0%, transparent 60%); border-radius: 50%; }
+  .glow-2 { position: absolute; bottom: -100px; left: -60px; width: 350px; height: 350px; background: radial-gradient(circle, rgba(212,165,74,0.06) 0%, transparent 60%); border-radius: 50%; }
+  .glow-3 { position: absolute; top: 40%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(212,165,74,0.04) 0%, transparent 50%); border-radius: 50%; }
+
+  /* Gold line accents */
+  .line-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #d4a54a, transparent); }
+  .line-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #d4a54a, transparent); }
+
+  /* Logo area */
+  .logo-area { margin-bottom: 50px; z-index: 1; }
+  .logo-box { background: #fff; border-radius: 10px; padding: 6px 18px; height: 46px; display: flex; align-items: center; box-shadow: 0 4px 24px rgba(212,165,74,0.2); }
+  .logo-box img { height: 56px; object-fit: cover; object-position: left top; display: block; }
+
+  /* Title block */
+  .title-block { text-align: center; z-index: 1; margin-bottom: 50px; }
+  .prepared-for { font-size: 12px; text-transform: uppercase; letter-spacing: 3px; color: #d4a54a; font-weight: 600; margin-bottom: 16px; }
+  .brand-name { font-size: 52px; font-weight: 900; color: #fff; letter-spacing: -2px; line-height: 1.1; margin-bottom: 12px; }
+  .report-type { font-size: 18px; font-weight: 300; color: #94a3b8; letter-spacing: 1px; }
+  .divider { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #d4a54a, transparent); margin: 28px auto 0; }
+
+  /* TOC */
+  .toc { z-index: 1; width: 440px; margin-bottom: 60px; }
+  .toc-item { display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(212,165,74,0.12); border: 1px solid rgba(212,165,74,0.3); color: #d4a54a; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; margin-right: 16px; }
+  .toc-label { flex: 1; }
+  .toc-title { font-size: 14px; font-weight: 700; color: #fff; }
+  .toc-desc { font-size: 10px; color: #64748b; margin-top: 2px; }
+  .toc-pages { font-size: 11px; color: #d4a54a; font-weight: 600; flex-shrink: 0; margin-left: 12px; }
+
+  /* Footer */
+  .cover-footer { position: absolute; bottom: 30px; text-align: center; z-index: 1; }
+  .cover-footer-line { font-size: 10px; color: #475569; }
+  .cover-footer-line strong { color: #d4a54a; }
+  .cover-date { font-size: 10px; color: #475569; margin-top: 4px; }
+  .confidential { font-size: 8px; color: #334155; margin-top: 8px; letter-spacing: 1px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="glow-3"></div>
+  <div class="line-top"></div>
+  <div class="line-bottom"></div>
+
+  <div class="logo-area">
+    <div class="logo-box"><img src="{{logoBase64}}" alt="Profitzon"></div>
+  </div>
+
+  <div class="title-block">
+    <div class="prepared-for">Prepared exclusively for</div>
+    <div class="brand-name">{{brandName}}</div>
+    <div class="report-type">Amazon Growth & Brand Audit Package</div>
+    <div class="divider"></div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-item">
+      <div class="toc-num">I</div>
+      <div class="toc-label">
+        <div class="toc-title">Who We Are</div>
+        <div class="toc-desc">Profitzon — Capital-backed Amazon wholesale growth partner</div>
+      </div>
+      <div class="toc-pages">p. 2-{{deckEndPage}}</div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-num">II</div>
+      <div class="toc-label">
+        <div class="toc-title">Brand Health Audit</div>
+        <div class="toc-desc">Amazon marketplace analysis, product intelligence & action plan</div>
+      </div>
+      <div class="toc-pages">p. {{auditStartPage}}-{{auditEndPage}}</div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-footer-line"><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner</div>
+    <div class="cover-date">{{reportDate}}</div>
+    <div class="confidential">Confidential</div>
+  </div>
+</div>
+</body>
+</html>
