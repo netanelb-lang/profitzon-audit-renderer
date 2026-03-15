@@ -301,6 +301,22 @@ function renderActionPlan(data) {
   ).join('\n');
 }
 
+function renderExpectedLift() {
+  const items = [
+    { label: 'Buy Box', value: '>=90%' },
+    { label: 'MAP', value: '>=95%' },
+    { label: 'CVR Lift', value: '+10-30%' },
+    { label: 'TACoS', value: '8-15%' },
+    { label: 'Revenue', value: '+15-40%' }
+  ];
+  return items.map(i =>
+    `<div style="flex:1;text-align:center;padding:8px 4px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px;">
+      <div style="font-size:16px;font-weight:800;color:#34d399;">${i.value}</div>
+      <div style="font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-top:2px;">${i.label}</div>
+    </div>`
+  ).join('\n');
+}
+
 function computeLosses(data) {
   const fbm = data.fbaStatus === 'FBM Only';
   const partialFba = data.fbaStatus === 'Partial FBA';
@@ -543,6 +559,7 @@ function renderHTML(data) {
     // Page 3
     '{{findings}}': renderFindings(data.findings),
     '{{actionPlan}}': renderActionPlan(data),
+    '{{expectedLift}}': renderExpectedLift(),
   };
 
   for (const [key, value] of Object.entries(replacements)) {
@@ -692,7 +709,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9-clean' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v10-sop' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
