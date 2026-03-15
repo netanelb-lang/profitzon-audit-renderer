@@ -4,6 +4,8 @@ FROM node:20-slim
 RUN apt-get update && apt-get install -y \
     chromium \
     fonts-liberation \
+    fonts-dejavu-core \
+    fonts-freefont-ttf \
     libappindicator3-1 \
     libasound2 \
     libatk-bridge2.0-0 \

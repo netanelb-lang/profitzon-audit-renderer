@@ -71,7 +71,7 @@ function renderBuyBoxAlert(data) {
   const offers = parseInt(data.pricingOfferCount || 0);
   const extra = offers > 1 ? ` with ${offers} total sellers competing on this product` : '';
   return `<div class="buybox-alert">
-    <div class="buybox-alert-icon">&#9888;</div>
+    <div class="buybox-alert-icon" style="font-weight:900;font-size:28px;">!</div>
     <div class="buybox-alert-text">
       <strong>Buy Box Alert:</strong> Your top product's Buy Box is controlled by <strong>${seller}</strong>, not ${brand}${extra}. This means a third-party seller is capturing the revenue from your best listing.
     </div>
@@ -229,9 +229,14 @@ function renderBrandVsCompetitor(data) {
 
 function renderFindings(findings) {
   if (!findings || !findings.length) {
-    return `<div class="finding-row warning"><div class="finding-icon">&#128269;</div><div class="finding-content"><div class="finding-label">Info</div><div class="finding-text">No significant findings. Manual review recommended.</div></div></div>`;
+    return `<div class="finding-row warning"><div class="finding-icon"><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f59e0b;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">i</span></div><div class="finding-content"><div class="finding-label">Info</div><div class="finding-text">No significant findings. Manual review recommended.</div></div></div>`;
   }
-  const icons = { issue: '&#10060;', opportunity: '&#9989;', warning: '&#9888;', competitor: '&#128101;' };
+  const icons = {
+    issue: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ef4444;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">!</span>',
+    opportunity: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#10b981;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">+</span>',
+    warning: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f59e0b;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">!</span>',
+    competitor: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#3b82f6;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">C</span>'
+  };
   const labels = { issue: 'Critical Issue', opportunity: 'Opportunity', warning: 'Warning', competitor: 'Competitor Threat' };
   return findings.slice(0, 4).map(f => {
     const type = f.type || 'warning';
@@ -687,7 +692,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8-uniform' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9-clean' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
