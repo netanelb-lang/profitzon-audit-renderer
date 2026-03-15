@@ -60,7 +60,8 @@
   .buybox-alert-text strong { color: #f87171; font-weight: 800; }
 
   /* CONTENT */
-  .content { padding: 22px 30px; }
+  .content { padding: 18px 28px; }
+  .page3-content { padding: 12px 28px 70px; }
 
   .section-title { font-size: 13px; font-weight: 800; color: #d4a54a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
   .section-icon { width: 26px; height: 26px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
@@ -169,7 +170,7 @@
   .pos-badge { font-size: 11px; font-weight: 800; color: #d4a54a; }
 
   /* PAGE 3: FINDINGS */
-  .finding-row { display: flex; align-items: flex-start; padding: 10px 16px; border-radius: 10px; margin-bottom: 6px; gap: 10px; page-break-inside: avoid; }
+  .finding-row { display: flex; align-items: flex-start; padding: 8px 14px; border-radius: 8px; margin-bottom: 5px; gap: 8px; page-break-inside: avoid; }
   .finding-row.issue { background: rgba(239,68,68,0.06); border-left: 4px solid #ef4444; }
   .finding-row.opportunity { background: rgba(16,185,129,0.06); border-left: 4px solid #10b981; }
   .finding-row.warning { background: rgba(245,158,11,0.06); border-left: 4px solid #f59e0b; }
@@ -192,7 +193,7 @@
   .loss-label { font-size: 9px; color: #d4a54a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-top: 4px; }
 
   /* ACTION PLAN */
-  .action-item { display: flex; gap: 10px; padding: 10px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; margin-bottom: 6px; page-break-inside: avoid; }
+  .action-item { display: flex; gap: 8px; padding: 8px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; margin-bottom: 5px; page-break-inside: avoid; }
   .action-num { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
   .action-content { flex: 1; }
   .action-title { font-size: 12px; font-weight: 700; color: #fff; }
@@ -451,52 +452,52 @@
 <!-- ================================================================ -->
 <div class="page">
 
-  <div class="page-header">
-    <div class="page-header-title">&#9888; Findings & Recommended Actions</div>
+  <div class="page-header" style="padding:14px 28px;">
+    <div class="page-header-title" style="font-size:15px;">&#9888; Findings & Recommended Actions</div>
     <div class="page-header-sub">Critical issues identified and our recommended next steps</div>
   </div>
 
-  <div class="content">
+  <div class="page3-content">
 
-    <div class="section-title">
+    <div class="section-title" style="margin-bottom:8px;">
       <div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;">&#9888;</div>
       Key Findings
     </div>
-    <div class="findings-section" style="margin-bottom:14px;">
+    <div class="findings-section" style="margin-bottom:10px;">
       {{findings}}
     </div>
 
-    <div class="loss-section">
-      <div class="loss-title">&#128308; What This Is Costing You</div>
-      <div class="loss-grid">
-        <div class="loss-item">
-          <div class="loss-value">{{lostBuyBox}}</div>
+    <div class="loss-section" style="padding:14px 20px;margin-bottom:10px;">
+      <div class="loss-title" style="margin-bottom:8px;font-size:12px;">&#128308; What This Is Costing You</div>
+      <div class="loss-grid" style="gap:10px;">
+        <div class="loss-item" style="padding:10px 10px;">
+          <div class="loss-value" style="font-size:20px;">{{lostBuyBox}}</div>
           <div class="loss-label">Buy Box Loss Risk</div>
         </div>
-        <div class="loss-item">
-          <div class="loss-value">{{lostVisibility}}</div>
+        <div class="loss-item" style="padding:10px 10px;">
+          <div class="loss-value" style="font-size:20px;">{{lostVisibility}}</div>
           <div class="loss-label">Visibility Gap</div>
         </div>
-        <div class="loss-item">
-          <div class="loss-value">{{lostConversion}}</div>
+        <div class="loss-item" style="padding:10px 10px;">
+          <div class="loss-value" style="font-size:20px;">{{lostConversion}}</div>
           <div class="loss-label">Conversion Drag</div>
         </div>
       </div>
     </div>
 
-    <div class="section-title">
+    <div class="section-title" style="margin-bottom:6px;">
       <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;">&#9989;</div>
       Recommended Action Plan
     </div>
-    <div class="action-plan" style="margin-bottom:12px;">
+    <div class="action-plan" style="margin-bottom:10px;">
       {{actionPlan}}
     </div>
 
-    <div class="cta-section">
-      <div class="cta-title">Let's Fix This Together</div>
-      <div class="cta-subtitle">Profitzon specializes in turning Amazon channel problems into growth.<br>We'll show you a custom action plan in 15 minutes.</div>
-      <a href="https://profitzon.net" class="cta-button">Book Your Free Strategy Call &#8594;</a>
-      <div class="cta-trust">&#9989; No commitment &middot; &#128202; Custom action plan &middot; &#128337; 15 minutes</div>
+    <div class="cta-section" style="padding:16px 20px;">
+      <div class="cta-title" style="font-size:18px;margin-bottom:4px;">Let's Fix This Together</div>
+      <div class="cta-subtitle" style="font-size:10px;margin-bottom:10px;">Profitzon specializes in turning Amazon channel problems into growth. We'll show you a custom action plan in 15 minutes.</div>
+      <a href="https://profitzon.net" class="cta-button" style="padding:10px 28px;font-size:12px;">Book Your Free Strategy Call &#8594;</a>
+      <div class="cta-trust" style="margin-top:8px;">&#9989; No commitment &middot; &#128202; Custom action plan &middot; &#128337; 15 minutes</div>
     </div>
 
   </div>
