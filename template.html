@@ -32,16 +32,16 @@
 
   /* HEALTH SCORE BANNER — gold monochrome */
   .score-banner { display: flex; margin: -28px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(212,165,74,0.25); }
-  .score-main { flex: 0 0 220px; padding: 24px 28px; text-align: center; background: linear-gradient(135deg, rgba(212,165,74,0.15), rgba(212,165,74,0.08)); }
+  .score-main { flex: 0 0 200px; padding: 20px 24px; text-align: center; background: linear-gradient(135deg, rgba(212,165,74,0.15), rgba(212,165,74,0.08)); }
   .score-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #d4a54a; font-weight: 600; }
-  .score-number { font-size: 62px; font-weight: 900; line-height: 1; color: #fff; }
-  .score-of { font-size: 20px; font-weight: 400; color: #64748b; }
-  .score-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; }
-  .score-details { flex: 1; background: #0d1117; display: flex; padding: 18px 20px; }
-  .score-detail { flex: 1; text-align: center; padding: 10px 6px; border-right: 1px solid rgba(255,255,255,0.06); }
+  .score-number { font-size: 54px; font-weight: 900; line-height: 1; color: #fff; }
+  .score-of { font-size: 18px; font-weight: 400; color: #64748b; }
+  .score-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; }
+  .score-details { flex: 1; background: #0d1117; display: flex; padding: 16px 16px; }
+  .score-detail { flex: 1; text-align: center; padding: 8px 4px; border-right: 1px solid rgba(255,255,255,0.06); }
   .score-detail:last-child { border-right: none; }
-  .score-detail-value { font-size: 14px; font-weight: 700; color: #fff; padding: 4px 12px; border-radius: 5px; display: inline-block; background: rgba(255,255,255,0.05); }
-  .score-detail-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 5px; }
+  .score-detail-value { font-size: 15px; font-weight: 700; color: #fff; padding: 4px 10px; border-radius: 5px; display: inline-block; background: rgba(255,255,255,0.05); }
+  .score-detail-label { font-size: 9px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
 
   /* STATUS COLORS — muted gold palette */
   .s-green { background: rgba(212,165,74,0.12); color: #d4a54a; }
@@ -64,7 +64,7 @@
 
   /* EXEC SUMMARY */
   .exec-summary { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 24px 28px; margin-bottom: 26px; }
-  .exec-summary-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; font-size: 15px; color: #94a3b8; line-height: 1.6; font-weight: 400; }
+  .exec-summary-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; font-size: 15px; color: #cbd5e1; line-height: 1.6; font-weight: 400; }
   .exec-summary-row:last-child { margin-bottom: 0; }
   .exec-bullet { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; margin-top: 8px; }
   .exec-bullet.red { background: #d4a54a; } .exec-bullet.green { background: #d4a54a; }
@@ -75,7 +75,7 @@
   .ownership-pct { font-size: 56px; font-weight: 900; line-height: 1; color: #d4a54a; }
   .ownership-info { flex: 1; }
   .ownership-label { font-size: 17px; font-weight: 700; color: #e2e8f0; }
-  .ownership-desc { font-size: 14px; color: #64748b; }
+  .ownership-desc { font-size: 14px; color: #94a3b8; }
   .ownership-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
   .ownership-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #d4a54a, #b8892e); }
 
@@ -84,15 +84,15 @@
   .metric-card { border-radius: 14px; padding: 18px 20px; position: relative; overflow: visible; border: 1px solid rgba(255,255,255,0.06); min-height: 110px; background: rgba(255,255,255,0.02); }
   .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, rgba(212,165,74,0.4), rgba(212,165,74,0.1)); border-radius: 14px 14px 0 0; }
   .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .metric-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; font-weight: 700; }
+  .metric-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; font-weight: 700; }
   .metric-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: rgba(212,165,74,0.1); color: #d4a54a; border: 1px solid rgba(212,165,74,0.2); }
   .metric-value { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 4px; white-space: nowrap; }
-  .metric-desc { font-size: 12px; color: #475569; }
+  .metric-desc { font-size: 13px; color: #94a3b8; }
 
   /* PAGE 2 HEADER */
   .page-header { background: rgba(212,165,74,0.03); padding: 22px 38px; border-bottom: 1px solid rgba(212,165,74,0.15); }
   .page-header-title { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-  .page-header-sub { font-size: 14px; color: #64748b; }
+  .page-header-sub { font-size: 14px; color: #94a3b8; }
 
   /* DEEP DIVE CARD */
   .deep-dive { border: 1px solid rgba(212,165,74,0.12); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
@@ -110,7 +110,7 @@
   .dd-badge.thirdparty { background: rgba(255,255,255,0.05); color: #94a3b8; }
   .dd-badge.fba { background: rgba(212,165,74,0.08); color: #c9a84c; }
   .dd-badge.fbm { background: rgba(255,255,255,0.04); color: #64748b; }
-  .dd-sub { font-size: 13px; color: #475569; }
+  .dd-sub { font-size: 13px; color: #94a3b8; }
 
   /* RATING BARS — gold themed */
   .rating-bars { margin-bottom: 6px; }
@@ -145,8 +145,8 @@
 
   /* PRODUCTS TABLE */
   .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
-  .products-table th { background: rgba(212,165,74,0.05); padding: 14px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .products-table td { padding: 14px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #94a3b8; }
+  .products-table th { background: rgba(212,165,74,0.05); padding: 16px 14px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .products-table td { padding: 18px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #cbd5e1; }
   .products-table tr:last-child td { border-bottom: none; }
   .badge-sm { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 4px; display: inline-block; margin-right: 3px; border: 1px solid rgba(212,165,74,0.2); }
   .badge-prime { background: rgba(212,165,74,0.1); color: #d4a54a; }
@@ -161,7 +161,7 @@
   .finding-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .finding-content { flex: 1; }
   .finding-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; color: #d4a54a; }
-  .finding-text { font-size: 14px; color: #94a3b8; line-height: 1.5; font-weight: 400; }
+  .finding-text { font-size: 14px; color: #cbd5e1; line-height: 1.5; font-weight: 400; }
 
   /* LOSS SECTION — gold themed */
   .loss-section { background: rgba(212,165,74,0.04); border: 1px solid rgba(212,165,74,0.15); border-radius: 14px; padding: 16px 24px; margin-bottom: 14px; }
@@ -169,20 +169,20 @@
   .loss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .loss-item { text-align: center; padding: 16px 10px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.04); }
   .loss-value { font-size: 28px; font-weight: 900; color: #fff; }
-  .loss-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
+  .loss-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
 
   /* ACTION PLAN */
   .action-item { display: flex; gap: 14px; padding: 12px 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 6px; page-break-inside: avoid; }
   .action-num { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
   .action-content { flex: 1; }
   .action-title { font-size: 15px; font-weight: 700; color: #fff; }
-  .action-desc { font-size: 12px; color: #64748b; line-height: 1.4; margin-top: 2px; }
+  .action-desc { font-size: 13px; color: #94a3b8; line-height: 1.4; margin-top: 2px; }
   .action-impact { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(212,165,74,0.1); color: #d4a54a; border: 1px solid rgba(212,165,74,0.2); display: inline-block; margin-top: 4px; }
 
   /* CTA — prestige gold */
   .cta-section { background: linear-gradient(135deg, rgba(212,165,74,0.08), rgba(212,165,74,0.03)); border: 1px solid rgba(212,165,74,0.25); border-radius: 14px; padding: 20px 28px; text-align: center; }
   .cta-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 8px; }
-  .cta-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 14px; line-height: 1.5; }
+  .cta-subtitle { font-size: 14px; color: #cbd5e1; margin-bottom: 14px; line-height: 1.5; }
   .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; padding: 14px 40px; border-radius: 10px; font-size: 15px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(212,165,74,0.25); letter-spacing: 0.3px; }
   .cta-trust { margin-top: 10px; font-size: 11px; color: #475569; }
 
@@ -378,7 +378,7 @@
       <thead>
         <tr>
           <th style="width:5%">#</th>
-          <th style="width:35%">Product</th>
+          <th style="width:38%">Product</th>
           <th>ID</th>
           <th>Price</th>
           <th>Rating</th>
@@ -390,6 +390,13 @@
         {{productRows}}
       </tbody>
     </table>
+
+    <!-- Fill remaining space with subtle branding -->
+    <div style="margin-top:auto;padding-top:40px;text-align:center;">
+      <div style="width:80px;height:2px;background:linear-gradient(90deg,transparent,rgba(212,165,74,0.3),transparent);margin:0 auto 16px;"></div>
+      <div style="font-size:12px;color:#334155;letter-spacing:2px;text-transform:uppercase;">Data sourced from live Amazon marketplace analysis</div>
+      <div style="font-size:11px;color:#1e293b;margin-top:4px;">Pricing, ratings, and seller data reflect conditions at time of audit</div>
+    </div>
 
   </div>
 
