@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Amazon Brand Health Audit - {{brandName}} | Profitzon</title>
+<title>Amazon Brand Audit - {{brandName}} | Profitzon</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Inter', -apple-system, 'Segoe UI', 'DejaVu Sans', Helvetica, Arial, sans-serif; background: #07090f; color: #e2e8f0; line-height: 1.5; -webkit-font-smoothing: antialiased; font-weight: 400; }
@@ -228,10 +228,10 @@
     <div class="header-glow header-glow-2"></div>
     <div class="header-top">
       <div class="logo-group"><img src="{{logoBase64}}" alt="Profitzon"></div>
-      <div class="report-badge">Brand Health Audit</div>
+      <div class="report-badge">Amazon Brand Audit</div>
     </div>
     <div class="brand-name">{{brandName}}</div>
-    <div class="report-subtitle">Amazon Marketplace Health Analysis &middot; <strong>{{reportDate}}</strong> &middot; Confidential</div>
+    <div class="report-subtitle">Amazon Revenue &amp; Growth Analysis &middot; <strong>{{reportDate}}</strong> &middot; Confidential</div>
   </div>
 
   <div class="score-banner">
@@ -287,7 +287,7 @@
         <div class="metric-desc">Brand products on Amazon</div>
       </div>
       <div class="metric-card c-{{fbaColor}}">
-        <div class="metric-header"><div class="metric-title">FBA Coverage</div><div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div></div>
+        <div class="metric-header"><div class="metric-title">Fast Shipping</div><div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div></div>
         <div class="metric-value">{{fbaPercent}}% Prime</div>
         <div class="metric-desc">{{fbaDetail}}</div>
       </div>
@@ -297,8 +297,8 @@
         <div class="metric-desc">Avg rating across products</div>
       </div>
       <div class="metric-card c-{{ppcColor}}">
-        <div class="metric-header"><div class="metric-title">Advertising</div><div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div></div>
-        <div class="metric-value">{{ppcCount}} Ads</div>
+        <div class="metric-header"><div class="metric-title">Search Ads</div><div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div></div>
+        <div class="metric-value">{{ppcCount}} Competitors</div>
         <div class="metric-desc">{{ppcDetail}}</div>
       </div>
       <div class="metric-card c-{{priceColor}}">
@@ -316,7 +316,7 @@
   </div>
 
   <div class="page-footer">
-    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Health Audit</div>
+    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Audit</div>
     <div class="page-footer-right">{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div>
   </div>
 </div>
@@ -327,8 +327,8 @@
 <div class="page">
 
   <div class="page-header">
-    <div class="page-header-title">Product Intelligence — Best Seller Deep Dive</div>
-    <div class="page-header-sub">Detailed analysis of your top product + competitive landscape</div>
+    <div class="page-header-title">Your Top Product — Deep Dive</div>
+    <div class="page-header-sub">Detailed look at your best-selling product and competitive landscape</div>
   </div>
 
   <div class="content">
@@ -342,13 +342,13 @@
         <div class="deep-dive-grid">
           <div>
             <div class="dd-section">
-              <div class="dd-label">Buy Box Owner</div>
+              <div class="dd-label">Who Gets the Sale</div>
               <div class="dd-row">
                 <div class="dd-value">{{buyBoxSellerName}}</div>
                 <span class="dd-badge {{buyBoxBrandClass}}">{{buyBoxBrandLabel}}</span>
                 <span class="dd-badge {{buyBoxFbaClass}}">{{buyBoxFbaLabel}}</span>
               </div>
-              <div class="dd-sub">{{pricingOfferCount}} total seller(s) on this ASIN</div>
+              <div class="dd-sub">{{pricingOfferCount}} total seller(s) competing on this product</div>
             </div>
             <div class="dd-section">
               <div class="dd-label">Price</div>
@@ -360,7 +360,7 @@
               {{couponHtml}}
             </div>
             <div class="dd-section">
-              <div class="dd-label">Best Sellers Rank</div>
+              <div class="dd-label">Amazon Sales Rank</div>
               <div class="dd-row"><div class="dd-value">{{bsrSubcategory}}</div></div>
               <div class="dd-sub">{{bsrMainCategory}}</div>
             </div>
@@ -375,16 +375,16 @@
               {{listingHealthChecks}}
             </div>
             <div class="dd-section">
-              <div class="dd-label">On-Page Competitors</div>
+              <div class="dd-label">Competitor Ads on Your Page</div>
               <div class="dd-row">
-                <div class="dd-value">{{onPageCompetitorCount}} competitor ads</div>
+                <div class="dd-value">{{onPageCompetitorCount}} ads</div>
               </div>
-              <div class="dd-sub">Advertising directly on this product's page</div>
+              <div class="dd-sub">Other brands paying to show up on your product page</div>
             </div>
           </div>
         </div>
         <div style="margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
-          <div class="dd-label">Review Highlights</div>
+          <div class="dd-label">What Customers Are Saying</div>
           <div style="font-size:14px;color:#94a3b8;line-height:1.6;margin-top:6px;">{{reviewHighlights}}</div>
         </div>
       </div>
@@ -416,7 +416,7 @@
   </div>
 
   <div class="page-footer">
-    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Health Audit</div>
+    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Audit</div>
     <div class="page-footer-right">{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div>
   </div>
 </div>
@@ -427,41 +427,41 @@
 <div class="page">
 
   <div class="page-header" style="padding:14px 38px 10px;">
-    <div class="page-header-title">Findings & Recommended Actions</div>
-    <div class="page-header-sub">Critical issues identified and our recommended next steps</div>
+    <div class="page-header-title">What We Found & How We Fix It</div>
+    <div class="page-header-sub">Key findings from your audit and the action plan to grow revenue</div>
   </div>
 
   <div class="page3-content">
 
     <div class="section-title" style="margin-bottom:8px;">
       <div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;font-weight:900;">!</div>
-      Key Findings
+      What We Found
     </div>
     <div style="margin-bottom:8px;">
       {{findings}}
     </div>
 
     <div class="loss-section">
-      <div class="loss-title"><span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#ef4444;margin-right:6px;vertical-align:middle;"></span> What This Is Costing You</div>
+      <div class="loss-title"><span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#ef4444;margin-right:6px;vertical-align:middle;"></span> Revenue at Risk</div>
       <div class="loss-grid">
         <div class="loss-item">
           <div class="loss-value">{{lostBuyBox}}</div>
-          <div class="loss-label">Buy Box Loss Risk</div>
+          <div class="loss-label">Sales Going to Others</div>
         </div>
         <div class="loss-item">
           <div class="loss-value">{{lostVisibility}}</div>
-          <div class="loss-label">Visibility Gap</div>
+          <div class="loss-label">Customers Not Finding You</div>
         </div>
         <div class="loss-item">
           <div class="loss-value">{{lostConversion}}</div>
-          <div class="loss-label">Conversion Drag</div>
+          <div class="loss-label">Visitors Not Buying</div>
         </div>
       </div>
     </div>
 
     <div class="section-title" style="margin-bottom:8px;">
       <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;font-weight:900;">A</div>
-      Recommended Action Plan
+      Our Plan to Fix It
     </div>
     <div style="margin-bottom:4px;">
       {{actionPlan}}
@@ -473,10 +473,10 @@
     </div>
 
     <div class="cta-section">
-      <div class="cta-title">The Exclusivity Pilot</div>
-      <div class="cta-subtitle">We fund inventory + take full Amazon execution. One partner, one channel, one strategy.<br>You focus on product &amp; brand — we handle Amazon. No fees. No retainer.</div>
-      <a href="https://profitzon.net" class="cta-button">Book Your Free Strategy Call &rarr;</a>
-      <div class="cta-trust">No commitment &middot; Custom action plan &middot; 15 minutes</div>
+      <div class="cta-title">Ready to Fix This?</div>
+      <div class="cta-subtitle">We invest our own capital to buy your inventory and manage Amazon end-to-end.<br>No fees. No retainer. We make money when you make money.</div>
+      <a href="https://profitzon.net" class="cta-button">Book a 15-Minute Strategy Call &rarr;</a>
+      <div class="cta-trust">No commitment &middot; We'll walk you through the numbers</div>
     </div>
 
   </div>

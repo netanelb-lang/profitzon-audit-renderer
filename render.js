@@ -69,11 +69,11 @@ function renderBuyBoxAlert(data) {
   const seller = escapeHtml(data.buyBoxSellerName || 'an unknown third-party');
   const brand = escapeHtml(data.brandName || 'your brand');
   const offers = parseInt(data.pricingOfferCount || 0);
-  const extra = offers > 1 ? ` with ${offers} total sellers competing on this product` : '';
+  const extra = offers > 1 ? ` There are ${offers} sellers competing on this product.` : '';
   return `<div class="buybox-alert">
     <div class="buybox-alert-icon" style="font-weight:900;font-size:28px;">!</div>
     <div class="buybox-alert-text">
-      <strong>Buy Box Alert:</strong> Your top product's Buy Box is controlled by <strong>${seller}</strong>, not ${brand}${extra}. This means a third-party seller is capturing the revenue from your best listing.
+      <strong>Revenue Alert:</strong> When customers click "Add to Cart" on your top product, the sale goes to <strong>${seller}</strong> — not ${brand}.${extra} Most of the revenue from your best product is going to someone else.
     </div>
   </div>`;
 }
@@ -88,25 +88,25 @@ function renderExecutiveSummary(data) {
   const sc = parseInt(data.sellerCount || 0);
 
   // Bullet 1: Presence
-  bullets.push({ color: 'blue', text: `${brand} has <strong>${bp} product${bp !== 1 ? 's' : ''}</strong> on Amazon out of ${tr} total results for the brand search term.` });
+  bullets.push({ color: 'blue', text: `${brand} has <strong>${bp} product${bp !== 1 ? 's' : ''}</strong> on Amazon. When customers search your brand name, ${tr} total results appear — ${bp} are yours, ${cc} belong to competitors.` });
 
   // Bullet 2: Buy Box (if issue) or FBA
   if (data.buyBoxIsTheBrand === false) {
-    bullets.push({ color: 'red', text: `<strong>Buy Box is controlled by a third-party seller</strong> — the brand does not own the Buy Box on its best product.` });
+    bullets.push({ color: 'red', text: `<strong>Another seller controls the "Add to Cart" button</strong> on your best product — meaning most customers buying your product are paying someone else.` });
   } else if (fba < 50) {
-    bullets.push({ color: 'red', text: `Only <strong>${fba}% of products are FBA/Prime eligible</strong> — limiting Buy Box win rate and visibility.` });
+    bullets.push({ color: 'red', text: `Only <strong>${fba}% of your products qualify for Prime fast shipping</strong>. Products without Prime sell 30-50% less because customers filter for it.` });
   } else {
-    bullets.push({ color: 'green', text: `<strong>${fba}% FBA coverage</strong> — ${fba >= 80 ? 'strong' : 'adequate'} Prime eligibility across the catalog.` });
+    bullets.push({ color: 'green', text: `<strong>${fba}% of your products ship with Prime</strong> — ${fba >= 80 ? 'strong' : 'solid'} fast shipping coverage that helps win more sales.` });
   }
 
   // Bullet 3: Competitors
   if (cc > 0) {
-    bullets.push({ color: 'amber', text: `<strong>${cc} competitor product${cc !== 1 ? 's' : ''}</strong> appear when customers search the brand name${data.ppcStatus === 'None' ? ' — with no defensive advertising running' : ''}.` });
+    bullets.push({ color: 'amber', text: `<strong>${cc} competitor product${cc !== 1 ? 's' : ''}</strong> show up when customers search for ${brand}${data.ppcStatus === 'None' ? ' — and you have no ads defending your brand name' : ''}.` });
   }
 
   // Bullet 4: Sellers
   if (sc > 3) {
-    bullets.push({ color: 'red', text: `<strong>${sc} different sellers</strong> detected across listings — unauthorized resellers may be eroding margins.` });
+    bullets.push({ color: 'red', text: `<strong>${sc} different sellers</strong> are reselling your products — they may be undercutting your price and taking sales that should be yours.` });
   }
 
   return `<div class="exec-summary">${bullets.map(b =>
@@ -124,8 +124,8 @@ function renderSearchOwnership(data) {
   return `<div class="ownership-bar">
     <div class="ownership-pct ${cls}">${pct}%</div>
     <div class="ownership-info">
-      <div class="ownership-label">You own ${pct}% of search results for your brand name</div>
-      <div class="ownership-desc">Competitors capture the other ${compPct}% — ${bp} of ${tr} results are yours</div>
+      <div class="ownership-label">${pct}% of search results are your products</div>
+      <div class="ownership-desc">When someone searches "${escapeHtml(data.brandName || '')}" on Amazon, ${bp} of ${tr} results are yours — the rest are competitors</div>
     </div>
     <div class="ownership-track" style="width:180px"><div class="ownership-fill ${cls}" style="width:${Math.max(pct, 3)}%"></div></div>
   </div>`;
@@ -237,7 +237,7 @@ function renderFindings(findings) {
     warning: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f59e0b;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">!</span>',
     competitor: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#3b82f6;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">C</span>'
   };
-  const labels = { issue: 'Critical Issue', opportunity: 'Opportunity', warning: 'Warning', competitor: 'Competitor Threat' };
+  const labels = { issue: 'Revenue at Risk', opportunity: 'Growth Opportunity', warning: 'Attention Needed', competitor: 'Competitive Pressure' };
   return findings.slice(0, 4).map(f => {
     const type = f.type || 'warning';
     return `<div class="finding-row ${type}"><div class="finding-icon">${icons[type] || '&#128269;'}</div><div class="finding-content"><div class="finding-label">${labels[type] || 'Info'}</div><div class="finding-text">${f.text}</div></div></div>`;
@@ -278,22 +278,22 @@ function renderActionPlan(data) {
   const buyBoxOwned = data.buyBoxIsTheBrand !== false;
 
   if (!buyBoxOwned) {
-    actions.push({ title: 'Reclaim Buy Box Ownership', desc: 'Remove unauthorized sellers and establish the brand as the primary seller through FBA injection and MAP enforcement.', impact: 'Revenue Recovery' });
+    actions.push({ title: 'Take Back Your Sales Button', desc: 'Right now another seller gets the revenue when customers buy your product. We remove unauthorized sellers and make sure you control the purchase button on every product page.', impact: 'Revenue Recovery' });
   }
   if (data.fbaStatus === 'FBM Only' || data.fbaStatus === 'Partial FBA') {
-    actions.push({ title: 'Move Top SKUs to FBA', desc: `Convert ${data.fbaStatus === 'FBM Only' ? 'all products' : 'remaining FBM products'} to Fulfilled by Amazon through our Las Vegas hub for Prime eligibility.`, impact: '+30-50% Buy Box' });
+    actions.push({ title: 'Get the Prime Badge on All Products', desc: `Ship ${data.fbaStatus === 'FBM Only' ? 'your entire catalog' : 'remaining products'} through Amazon\'s warehouse via our Las Vegas hub. Prime products sell 30-50% more because 200M+ Prime members filter for them.`, impact: '+30-50% Sales' });
   }
   if (parseInt(data.sellerCount || 0) > 3) {
-    actions.push({ title: 'Clean Up Unauthorized Sellers', desc: `${data.sellerCount} sellers detected. Enforce brand authorization and MAP policy to stabilize pricing and protect margins.`, impact: 'Margin Protection' });
+    actions.push({ title: 'Remove Unauthorized Resellers', desc: `${data.sellerCount} sellers are competing on your products, undercutting each other and driving your price down. We enforce brand authorization and price floor agreements to protect your margins.`, impact: 'Margin Protection' });
   }
   if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    actions.push({ title: 'Launch Brand Defense PPC', desc: 'Start Sponsored Brand and Sponsored Product campaigns on brand terms to block competitor advertising on your search results.', impact: 'Traffic Protection' });
+    actions.push({ title: 'Defend Your Brand in Search', desc: 'Competitors are running ads on your brand name — customers searching for you are seeing their products first. We launch search ads that keep your brand on top of your own results.', impact: 'Traffic Protection' });
   }
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    actions.push({ title: 'Optimize Listing Content', desc: 'Upgrade product listings with A+ Content, enhanced images, and keyword-optimized copy to improve conversion rates.', impact: '+15-25% Conversion' });
+    actions.push({ title: 'Upgrade Product Pages', desc: 'Better images, video, and product descriptions convert more visitors into buyers. We rebuild your product pages with premium content that drives 15-25% more purchases.', impact: '+15-25% Conversion' });
   }
   if (actions.length === 0) {
-    actions.push({ title: 'Maintain & Scale', desc: 'Your Amazon presence is strong. Focus on scaling through expanded catalog, new product launches, and advanced advertising strategies.', impact: 'Growth' });
+    actions.push({ title: 'Scale What\'s Working', desc: 'Your Amazon operation is already strong. We focus on growing revenue through wholesale volume, new product launches, and advanced advertising — all funded by us.', impact: 'Growth' });
   }
 
   return actions.slice(0, 4).map((a, i) =>
@@ -303,11 +303,11 @@ function renderActionPlan(data) {
 
 function renderExpectedLift() {
   const items = [
-    { label: 'Buy Box', value: '>=90%' },
-    { label: 'MAP', value: '>=95%' },
-    { label: 'CVR Lift', value: '+10-30%' },
-    { label: 'TACoS', value: '8-15%' },
-    { label: 'Revenue', value: '+15-40%' }
+    { label: 'Sales Control', value: '>=90%' },
+    { label: 'Price Stability', value: '>=95%' },
+    { label: 'More Buyers', value: '+10-30%' },
+    { label: 'Ad Efficiency', value: '8-15%' },
+    { label: 'Revenue Growth', value: '+15-40%' }
   ];
   return items.map(i =>
     `<div style="flex:1;text-align:center;padding:6px 3px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px;">
@@ -497,7 +497,7 @@ function renderHTML(data) {
     '{{fbaColor}}': statusToCardColor(data.fbaStatus),
     '{{fbaClass}}': statusToClass(data.fbaStatus),
     '{{fbaPercent}}': String(data.fbaPercent || 0),
-    '{{fbaDetail}}': data.fbaStatus === 'FBM Only' ? 'No Prime = lower Buy Box' : data.fbaStatus === 'Partial FBA' ? 'Some products lack Prime' : 'Strong FBA coverage',
+    '{{fbaDetail}}': data.fbaStatus === 'FBM Only' ? 'No fast shipping = fewer sales' : data.fbaStatus === 'Partial FBA' ? 'Some products miss Prime badge' : 'Strong fast shipping coverage',
 
     '{{listingQuality}}': data.listingQuality || 'N/A',
     '{{listingColor}}': statusToCardColor(data.listingQuality),
@@ -508,7 +508,7 @@ function renderHTML(data) {
     '{{ppcColor}}': statusToCardColor(data.ppcStatus),
     '{{ppcClass}}': statusToClass(data.ppcStatus),
     '{{ppcCount}}': String(data.ppcCount || 0),
-    '{{ppcDetail}}': data.ppcStatus === 'None' ? 'Competitors capturing traffic' : data.ppcStatus === 'Competitor Dominated' ? 'Others bidding on your terms' : 'Brand is running ads',
+    '{{ppcDetail}}': data.ppcStatus === 'None' ? 'Competitors stealing your searches' : data.ppcStatus === 'Competitor Dominated' ? 'Others bidding on your name' : 'Your brand is protected in search',
 
     '{{priceStability}}': data.priceStability || 'N/A',
     '{{priceColor}}': statusToCardColor(data.priceStability),
@@ -582,16 +582,19 @@ const DECK_PATH = path.join(__dirname, 'profitzon-deck.pdf');
 
 function renderCoverHTML(data, deckPageCount) {
   let html = fs.readFileSync(COVER_TEMPLATE_PATH, 'utf8');
-  const deckEnd = 1 + deckPageCount;           // cover=1, deck starts at 2
-  const auditStart = deckEnd + 1;
-  const auditEnd = auditStart + 2;             // 3 audit pages
+  // New order: Cover (1) → Audit (2-4) → Deck (5-17)
+  const auditStart = 2;
+  const auditEnd = 4;                          // 3 audit pages
+  const deckStart = auditEnd + 1;
+  const deckEnd = deckStart + deckPageCount - 1;
   const replacements = {
     '{{logoBase64}}': logoBase64,
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
-    '{{deckEndPage}}': String(deckEnd),
     '{{auditStartPage}}': String(auditStart),
     '{{auditEndPage}}': String(auditEnd),
+    '{{deckStartPage}}': String(deckStart),
+    '{{deckEndPage}}': String(deckEnd),
   };
   for (const [key, value] of Object.entries(replacements)) {
     html = html.split(key).join(value);
@@ -648,7 +651,7 @@ async function renderPDF(data) {
 
   await browser.close();
 
-  // Merge: Cover → Deck → Audit
+  // Merge: Cover → Audit → Deck
   const merged = await PDFDocument.create();
 
   // 1. Cover page
@@ -656,7 +659,12 @@ async function renderPDF(data) {
   const coverPages = await merged.copyPages(coverDoc, coverDoc.getPageIndices());
   coverPages.forEach(p => merged.addPage(p));
 
-  // 2. Deck pages — native sizes
+  // 2. Audit pages (report first — the brand wants to see their data)
+  const auditDoc = await PDFDocument.load(auditPdfBytes);
+  const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
+  auditPages.forEach(p => merged.addPage(p));
+
+  // 3. Deck pages — who we are (presentation after the report)
   if (deckDoc) {
     try {
       const deckPages = await merged.copyPages(deckDoc, deckDoc.getPageIndices());
@@ -665,11 +673,6 @@ async function renderPDF(data) {
       console.error('Could not merge deck PDF:', e.message);
     }
   }
-
-  // 3. Audit pages
-  const auditDoc = await PDFDocument.load(auditPdfBytes);
-  const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
-  auditPages.forEach(p => merged.addPage(p));
 
   const mergedBytes = await merged.save();
   const tmpPath = path.join(os.tmpdir(), `audit-${Date.now()}.pdf`);
