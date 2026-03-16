@@ -30,181 +30,161 @@
   .report-subtitle { color: #64748b; font-size: 15px; position: relative; z-index: 1; }
   .report-subtitle strong { color: #94a3b8; }
 
-  /* HEALTH SCORE BANNER */
-  .score-banner { display: flex; margin: -28px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-  .score-main { flex: 0 0 220px; padding: 24px 28px; text-align: center; }
-  .score-main.critical { background: linear-gradient(135deg, #991b1b, #7f1d1d); color: #fff; }
-  .score-main.warning { background: linear-gradient(135deg, #92400e, #78350f); color: #fff; }
-  .score-main.healthy { background: linear-gradient(135deg, #065f46, #064e3b); color: #fff; }
-  .score-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.8; font-weight: 600; }
-  .score-number { font-size: 62px; font-weight: 900; line-height: 1; }
-  .score-of { font-size: 20px; font-weight: 400; opacity: 0.6; }
-  .score-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; font-weight: 700; }
+  /* HEALTH SCORE BANNER — gold monochrome */
+  .score-banner { display: flex; margin: -28px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(212,165,74,0.25); }
+  .score-main { flex: 0 0 220px; padding: 24px 28px; text-align: center; background: linear-gradient(135deg, rgba(212,165,74,0.15), rgba(212,165,74,0.08)); }
+  .score-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #d4a54a; font-weight: 600; }
+  .score-number { font-size: 62px; font-weight: 900; line-height: 1; color: #fff; }
+  .score-of { font-size: 20px; font-weight: 400; color: #64748b; }
+  .score-label { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; }
   .score-details { flex: 1; background: #0d1117; display: flex; padding: 18px 20px; }
   .score-detail { flex: 1; text-align: center; padding: 10px 6px; border-right: 1px solid rgba(255,255,255,0.06); }
   .score-detail:last-child { border-right: none; }
-  .score-detail-value { font-size: 14px; font-weight: 700; padding: 4px 12px; border-radius: 5px; display: inline-block; }
+  .score-detail-value { font-size: 14px; font-weight: 700; color: #fff; padding: 4px 12px; border-radius: 5px; display: inline-block; background: rgba(255,255,255,0.05); }
   .score-detail-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 5px; }
 
-  /* STATUS COLORS (dark theme) */
-  .s-green { background: rgba(16,185,129,0.15); color: #34d399; }
-  .s-yellow { background: rgba(245,158,11,0.15); color: #fbbf24; }
-  .s-red { background: rgba(239,68,68,0.15); color: #f87171; }
-  .s-gray { background: rgba(148,163,184,0.1); color: #94a3b8; }
+  /* STATUS COLORS — muted gold palette */
+  .s-green { background: rgba(212,165,74,0.12); color: #d4a54a; }
+  .s-yellow { background: rgba(212,165,74,0.08); color: #c9a84c; }
+  .s-red { background: rgba(255,255,255,0.06); color: #94a3b8; }
+  .s-gray { background: rgba(255,255,255,0.04); color: #64748b; }
 
-  /* BUY BOX ALERT */
-  .buybox-alert { margin: 22px 34px 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 14px; padding: 20px 26px; display: flex; align-items: center; gap: 16px; }
-  .buybox-alert-icon { width: 48px; height: 48px; flex-shrink: 0; background: #dc2626; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
-  .buybox-alert-text { font-size: 15px; color: #fca5a5; font-weight: 500; line-height: 1.5; }
-  .buybox-alert-text strong { color: #f87171; font-weight: 800; }
+  /* BUY BOX ALERT — subtle gold instead of red */
+  .buybox-alert { margin: 22px 34px 0; background: rgba(212,165,74,0.06); border: 1px solid rgba(212,165,74,0.25); border-radius: 14px; padding: 20px 26px; display: flex; align-items: center; gap: 16px; }
+  .buybox-alert-icon { width: 48px; height: 48px; flex-shrink: 0; background: linear-gradient(135deg, #d4a54a, #b8892e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #07090f; }
+  .buybox-alert-text { font-size: 15px; color: #cbd5e1; font-weight: 500; line-height: 1.5; }
+  .buybox-alert-text strong { color: #d4a54a; font-weight: 800; }
 
   /* CONTENT */
   .content { padding: 24px 38px; }
   .page3-content { padding: 10px 38px 80px; }
 
-  .section-title { font-size: 18px; font-weight: 800; color: #d4a54a; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
-  .section-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .section-title { font-size: 16px; font-weight: 800; color: #d4a54a; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; }
+  .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212,165,74,0.3), transparent); }
 
   /* EXEC SUMMARY */
-  .exec-summary { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 24px 28px; margin-bottom: 26px; }
-  .exec-summary-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 16px; color: #cbd5e1; line-height: 1.6; font-weight: 500; }
+  .exec-summary { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 24px 28px; margin-bottom: 26px; }
+  .exec-summary-row { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; font-size: 15px; color: #94a3b8; line-height: 1.6; font-weight: 400; }
   .exec-summary-row:last-child { margin-bottom: 0; }
-  .exec-bullet { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; margin-top: 2px; }
-  .exec-bullet.red { background: #dc2626; } .exec-bullet.green { background: #059669; }
-  .exec-bullet.blue { background: #3b82f6; } .exec-bullet.amber { background: #d97706; }
+  .exec-bullet { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; margin-top: 8px; }
+  .exec-bullet.red { background: #d4a54a; } .exec-bullet.green { background: #d4a54a; }
+  .exec-bullet.blue { background: #d4a54a; } .exec-bullet.amber { background: #d4a54a; }
 
   /* SEARCH OWNERSHIP */
-  .ownership-bar { display: flex; align-items: center; gap: 22px; background: rgba(212,165,74,0.06); border: 1px solid rgba(212,165,74,0.2); border-radius: 14px; padding: 24px 30px; margin-bottom: 28px; }
-  .ownership-pct { font-size: 56px; font-weight: 900; line-height: 1; }
-  .ownership-pct.low { color: #f87171; } .ownership-pct.mid { color: #fbbf24; } .ownership-pct.high { color: #34d399; }
+  .ownership-bar { display: flex; align-items: center; gap: 22px; background: rgba(212,165,74,0.04); border: 1px solid rgba(212,165,74,0.15); border-radius: 14px; padding: 24px 30px; margin-bottom: 28px; }
+  .ownership-pct { font-size: 56px; font-weight: 900; line-height: 1; color: #d4a54a; }
   .ownership-info { flex: 1; }
   .ownership-label { font-size: 17px; font-weight: 700; color: #e2e8f0; }
   .ownership-desc { font-size: 14px; color: #64748b; }
-  .ownership-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-  .ownership-fill { height: 100%; border-radius: 6px; }
-  .ownership-fill.low { background: linear-gradient(90deg, #ef4444, #f87171); }
-  .ownership-fill.mid { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-  .ownership-fill.high { background: linear-gradient(90deg, #10b981, #34d399); }
+  .ownership-track { flex: 1; height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; }
+  .ownership-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #d4a54a, #b8892e); }
 
-  /* METRICS GRID */
-  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .metric-card { border-radius: 14px; padding: 18px 20px; position: relative; overflow: visible; border: 1px solid rgba(255,255,255,0.06); min-height: 120px; }
-  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
-  .metric-card.c-green { background: rgba(16,185,129,0.06); } .metric-card.c-green::before { background: #10b981; }
-  .metric-card.c-yellow { background: rgba(245,158,11,0.06); } .metric-card.c-yellow::before { background: #f59e0b; }
-  .metric-card.c-red { background: rgba(239,68,68,0.06); } .metric-card.c-red::before { background: #ef4444; }
-  .metric-card.c-gray { background: rgba(148,163,184,0.04); } .metric-card.c-gray::before { background: #475569; }
+  /* METRICS GRID — clean gold accent */
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .metric-card { border-radius: 14px; padding: 18px 20px; position: relative; overflow: visible; border: 1px solid rgba(255,255,255,0.06); min-height: 110px; background: rgba(255,255,255,0.02); }
+  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, rgba(212,165,74,0.4), rgba(212,165,74,0.1)); border-radius: 14px 14px 0 0; }
   .metric-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .metric-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; }
-  .metric-badge { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 5px; }
-  .metric-value { font-size: 28px; font-weight: 800; color: #fff; margin-bottom: 4px; white-space: nowrap; }
-  .metric-desc { font-size: 13px; color: #64748b; }
+  .metric-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; font-weight: 700; }
+  .metric-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: rgba(212,165,74,0.1); color: #d4a54a; border: 1px solid rgba(212,165,74,0.2); }
+  .metric-value { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 4px; white-space: nowrap; }
+  .metric-desc { font-size: 12px; color: #475569; }
 
   /* PAGE 2 HEADER */
-  .page-header { background: rgba(212,165,74,0.04); padding: 22px 38px; border-bottom: 1px solid rgba(212,165,74,0.2); }
+  .page-header { background: rgba(212,165,74,0.03); padding: 22px 38px; border-bottom: 1px solid rgba(212,165,74,0.15); }
   .page-header-title { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
   .page-header-sub { font-size: 14px; color: #64748b; }
 
   /* DEEP DIVE CARD */
-  .deep-dive { border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
-  .deep-dive-header { background: linear-gradient(135deg, #0d1117, #151b2e); padding: 22px 30px; border-bottom: 1px solid rgba(212,165,74,0.15); }
+  .deep-dive { border: 1px solid rgba(212,165,74,0.12); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+  .deep-dive-header { background: linear-gradient(135deg, #0d1117, #111a28); padding: 22px 30px; border-bottom: 1px solid rgba(212,165,74,0.12); }
   .deep-dive-asin { font-size: 11px; color: #d4a54a; font-weight: 600; letter-spacing: 0.5px; }
   .deep-dive-title { font-size: 19px; font-weight: 700; color: #e2e8f0; line-height: 1.4; margin-top: 4px; }
-  .deep-dive-body { padding: 24px 30px; background: rgba(255,255,255,0.02); }
+  .deep-dive-body { padding: 24px 30px; background: rgba(255,255,255,0.015); }
   .deep-dive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .dd-section { margin-bottom: 20px; }
   .dd-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; margin-bottom: 6px; }
   .dd-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
   .dd-value { font-size: 19px; font-weight: 700; color: #fff; }
-  .dd-badge { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 5px; }
-  .dd-badge.brand { background: rgba(16,185,129,0.15); color: #34d399; }
-  .dd-badge.thirdparty { background: rgba(239,68,68,0.15); color: #f87171; }
-  .dd-badge.fba { background: rgba(59,130,246,0.15); color: #60a5fa; }
-  .dd-badge.fbm { background: rgba(245,158,11,0.15); color: #fbbf24; }
+  .dd-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; border: 1px solid rgba(212,165,74,0.2); }
+  .dd-badge.brand { background: rgba(212,165,74,0.1); color: #d4a54a; }
+  .dd-badge.thirdparty { background: rgba(255,255,255,0.05); color: #94a3b8; }
+  .dd-badge.fba { background: rgba(212,165,74,0.08); color: #c9a84c; }
+  .dd-badge.fbm { background: rgba(255,255,255,0.04); color: #64748b; }
   .dd-sub { font-size: 13px; color: #475569; }
 
-  /* RATING BARS */
+  /* RATING BARS — gold themed */
   .rating-bars { margin-bottom: 6px; }
   .rating-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
   .rating-bar-label { font-size: 13px; font-weight: 600; color: #64748b; width: 28px; text-align: right; }
-  .rating-bar-track { flex: 1; height: 12px; background: rgba(255,255,255,0.06); border-radius: 6px; overflow: hidden; }
-  .rating-bar-fill { height: 100%; border-radius: 6px; }
-  .rating-bar-fill.r5 { background: #10b981; } .rating-bar-fill.r4 { background: #34d399; }
-  .rating-bar-fill.r3 { background: #fbbf24; } .rating-bar-fill.r2 { background: #f97316; }
-  .rating-bar-fill.r1 { background: #ef4444; }
+  .rating-bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.04); border-radius: 5px; overflow: hidden; }
+  .rating-bar-fill { height: 100%; border-radius: 5px; }
+  .rating-bar-fill.r5 { background: #d4a54a; } .rating-bar-fill.r4 { background: #c9a84c; }
+  .rating-bar-fill.r3 { background: #94a3b8; } .rating-bar-fill.r2 { background: #64748b; }
+  .rating-bar-fill.r1 { background: #475569; }
   .rating-bar-pct { font-size: 12px; font-weight: 700; color: #94a3b8; width: 36px; }
 
   /* LISTING HEALTH */
   .listing-health { display: flex; gap: 18px; flex-wrap: wrap; }
   .health-item { display: flex; align-items: center; gap: 6px; font-size: 14px; color: #94a3b8; }
   .health-check { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
-  .health-check.good { background: rgba(16,185,129,0.2); color: #34d399; }
-  .health-check.bad { background: rgba(239,68,68,0.2); color: #f87171; }
-  .health-check.warn { background: rgba(245,158,11,0.2); color: #fbbf24; }
+  .health-check.good { background: rgba(212,165,74,0.15); color: #d4a54a; }
+  .health-check.bad { background: rgba(255,255,255,0.05); color: #64748b; }
+  .health-check.warn { background: rgba(255,255,255,0.08); color: #94a3b8; }
 
   /* COMPARISON TABLE */
-  .comparison { display: grid; grid-template-columns: 1fr 100px 1fr; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+  .comparison { display: grid; grid-template-columns: 1fr 100px 1fr; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; overflow: hidden; }
   .comp-col { padding: 20px 22px; }
-  .comp-col.brand-col { background: rgba(239,68,68,0.04); }
+  .comp-col.brand-col { background: rgba(212,165,74,0.03); }
   .comp-col.vs-col { background: rgba(255,255,255,0.02); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .comp-col.competitor-col { background: rgba(16,185,129,0.04); }
+  .comp-col.competitor-col { background: rgba(255,255,255,0.02); }
   .comp-header { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; text-align: center; }
-  .comp-col.brand-col .comp-header { color: #f87171; }
-  .comp-col.competitor-col .comp-header { color: #34d399; }
-  .comp-metric-value { font-size: 19px; font-weight: 800; text-align: center; margin-bottom: 3px; }
+  .comp-col.brand-col .comp-header { color: #d4a54a; }
+  .comp-col.competitor-col .comp-header { color: #94a3b8; }
+  .comp-metric-value { font-size: 19px; font-weight: 800; text-align: center; margin-bottom: 3px; color: #fff; }
   .comp-metric-sub { font-size: 11px; color: #475569; text-align: center; margin-bottom: 14px; }
 
   /* PRODUCTS TABLE */
-  .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-  .products-table th { background: rgba(212,165,74,0.06); padding: 14px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .products-table td { padding: 14px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #cbd5e1; }
+  .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .products-table th { background: rgba(212,165,74,0.05); padding: 14px 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #d4a54a; font-weight: 700; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .products-table td { padding: 14px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.03); color: #94a3b8; }
   .products-table tr:last-child td { border-bottom: none; }
-  .products-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .badge-sm { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 4px; display: inline-block; margin-right: 3px; }
-  .badge-prime { background: rgba(59,130,246,0.2); color: #60a5fa; }
-  .badge-choice { background: rgba(245,158,11,0.2); color: #fbbf24; }
-  .badge-bestseller { background: rgba(239,68,68,0.2); color: #f87171; }
-  .badge-sponsored { background: rgba(168,85,247,0.2); color: #c084fc; }
-  .badge-notbrand { background: rgba(239,68,68,0.15); color: #f87171; }
+  .badge-sm { font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 4px; display: inline-block; margin-right: 3px; border: 1px solid rgba(212,165,74,0.2); }
+  .badge-prime { background: rgba(212,165,74,0.1); color: #d4a54a; }
+  .badge-choice { background: rgba(212,165,74,0.08); color: #c9a84c; }
+  .badge-bestseller { background: rgba(212,165,74,0.12); color: #d4a54a; }
+  .badge-sponsored { background: rgba(255,255,255,0.05); color: #94a3b8; }
+  .badge-notbrand { background: rgba(255,255,255,0.04); color: #64748b; }
   .pos-badge { font-size: 14px; font-weight: 800; color: #d4a54a; }
 
-  /* PAGE 3: FINDINGS */
-  .finding-row { display: flex; align-items: flex-start; padding: 8px 14px; border-radius: 10px; margin-bottom: 4px; gap: 8px; page-break-inside: avoid; }
-  .finding-row.issue { background: rgba(239,68,68,0.06); border-left: 4px solid #ef4444; }
-  .finding-row.opportunity { background: rgba(16,185,129,0.06); border-left: 4px solid #10b981; }
-  .finding-row.warning { background: rgba(245,158,11,0.06); border-left: 4px solid #f59e0b; }
-  .finding-row.competitor { background: rgba(59,130,246,0.06); border-left: 4px solid #3b82f6; }
+  /* PAGE 3: FINDINGS — elegant, minimal */
+  .finding-row { display: flex; align-items: flex-start; padding: 14px 20px; border-radius: 12px; margin-bottom: 8px; gap: 14px; page-break-inside: avoid; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
   .finding-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .finding-content { flex: 1; }
-  .finding-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 800; margin-bottom: 3px; }
-  .finding-row.issue .finding-label { color: #f87171; }
-  .finding-row.opportunity .finding-label { color: #34d399; }
-  .finding-row.warning .finding-label { color: #fbbf24; }
-  .finding-row.competitor .finding-label { color: #60a5fa; }
-  .finding-text { font-size: 13px; color: #cbd5e1; line-height: 1.4; font-weight: 500; }
+  .finding-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; color: #d4a54a; }
+  .finding-text { font-size: 14px; color: #94a3b8; line-height: 1.5; font-weight: 400; }
 
-  /* LOSS SECTION */
-  .loss-section { background: linear-gradient(135deg, rgba(212,165,74,0.08) 0%, rgba(212,165,74,0.03) 100%); border: 1px solid rgba(212,165,74,0.2); border-radius: 14px; padding: 12px 20px; margin-bottom: 10px; }
-  .loss-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; }
+  /* LOSS SECTION — gold themed */
+  .loss-section { background: rgba(212,165,74,0.04); border: 1px solid rgba(212,165,74,0.15); border-radius: 14px; padding: 16px 24px; margin-bottom: 14px; }
+  .loss-title { font-size: 14px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; }
   .loss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .loss-item { text-align: center; padding: 14px 10px; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
-  .loss-value { font-size: 26px; font-weight: 900; color: #f87171; }
-  .loss-label { font-size: 11px; color: #d4a54a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; margin-top: 4px; }
+  .loss-item { text-align: center; padding: 16px 10px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.04); }
+  .loss-value { font-size: 28px; font-weight: 900; color: #fff; }
+  .loss-label { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-top: 4px; }
 
   /* ACTION PLAN */
-  .action-item { display: flex; gap: 10px; padding: 8px 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; margin-bottom: 4px; page-break-inside: avoid; }
-  .action-num { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
+  .action-item { display: flex; gap: 14px; padding: 12px 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; margin-bottom: 6px; page-break-inside: avoid; }
+  .action-num { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; margin-top: 2px; }
   .action-content { flex: 1; }
   .action-title { font-size: 15px; font-weight: 700; color: #fff; }
-  .action-desc { font-size: 12px; color: #94a3b8; line-height: 1.3; margin-top: 1px; }
-  .action-impact { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 5px; background: rgba(16,185,129,0.15); color: #34d399; display: inline-block; margin-top: 3px; }
+  .action-desc { font-size: 12px; color: #64748b; line-height: 1.4; margin-top: 2px; }
+  .action-impact { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(212,165,74,0.1); color: #d4a54a; border: 1px solid rgba(212,165,74,0.2); display: inline-block; margin-top: 4px; }
 
-  /* CTA */
-  .cta-section { background: linear-gradient(135deg, rgba(212,165,74,0.1), rgba(212,165,74,0.04)); border: 2px solid rgba(212,165,74,0.3); border-radius: 14px; padding: 16px 24px; text-align: center; }
-  .cta-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px; }
-  .cta-subtitle { font-size: 13px; color: #94a3b8; margin-bottom: 12px; line-height: 1.4; }
-  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; padding: 12px 34px; border-radius: 10px; font-size: 15px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(212,165,74,0.25); letter-spacing: 0.3px; }
-  .cta-trust { margin-top: 8px; font-size: 11px; color: #64748b; }
+  /* CTA — prestige gold */
+  .cta-section { background: linear-gradient(135deg, rgba(212,165,74,0.08), rgba(212,165,74,0.03)); border: 1px solid rgba(212,165,74,0.25); border-radius: 14px; padding: 20px 28px; text-align: center; }
+  .cta-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 8px; }
+  .cta-subtitle { font-size: 14px; color: #94a3b8; margin-bottom: 14px; line-height: 1.5; }
+  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #07090f; padding: 14px 40px; border-radius: 10px; font-size: 15px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 20px rgba(212,165,74,0.25); letter-spacing: 0.3px; }
+  .cta-trust { margin-top: 10px; font-size: 11px; color: #475569; }
 
   /* FOOTER */
   .footer { background: #030507; padding: 20px 44px; display: flex; justify-content: space-between; align-items: center; position: absolute; bottom: 0; left: 0; right: 0; border-top: 1px solid rgba(212,165,74,0.15); }
@@ -212,6 +192,9 @@
   .footer-left strong { color: #d4a54a; font-weight: 700; }
   .footer-right { color: #475569; font-size: 11px; text-align: right; }
   .footer-right a { color: #d4a54a; text-decoration: none; }
+
+  /* EXPECTED LIFT */
+  .lift-item { flex: 1; text-align: center; padding: 10px 6px; background: rgba(212,165,74,0.04); border: 1px solid rgba(212,165,74,0.12); border-radius: 10px; }
 
   @media print { body { background: #07090f; } .page { box-shadow: none; margin: 0; } }
 </style>
@@ -235,27 +218,27 @@
   </div>
 
   <div class="score-banner">
-    <div class="score-main {{healthScoreClass}}">
+    <div class="score-main">
       <div class="score-eyebrow">Health Score</div>
       <div class="score-number">{{healthScore}}<span class="score-of">/100</span></div>
       <div class="score-label">{{healthScoreLabel}}</div>
     </div>
     <div class="score-details">
       <div class="score-detail">
-        <div class="score-detail-value {{brandMaturityClass}}">{{brandMaturity}}</div>
+        <div class="score-detail-value">{{brandMaturity}}</div>
         <div class="score-detail-label">Maturity</div>
       </div>
       <div class="score-detail">
-        <div class="score-detail-value {{issueSeverityClass}}">{{issueSeverity}}</div>
-        <div class="score-detail-label">Issues</div>
+        <div class="score-detail-value">{{brandProductCount}} / {{totalResults}}</div>
+        <div class="score-detail-label">Your Products / Total</div>
       </div>
       <div class="score-detail">
-        <div class="score-detail-value s-gray">{{brandProductCount}} / {{totalResults}}</div>
-        <div class="score-detail-label">Brand / Total</div>
-      </div>
-      <div class="score-detail">
-        <div class="score-detail-value {{competitorClass}}">{{competitorCount}}</div>
+        <div class="score-detail-value">{{competitorCount}}</div>
         <div class="score-detail-label">Competitors</div>
+      </div>
+      <div class="score-detail">
+        <div class="score-detail-value">{{sellerCount}}</div>
+        <div class="score-detail-label">Sellers</div>
       </div>
     </div>
   </div>
@@ -265,51 +248,48 @@
   <div class="content">
 
     <div class="section-title" style="margin-top:4px;">
-      <div class="section-icon" style="background:rgba(59,130,246,0.12);color:#60a5fa;font-weight:900;">S</div>
-      Executive Summary
+      Executive Summary <div class="section-line"></div>
     </div>
     {{executiveSummary}}
 
     <div class="section-title">
-      <div class="section-icon" style="background:rgba(212,165,74,0.12);color:#d4a54a;font-weight:900;">%</div>
-      Brand Search Ownership
+      Brand Search Ownership <div class="section-line"></div>
     </div>
     {{searchOwnership}}
 
     <div class="section-title">
-      <div class="section-icon" style="background:rgba(59,130,246,0.12);color:#60a5fa;font-weight:900;">M</div>
-      Marketplace Breakdown
+      Marketplace Snapshot <div class="section-line"></div>
     </div>
     <div class="metrics-grid">
-      <div class="metric-card c-{{storefrontColor}}">
-        <div class="metric-header"><div class="metric-title">Storefront</div><div class="metric-badge {{storefrontClass}}">{{storefront}}</div></div>
-        <div class="metric-value">{{catalogSize}} SKUs</div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Storefront</div><div class="metric-badge">{{storefront}}</div></div>
+        <div class="metric-value">{{catalogSize}} Products</div>
         <div class="metric-desc">Brand products on Amazon</div>
       </div>
-      <div class="metric-card c-{{fbaColor}}">
-        <div class="metric-header"><div class="metric-title">Fast Shipping</div><div class="metric-badge {{fbaClass}}">{{fbaStatus}}</div></div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Fast Shipping</div><div class="metric-badge">{{fbaStatus}}</div></div>
         <div class="metric-value">{{fbaPercent}}% Prime</div>
         <div class="metric-desc">{{fbaDetail}}</div>
       </div>
-      <div class="metric-card c-{{listingColor}}">
-        <div class="metric-header"><div class="metric-title">Listing Quality</div><div class="metric-badge {{listingClass}}">{{listingQuality}}</div></div>
-        <div class="metric-value">{{avgRating}} <span style="color:#fbbf24">&#9733;</span></div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Customer Rating</div><div class="metric-badge">{{listingQuality}}</div></div>
+        <div class="metric-value">{{avgRating}} &#9733;</div>
         <div class="metric-desc">Avg rating across products</div>
       </div>
-      <div class="metric-card c-{{ppcColor}}">
-        <div class="metric-header"><div class="metric-title">Search Ads</div><div class="metric-badge {{ppcClass}}">{{ppcStatus}}</div></div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Search Ads</div><div class="metric-badge">{{ppcStatus}}</div></div>
         <div class="metric-value">{{ppcCount}} Competitors</div>
         <div class="metric-desc">{{ppcDetail}}</div>
       </div>
-      <div class="metric-card c-{{priceColor}}">
-        <div class="metric-header"><div class="metric-title">Price Control</div><div class="metric-badge {{priceClass}}">{{priceStability}}</div></div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Price Control</div><div class="metric-badge">{{priceStability}}</div></div>
         <div class="metric-value">{{priceRange}}</div>
         <div class="metric-desc">Price range detected</div>
       </div>
-      <div class="metric-card c-{{sellerColor}}">
-        <div class="metric-header"><div class="metric-title">Seller Control</div><div class="metric-badge {{sellerClass}}">{{sellerRisk}}</div></div>
+      <div class="metric-card">
+        <div class="metric-header"><div class="metric-title">Seller Control</div><div class="metric-badge">{{sellerRisk}}</div></div>
         <div class="metric-value">{{sellerCount}} Sellers</div>
-        <div class="metric-desc">Active on your listings</div>
+        <div class="metric-desc">Active on your products</div>
       </div>
     </div>
 
@@ -335,7 +315,7 @@
 
     <div class="deep-dive">
       <div class="deep-dive-header">
-        <div class="deep-dive-asin">ASIN: {{bestAsin}} &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+        <div class="deep-dive-asin">{{bestAsin}} &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
         <div class="deep-dive-title">{{bestAsinTitleTruncated}}</div>
       </div>
       <div class="deep-dive-body">
@@ -346,7 +326,6 @@
               <div class="dd-row">
                 <div class="dd-value">{{buyBoxSellerName}}</div>
                 <span class="dd-badge {{buyBoxBrandClass}}">{{buyBoxBrandLabel}}</span>
-                <span class="dd-badge {{buyBoxFbaClass}}">{{buyBoxFbaLabel}}</span>
               </div>
               <div class="dd-sub">{{pricingOfferCount}} total seller(s) competing on this product</div>
             </div>
@@ -371,7 +350,7 @@
               {{ratingDistribution}}
             </div>
             <div class="dd-section">
-              <div class="dd-label">Listing Health</div>
+              <div class="dd-label">Product Page Quality</div>
               {{listingHealthChecks}}
             </div>
             <div class="dd-section">
@@ -383,7 +362,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);">
+        <div style="margin-top:14px;padding-top:16px;border-top:1px solid rgba(212,165,74,0.1);">
           <div class="dd-label">What Customers Are Saying</div>
           <div style="font-size:14px;color:#94a3b8;line-height:1.6;margin-top:6px;">{{reviewHighlights}}</div>
         </div>
@@ -393,19 +372,18 @@
     {{brandVsCompetitorSection}}
 
     <div class="section-title">
-      <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;font-weight:900;">#</div>
-      Products Analyzed
+      Products Analyzed <div class="section-line"></div>
     </div>
     <table class="products-table">
       <thead>
         <tr>
           <th style="width:5%">#</th>
           <th style="width:35%">Product</th>
-          <th>ASIN</th>
+          <th>ID</th>
           <th>Price</th>
           <th>Rating</th>
           <th>Reviews</th>
-          <th>Badges</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
@@ -427,22 +405,21 @@
 <div class="page">
 
   <div class="page-header" style="padding:14px 38px 10px;">
-    <div class="page-header-title">What We Found & How We Fix It</div>
+    <div class="page-header-title">What We Found &amp; How We Fix It</div>
     <div class="page-header-sub">Key findings from your audit and the action plan to grow revenue</div>
   </div>
 
   <div class="page3-content">
 
-    <div class="section-title" style="margin-bottom:8px;">
-      <div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;font-weight:900;">!</div>
-      What We Found
+    <div class="section-title" style="margin-bottom:10px;">
+      Key Findings <div class="section-line"></div>
     </div>
-    <div style="margin-bottom:8px;">
+    <div style="margin-bottom:12px;">
       {{findings}}
     </div>
 
     <div class="loss-section">
-      <div class="loss-title"><span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:#ef4444;margin-right:6px;vertical-align:middle;"></span> Revenue at Risk</div>
+      <div class="loss-title">Revenue at Risk</div>
       <div class="loss-grid">
         <div class="loss-item">
           <div class="loss-value">{{lostBuyBox}}</div>
@@ -460,15 +437,14 @@
     </div>
 
     <div class="section-title" style="margin-bottom:8px;">
-      <div class="section-icon" style="background:rgba(16,185,129,0.12);color:#34d399;font-weight:900;">A</div>
-      Our Plan to Fix It
+      Our Plan to Fix It <div class="section-line"></div>
     </div>
-    <div style="margin-bottom:4px;">
+    <div style="margin-bottom:6px;">
       {{actionPlan}}
-      <div style="font-size:11px;color:#34d399;font-weight:600;padding:4px 14px;font-style:italic;">Execution done by our team if partnership begins — zero cost to you.</div>
+      <div style="font-size:11px;color:#d4a54a;font-weight:600;padding:6px 18px;font-style:italic;">All execution done by our team — zero cost to you.</div>
     </div>
 
-    <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
       {{expectedLift}}
     </div>
 

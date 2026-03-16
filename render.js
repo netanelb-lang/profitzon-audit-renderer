@@ -118,16 +118,15 @@ function renderSearchOwnership(data) {
   const bp = parseInt(data.brandProductCount || 0);
   const tr = parseInt(data.totalResults || 1);
   const pct = Math.round((bp / tr) * 100);
-  const cls = pct < 20 ? 'low' : pct < 50 ? 'mid' : 'high';
   const compPct = 100 - pct;
 
   return `<div class="ownership-bar">
-    <div class="ownership-pct ${cls}">${pct}%</div>
+    <div class="ownership-pct">${pct}%</div>
     <div class="ownership-info">
       <div class="ownership-label">${pct}% of search results are your products</div>
       <div class="ownership-desc">When someone searches "${escapeHtml(data.brandName || '')}" on Amazon, ${bp} of ${tr} results are yours — the rest are competitors</div>
     </div>
-    <div class="ownership-track" style="width:180px"><div class="ownership-fill ${cls}" style="width:${Math.max(pct, 3)}%"></div></div>
+    <div class="ownership-track" style="width:180px"><div class="ownership-fill" style="width:${Math.max(pct, 3)}%"></div></div>
   </div>`;
 }
 
@@ -310,8 +309,8 @@ function renderExpectedLift() {
     { label: 'Revenue Growth', value: '+15-40%' }
   ];
   return items.map(i =>
-    `<div style="flex:1;text-align:center;padding:6px 3px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:8px;">
-      <div style="font-size:14px;font-weight:800;color:#34d399;">${i.value}</div>
+    `<div class="lift-item">
+      <div style="font-size:14px;font-weight:800;color:#d4a54a;">${i.value}</div>
       <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-top:1px;">${i.label}</div>
     </div>`
   ).join('\n');
@@ -475,49 +474,32 @@ function renderHTML(data) {
     '{{reportId}}': reportId,
 
     '{{healthScore}}': String(healthScore),
-    '{{healthScoreClass}}': healthClass,
     '{{healthScoreLabel}}': healthLabel,
 
     '{{brandMaturity}}': data.brandMaturity || 'N/A',
-    '{{brandMaturityClass}}': statusToClass(data.brandMaturity),
-    '{{issueSeverity}}': data.issueSeverity || 'N/A',
-    '{{issueSeverityClass}}': statusToClass(data.issueSeverity),
     '{{brandProductCount}}': String(data.brandProductCount || data.catalogSize || '?'),
     '{{totalResults}}': String(data.totalResults || '?'),
     '{{competitorCount}}': String(data.competitorCount || '0'),
-    '{{competitorClass}}': parseInt(data.competitorCount || 0) > 5 ? 's-red' : parseInt(data.competitorCount || 0) > 2 ? 's-yellow' : 's-green',
 
-    // Metric cards
+    // Metric cards — no color classes, gold-only
     '{{storefront}}': data.storefront || 'N/A',
-    '{{storefrontColor}}': statusToCardColor(data.storefront),
-    '{{storefrontClass}}': statusToClass(data.storefront),
     '{{catalogSize}}': String(data.catalogSize || 0),
 
     '{{fbaStatus}}': data.fbaStatus || 'N/A',
-    '{{fbaColor}}': statusToCardColor(data.fbaStatus),
-    '{{fbaClass}}': statusToClass(data.fbaStatus),
     '{{fbaPercent}}': String(data.fbaPercent || 0),
     '{{fbaDetail}}': data.fbaStatus === 'FBM Only' ? 'No fast shipping = fewer sales' : data.fbaStatus === 'Partial FBA' ? 'Some products miss Prime badge' : 'Strong fast shipping coverage',
 
     '{{listingQuality}}': data.listingQuality || 'N/A',
-    '{{listingColor}}': statusToCardColor(data.listingQuality),
-    '{{listingClass}}': statusToClass(data.listingQuality),
     '{{avgRating}}': String(data.avgRating || '0.0'),
 
     '{{ppcStatus}}': data.ppcStatus || 'N/A',
-    '{{ppcColor}}': statusToCardColor(data.ppcStatus),
-    '{{ppcClass}}': statusToClass(data.ppcStatus),
     '{{ppcCount}}': String(data.ppcCount || 0),
     '{{ppcDetail}}': data.ppcStatus === 'None' ? 'Competitors stealing your searches' : data.ppcStatus === 'Competitor Dominated' ? 'Others bidding on your name' : 'Your brand is protected in search',
 
     '{{priceStability}}': data.priceStability || 'N/A',
-    '{{priceColor}}': statusToCardColor(data.priceStability),
-    '{{priceClass}}': statusToClass(data.priceStability),
     '{{priceRange}}': data.priceRange || 'N/A',
 
     '{{sellerCount}}': String(sc),
-    '{{sellerColor}}': sc <= 3 ? 'green' : sc <= 6 ? 'yellow' : 'red',
-    '{{sellerClass}}': sc <= 3 ? 's-green' : sc <= 6 ? 's-yellow' : 's-red',
     '{{sellerRisk}}': sellerRisk,
 
     // Losses
