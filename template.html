@@ -18,7 +18,7 @@
   .page-footer-right { color: #475569; font-size: 11px; }
 
   /* HEADER */
-  .header { background: linear-gradient(145deg, #07090f 0%, #0c1120 40%, #111a30 100%); padding: 42px 44px 58px; position: relative; overflow: hidden; border-bottom: 2px solid rgba(212,165,74,0.3); }
+  .header { background: linear-gradient(145deg, #07090f 0%, #0c1120 40%, #111a30 100%); padding: 42px 44px 58px; position: relative; overflow: hidden; }
   .header-glow { position: absolute; border-radius: 50%; }
   .header-glow-1 { top: -80px; right: -40px; width: 340px; height: 340px; background: radial-gradient(circle, rgba(212,165,74,0.08) 0%, transparent 65%); }
   .header-glow-2 { bottom: -60px; left: 20%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212,165,74,0.05) 0%, transparent 65%); }
@@ -31,13 +31,13 @@
   .report-subtitle strong { color: #94a3b8; }
 
   /* HEALTH SCORE BANNER — gold monochrome */
-  .score-banner { display: flex; margin: -28px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: hidden; border: 1px solid rgba(212,165,74,0.25); }
-  .score-main { flex: 0 0 200px; padding: 20px 24px; text-align: center; background: linear-gradient(135deg, rgba(212,165,74,0.15), rgba(212,165,74,0.08)); }
+  .score-banner { display: flex; margin: -20px 34px 0; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); position: relative; z-index: 2; overflow: visible; border: 1px solid rgba(212,165,74,0.25); }
+  .score-main { flex: 0 0 200px; padding: 24px 24px 20px; text-align: center; background: linear-gradient(135deg, rgba(212,165,74,0.15), rgba(212,165,74,0.08)); border-radius: 16px 0 0 16px; }
   .score-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #d4a54a; font-weight: 600; }
   .score-number { font-size: 54px; font-weight: 900; line-height: 1; color: #fff; }
   .score-of { font-size: 18px; font-weight: 400; color: #64748b; }
   .score-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; }
-  .score-details { flex: 1; background: #0d1117; display: flex; padding: 16px 16px; }
+  .score-details { flex: 1; background: #0d1117; display: flex; padding: 16px 16px; border-radius: 0 16px 16px 0; }
   .score-detail { flex: 1; text-align: center; padding: 8px 4px; border-right: 1px solid rgba(255,255,255,0.06); }
   .score-detail:last-child { border-right: none; }
   .score-detail-value { font-size: 15px; font-weight: 700; color: #fff; padding: 4px 10px; border-radius: 5px; display: inline-block; background: rgba(255,255,255,0.05); }
