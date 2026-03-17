@@ -79,34 +79,37 @@ function renderBuyBoxAlert(data) {
 }
 
 function renderExecutiveSummary(data) {
+  // If the agent provided an opportunity_summary, use that as the main insight
+  // This avoids repeating the 12/38 numbers that already appear in the score banner
+  if (data.opportunitySummary) {
+    return `<div class="exec-summary">
+      <div class="exec-summary-row"><div>${escapeHtml(data.opportunitySummary)}</div></div>
+    </div>`;
+  }
+
+  // Fallback: generate bullets but focus on INSIGHTS, not numbers already in the banner
   const bullets = [];
   const brand = escapeHtml(data.brandName || 'This brand');
-  const bp = parseInt(data.brandProductCount || 0);
-  const tr = parseInt(data.totalResults || 0);
   const fba = parseInt(data.fbaPercent || 0);
-  const cc = parseInt(data.competitorCount || 0);
   const sc = parseInt(data.sellerCount || 0);
 
-  // Bullet 1: Presence
-  bullets.push({ color: 'blue', text: `${brand} has <strong>${bp} product${bp !== 1 ? 's' : ''}</strong> on Amazon. When customers search your brand name, ${tr} total results appear — ${bp} are yours, ${cc} belong to competitors.` });
-
-  // Bullet 2: Buy Box (if issue) or FBA
+  // Lead with the most impactful finding
   if (data.buyBoxIsTheBrand === false) {
     bullets.push({ color: 'red', text: `<strong>Another seller controls the "Add to Cart" button</strong> on your best product — meaning most customers buying your product are paying someone else.` });
-  } else if (fba < 50) {
+  }
+
+  if (fba < 50) {
     bullets.push({ color: 'red', text: `Only <strong>${fba}% of your products qualify for Prime fast shipping</strong>. Products without Prime sell 30-50% less because customers filter for it.` });
-  } else {
-    bullets.push({ color: 'green', text: `<strong>${fba}% of your products ship with Prime</strong> — ${fba >= 80 ? 'strong' : 'solid'} fast shipping coverage that helps win more sales.` });
+  } else if (fba >= 80) {
+    bullets.push({ color: 'green', text: `<strong>${fba}% of your products ship with Prime</strong> — strong fast shipping coverage that helps win more sales.` });
   }
 
-  // Bullet 3: Competitors
-  if (cc > 0) {
-    bullets.push({ color: 'amber', text: `<strong>${cc} competitor product${cc !== 1 ? 's' : ''}</strong> show up when customers search for ${brand}${data.ppcStatus === 'None' ? ' — and you have no ads defending your brand name' : ''}.` });
-  }
-
-  // Bullet 4: Sellers
   if (sc > 3) {
     bullets.push({ color: 'red', text: `<strong>${sc} different sellers</strong> are reselling your products — they may be undercutting your price and taking sales that should be yours.` });
+  }
+
+  if (bullets.length === 0) {
+    bullets.push({ color: 'green', text: `${brand} has a solid Amazon presence with good product content and competitive positioning.` });
   }
 
   return `<div class="exec-summary">${bullets.map(b =>
@@ -118,13 +121,19 @@ function renderSearchOwnership(data) {
   const bp = parseInt(data.brandProductCount || 0);
   const tr = parseInt(data.totalResults || 1);
   const pct = Math.round((bp / tr) * 100);
-  const compPct = 100 - pct;
+
+  const level = pct >= 60 ? 'Strong' : pct >= 30 ? 'Moderate' : 'Low';
+  const desc = pct >= 60
+    ? 'Your brand dominates its own search results'
+    : pct >= 30
+    ? 'Competitors take up most of your brand search results'
+    : 'Most customers searching your name see competitor products first';
 
   return `<div class="ownership-bar">
     <div class="ownership-pct">${pct}%</div>
     <div class="ownership-info">
-      <div class="ownership-label">${pct}% of search results are your products</div>
-      <div class="ownership-desc">When someone searches "${escapeHtml(data.brandName || '')}" on Amazon, ${bp} of ${tr} results are yours — the rest are competitors</div>
+      <div class="ownership-label">Brand Search Dominance: ${level}</div>
+      <div class="ownership-desc">${desc}</div>
     </div>
     <div class="ownership-track" style="width:180px"><div class="ownership-fill" style="width:${Math.max(pct, 3)}%"></div></div>
   </div>`;
@@ -420,6 +429,9 @@ function normalizeAgentData(input) {
 
     // Rating distribution
     ratingDistribution: ratingDist,
+
+    // Opportunity summary (plain English insight from agent)
+    opportunitySummary: input.opportunity_summary || '',
 
     // Findings & products (pass through)
     findings: rd.findings || input.findings || [],
