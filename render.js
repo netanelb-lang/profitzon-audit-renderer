@@ -93,16 +93,16 @@ function renderGaugeSVG(score) {
       </linearGradient>
     </defs>
     <!-- Background track -->
-    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="#e5e7eb" stroke-width="22" stroke-linecap="round"/>
+    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="22" stroke-linecap="round"/>
     <!-- Colored fill with gradient -->
     ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="url(#${gradId})" stroke-width="22" stroke-linecap="round"/>` : ''}
     <!-- Needle -->
-    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="6" fill="#0f172a"/>
+    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="6" fill="#fff"/>
     <circle cx="${cx}" cy="${cy}" r="3" fill="#d4a54a"/>
     <!-- Score text -->
-    <text x="${cx}" y="${cy + 36}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="900" fill="#0f172a">${s}</text>
-    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#94a3b8" font-weight="600">/100</text>
+    <text x="${cx}" y="${cy + 36}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="900" fill="#fff">${s}</text>
+    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#64748b" font-weight="600">/100</text>
     <text x="${cx}" y="${cy + 56}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="${color}" font-weight="800" letter-spacing="2">${label.toUpperCase()}</text>
   </svg>`;
 }
@@ -775,7 +775,7 @@ async function renderPDF(data) {
   const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
 
-  await page.setViewport({ width: 1000, height: 1414 });
+  await page.setViewport({ width: 1000, height: 1414, deviceScaleFactor: 3 });
 
   // Render cover page
   await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
@@ -862,10 +862,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v5-premium' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v6-dark-4k' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v5 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v6 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
