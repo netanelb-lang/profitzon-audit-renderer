@@ -215,6 +215,75 @@ function renderExecutiveSummaryBox(data) {
 }
 
 // ============================================================
+// SEARCH OWNERSHIP BAR (Page 1)
+// ============================================================
+
+function renderOwnershipBar(data) {
+  const bp = parseInt(data.brandProductCount || 0);
+  const tr = parseInt(data.totalResults || 1);
+  const pct = Math.round((bp / tr) * 100);
+  const level = pct >= 60 ? 'Strong' : pct >= 30 ? 'Moderate' : 'Low';
+  const desc = pct >= 60 ? 'Your brand dominates its own search results'
+    : pct >= 30 ? 'Competitors take up most of your brand search results'
+    : 'Most customers searching your name see competitor products first';
+  return `<div class="ownership-bar">
+    <div class="own-pct">${pct}%</div>
+    <div class="own-info"><div class="own-title">Brand Search Dominance: ${level}</div><div class="own-desc">${desc}</div></div>
+    <div class="own-track" style="width:180px"><div class="own-fill" style="width:${Math.max(pct, 3)}%"></div></div>
+  </div>`;
+}
+
+// ============================================================
+// BUY BOX + RATING + REVIEW CARDS (Page 2)
+// ============================================================
+
+function renderBuyBoxCard(data) {
+  const seller = escapeHtml(data.buyBoxSellerName || 'Unknown');
+  const owned = data.buyBoxIsTheBrand !== false;
+  const badgeClass = owned ? 'brand' : 'third';
+  const badgeText = owned ? 'Brand Owner' : 'Third Party';
+  const fbaClass = data.buyBoxIsFba ? 'fba' : 'fbm';
+  const fbaText = data.buyBoxIsFba ? 'FBA' : 'FBM';
+  const price = parseFloat(data.buyBoxPrice || 0);
+  const offers = parseInt(data.pricingOfferCount || 0);
+  return `<div class="detail-card">
+    <div class="dc-lbl">Buy Box Holder</div>
+    <div class="dc-big">${price > 0 ? '$' + price.toFixed(2) : 'N/A'}</div>
+    <div class="dc-sub">${seller}</div>
+    <div class="dc-row">
+      <span class="dc-badge ${badgeClass}">${badgeText}</span>
+      <span class="dc-badge ${fbaClass}">${fbaText}</span>
+      ${offers > 1 ? `<span style="font-size:9px;color:#64748b">${offers} sellers competing</span>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderRatingCard(data) {
+  const dist = data.ratingDistribution;
+  let barsHtml = '';
+  if (dist && dist.length) {
+    barsHtml = `<div class="rating-bars">${dist.map(d => {
+      const w = Math.max(d.percentage || 0, 1);
+      const stars = d.stars || d.rating || 0;
+      return `<div class="rb-row"><div class="rb-lbl">${stars}&#9733;</div><div class="rb-track"><div class="rb-fill r${stars}" style="width:${w}%"></div></div><div class="rb-pct">${d.percentage}%</div></div>`;
+    }).join('')}</div>`;
+  }
+  return `<div class="detail-card">
+    <div class="dc-lbl">Rating Distribution</div>
+    <div class="dc-big">${data.avgRating || '0.0'} &#9733;</div>
+    ${barsHtml}
+  </div>`;
+}
+
+function renderReviewCard(data) {
+  const text = data.reviewHighlights || 'No review data available.';
+  return `<div class="detail-card review-box">
+    <div class="dc-lbl">What Customers Say</div>
+    <div class="review-text">"${escapeHtml(text)}"</div>
+  </div>`;
+}
+
+// ============================================================
 // PRODUCT IMAGE (Page 2)
 // ============================================================
 
@@ -555,6 +624,7 @@ function renderHTML(data) {
     '{{strengthsList}}': renderStrengths(data),
     '{{vulnerabilitiesList}}': renderVulnerabilities(data),
     '{{executiveSummaryBox}}': renderExecutiveSummaryBox(data),
+    '{{ownershipBar}}': renderOwnershipBar(data),
 
     // Page 2: Asset X-Ray
     '{{bestAsin}}': data.bestAsin || 'N/A',
@@ -575,6 +645,17 @@ function renderHTML(data) {
     '{{calloutCompClass}}': comp.compClass,
     '{{calloutCompValue}}': comp.compValue,
     '{{calloutCompDetail}}': comp.compDetail,
+
+    // Buy Box / Rating / Review cards
+    '{{buyBoxCard}}': renderBuyBoxCard(data),
+    '{{ratingCard}}': renderRatingCard(data),
+    '{{reviewCard}}': renderReviewCard(data),
+
+    // Market snapshot strip
+    '{{priceRange}}': escapeHtml(data.priceRange || 'N/A'),
+    '{{ppcCount}}': String(data.ppcCount || 0),
+    '{{competitorCount}}': String(data.competitorCount || 0),
+    '{{catalogSize}}': String(data.catalogSize || 0),
 
     // Product table
     '{{productRows}}': renderProductRows(data.topProducts),
@@ -736,10 +817,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4-light' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4.2-light' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v4 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v4.2 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }

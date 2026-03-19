@@ -12,417 +12,393 @@
   .page + .page { page-break-before: always; }
 
   /* WATERMARK */
-  .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 140px; font-weight: 900; color: rgba(212,165,74,0.025); letter-spacing: 15px; white-space: nowrap; z-index: 0; text-transform: uppercase; pointer-events: none; }
+  .wm { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 140px; font-weight: 900; color: rgba(212,165,74,0.02); letter-spacing: 15px; white-space: nowrap; z-index: 0; text-transform: uppercase; pointer-events: none; }
 
-  /* PAGE HEADER - sleek dark bar */
-  .page-header { padding: 18px 50px; display: flex; justify-content: space-between; align-items: center; background: #0f172a; }
-  .page-header-left { display: flex; align-items: center; gap: 14px; }
-  .page-header-logo img { height: 28px; display: block; }
-  .page-header-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }
-  .page-header-brand { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
-  .page-header-right { font-size: 10px; color: rgba(255,255,255,0.5); text-align: right; letter-spacing: 0.5px; }
+  /* DARK HEADER BAR */
+  .hdr { padding: 14px 44px; display: flex; justify-content: space-between; align-items: center; background: #0f172a; }
+  .hdr-left { display: flex; align-items: center; gap: 12px; }
+  .hdr-left img { height: 26px; display: block; }
+  .hdr-div { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
+  .hdr-brand { font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .hdr-right { font-size: 9px; color: rgba(255,255,255,0.45); letter-spacing: 0.8px; text-transform: uppercase; }
 
-  /* PAGE FOOTER */
-  .page-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; background: #fff; }
-  .page-footer-left { font-size: 10px; color: #94a3b8; }
-  .page-footer-left strong { color: #d4a54a; }
-  .page-footer-right { font-size: 10px; color: #cbd5e1; }
+  /* FOOTER */
+  .ftr { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px 44px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; font-size: 9px; color: #94a3b8; background: #fff; }
+  .ftr strong { color: #d4a54a; }
 
-  /* SECTION HERO */
-  .section-hero { padding: 32px 50px 16px; position: relative; }
-  .section-hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 4px; color: #d4a54a; font-weight: 700; margin-bottom: 6px; }
-  .section-hero-title { font-size: 42px; font-weight: 900; color: #0f172a; letter-spacing: -1.5px; line-height: 1.1; }
-  .section-hero-sub { font-size: 14px; color: #64748b; margin-top: 8px; line-height: 1.5; }
+  /* SECTION LABEL */
+  .slabel { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: #d4a54a; font-weight: 800; }
+  .stitle { font-size: 38px; font-weight: 900; color: #0f172a; letter-spacing: -1.5px; line-height: 1.1; margin-top: 4px; }
+  .ssub { font-size: 13px; color: #64748b; margin-top: 4px; }
 
   /* ================================================================ */
   /* PAGE 1: THE PARADOX                                               */
   /* ================================================================ */
 
-  /* Gauge area - big and bold */
-  .gauge-area { display: flex; justify-content: center; align-items: center; padding: 10px 50px 0; position: relative; }
-  .gauge-bg { background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius: 20px; padding: 24px 60px 16px; text-align: center; border: 1px solid #e2e8f0; }
+  .p1-hero { padding: 22px 44px 10px; }
 
-  /* Score KPI strip */
-  .kpi-strip { display: flex; margin: 16px 50px 0; gap: 10px; }
-  .kpi-card { flex: 1; background: #0f172a; border-radius: 12px; padding: 16px 10px; text-align: center; }
-  .kpi-value { font-size: 20px; font-weight: 900; color: #fff; }
-  .kpi-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; color: #d4a54a; font-weight: 700; margin-top: 4px; }
+  /* Gauge + KPI row */
+  .gauge-kpi-row { display: flex; align-items: center; gap: 16px; padding: 0 44px; }
+  .gauge-wrap { background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius: 16px; padding: 14px 30px 6px; border: 1px solid #e2e8f0; flex-shrink: 0; }
+  .kpi-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .kpi-card { background: #0f172a; border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+  .kpi-val { font-size: 18px; font-weight: 900; color: #fff; }
+  .kpi-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; }
 
-  /* Strengths vs Vulnerabilities */
-  .paradox-columns { display: flex; gap: 20px; padding: 20px 50px 0; }
-  .paradox-col { flex: 1; }
+  /* Search ownership bar */
+  .ownership-bar { margin: 12px 44px 0; padding: 14px 20px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; display: flex; align-items: center; gap: 16px; }
+  .own-pct { font-size: 36px; font-weight: 900; color: #0f172a; flex-shrink: 0; }
+  .own-info { flex: 1; }
+  .own-title { font-size: 13px; font-weight: 700; color: #0f172a; }
+  .own-desc { font-size: 11px; color: #64748b; }
+  .own-track { width: 200px; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+  .own-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #d4a54a, #f59e0b); }
 
-  .paradox-col-header { margin-bottom: 12px; padding-bottom: 10px; }
-  .paradox-col-title { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
-  .paradox-col-title.green { color: #059669; }
-  .paradox-col-title.red { color: #dc2626; }
-  .paradox-col-title .col-line { flex: 1; height: 2px; border-radius: 1px; }
-  .paradox-col-title.green .col-line { background: linear-gradient(90deg, #10b981, transparent); }
-  .paradox-col-title.red .col-line { background: linear-gradient(90deg, #ef4444, transparent); }
+  /* Columns */
+  .cols { display: flex; gap: 16px; padding: 14px 44px 0; }
+  .col { flex: 1; }
+  .col-hd { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+  .col-hd.grn { color: #059669; }
+  .col-hd.red { color: #dc2626; }
+  .col-hd .ln { flex: 1; height: 2px; }
+  .col-hd.grn .ln { background: linear-gradient(90deg, #10b981, transparent); }
+  .col-hd.red .ln { background: linear-gradient(90deg, #ef4444, transparent); }
 
-  .paradox-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; border-radius: 10px; margin-bottom: 7px; }
-  .paradox-item.strength { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border-left: 3px solid #10b981; }
-  .paradox-item.vulnerability { background: linear-gradient(135deg, #fef2f2, #fff1f2); border-left: 3px solid #ef4444; }
-  .paradox-item-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; }
-  .paradox-item.strength .paradox-item-icon { background: #10b981; }
-  .paradox-item.vulnerability .paradox-item-icon { background: #ef4444; }
-  .paradox-item-text { font-size: 13px; color: #334155; line-height: 1.5; }
-  .paradox-item-text strong { color: #0f172a; font-weight: 800; }
+  .si { display: flex; align-items: flex-start; gap: 8px; padding: 9px 12px; border-radius: 8px; margin-bottom: 5px; }
+  .si.g { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border-left: 3px solid #10b981; }
+  .si.r { background: linear-gradient(135deg, #fef2f2, #fff1f2); border-left: 3px solid #ef4444; }
+  .si-ic { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+  .si.g .si-ic { background: #10b981; }
+  .si.r .si-ic { background: #ef4444; }
+  .si-tx { font-size: 12px; color: #334155; line-height: 1.45; }
+  .si-tx strong { color: #0f172a; font-weight: 800; }
 
-  /* Executive summary box */
-  .exec-box { margin: 16px 50px 0; padding: 18px 22px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; border-left: 4px solid #d4a54a; }
-  .exec-box-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #d4a54a; font-weight: 800; margin-bottom: 6px; }
-  .exec-box-text { font-size: 13px; color: #334155; line-height: 1.6; }
+  /* Exec summary */
+  .exec { margin: 12px 44px 0; padding: 14px 18px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 10px; border-left: 4px solid #d4a54a; }
+  .exec-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #d4a54a; font-weight: 800; margin-bottom: 4px; }
+  .exec-tx { font-size: 12px; color: #334155; line-height: 1.55; }
 
   /* ================================================================ */
   /* PAGE 2: ASSET X-RAY                                               */
   /* ================================================================ */
 
-  /* Product showcase */
-  .product-image-wrap { width: 260px; height: 260px; background: linear-gradient(135deg, #f8fafc, #fff); border: 2px solid #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; position: relative; z-index: 1; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
-  .product-image-wrap img { max-width: 230px; max-height: 230px; object-fit: contain; }
-  .product-image-placeholder { font-size: 14px; color: #94a3b8; text-align: center; padding: 20px; }
-  .product-image-placeholder .asin-code { font-family: monospace; font-size: 12px; color: #d4a54a; margin-top: 6px; }
+  .p2-hero { padding: 18px 44px 8px; }
 
-  /* Callout boxes around product image */
-  .callouts-grid { display: grid; grid-template-columns: 1fr 260px 1fr; grid-template-rows: auto auto; gap: 10px; padding: 0 50px; align-items: stretch; }
-  .callout-box { padding: 18px 16px; border-radius: 14px; border: none; position: relative; overflow: hidden; }
-  .callout-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .callout-box.tl { grid-column: 1; grid-row: 1; }
-  .callout-box.tr { grid-column: 3; grid-row: 1; }
-  .callout-box.bl { grid-column: 1; grid-row: 2; }
-  .callout-box.br { grid-column: 3; grid-row: 2; }
-  .callout-box.good { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
-  .callout-box.good::before { background: #10b981; }
-  .callout-box.warn { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
-  .callout-box.warn::before { background: #f59e0b; }
-  .callout-box.bad { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
-  .callout-box.bad::before { background: #ef4444; }
-  .callout-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; font-weight: 700; margin-bottom: 8px; }
-  .callout-value { font-size: 24px; font-weight: 900; color: #0f172a; }
-  .callout-detail { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
-  .product-center-cell { grid-column: 2; grid-row: 1 / 3; display: flex; align-items: center; justify-content: center; }
+  /* ASIN bar */
+  .asin-bar { padding: 0 44px 4px; }
+  .asin-title { font-size: 13px; font-weight: 700; color: #334155; }
+  .asin-meta { font-size: 10px; color: #94a3b8; }
+  .asin-meta span { color: #d4a54a; font-weight: 600; }
 
-  /* Product ASIN header */
-  .product-asin-bar { padding: 4px 50px; margin-bottom: 6px; }
-  .product-asin-title { font-size: 14px; font-weight: 700; color: #334155; line-height: 1.4; }
-  .product-asin-meta { font-size: 11px; color: #94a3b8; margin-top: 2px; }
-  .product-asin-meta span { color: #d4a54a; font-weight: 600; }
+  /* Callouts grid */
+  .cg { display: grid; grid-template-columns: 1fr 240px 1fr; grid-template-rows: auto auto; gap: 8px; padding: 0 44px; }
+  .cb { padding: 14px 14px; border-radius: 12px; position: relative; overflow: hidden; }
+  .cb::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .cb.tl { grid-column: 1; grid-row: 1; }
+  .cb.tr { grid-column: 3; grid-row: 1; }
+  .cb.bl { grid-column: 1; grid-row: 2; }
+  .cb.br { grid-column: 3; grid-row: 2; }
+  .cb.good { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
+  .cb.good::before { background: #10b981; }
+  .cb.warn { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+  .cb.warn::before { background: #f59e0b; }
+  .cb.bad { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+  .cb.bad::before { background: #ef4444; }
+  .cb-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; font-weight: 700; margin-bottom: 5px; }
+  .cb-val { font-size: 22px; font-weight: 900; color: #0f172a; }
+  .cb-det { font-size: 10px; color: #64748b; margin-top: 3px; line-height: 1.4; }
+  .img-cell { grid-column: 2; grid-row: 1 / 3; display: flex; align-items: center; justify-content: center; }
+  .img-wrap { width: 230px; height: 230px; background: linear-gradient(135deg, #f8fafc, #fff); border: 2px solid #e2e8f0; border-radius: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.05); }
+  .img-wrap img { max-width: 210px; max-height: 210px; object-fit: contain; }
+  .img-ph { font-size: 13px; color: #94a3b8; text-align: center; padding: 16px; }
+  .img-ph .code { font-family: monospace; font-size: 11px; color: #d4a54a; margin-top: 4px; }
+
+  /* Buy Box + Review section */
+  .detail-row { display: flex; gap: 12px; padding: 10px 44px 0; }
+  .detail-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; }
+  .dc-lbl { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 700; margin-bottom: 6px; }
+  .dc-big { font-size: 20px; font-weight: 900; color: #0f172a; }
+  .dc-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+  .dc-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .dc-badge { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+  .dc-badge.brand { background: #d1fae5; color: #059669; }
+  .dc-badge.third { background: #fee2e2; color: #dc2626; }
+  .dc-badge.fba { background: #dbeafe; color: #1d4ed8; }
+  .dc-badge.fbm { background: #f1f5f9; color: #64748b; }
+
+  /* Review highlights */
+  .review-box { flex: 1.5; }
+  .review-text { font-size: 11px; color: #475569; line-height: 1.55; font-style: italic; }
+
+  /* Rating bars */
+  .rating-bars { margin-top: 8px; }
+  .rb-row { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
+  .rb-lbl { font-size: 10px; font-weight: 600; color: #64748b; width: 20px; text-align: right; }
+  .rb-track { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+  .rb-fill { height: 100%; border-radius: 3px; }
+  .rb-fill.r5 { background: #10b981; } .rb-fill.r4 { background: #84cc16; }
+  .rb-fill.r3 { background: #f59e0b; } .rb-fill.r2 { background: #f97316; }
+  .rb-fill.r1 { background: #ef4444; }
+  .rb-pct { font-size: 9px; font-weight: 700; color: #94a3b8; width: 28px; }
 
   /* Products table */
-  .products-section { padding: 14px 50px 0; }
-  .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px; color: #d4a54a; font-weight: 800; margin-bottom: 8px; }
-  .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; border: 1px solid #e5e7eb; }
-  .products-table th { background: #0f172a; padding: 10px 12px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #d4a54a; font-weight: 700; text-align: left; }
-  .products-table td { padding: 10px 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
-  .products-table tr:last-child td { border-bottom: none; }
-  .products-table tr:nth-child(even) td { background: #fafbfc; }
-  .badge-sm { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-right: 2px; }
+  .tbl-sec { padding: 10px 44px 0; }
+  .tbl-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 2.5px; color: #d4a54a; font-weight: 800; margin-bottom: 6px; }
+  .ptbl { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e7eb; }
+  .ptbl th { background: #0f172a; padding: 8px 10px; font-size: 8px; text-transform: uppercase; letter-spacing: 0.8px; color: #d4a54a; font-weight: 700; text-align: left; }
+  .ptbl td { padding: 7px 10px; font-size: 11px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  .ptbl tr:last-child td { border-bottom: none; }
+  .ptbl tr:nth-child(even) td { background: #fafbfc; }
+  .badge-sm { font-size: 7px; font-weight: 800; padding: 2px 5px; border-radius: 3px; display: inline-block; margin-right: 1px; }
   .badge-prime { background: #dbeafe; color: #1d4ed8; }
   .badge-choice { background: #d1fae5; color: #047857; }
   .badge-bestseller { background: #fef3c7; color: #b45309; }
   .badge-sponsored { background: #f1f5f9; color: #64748b; }
   .badge-notbrand { background: #fee2e2; color: #b91c1c; }
-  .pos-badge { font-size: 12px; font-weight: 900; color: #d4a54a; }
+  .pos-badge { font-size: 11px; font-weight: 900; color: #d4a54a; }
+
+  /* Market snapshot strip */
+  .mkt-strip { display: flex; gap: 8px; padding: 10px 44px 0; }
+  .mkt-card { flex: 1; background: #0f172a; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .mkt-val { font-size: 16px; font-weight: 900; color: #fff; }
+  .mkt-lbl { font-size: 7px; text-transform: uppercase; letter-spacing: 1px; color: #d4a54a; font-weight: 700; margin-top: 2px; }
 
   /* ================================================================ */
   /* PAGE 3: COST OF FRICTION                                          */
   /* ================================================================ */
 
-  /* Two-column layout */
-  .friction-columns { display: flex; gap: 16px; padding: 14px 50px 0; }
-  .friction-col { flex: 1; }
+  .p3-hero { padding: 18px 44px 10px; }
+
+  .fcols { display: flex; gap: 14px; padding: 0 44px; }
+  .fcol { flex: 1; }
 
   /* Column headers */
-  .col-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 12px 16px; border-radius: 10px; }
-  .col-header.leak { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-  .col-header.plan { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-  .col-header-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.3); font-weight: 800; background: rgba(255,255,255,0.15); }
-  .col-header-title { font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+  .fch { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 10px 14px; border-radius: 8px; }
+  .fch.lk { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+  .fch.pl { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .fch-ic { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 800; background: rgba(255,255,255,0.15); }
+  .fch-title { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
 
-  /* Revenue Leak cards */
-  .leak-card { background: #fff; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 10px; border-left: 4px solid #ef4444; }
-  .leak-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .leak-card-icon { width: 26px; height: 26px; background: #ef4444; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; flex-shrink: 0; }
-  .leak-card-title { font-size: 14px; font-weight: 800; color: #991b1b; flex: 1; }
-  .leak-card-severity { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: #fee2e2; color: #dc2626; letter-spacing: 0.5px; }
-  .leak-card-text { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+  .lc { background: #fff; border: 1px solid #fecaca; border-radius: 10px; padding: 14px; margin-bottom: 8px; border-left: 3px solid #ef4444; }
+  .lc-hd { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .lc-ic { width: 22px; height: 22px; background: #ef4444; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 900; flex-shrink: 0; }
+  .lc-title { font-size: 13px; font-weight: 800; color: #991b1b; flex: 1; }
+  .lc-sev { font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 3px; background: #fee2e2; color: #dc2626; }
+  .lc-tx { font-size: 11px; color: #7f1d1d; line-height: 1.5; }
 
-  /* Growth Plan cards */
-  .plan-card { background: #fff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; margin-bottom: 10px; border-left: 4px solid #3b82f6; }
-  .plan-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .plan-card-icon { width: 26px; height: 26px; background: #3b82f6; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; flex-shrink: 0; }
-  .plan-card-title { font-size: 14px; font-weight: 800; color: #1e3a5f; flex: 1; }
-  .plan-card-impact { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; letter-spacing: 0.5px; }
-  .plan-card-text { font-size: 12px; color: #1e3a5f; line-height: 1.5; }
+  .pc { background: #fff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 14px; margin-bottom: 8px; border-left: 3px solid #3b82f6; }
+  .pc-hd { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .pc-ic { width: 22px; height: 22px; background: #3b82f6; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 900; flex-shrink: 0; }
+  .pc-title { font-size: 13px; font-weight: 800; color: #1e3a5f; flex: 1; }
+  .pc-imp { font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 3px; background: #dbeafe; color: #1d4ed8; }
+  .pc-tx { font-size: 11px; color: #1e3a5f; line-height: 1.5; }
 
-  /* Key Findings */
-  .findings-section { padding: 12px 50px 0; }
-  .finding-row { display: flex; align-items: flex-start; padding: 10px 14px; border-radius: 10px; margin-bottom: 5px; gap: 10px; border-left: 3px solid; }
-  .finding-row.issue { background: #fef2f2; border-color: #ef4444; }
-  .finding-row.opportunity { background: #f0fdf4; border-color: #10b981; }
-  .finding-row.warning { background: #fffbeb; border-color: #f59e0b; }
-  .finding-row.competitor { background: #eff6ff; border-color: #3b82f6; }
-  .finding-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0; margin-top: 1px; }
-  .finding-icon.issue { background: #ef4444; }
-  .finding-icon.opportunity { background: #10b981; }
-  .finding-icon.warning { background: #f59e0b; }
-  .finding-icon.competitor { background: #3b82f6; }
-  .finding-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; margin-bottom: 2px; }
-  .finding-label.issue { color: #dc2626; }
-  .finding-label.opportunity { color: #059669; }
-  .finding-label.warning { color: #d97706; }
-  .finding-label.competitor { color: #2563eb; }
-  .finding-text { font-size: 12px; color: #334155; line-height: 1.5; }
+  /* Findings */
+  .find-sec { padding: 10px 44px 0; }
+  .fr { display: flex; align-items: flex-start; padding: 8px 12px; border-radius: 8px; margin-bottom: 4px; gap: 8px; border-left: 3px solid; }
+  .fr.issue { background: #fef2f2; border-color: #ef4444; }
+  .fr.opportunity { background: #f0fdf4; border-color: #10b981; }
+  .fr.warning { background: #fffbeb; border-color: #f59e0b; }
+  .fr.competitor { background: #eff6ff; border-color: #3b82f6; }
+  .fr-ic { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #fff; flex-shrink: 0; margin-top: 1px; }
+  .fr-ic.issue { background: #ef4444; } .fr-ic.opportunity { background: #10b981; }
+  .fr-ic.warning { background: #f59e0b; } .fr-ic.competitor { background: #3b82f6; }
+  .fr-lbl { font-size: 7px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 1px; }
+  .fr-lbl.issue { color: #dc2626; } .fr-lbl.opportunity { color: #059669; }
+  .fr-lbl.warning { color: #d97706; } .fr-lbl.competitor { color: #2563eb; }
+  .fr-tx { font-size: 11px; color: #334155; line-height: 1.45; }
 
-  /* CTA */
-  .cta-section { margin: 14px 50px 0; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 26px 36px; text-align: center; position: relative; overflow: hidden; }
-  .cta-glow { position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(212,165,74,0.2), transparent 70%); border-radius: 50%; }
-  .cta-glow-2 { position: absolute; bottom: -40px; left: -40px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(59,130,246,0.1), transparent 70%); border-radius: 50%; }
-  .cta-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 8px; position: relative; z-index: 1; }
-  .cta-sub { font-size: 13px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5; position: relative; z-index: 1; }
-  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #0f172a; padding: 14px 44px; border-radius: 10px; font-size: 15px; font-weight: 900; text-decoration: none; position: relative; z-index: 1; letter-spacing: 0.3px; }
-  .cta-trust { margin-top: 10px; font-size: 10px; color: #475569; position: relative; z-index: 1; }
+  /* Expected results strip */
+  .results-strip { display: flex; gap: 6px; padding: 10px 44px 0; }
+  .rs-card { flex: 1; background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 8px; text-align: center; }
+  .rs-val { font-size: 16px; font-weight: 900; color: #059669; }
+  .rs-lbl { font-size: 7px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; font-weight: 700; margin-top: 2px; }
+
+  /* CTA - pushed to fill bottom */
+  .cta { margin: 12px 44px 0; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 14px; padding: 24px 32px; text-align: center; position: relative; overflow: hidden; }
+  .cta-glow { position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(212,165,74,0.2), transparent 70%); border-radius: 50%; }
+  .cta-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px; position: relative; z-index: 1; }
+  .cta-sub { font-size: 12px; color: #94a3b8; margin-bottom: 14px; line-height: 1.5; position: relative; z-index: 1; }
+  .cta-btn { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #0f172a; padding: 12px 40px; border-radius: 8px; font-size: 14px; font-weight: 900; text-decoration: none; position: relative; z-index: 1; }
+  .cta-trust { margin-top: 8px; font-size: 9px; color: #475569; position: relative; z-index: 1; }
+
+  /* About Profitzon strip */
+  .about-strip { display: flex; gap: 8px; padding: 10px 44px 0; }
+  .about-card { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; text-align: center; }
+  .about-val { font-size: 16px; font-weight: 900; color: #0f172a; }
+  .about-lbl { font-size: 7px; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; font-weight: 700; margin-top: 2px; }
 
   /* Final footer */
-  .final-footer { position: absolute; bottom: 0; left: 0; right: 0; }
-  .final-footer-conf { text-align: center; padding: 6px; font-size: 9px; color: #94a3b8; background: #f8fafc; border-top: 1px solid #e5e7eb; }
-  .final-footer-main { padding: 12px 50px; display: flex; justify-content: space-between; align-items: center; background: #fff; }
-  .final-footer-main .left { font-size: 11px; color: #64748b; }
-  .final-footer-main .left strong { color: #d4a54a; }
-  .final-footer-main .left a { color: #d4a54a; text-decoration: none; }
-  .final-footer-main .right { font-size: 10px; color: #94a3b8; text-align: right; }
-  .final-footer-main .right strong { color: #d4a54a; }
+  .fftr { position: absolute; bottom: 0; left: 0; right: 0; }
+  .fftr-conf { text-align: center; padding: 5px; font-size: 8px; color: #94a3b8; background: #f8fafc; border-top: 1px solid #e5e7eb; }
+  .fftr-main { padding: 10px 44px; display: flex; justify-content: space-between; align-items: center; }
+  .fftr-main .left { font-size: 10px; color: #64748b; }
+  .fftr-main .left strong { color: #d4a54a; }
+  .fftr-main .left a { color: #d4a54a; text-decoration: none; }
+  .fftr-main .right { font-size: 9px; color: #94a3b8; text-align: right; }
+  .fftr-main .right strong { color: #d4a54a; }
 
   @media print { body { background: #fff; } .page { box-shadow: none; margin: 0; } }
 </style>
 </head>
 <body>
 
-<!-- ================================================================ -->
-<!-- PAGE 1: THE PARADOX                                               -->
-<!-- ================================================================ -->
+<!-- PAGE 1: THE PARADOX -->
 <div class="page">
-  <div class="watermark">ProfitZon</div>
-
-  <div class="page-header">
-    <div class="page-header-left">
-      <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
-      <div class="page-header-divider"></div>
-      <div class="page-header-brand">{{brandName}}</div>
-    </div>
-    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
+  <div class="wm">ProfitZon</div>
+  <div class="hdr">
+    <div class="hdr-left"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-div"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-right">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
 
-  <div class="section-hero">
-    <div class="section-hero-label">Section I</div>
-    <div class="section-hero-title">The Paradox</div>
-    <div class="section-hero-sub">Your brand has real strengths on Amazon, but critical gaps are costing you revenue every day.</div>
+  <div class="p1-hero">
+    <div class="slabel">Section I</div>
+    <div class="stitle">The Paradox</div>
+    <div class="ssub">Your brand has real strengths on Amazon, but critical gaps are costing you revenue every day.</div>
   </div>
 
-  <div class="gauge-area">
-    <div class="gauge-bg">
-      {{gaugeSVG}}
-    </div>
-  </div>
-
-  <div class="kpi-strip">
-    <div class="kpi-card">
-      <div class="kpi-value">{{brandMaturity}}</div>
-      <div class="kpi-label">Brand Maturity</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value">{{brandProductCount}} / {{totalResults}}</div>
-      <div class="kpi-label">Your Products / Total</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value">{{sellerCount}}</div>
-      <div class="kpi-label">Active Sellers</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value">{{fbaPercent}}%</div>
-      <div class="kpi-label">Prime Coverage</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-value">{{avgRating}} &#9733;</div>
-      <div class="kpi-label">Avg Rating</div>
+  <div class="gauge-kpi-row">
+    <div class="gauge-wrap">{{gaugeSVG}}</div>
+    <div class="kpi-col">
+      <div class="kpi-card"><div class="kpi-val">{{brandMaturity}}</div><div class="kpi-lbl">Brand Maturity</div></div>
+      <div class="kpi-card"><div class="kpi-val">{{brandProductCount}} / {{totalResults}}</div><div class="kpi-lbl">Your Products / Total</div></div>
+      <div class="kpi-card"><div class="kpi-val">{{sellerCount}} sellers</div><div class="kpi-lbl">Active on Your Products</div></div>
+      <div class="kpi-card"><div class="kpi-val">{{fbaPercent}}% Prime</div><div class="kpi-lbl">Fulfillment Coverage</div></div>
+      <div class="kpi-card"><div class="kpi-val">{{avgRating}} &#9733; avg</div><div class="kpi-lbl">Customer Rating</div></div>
     </div>
   </div>
 
-  <div class="paradox-columns">
-    <div class="paradox-col">
-      <div class="paradox-col-header">
-        <div class="paradox-col-title green">Strengths <div class="col-line"></div></div>
-      </div>
+  {{ownershipBar}}
+
+  <div class="cols">
+    <div class="col">
+      <div class="col-hd grn">Strengths <div class="ln"></div></div>
       {{strengthsList}}
     </div>
-    <div class="paradox-col">
-      <div class="paradox-col-header">
-        <div class="paradox-col-title red">Vulnerabilities <div class="col-line"></div></div>
-      </div>
+    <div class="col">
+      <div class="col-hd red">Vulnerabilities <div class="ln"></div></div>
       {{vulnerabilitiesList}}
     </div>
   </div>
 
   {{executiveSummaryBox}}
 
-  <div class="page-footer">
-    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Audit</div>
-    <div class="page-footer-right">{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div>
-  </div>
+  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
 </div>
 
-<!-- ================================================================ -->
-<!-- PAGE 2: ASSET X-RAY                                               -->
-<!-- ================================================================ -->
+<!-- PAGE 2: ASSET X-RAY -->
 <div class="page">
-  <div class="watermark">ProfitZon</div>
-
-  <div class="page-header">
-    <div class="page-header-left">
-      <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
-      <div class="page-header-divider"></div>
-      <div class="page-header-brand">{{brandName}}</div>
-    </div>
-    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
+  <div class="wm">ProfitZon</div>
+  <div class="hdr">
+    <div class="hdr-left"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-div"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-right">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
 
-  <div class="section-hero">
-    <div class="section-hero-label">Section II</div>
-    <div class="section-hero-title">Asset X-Ray</div>
-    <div class="section-hero-sub">Your top product under the microscope. Here is what the data reveals.</div>
+  <div class="p2-hero">
+    <div class="slabel">Section II</div>
+    <div class="stitle">Asset X-Ray</div>
+    <div class="ssub">Your top product under the microscope. Here is what the data reveals.</div>
   </div>
 
-  <div class="product-asin-bar">
-    <div class="product-asin-title">{{bestAsinTitleTruncated}}</div>
-    <div class="product-asin-meta"><span>{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+  <div class="asin-bar">
+    <div class="asin-title">{{bestAsinTitleTruncated}}</div>
+    <div class="asin-meta"><span>{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
   </div>
 
-  <div class="callouts-grid">
-    <div class="callout-box tl {{calloutContentClass}}">
-      <div class="callout-label">Content Quality</div>
-      <div class="callout-value">{{calloutContentValue}}</div>
-      <div class="callout-detail">{{calloutContentDetail}}</div>
-    </div>
-
-    <div class="product-center-cell">
-      <div class="product-image-wrap">
-        {{productImageHtml}}
-      </div>
-    </div>
-
-    <div class="callout-box tr {{calloutRatingClass}}">
-      <div class="callout-label">Customer Rating</div>
-      <div class="callout-value">{{avgRating}} &#9733;</div>
-      <div class="callout-detail">{{calloutRatingDetail}}</div>
-    </div>
-
-    <div class="callout-box bl {{calloutFulfillClass}}">
-      <div class="callout-label">Fulfillment</div>
-      <div class="callout-value">{{calloutFulfillValue}}</div>
-      <div class="callout-detail">{{calloutFulfillDetail}}</div>
-    </div>
-
-    <div class="callout-box br {{calloutCompClass}}">
-      <div class="callout-label">Competition</div>
-      <div class="callout-value">{{calloutCompValue}}</div>
-      <div class="callout-detail">{{calloutCompDetail}}</div>
-    </div>
+  <div class="cg">
+    <div class="cb tl {{calloutContentClass}}"><div class="cb-lbl">Content Quality</div><div class="cb-val">{{calloutContentValue}}</div><div class="cb-det">{{calloutContentDetail}}</div></div>
+    <div class="img-cell"><div class="img-wrap">{{productImageHtml}}</div></div>
+    <div class="cb tr {{calloutRatingClass}}"><div class="cb-lbl">Customer Rating</div><div class="cb-val">{{avgRating}} &#9733;</div><div class="cb-det">{{calloutRatingDetail}}</div></div>
+    <div class="cb bl {{calloutFulfillClass}}"><div class="cb-lbl">Fulfillment</div><div class="cb-val">{{calloutFulfillValue}}</div><div class="cb-det">{{calloutFulfillDetail}}</div></div>
+    <div class="cb br {{calloutCompClass}}"><div class="cb-lbl">Competition</div><div class="cb-val">{{calloutCompValue}}</div><div class="cb-det">{{calloutCompDetail}}</div></div>
   </div>
 
-  <div class="products-section">
-    <div class="section-label">Products Analyzed</div>
-    <table class="products-table">
-      <thead>
-        <tr>
-          <th style="width:4%">#</th>
-          <th style="width:36%">Product</th>
-          <th>ASIN</th>
-          <th>Price</th>
-          <th>Rating</th>
-          <th>Reviews</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{productRows}}
-      </tbody>
+  <div class="detail-row">
+    {{buyBoxCard}}
+    {{ratingCard}}
+    {{reviewCard}}
+  </div>
+
+  <div class="tbl-sec">
+    <div class="tbl-lbl">Products Analyzed</div>
+    <table class="ptbl">
+      <thead><tr><th style="width:4%">#</th><th style="width:34%">Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
+      <tbody>{{productRows}}</tbody>
     </table>
   </div>
 
-  <div class="page-footer">
-    <div class="page-footer-left"><strong>Profitzon</strong> &middot; Amazon Brand Audit</div>
-    <div class="page-footer-right">{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div>
+  <div class="mkt-strip">
+    <div class="mkt-card"><div class="mkt-val">{{priceRange}}</div><div class="mkt-lbl">Price Range</div></div>
+    <div class="mkt-card"><div class="mkt-val">{{ppcCount}}</div><div class="mkt-lbl">Search Ads</div></div>
+    <div class="mkt-card"><div class="mkt-val">{{competitorCount}}</div><div class="mkt-lbl">Competitors</div></div>
+    <div class="mkt-card"><div class="mkt-val">{{catalogSize}}</div><div class="mkt-lbl">Catalog Size</div></div>
   </div>
+
+  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
 </div>
 
-<!-- ================================================================ -->
-<!-- PAGE 3: COST OF FRICTION                                          -->
-<!-- ================================================================ -->
+<!-- PAGE 3: COST OF FRICTION -->
 <div class="page">
-  <div class="watermark">ProfitZon</div>
-
-  <div class="page-header">
-    <div class="page-header-left">
-      <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
-      <div class="page-header-divider"></div>
-      <div class="page-header-brand">{{brandName}}</div>
-    </div>
-    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
+  <div class="wm">ProfitZon</div>
+  <div class="hdr">
+    <div class="hdr-left"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-div"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-right">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
 
-  <div class="section-hero">
-    <div class="section-hero-label">Section III</div>
-    <div class="section-hero-title">The Cost of Friction</div>
-    <div class="section-hero-sub">What your current gaps are costing you, and exactly how we fix each one.</div>
+  <div class="p3-hero">
+    <div class="slabel">Section III</div>
+    <div class="stitle">The Cost of Friction</div>
+    <div class="ssub">What your current gaps are costing you, and exactly how we fix each one.</div>
   </div>
 
-  <div class="friction-columns">
-    <div class="friction-col">
-      <div class="col-header leak">
-        <div class="col-header-icon">!</div>
-        <div class="col-header-title">Revenue Leak</div>
-      </div>
+  <div class="fcols">
+    <div class="fcol">
+      <div class="fch lk"><div class="fch-ic">!</div><div class="fch-title">Revenue Leak</div></div>
       {{revenueLeak}}
     </div>
-    <div class="friction-col">
-      <div class="col-header plan">
-        <div class="col-header-icon">&#10003;</div>
-        <div class="col-header-title">Growth Plan</div>
-      </div>
+    <div class="fcol">
+      <div class="fch pl"><div class="fch-ic">&#10003;</div><div class="fch-title">Growth Plan</div></div>
       {{growthPlan}}
     </div>
   </div>
 
-  <div class="findings-section">
-    <div class="section-label">Key Findings</div>
+  <div class="find-sec">
+    <div class="tbl-lbl">Key Findings</div>
     {{findings}}
   </div>
 
-  <div class="cta-section">
+  <div class="results-strip">
+    <div class="rs-card"><div class="rs-val">&ge;90%</div><div class="rs-lbl">Sales Control</div></div>
+    <div class="rs-card"><div class="rs-val">&ge;95%</div><div class="rs-lbl">Price Stability</div></div>
+    <div class="rs-card"><div class="rs-val">+10-30%</div><div class="rs-lbl">More Buyers</div></div>
+    <div class="rs-card"><div class="rs-val">8-15%</div><div class="rs-lbl">Ad Efficiency</div></div>
+    <div class="rs-card"><div class="rs-val">+15-40%</div><div class="rs-lbl">Revenue Growth</div></div>
+  </div>
+
+  <div class="cta">
     <div class="cta-glow"></div>
-    <div class="cta-glow-2"></div>
     <div class="cta-title">Ready to Fix This?</div>
     <div class="cta-sub">We invest our own capital to buy your inventory and manage Amazon end-to-end.<br>No fees. No retainer. We make money when you make money.</div>
-    <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-button">Book a 30-Minute Strategy Call &rarr;</a>
+    <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a 30-Minute Strategy Call &rarr;</a>
     <div class="cta-trust">No commitment &middot; We walk you through the numbers</div>
   </div>
 
-  <div class="final-footer">
-    <div class="final-footer-conf">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
-    <div class="final-footer-main">
-      <div class="left">
-        <strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>
-        gal@profitzon.net &middot; <a href="https://profitzon.net">profitzon.net</a>
-      </div>
-      <div class="right">
-        Prepared for <strong>{{brandName}}</strong><br>
-        Report ID: {{reportId}} &middot; Page 3/3
-      </div>
+  <div class="about-strip">
+    <div class="about-card"><div class="about-val">$XX M+</div><div class="about-lbl">Annual Sales</div></div>
+    <div class="about-card"><div class="about-val">70+</div><div class="about-lbl">Specialists</div></div>
+    <div class="about-card"><div class="about-val">100s</div><div class="about-lbl">Active Stores</div></div>
+    <div class="about-card"><div class="about-val">0</div><div class="about-lbl">Fees to You</div></div>
+    <div class="about-card"><div class="about-val">100%</div><div class="about-lbl">Our Capital</div></div>
+  </div>
+
+  <div class="fftr">
+    <div class="fftr-conf">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
+    <div class="fftr-main">
+      <div class="left"><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>gal@profitzon.net &middot; <a href="https://profitzon.net">profitzon.net</a></div>
+      <div class="right">Prepared for <strong>{{brandName}}</strong><br>Report ID: {{reportId}} &middot; Page 3/3</div>
     </div>
   </div>
 
 </div>
-
 </body>
 </html>
