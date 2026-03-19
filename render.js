@@ -1,6 +1,6 @@
 /**
- * Profitzon Brand Audit Report Renderer v4
- * Light theme, 3-page report matching Nomatic reference design.
+ * Profitzon Brand Audit Report Renderer v5
+ * Premium light theme with adaptive layout. No blank space.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
@@ -150,7 +150,7 @@ function renderStrengths(data) {
   }
 
   return items.slice(0, 4).map(text =>
-    `<div class="paradox-item strength"><div class="paradox-item-icon">&#10003;</div><div class="paradox-item-text">${text}</div></div>`
+    `<div class="si g"><div class="si-ic">&#10003;</div><div class="si-tx">${text}</div></div>`
   ).join('\n');
 }
 
@@ -198,7 +198,7 @@ function renderVulnerabilities(data) {
   }
 
   return items.slice(0, 4).map(text =>
-    `<div class="paradox-item vulnerability"><div class="paradox-item-icon">&#10007;</div><div class="paradox-item-text">${text}</div></div>`
+    `<div class="si r"><div class="si-ic">&#10007;</div><div class="si-tx">${text}</div></div>`
   ).join('\n');
 }
 
@@ -208,9 +208,9 @@ function renderVulnerabilities(data) {
 
 function renderExecutiveSummaryBox(data) {
   if (!data.opportunitySummary) return '';
-  return `<div class="exec-box">
-    <div class="exec-box-title">Key Insight</div>
-    <div class="exec-box-text">${escapeHtml(data.opportunitySummary)}</div>
+  return `<div class="exec">
+    <div class="exec-lbl">Key Insight</div>
+    <div class="exec-tx">${escapeHtml(data.opportunitySummary)}</div>
   </div>`;
 }
 
@@ -226,11 +226,55 @@ function renderOwnershipBar(data) {
   const desc = pct >= 60 ? 'Your brand dominates its own search results'
     : pct >= 30 ? 'Competitors take up most of your brand search results'
     : 'Most customers searching your name see competitor products first';
-  return `<div class="ownership-bar">
+  return `<div class="own">
     <div class="own-pct">${pct}%</div>
     <div class="own-info"><div class="own-title">Brand Search Dominance: ${level}</div><div class="own-desc">${desc}</div></div>
-    <div class="own-track" style="width:180px"><div class="own-fill" style="width:${Math.max(pct, 3)}%"></div></div>
+    <div class="own-track"><div class="own-fill" style="width:${Math.max(pct, 3)}%"></div></div>
   </div>`;
+}
+
+// ============================================================
+// EXTRA DETAIL (Page 2 - fills space when few products)
+// ============================================================
+
+function renderExtraDetail(data) {
+  const products = data.topProducts || [];
+  const validCount = products.filter(p => p.price && p.price > 0).length;
+
+  // Always show extra detail to fill space
+  const best = products[0] || {};
+  const rows = [];
+
+  if (data.bsrSubcategory) rows.push({ label: 'Category Ranking', value: data.bsrSubcategory });
+  if (data.answeredQuestionsCount > 0) rows.push({ label: 'Questions Answered', value: String(data.answeredQuestionsCount) });
+  if (data.listingImageCount > 0) rows.push({ label: 'Listing Images', value: String(data.listingImageCount) });
+  if (data.listingBulletCount > 0) rows.push({ label: 'Bullet Points', value: String(data.listingBulletCount) });
+  if (data.listingHasVideo) rows.push({ label: 'Video', value: 'Yes' });
+  else rows.push({ label: 'Video', value: 'Missing' });
+  if (data.discountPercentage > 0) rows.push({ label: 'Active Discount', value: data.discountPercentage + '% off' });
+  if (data.activeCoupon) rows.push({ label: 'Active Coupon', value: escapeHtml(data.activeCoupon) });
+  if (data.priceStrikethroughValue > 0) rows.push({ label: 'List Price', value: '$' + data.priceStrikethroughValue.toFixed(2) });
+  if (best.monthly_sales) rows.push({ label: 'Est. Monthly Sales', value: escapeHtml(String(best.monthly_sales)) });
+  if (best.bsr) rows.push({ label: 'Best Sellers Rank', value: '#' + fmt(best.bsr) });
+
+  // If still not enough rows, add benchmark context
+  if (rows.length < 4) {
+    rows.push({ label: 'Prime Conversion Boost', value: '+30-50% vs FBM' });
+    rows.push({ label: 'A+ Content Lift', value: '+5-15% conversion' });
+    rows.push({ label: 'Video Impact', value: '+9.7% conversion avg' });
+  }
+
+  // Build two cards side by side
+  const mid = Math.ceil(rows.length / 2);
+  const left = rows.slice(0, mid);
+  const right = rows.slice(mid);
+
+  const buildCard = (title, items) => `<div class="ed-card">
+    <div class="ed-title">${title}</div>
+    ${items.map(r => `<div class="ed-row"><div class="ed-label">${r.label}</div><div class="ed-value">${r.value}</div></div>`).join('')}
+  </div>`;
+
+  return buildCard('Listing Intelligence', left) + buildCard('Performance Benchmarks', right);
 }
 
 // ============================================================
@@ -246,11 +290,11 @@ function renderBuyBoxCard(data) {
   const fbaText = data.buyBoxIsFba ? 'FBA' : 'FBM';
   const price = parseFloat(data.buyBoxPrice || 0);
   const offers = parseInt(data.pricingOfferCount || 0);
-  return `<div class="detail-card">
+  return `<div class="dc">
     <div class="dc-lbl">Buy Box Holder</div>
     <div class="dc-big">${price > 0 ? '$' + price.toFixed(2) : 'N/A'}</div>
     <div class="dc-sub">${seller}</div>
-    <div class="dc-row">
+    <div class="dc-badges">
       <span class="dc-badge ${badgeClass}">${badgeText}</span>
       <span class="dc-badge ${fbaClass}">${fbaText}</span>
       ${offers > 1 ? `<span style="font-size:9px;color:#64748b">${offers} sellers competing</span>` : ''}
@@ -262,13 +306,13 @@ function renderRatingCard(data) {
   const dist = data.ratingDistribution;
   let barsHtml = '';
   if (dist && dist.length) {
-    barsHtml = `<div class="rating-bars">${dist.map(d => {
+    barsHtml = `<div class="rb">${dist.map(d => {
       const w = Math.max(d.percentage || 0, 1);
       const stars = d.stars || d.rating || 0;
       return `<div class="rb-row"><div class="rb-lbl">${stars}&#9733;</div><div class="rb-track"><div class="rb-fill r${stars}" style="width:${w}%"></div></div><div class="rb-pct">${d.percentage}%</div></div>`;
     }).join('')}</div>`;
   }
-  return `<div class="detail-card">
+  return `<div class="dc">
     <div class="dc-lbl">Rating Distribution</div>
     <div class="dc-big">${data.avgRating || '0.0'} &#9733;</div>
     ${barsHtml}
@@ -277,9 +321,9 @@ function renderRatingCard(data) {
 
 function renderReviewCard(data) {
   const text = data.reviewHighlights || 'No review data available.';
-  return `<div class="detail-card review-box">
+  return `<div class="dc dc-review">
     <div class="dc-lbl">What Customers Say</div>
-    <div class="review-text">"${escapeHtml(text)}"</div>
+    <div class="dc-review-text">"${escapeHtml(text)}"</div>
   </div>`;
 }
 
@@ -384,13 +428,13 @@ function renderRevenueLeak(data) {
   }
 
   return leaks.slice(0, 3).map(l =>
-    `<div class="leak-card">
-      <div class="leak-card-header">
-        <div class="leak-card-icon">!</div>
-        <div><div class="leak-card-title">${escapeHtml(l.title)}</div></div>
-        <div class="leak-card-severity">${escapeHtml(l.severity)}</div>
+    `<div class="lc">
+      <div class="lc-hd">
+        <div class="lc-ic">!</div>
+        <div class="lc-title">${escapeHtml(l.title)}</div>
+        <div class="lc-sev">${escapeHtml(l.severity)}</div>
       </div>
-      <div class="leak-card-text">${escapeHtml(l.text)}</div>
+      <div class="lc-tx">${escapeHtml(l.text)}</div>
     </div>`
   ).join('\n');
 }
@@ -420,13 +464,13 @@ function renderGrowthPlan(data) {
   }
 
   return plans.slice(0, 3).map((p, i) =>
-    `<div class="plan-card">
-      <div class="plan-card-header">
-        <div class="plan-card-icon">${i + 1}</div>
-        <div><div class="plan-card-title">${escapeHtml(p.title)}</div></div>
-        <div class="plan-card-impact">${escapeHtml(p.impact)}</div>
+    `<div class="pc">
+      <div class="pc-hd">
+        <div class="pc-ic">${i + 1}</div>
+        <div class="pc-title">${escapeHtml(p.title)}</div>
+        <div class="pc-imp">${escapeHtml(p.impact)}</div>
       </div>
-      <div class="plan-card-text">${escapeHtml(p.text)}</div>
+      <div class="pc-tx">${escapeHtml(p.text)}</div>
     </div>`
   ).join('\n');
 }
@@ -437,9 +481,9 @@ function renderGrowthPlan(data) {
 
 function renderFindings(findings) {
   if (!findings || !findings.length) {
-    return `<div class="finding-row warning">
-      <div class="finding-icon warning">i</div>
-      <div><div class="finding-label warning">Info</div><div class="finding-text">No significant findings. Manual review recommended.</div></div>
+    return `<div class="fr warning">
+      <div class="fr-ic warning">i</div>
+      <div><div class="fr-lbl warning">Info</div><div class="fr-tx">No significant findings. Manual review recommended.</div></div>
     </div>`;
   }
   const labels = { issue: 'Revenue at Risk', opportunity: 'Growth Opportunity', warning: 'Attention Needed', competitor: 'Competitive Pressure' };
@@ -447,9 +491,9 @@ function renderFindings(findings) {
 
   return findings.slice(0, 4).map(f => {
     const type = f.type || 'warning';
-    return `<div class="finding-row ${type}">
-      <div class="finding-icon ${type}">${icons[type] || 'i'}</div>
-      <div><div class="finding-label ${type}">${labels[type] || 'Info'}</div><div class="finding-text">${escapeHtml(f.text)}</div></div>
+    return `<div class="fr ${type}">
+      <div class="fr-ic ${type}">${icons[type] || 'i'}</div>
+      <div><div class="fr-lbl ${type}">${labels[type] || 'Info'}</div><div class="fr-tx">${escapeHtml(f.text)}</div></div>
     </div>`;
   }).join('\n');
 }
@@ -657,8 +701,9 @@ function renderHTML(data) {
     '{{competitorCount}}': String(data.competitorCount || 0),
     '{{catalogSize}}': String(data.catalogSize || 0),
 
-    // Product table
+    // Product table + extra detail
     '{{productRows}}': renderProductRows(data.topProducts),
+    '{{extraDetail}}': renderExtraDetail(data),
 
     // Page 3: Cost of Friction
     '{{revenueLeak}}': renderRevenueLeak(data),
@@ -817,10 +862,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4.2-light' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v5-premium' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v4.2 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v5 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
@@ -922,7 +967,7 @@ async function main() {
 
   const html = renderHTML(sampleData);
   fs.writeFileSync(path.join(__dirname, 'demo-report.html'), html);
-  console.log('Demo report v4 saved to demo-report.html');
+  console.log('Demo report v5 saved to demo-report.html');
 
   try {
     const tmpPdf = await renderPDF(sampleData);
