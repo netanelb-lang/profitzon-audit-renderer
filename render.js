@@ -1,6 +1,7 @@
 /**
- * Profitzon Brand Audit Report Renderer v3
- * 3-page report with product intelligence, competitive analysis, and action plan.
+ * Profitzon Brand Audit Report Renderer v4
+ * Light theme, 3-page report matching Nomatic reference design.
+ * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
  *   As Express API:  node render.js --serve --port 3100
@@ -26,26 +27,6 @@ const logoBase64 = fs.existsSync(LOGO_PATH)
 // HELPERS
 // ============================================================
 
-function statusToClass(status) {
-  const green = ['Exists', 'Full FBA', 'Strong', 'Active', 'Stable', 'No Issues'];
-  const yellow = ['Weak/Unoptimized', 'Partial FBA', 'Adequate', 'Minor Fluctuation', 'Medium Impact', 'Low Impact'];
-  const red = ['Missing', 'FBM Only', 'Weak/No A+', 'MAP Violated', 'Competitor Dominated', 'High Impact'];
-  if (green.includes(status)) return 's-green';
-  if (yellow.includes(status)) return 's-yellow';
-  if (red.includes(status)) return 's-red';
-  return 's-gray';
-}
-
-function statusToCardColor(status) {
-  const green = ['Exists', 'Full FBA', 'Strong', 'Active', 'Stable', 'No Issues'];
-  const yellow = ['Weak/Unoptimized', 'Partial FBA', 'Adequate', 'Minor Fluctuation', 'Medium Impact', 'Low Impact'];
-  const red = ['Missing', 'FBM Only', 'Weak/No A+', 'MAP Violated', 'Competitor Dominated', 'High Impact'];
-  if (green.includes(status)) return 'green';
-  if (yellow.includes(status)) return 'yellow';
-  if (red.includes(status)) return 'red';
-  return 'gray';
-}
-
 function truncate(str, len) {
   if (!str) return '';
   return str.length > len ? str.substring(0, len) + '...' : str;
@@ -62,204 +43,327 @@ function fmt(n) {
 }
 
 // ============================================================
-// SECTION RENDERERS
+// GAUGE SVG (Speedometer)
 // ============================================================
 
-function renderBuyBoxAlert(data) {
-  if (data.buyBoxIsTheBrand !== false) return '';
-  const seller = escapeHtml(data.buyBoxSellerName || 'an unknown third-party');
-  const brand = escapeHtml(data.brandName || 'your brand');
-  const offers = parseInt(data.pricingOfferCount || 0);
-  const extra = offers > 1 ? ` There are ${offers} sellers competing on this product.` : '';
-  return `<div class="buybox-alert">
-    <div class="buybox-alert-icon" style="font-weight:900;font-size:28px;">!</div>
-    <div class="buybox-alert-text">
-      <strong>Revenue Alert:</strong> When customers click "Add to Cart" on your top product, the sale goes to <strong>${seller}</strong> — not ${brand}.${extra} Most of the revenue from your best product is going to someone else.
-    </div>
-  </div>`;
+function renderGaugeSVG(score) {
+  const s = Math.max(0, Math.min(100, score));
+  const cx = 150, cy = 130;
+  const radius = 100;
+  const startAngle = 135;
+  const totalSweep = 270;
+  const scoreAngle = startAngle + (s / 100) * totalSweep;
+
+  const toRad = (deg) => (deg * Math.PI) / 180;
+
+  const arcPath = (sDeg, eDeg, r) => {
+    const x1 = cx + r * Math.cos(toRad(sDeg));
+    const y1 = cy + r * Math.sin(toRad(sDeg));
+    const x2 = cx + r * Math.cos(toRad(eDeg));
+    const y2 = cy + r * Math.sin(toRad(eDeg));
+    const sweep = eDeg - sDeg;
+    const largeArc = sweep > 180 ? 1 : 0;
+    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  };
+
+  let color = '#ef4444';
+  if (s >= 70) color = '#10b981';
+  else if (s >= 50) color = '#f59e0b';
+  else if (s >= 30) color = '#f97316';
+
+  const label = s < 30 ? 'Critical' : s < 50 ? 'Needs Work' : s < 70 ? 'Fair' : s < 85 ? 'Good' : 'Excellent';
+
+  return `<svg width="300" height="190" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
+    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="#e5e7eb" stroke-width="18" stroke-linecap="round"/>
+    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="${color}" stroke-width="18" stroke-linecap="round"/>` : ''}
+    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="52" font-weight="900" fill="#1a1a2e">${s}</text>
+    <text x="${cx}" y="${cy + 16}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="16" fill="#94a3b8" font-weight="600">/100</text>
+    <text x="${cx}" y="${cy + 42}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="14" fill="${color}" font-weight="700" letter-spacing="1.5">${label.toUpperCase()}</text>
+    <text x="${cx}" y="${cy + 60}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="10" fill="#94a3b8" font-weight="600" letter-spacing="1">BRAND HEALTH SCORE</text>
+  </svg>`;
 }
 
-function renderExecutiveSummary(data) {
-  // If the agent provided an opportunity_summary, use that as the main insight
-  // This avoids repeating the 12/38 numbers that already appear in the score banner
-  if (data.opportunitySummary) {
-    return `<div class="exec-summary">
-      <div class="exec-summary-row"><div>${escapeHtml(data.opportunitySummary)}</div></div>
-    </div>`;
-  }
+// ============================================================
+// STRENGTHS & VULNERABILITIES (Page 1)
+// ============================================================
 
-  // Fallback: generate bullets but focus on INSIGHTS, not numbers already in the banner
-  const bullets = [];
-  const brand = escapeHtml(data.brandName || 'This brand');
-  const fba = parseInt(data.fbaPercent || 0);
-  const sc = parseInt(data.sellerCount || 0);
-
-  // Lead with the most impactful finding
-  if (data.buyBoxIsTheBrand === false) {
-    bullets.push({ color: 'red', text: `<strong>Another seller controls the "Add to Cart" button</strong> on your best product — meaning most customers buying your product are paying someone else.` });
-  }
-
-  if (fba < 50) {
-    bullets.push({ color: 'red', text: `Only <strong>${fba}% of your products qualify for Prime fast shipping</strong>. Products without Prime sell 30-50% less because customers filter for it.` });
-  } else if (fba >= 80) {
-    bullets.push({ color: 'green', text: `<strong>${fba}% of your products ship with Prime</strong> — strong fast shipping coverage that helps win more sales.` });
-  }
-
-  if (sc > 3) {
-    bullets.push({ color: 'red', text: `<strong>${sc} different sellers</strong> are reselling your products — they may be undercutting your price and taking sales that should be yours.` });
-  }
-
-  if (bullets.length === 0) {
-    bullets.push({ color: 'green', text: `${brand} has a solid Amazon presence with good product content and competitive positioning.` });
-  }
-
-  return `<div class="exec-summary">${bullets.map(b =>
-    `<div class="exec-summary-row"><div class="exec-bullet ${b.color}">&#8226;</div><div>${b.text}</div></div>`
-  ).join('\n')}</div>`;
-}
-
-function renderSearchOwnership(data) {
+function renderStrengths(data) {
+  const items = [];
   const bp = parseInt(data.brandProductCount || 0);
   const tr = parseInt(data.totalResults || 1);
   const pct = Math.round((bp / tr) * 100);
+  const fba = parseInt(data.fbaPercent || 0);
+  const rating = parseFloat(data.avgRating || 0);
+  const sc = parseInt(data.sellerCount || 0);
 
-  const level = pct >= 60 ? 'Strong' : pct >= 30 ? 'Moderate' : 'Low';
-  const desc = pct >= 60
-    ? 'Your brand dominates its own search results'
-    : pct >= 30
-    ? 'Competitors take up most of your brand search results'
-    : 'Most customers searching your name see competitor products first';
-
-  return `<div class="ownership-bar">
-    <div class="ownership-pct">${pct}%</div>
-    <div class="ownership-info">
-      <div class="ownership-label">Brand Search Dominance: ${level}</div>
-      <div class="ownership-desc">${desc}</div>
-    </div>
-    <div class="ownership-track" style="width:180px"><div class="ownership-fill" style="width:${Math.max(pct, 3)}%"></div></div>
-  </div>`;
-}
-
-function renderRatingDistribution(data) {
-  const dist = data.ratingDistribution;
-  if (!dist || !dist.length) return '<div class="dd-sub">No rating data available</div>';
-
-  return `<div class="rating-bars">${dist.map(d => {
-    const w = Math.max(d.percentage || 0, 1);
-    return `<div class="rating-bar-row">
-      <div class="rating-bar-label">${d.stars}&#9733;</div>
-      <div class="rating-bar-track"><div class="rating-bar-fill r${d.stars}" style="width:${w}%"></div></div>
-      <div class="rating-bar-pct">${d.percentage}%</div>
-    </div>`;
-  }).join('\n')}</div>`;
-}
-
-function renderListingHealth(data) {
-  const checks = [];
-  const imgs = parseInt(data.listingImageCount || 0);
-  const bullets = parseInt(data.listingBulletCount || 0);
-  const qa = parseInt(data.answeredQuestionsCount || 0);
-
-  checks.push({ ok: data.listingHasVideo, label: 'Video', good: 'Yes', bad: 'No' });
-  checks.push({ ok: imgs >= 6, label: `${imgs} Images`, good: imgs >= 6 ? null : null, warn: imgs >= 4 && imgs < 6 });
-  checks.push({ ok: bullets >= 5, label: `${bullets} Bullets`, warn: bullets >= 3 && bullets < 5 });
-  checks.push({ ok: qa > 0, label: `${qa} Q&A`, good: qa > 0 ? null : null });
-
-  return `<div class="listing-health">${checks.map(c => {
-    const cls = c.ok ? 'good' : (c.warn ? 'warn' : 'bad');
-    const icon = c.ok ? '&#10003;' : (c.warn ? '!' : '&#10007;');
-    return `<div class="health-item"><div class="health-check ${cls}">${icon}</div>${c.label}</div>`;
-  }).join('\n')}</div>`;
-}
-
-function renderBrandVsCompetitor(data) {
-  const products = data.topProducts || [];
-  const brandProducts = products.filter(p => !p.notBrand);
-  const compProducts = products.filter(p => p.notBrand);
-
-  if (brandProducts.length === 0 || compProducts.length === 0) {
-    return '';
+  if (data.storefront === 'Exists') {
+    items.push('Active Amazon storefront with <strong>' + bp + ' branded products</strong> listed.');
+  }
+  if (pct >= 50) {
+    items.push('<strong>' + pct + '% search dominance</strong> when customers search your brand name.');
+  }
+  if (fba >= 70) {
+    items.push('<strong>' + fba + '% Prime coverage</strong> across your catalog.');
+  }
+  if (rating >= 4.0) {
+    items.push('Strong <strong>' + rating.toFixed(1) + '-star average rating</strong> across products.');
+  }
+  if (data.buyBoxIsTheBrand !== false) {
+    items.push('You <strong>control the Buy Box</strong> on your top product.');
+  }
+  if (sc <= 2 && sc >= 1) {
+    items.push('Clean seller map with only <strong>' + sc + ' seller(s)</strong>.');
+  }
+  if (data.listingQuality === 'Strong' || data.listingQuality === 'Active') {
+    items.push('Product pages have <strong>quality content</strong> (images, video, bullets).');
+  }
+  if (data.priceStability === 'Stable') {
+    items.push('<strong>Stable pricing</strong> with no MAP violations detected.');
   }
 
-  const avg = (arr, key) => arr.length ? (arr.reduce((s, p) => s + (parseFloat(p[key]) || 0), 0) / arr.length) : 0;
-  const brandAvgPrice = avg(brandProducts, 'price');
-  const compAvgPrice = avg(compProducts, 'price');
-  const brandAvgRating = avg(brandProducts, 'rating');
-  const compAvgRating = avg(compProducts, 'rating');
-  const brandAvgReviews = avg(brandProducts, 'reviews_count');
-  const compAvgReviews = avg(compProducts, 'reviews_count');
-  const brandPrime = brandProducts.filter(p => p.is_prime).length;
-  const compPrime = compProducts.filter(p => p.is_prime).length;
+  if (items.length === 0) {
+    items.push('Your brand is present on Amazon with products listed.');
+  }
 
-  const row = (label, bVal, cVal, highlight) => {
-    const bBetter = highlight === 'lower' ? bVal <= cVal : bVal >= cVal;
-    return `<div style="display:flex;align-items:center;margin-bottom:6px;">
-      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${bBetter ? '#34d399' : '#f87171'}">${bVal}</div>
-      <div style="width:80px;text-align:center;font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">${label}</div>
-      <div style="flex:1;text-align:center;font-size:13px;font-weight:700;color:${!bBetter ? '#34d399' : '#f87171'}">${cVal}</div>
-    </div>`;
-  };
+  return items.slice(0, 4).map(text =>
+    `<div class="paradox-item strength"><div class="paradox-item-icon">&#10003;</div><div class="paradox-item-text">${text}</div></div>`
+  ).join('\n');
+}
 
-  // Dynamic colors: green = winning, red = losing (for rating/reviews/prime, higher is better)
-  const ratingColor = brandAvgRating >= compAvgRating ? '#d4a54a' : '#94a3b8';
-  const compRatingColor = compAvgRating >= brandAvgRating ? '#d4a54a' : '#94a3b8';
-  const reviewsColor = brandAvgReviews >= compAvgReviews ? '#d4a54a' : '#94a3b8';
-  const compReviewsColor = compAvgReviews >= brandAvgReviews ? '#d4a54a' : '#94a3b8';
-  const primeColor = (brandPrime / brandProducts.length) >= (compPrime / compProducts.length) ? '#d4a54a' : '#94a3b8';
-  const compPrimeColor = (compPrime / compProducts.length) >= (brandPrime / brandProducts.length) ? '#d4a54a' : '#94a3b8';
+function renderVulnerabilities(data) {
+  const items = [];
+  const bp = parseInt(data.brandProductCount || 0);
+  const tr = parseInt(data.totalResults || 1);
+  const pct = Math.round((bp / tr) * 100);
+  const fba = parseInt(data.fbaPercent || 0);
+  const sc = parseInt(data.sellerCount || 0);
+  const rating = parseFloat(data.avgRating || 0);
 
-  return `<div class="comparison">
-    <div class="comp-col brand-col">
-      <div class="comp-header">Your Brand (${brandProducts.length})</div>
-      <div class="comp-metric-value" style="color:#e2e8f0">$${brandAvgPrice.toFixed(2)}</div>
-      <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:${ratingColor}">${brandAvgRating.toFixed(1)} &#9733;</div>
-      <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:${reviewsColor}">${fmt(Math.round(brandAvgReviews))}</div>
-      <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:${primeColor}">${brandPrime}/${brandProducts.length}</div>
-      <div class="comp-metric-sub">Prime Eligible</div>
-    </div>
-    <div class="comp-col vs-col">
-      <div style="font-size:20px;font-weight:900;color:#475569;margin-bottom:16px;">VS</div>
-      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Price</div>
-      <div style="height:24px"></div>
-      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Rating</div>
-      <div style="height:24px"></div>
-      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Reviews</div>
-      <div style="height:24px"></div>
-      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Prime</div>
-    </div>
-    <div class="comp-col competitor-col">
-      <div class="comp-header">Competitors (${compProducts.length})</div>
-      <div class="comp-metric-value" style="color:#e2e8f0">$${compAvgPrice.toFixed(2)}</div>
-      <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:${compRatingColor}">${compAvgRating.toFixed(1)} &#9733;</div>
-      <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:${compReviewsColor}">${fmt(Math.round(compAvgReviews))}</div>
-      <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:${compPrimeColor}">${compPrime}/${compProducts.length}</div>
-      <div class="comp-metric-sub">Prime Eligible</div>
-    </div>
+  if (data.buyBoxIsTheBrand === false) {
+    items.push('<strong>Another seller controls your Buy Box</strong> - they get the revenue when customers click "Add to Cart".');
+  }
+  if (fba < 30) {
+    items.push('Only <strong>' + fba + '% Prime coverage</strong> - products without Prime sell 30-50% less.');
+  } else if (fba < 70 && fba >= 30) {
+    items.push('<strong>Partial Prime coverage</strong> at ' + fba + '% - missing sales on non-Prime products.');
+  }
+  if (sc > 3) {
+    items.push('<strong>' + sc + ' unauthorized sellers</strong> competing on your products, undercutting your price.');
+  }
+  if (pct < 30) {
+    items.push('Only <strong>' + pct + '% search ownership</strong> - competitors dominate your brand search results.');
+  }
+  if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
+    items.push('<strong>No defensive advertising</strong> - competitors bid on your brand name and steal traffic.');
+  }
+  if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
+    items.push('<strong>Weak product pages</strong> - missing A+ content, video, or optimized images.');
+  }
+  if (data.storefront === 'Missing') {
+    items.push('<strong>No Amazon storefront</strong> detected for your brand.');
+  }
+  if (data.priceStability === 'MAP Violated' || data.priceStability === 'Minor Fluctuation') {
+    items.push('<strong>Price instability</strong> detected across your products (range: ' + escapeHtml(data.priceRange || 'N/A') + ').');
+  }
+  if (rating > 0 && rating < 3.5) {
+    items.push('Average rating is <strong>' + rating.toFixed(1) + ' stars</strong> - below the 4.0 threshold that drives purchases.');
+  }
+
+  if (items.length === 0) {
+    items.push('Minor optimization opportunities exist in your Amazon presence.');
+  }
+
+  return items.slice(0, 4).map(text =>
+    `<div class="paradox-item vulnerability"><div class="paradox-item-icon">&#10007;</div><div class="paradox-item-text">${text}</div></div>`
+  ).join('\n');
+}
+
+// ============================================================
+// EXECUTIVE SUMMARY BOX (Page 1)
+// ============================================================
+
+function renderExecutiveSummaryBox(data) {
+  if (!data.opportunitySummary) return '';
+  return `<div class="exec-box">
+    <div class="exec-box-title">Key Insight</div>
+    <div class="exec-box-text">${escapeHtml(data.opportunitySummary)}</div>
   </div>`;
 }
+
+// ============================================================
+// PRODUCT IMAGE (Page 2)
+// ============================================================
+
+function renderProductImage(data) {
+  if (data.productImageUrl) {
+    return `<img src="${escapeHtml(data.productImageUrl)}" alt="${escapeHtml(data.brandName)} product">`;
+  }
+  return `<div class="product-image-placeholder">
+    <div style="font-size:40px;margin-bottom:12px;color:#d4a54a;">&#128722;</div>
+    <div>${escapeHtml(data.brandName || 'Product')}</div>
+    ${data.bestAsin ? `<div class="asin-code">${escapeHtml(data.bestAsin)}</div>` : ''}
+  </div>`;
+}
+
+// ============================================================
+// CALLOUT BOXES (Page 2)
+// ============================================================
+
+function getCalloutContent(data) {
+  const imgs = parseInt(data.listingImageCount || 0);
+  const hasVideo = data.listingHasVideo;
+  const bullets = parseInt(data.listingBulletCount || 0);
+
+  let contentClass = 'good';
+  let contentValue = 'Strong';
+  let contentDetail = `${imgs} images, ${bullets} bullet points`;
+  if (hasVideo) contentDetail += ', video';
+  if (!hasVideo && imgs < 5) { contentClass = 'bad'; contentValue = 'Weak'; }
+  else if (!hasVideo || imgs < 6) { contentClass = 'warn'; contentValue = 'Adequate'; }
+
+  return { contentClass, contentValue, contentDetail };
+}
+
+function getCalloutRating(data) {
+  const rating = parseFloat(data.avgRating || 0);
+  const best = data.topProducts && data.topProducts[0];
+  const reviews = best ? (best.reviews_count || 0) : 0;
+
+  let ratingClass = 'good';
+  let ratingDetail = fmt(reviews) + ' reviews on top product';
+  if (rating < 3.5) { ratingClass = 'bad'; ratingDetail += ' - below purchase threshold'; }
+  else if (rating < 4.0) { ratingClass = 'warn'; }
+
+  return { ratingClass, ratingDetail };
+}
+
+function getCalloutFulfill(data) {
+  const fba = parseInt(data.fbaPercent || 0);
+  let fulfillClass = 'good';
+  let fulfillValue = fba + '% Prime';
+  let fulfillDetail = 'Strong fulfillment coverage';
+  if (fba === 0) { fulfillClass = 'bad'; fulfillValue = 'FBM Only'; fulfillDetail = 'No Prime badge = 30-50% fewer sales'; }
+  else if (fba < 70) { fulfillClass = 'warn'; fulfillValue = fba + '% Prime'; fulfillDetail = 'Partial coverage, missing sales on non-Prime'; }
+
+  return { fulfillClass, fulfillValue, fulfillDetail };
+}
+
+function getCalloutComp(data) {
+  const onPage = parseInt(data.onPageCompetitorCount || 0);
+  const ppc = data.ppcStatus;
+  let compClass = 'good';
+  let compValue = onPage + ' ads';
+  let compDetail = 'Competitor ads on your product page';
+  if (onPage >= 5 || ppc === 'Competitor Dominated') { compClass = 'bad'; compDetail = 'Competitors heavily targeting your listings'; }
+  else if (onPage >= 2 || ppc === 'None') { compClass = 'warn'; compDetail = 'Moderate competitor activity on your pages'; }
+  else { compDetail = 'Low competitor presence on your pages'; }
+
+  return { compClass, compValue, compDetail };
+}
+
+// ============================================================
+// REVENUE LEAK & GROWTH PLAN (Page 3)
+// ============================================================
+
+function renderRevenueLeak(data) {
+  const leaks = [];
+  const fba = parseInt(data.fbaPercent || 0);
+  const sc = parseInt(data.sellerCount || 0);
+
+  if (data.buyBoxIsTheBrand === false) {
+    leaks.push({ title: 'Buy Box Lost', severity: 'Critical', text: 'Another seller controls the purchase button on your top product. Every sale goes to them, not you.' });
+  }
+  if (fba < 50) {
+    leaks.push({ title: 'No Prime Badge', severity: fba === 0 ? 'Critical' : 'High', text: `Only ${fba}% of your products have Prime. Customers filter for Prime - products without it are invisible to 200M+ shoppers.` });
+  }
+  if (sc > 3) {
+    leaks.push({ title: 'Seller Chaos', severity: sc > 6 ? 'Critical' : 'High', text: `${sc} sellers are competing on your products, undercutting each other and destroying your margins.` });
+  }
+  if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
+    leaks.push({ title: 'Search Hijacked', severity: 'High', text: 'Competitors are bidding on your brand name. Customers searching for you see their products first.' });
+  }
+  if (data.listingQuality === 'Weak/No A+') {
+    leaks.push({ title: 'Weak Content', severity: 'Medium', text: 'Product pages lack A+ content, video, or optimized images. Visitors arrive but do not convert.' });
+  }
+
+  if (leaks.length === 0) {
+    leaks.push({ title: 'Minor Friction', severity: 'Low', text: 'No critical leaks detected, but optimization opportunities exist to grow revenue further.' });
+  }
+
+  return leaks.slice(0, 3).map(l =>
+    `<div class="leak-card">
+      <div class="leak-card-header">
+        <div class="leak-card-icon">!</div>
+        <div><div class="leak-card-title">${escapeHtml(l.title)}</div></div>
+        <div class="leak-card-severity">${escapeHtml(l.severity)}</div>
+      </div>
+      <div class="leak-card-text">${escapeHtml(l.text)}</div>
+    </div>`
+  ).join('\n');
+}
+
+function renderGrowthPlan(data) {
+  const plans = [];
+  const fba = parseInt(data.fbaPercent || 0);
+  const sc = parseInt(data.sellerCount || 0);
+
+  if (data.buyBoxIsTheBrand === false) {
+    plans.push({ title: 'Reclaim Your Sales Button', impact: 'Revenue Recovery', text: 'We remove unauthorized sellers and ensure you control the Buy Box on every product page.' });
+  }
+  if (fba < 70) {
+    plans.push({ title: 'Prime Badge Strategy', impact: '+30-50% Sales', text: `Ship ${fba === 0 ? 'your entire catalog' : 'remaining products'} through our Las Vegas FBA hub. Prime products convert dramatically more.` });
+  }
+  if (sc > 3) {
+    plans.push({ title: 'Clean Seller Map', impact: 'Margin Protection', text: 'Enforce brand authorization and MAP pricing. Remove unauthorized resellers to stabilize your prices.' });
+  }
+  if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
+    plans.push({ title: 'Brand Defense Ads', impact: 'Traffic Protection', text: 'Launch search ads on your brand name to keep competitors off your results. Protect every search.' });
+  }
+  if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
+    plans.push({ title: 'Content Overhaul', impact: '+15-25% Conversion', text: 'Premium images, video, A+ content, and optimized bullets that turn browsers into buyers.' });
+  }
+  if (plans.length === 0) {
+    plans.push({ title: 'Scale Revenue', impact: 'Growth', text: 'Your Amazon operation is strong. We focus on volume growth, new launches, and advanced advertising - all funded by us.' });
+  }
+
+  return plans.slice(0, 3).map((p, i) =>
+    `<div class="plan-card">
+      <div class="plan-card-header">
+        <div class="plan-card-icon">${i + 1}</div>
+        <div><div class="plan-card-title">${escapeHtml(p.title)}</div></div>
+        <div class="plan-card-impact">${escapeHtml(p.impact)}</div>
+      </div>
+      <div class="plan-card-text">${escapeHtml(p.text)}</div>
+    </div>`
+  ).join('\n');
+}
+
+// ============================================================
+// FINDINGS (Page 3)
+// ============================================================
 
 function renderFindings(findings) {
   if (!findings || !findings.length) {
-    return `<div class="finding-row warning"><div class="finding-icon"><span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f59e0b;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">i</span></div><div class="finding-content"><div class="finding-label">Info</div><div class="finding-text">No significant findings. Manual review recommended.</div></div></div>`;
+    return `<div class="finding-row warning">
+      <div class="finding-icon warning">i</div>
+      <div><div class="finding-label warning">Info</div><div class="finding-text">No significant findings. Manual review recommended.</div></div>
+    </div>`;
   }
-  const icons = {
-    issue: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#ef4444;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">!</span>',
-    opportunity: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#10b981;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">+</span>',
-    warning: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#f59e0b;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">!</span>',
-    competitor: '<span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:#3b82f6;text-align:center;line-height:20px;color:#fff;font-size:12px;font-weight:800;">C</span>'
-  };
   const labels = { issue: 'Revenue at Risk', opportunity: 'Growth Opportunity', warning: 'Attention Needed', competitor: 'Competitive Pressure' };
+  const icons = { issue: '!', opportunity: '+', warning: '!', competitor: 'C' };
+
   return findings.slice(0, 4).map(f => {
     const type = f.type || 'warning';
-    return `<div class="finding-row ${type}"><div class="finding-icon">${icons[type] || '&#128269;'}</div><div class="finding-content"><div class="finding-label">${labels[type] || 'Info'}</div><div class="finding-text">${escapeHtml(f.text)}</div></div></div>`;
+    return `<div class="finding-row ${type}">
+      <div class="finding-icon ${type}">${icons[type] || 'i'}</div>
+      <div><div class="finding-label ${type}">${labels[type] || 'Info'}</div><div class="finding-text">${escapeHtml(f.text)}</div></div>
+    </div>`;
   }).join('\n');
 }
+
+// ============================================================
+// PRODUCT TABLE (Page 2)
+// ============================================================
 
 function renderBadges(product) {
   const badges = [];
@@ -268,7 +372,7 @@ function renderBadges(product) {
   if (product.best_seller) badges.push('<span class="badge-sm badge-bestseller">#1</span>');
   if (product.is_sponsored) badges.push('<span class="badge-sm badge-sponsored">AD</span>');
   if (product.notBrand) badges.push('<span class="badge-sm badge-notbrand">OTHER</span>');
-  return badges.join(' ') || '<span style="color:#94a3b8;font-size:9px">&#8212;</span>';
+  return badges.join(' ') || '<span style="color:#94a3b8;font-size:9px">-</span>';
 }
 
 function renderProductRows(products) {
@@ -276,11 +380,11 @@ function renderProductRows(products) {
     return '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:14px">No product data available</td></tr>';
   }
   return products.slice(0, 6).map(p => {
-    const pos = p.pos ? `<span class="pos-badge">#${p.pos}</span>` : '<span style="color:#cbd5e1">-</span>';
+    const pos = p.pos ? `<span class="pos-badge">#${p.pos}</span>` : '<span style="color:#94a3b8">-</span>';
     const asin = p.asin ? `<span style="font-size:9px;color:#d4a54a;font-family:monospace">${p.asin}</span>` : '-';
-    return `<tr${p.notBrand ? ' style="opacity:0.6"' : ''}>
+    return `<tr${p.notBrand ? ' style="opacity:0.55"' : ''}>
       <td>${pos}</td>
-      <td style="font-weight:500">${escapeHtml(truncate(p.title, 40))}</td>
+      <td style="font-weight:500">${escapeHtml(truncate(p.title, 38))}</td>
       <td>${asin}</td>
       <td>$${(p.price || 0).toFixed(2)}</td>
       <td>${(p.rating || 0).toFixed(1)} &#9733;</td>
@@ -290,86 +394,13 @@ function renderProductRows(products) {
   }).join('');
 }
 
-function renderActionPlan(data) {
-  const actions = [];
-  const buyBoxOwned = data.buyBoxIsTheBrand !== false;
-
-  if (!buyBoxOwned) {
-    actions.push({ title: 'Take Back Your Sales Button', desc: 'Right now another seller gets the revenue when customers buy your product. We remove unauthorized sellers and make sure you control the purchase button on every product page.', impact: 'Revenue Recovery' });
-  }
-  if (data.fbaStatus === 'FBM Only' || data.fbaStatus === 'Partial FBA') {
-    actions.push({ title: 'Get the Prime Badge on All Products', desc: `Ship ${data.fbaStatus === 'FBM Only' ? 'your entire catalog' : 'remaining products'} through Amazon\'s warehouse via our Las Vegas hub. Prime products sell 30-50% more because 200M+ Prime members filter for them.`, impact: '+30-50% Sales' });
-  }
-  if (parseInt(data.sellerCount || 0) > 3) {
-    actions.push({ title: 'Remove Unauthorized Resellers', desc: `${data.sellerCount} sellers are competing on your products, undercutting each other and driving your price down. We enforce brand authorization and price floor agreements to protect your margins.`, impact: 'Margin Protection' });
-  }
-  if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    actions.push({ title: 'Defend Your Brand in Search', desc: 'Competitors are running ads on your brand name — customers searching for you are seeing their products first. We launch search ads that keep your brand on top of your own results.', impact: 'Traffic Protection' });
-  }
-  if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    actions.push({ title: 'Upgrade Product Pages', desc: 'Better images, video, and product descriptions convert more visitors into buyers. We rebuild your product pages with premium content that drives 15-25% more purchases.', impact: '+15-25% Conversion' });
-  }
-  if (actions.length === 0) {
-    actions.push({ title: 'Scale What\'s Working', desc: 'Your Amazon operation is already strong. We focus on growing revenue through wholesale volume, new product launches, and advanced advertising — all funded by us.', impact: 'Growth' });
-  }
-
-  return actions.slice(0, 3).map((a, i) =>
-    `<div class="action-item"><div class="action-num">${i + 1}</div><div class="action-content"><div class="action-title">${a.title}</div><div class="action-desc">${a.desc}</div><div class="action-impact">${a.impact}</div></div></div>`
-  ).join('\n');
-}
-
-function renderExpectedLift() {
-  const items = [
-    { label: 'Sales Control', value: '>=90%' },
-    { label: 'Price Stability', value: '>=95%' },
-    { label: 'More Buyers', value: '+10-30%' },
-    { label: 'Ad Efficiency', value: '8-15%' },
-    { label: 'Revenue Growth', value: '+15-40%' }
-  ];
-  return items.map(i =>
-    `<div class="lift-item">
-      <div style="font-size:14px;font-weight:800;color:#d4a54a;">${i.value}</div>
-      <div style="font-size:8px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-top:1px;">${i.label}</div>
-    </div>`
-  ).join('\n');
-}
-
-function computeLosses(data) {
-  const fbm = data.fbaStatus === 'FBM Only';
-  const partialFba = data.fbaStatus === 'Partial FBA';
-  const noPpc = data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated';
-  const manySellers = parseInt(data.sellerCount || 0) > 3;
-  const weakListings = data.listingQuality === 'Weak/No A+';
-  const noBuyBox = data.buyBoxIsTheBrand === false;
-
-  let buyBox = 'Low';
-  if (noBuyBox) buyBox = 'Critical';
-  else if (fbm && manySellers) buyBox = 'Critical';
-  else if (fbm || manySellers) buyBox = 'High';
-  else if (partialFba) buyBox = 'Medium';
-
-  let visibility = 'Low';
-  if (noPpc && weakListings) visibility = 'Critical';
-  else if (noPpc || weakListings) visibility = 'High';
-  else visibility = 'Medium';
-
-  let conversion = 'Low';
-  if (fbm && weakListings) conversion = 'Critical';
-  else if (fbm || weakListings || manySellers) conversion = 'High';
-  else if (partialFba) conversion = 'Medium';
-
-  return { buyBox, visibility, conversion };
-}
-
 // ============================================================
 // NORMALIZE AGENT OUTPUT → RENDERER FORMAT
 // ============================================================
 
 function normalizeAgentData(input) {
-  // If already in renderer format (has brandName), pass through
   if (input.brandName) return input;
 
-  // Agent format has report_data, seller_analysis, top_asins, etc.
   const rd = input.report_data || {};
   const sa = input.seller_analysis || {};
   const sections = rd.sections || {};
@@ -377,20 +408,16 @@ function normalizeAgentData(input) {
   const bestProduct = topAsins[0] || {};
   const ps = parseInt(input.priority_score || 50);
 
-  // Compute issue severity from priority score
   let issueSeverity = 'Low Impact';
   if (ps > 70) issueSeverity = 'High Impact';
   else if (ps > 40) issueSeverity = 'Medium Impact';
 
-  // Map rating_stars_distribution [{rating,percentage}] → [{stars,percentage}]
   let ratingDist = rd.rating_stars_distribution || input.ratingDistribution || [];
   if (ratingDist.length && ratingDist[0].rating !== undefined && ratingDist[0].stars === undefined) {
     ratingDist = ratingDist.map(d => ({ stars: d.rating, percentage: d.percentage }));
   }
 
   return {
-    // Prefer input.brand_name (Monday board item name) over rd.brand_name (agent output)
-    // Agent sometimes puts the Buy Box seller name in rd.brand_name by mistake
     brandName: input.brand_name || rd.brand_name || 'Unknown Brand',
     reportDate: rd.report_date || input.report_date || new Date().toISOString().split('T')[0],
     priorityScore: ps,
@@ -398,14 +425,12 @@ function normalizeAgentData(input) {
     outreachApproach: input.outreach_approach || 'Operational',
     issueSeverity: issueSeverity,
 
-    // Section statuses
     storefront: (sections.storefront || {}).status || 'Missing',
     fbaStatus: (sections.fulfillment || {}).status || 'FBM Only',
     listingQuality: (sections.listings || {}).status || 'Adequate',
     ppcStatus: (sections.advertising || {}).status || 'None',
     priceStability: (sections.pricing || {}).status || 'Stable',
 
-    // Counts
     sellerCount: sa.total_sellers || rd.seller_count || 0,
     catalogSize: rd.catalog_size || rd.brand_product_count || 0,
     brandProductCount: rd.brand_product_count || rd.catalog_size || 0,
@@ -416,7 +441,6 @@ function normalizeAgentData(input) {
     ppcCount: rd.ppc_count || 0,
     priceRange: rd.price_range || 'N/A',
 
-    // Best product
     bestAsin: bestProduct.asin || '',
     bestAsinTitle: bestProduct.title || '',
     buyBoxSellerName: rd.buy_box_seller || sa.buy_box_holder || '',
@@ -425,10 +449,8 @@ function normalizeAgentData(input) {
     buyBoxPrice: bestProduct.price || 0,
     pricingOfferCount: bestProduct.sellers || sa.total_sellers || 0,
 
-    // BSR
     bsrSubcategory: bestProduct.bsr_sub || '',
 
-    // Listing details
     listingHasVideo: rd.listing_has_video || false,
     listingImageCount: rd.listing_image_count || 0,
     listingBulletCount: rd.listing_bullet_count || 0,
@@ -436,19 +458,17 @@ function normalizeAgentData(input) {
     onPageCompetitorCount: rd.on_page_competitor_count || 0,
     reviewHighlights: rd.review_highlights || '',
 
-    // Rating distribution
     ratingDistribution: ratingDist,
-
-    // Opportunity summary (plain English insight from agent)
     opportunitySummary: input.opportunity_summary || '',
 
-    // New Step 4 fields (date, discount, coupon)
     dateFirstAvailable: rd.date_first_available || '',
     priceStrikethroughValue: rd.price_strikethrough || 0,
     discountPercentage: rd.discount_percentage || 0,
     activeCoupon: rd.coupon_text || '',
 
-    // Findings & products (pass through)
+    // Product image URL from Oxylabs (url_image from search or images[0] from product detail)
+    productImageUrl: rd.product_image_url || input.product_image_url || bestProduct.image_url || '',
+
     findings: rd.findings || input.findings || [],
     topProducts: topAsins.map(p => ({
       asin: p.asin,
@@ -466,7 +486,8 @@ function normalizeAgentData(input) {
       best_seller: p.best_seller,
       is_sponsored: p.is_sponsored,
       notBrand: p.notBrand,
-      pos: p.pos
+      pos: p.pos,
+      image_url: p.image_url
     }))
   };
 }
@@ -480,19 +501,13 @@ function renderHTML(data) {
 
   const priority = parseInt(data.priorityScore || '50');
   const healthScore = Math.max(0, Math.min(100, 100 - priority));
-  const healthClass = healthScore < 40 ? 'critical' : healthScore < 65 ? 'warning' : 'healthy';
-  const healthLabel = healthScore < 30 ? 'Critical' : healthScore < 50 ? 'Needs Attention' : healthScore < 70 ? 'Fair' : healthScore < 85 ? 'Good' : 'Excellent';
-  const losses = computeLosses(data);
-  const sc = parseInt(data.sellerCount || 0);
-  const sellerRisk = sc <= 1 ? 'Controlled' : sc <= 3 ? 'Low Risk' : sc <= 6 ? 'Moderate' : 'High Risk';
   const reportId = `PZ-${Date.now().toString(36).toUpperCase().slice(-6)}`;
 
-  // Buy Box fields
-  const buyBoxOwned = data.buyBoxIsTheBrand !== false;
-  const buyBoxPrice = parseFloat(data.buyBoxPrice || 0);
-  const strikethrough = parseFloat(data.priceStrikethroughValue || 0);
-  const discount = parseInt(data.discountPercentage || 0);
-  const coupon = data.activeCoupon || '';
+  // Callout data
+  const content = getCalloutContent(data);
+  const rating = getCalloutRating(data);
+  const fulfill = getCalloutFulfill(data);
+  const comp = getCalloutComp(data);
 
   const replacements = {
     '{{logoBase64}}': logoBase64,
@@ -500,81 +515,45 @@ function renderHTML(data) {
     '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
     '{{reportId}}': reportId,
 
-    '{{healthScore}}': String(healthScore),
-    '{{healthScoreLabel}}': healthLabel,
-
+    // Page 1: The Paradox
+    '{{gaugeSVG}}': renderGaugeSVG(healthScore),
     '{{brandMaturity}}': data.brandMaturity || 'N/A',
     '{{brandProductCount}}': String(data.brandProductCount || data.catalogSize || '?'),
     '{{totalResults}}': String(data.totalResults || '?'),
-    '{{competitorCount}}': String(data.competitorCount || '0'),
-
-    // Metric cards — no color classes, gold-only
-    '{{storefront}}': data.storefront || 'N/A',
-    '{{catalogSize}}': String(data.catalogSize || 0),
-
-    '{{fbaStatus}}': data.fbaStatus || 'N/A',
+    '{{sellerCount}}': String(data.sellerCount || '0'),
     '{{fbaPercent}}': String(data.fbaPercent || 0),
-    '{{fbaDetail}}': data.fbaStatus === 'FBM Only' ? 'No fast shipping = fewer sales' : data.fbaStatus === 'Partial FBA' ? 'Some products miss Prime badge' : 'Strong fast shipping coverage',
-
-    '{{listingQuality}}': data.listingQuality || 'N/A',
     '{{avgRating}}': String(data.avgRating || '0.0'),
+    '{{strengthsList}}': renderStrengths(data),
+    '{{vulnerabilitiesList}}': renderVulnerabilities(data),
+    '{{executiveSummaryBox}}': renderExecutiveSummaryBox(data),
 
-    '{{ppcStatus}}': data.ppcStatus || 'N/A',
-    '{{ppcCount}}': String(data.ppcCount || 0),
-    '{{ppcDetail}}': data.ppcStatus === 'None' ? 'Competitors stealing your searches' : data.ppcStatus === 'Competitor Dominated' ? 'Others bidding on your name' : 'Your brand is protected in search',
-
-    '{{priceStability}}': data.priceStability || 'N/A',
-    '{{priceRange}}': data.priceRange || 'N/A',
-
-    '{{sellerCount}}': String(sc),
-    '{{sellerRisk}}': sellerRisk,
-
-    // Losses
-    '{{lostBuyBox}}': losses.buyBox,
-    '{{lostVisibility}}': losses.visibility,
-    '{{lostConversion}}': losses.conversion,
-
-    // Page 1 generated sections
-    '{{buyBoxAlert}}': renderBuyBoxAlert(data),
-    '{{executiveSummary}}': renderExecutiveSummary(data),
-    '{{searchOwnership}}': renderSearchOwnership(data),
-
-    // Page 2: Deep dive
+    // Page 2: Asset X-Ray
     '{{bestAsin}}': data.bestAsin || 'N/A',
-    '{{bestAsinTitleTruncated}}': escapeHtml(truncate(data.bestAsinTitle || data.brandName + ' — Top Product', 90)),
+    '{{bestAsinTitleTruncated}}': escapeHtml(truncate(data.bestAsinTitle || data.brandName + ' - Top Product', 90)),
     '{{bestAsinSalesVolume}}': data.topProducts && data.topProducts[0] ? (data.topProducts[0].sales_volume || '') : '',
     '{{dateFirstAvailable}}': data.dateFirstAvailable ? 'Listed ' + data.dateFirstAvailable : '',
+    '{{productImageHtml}}': renderProductImage(data),
 
-    '{{buyBoxSellerName}}': escapeHtml(data.buyBoxSellerName || 'Unknown'),
-    '{{buyBoxBrandClass}}': buyBoxOwned ? 'brand' : 'thirdparty',
-    '{{buyBoxBrandLabel}}': buyBoxOwned ? 'Brand Owner &#10003;' : 'Third-Party &#10007;',
-    '{{buyBoxFbaClass}}': data.buyBoxIsFba ? 'fba' : 'fbm',
-    '{{buyBoxFbaLabel}}': data.buyBoxIsFba ? 'FBA &#10003;' : 'FBM',
-    '{{buyBoxPrice}}': buyBoxPrice > 0 ? buyBoxPrice.toFixed(2) : 'N/A',
-    '{{priceStrikethroughHtml}}': strikethrough > 0 ? `<span style="text-decoration:line-through;color:#475569;font-size:11px;margin-left:4px">$${strikethrough.toFixed(2)}</span>` : '',
-    '{{discountBadgeHtml}}': discount > 0 ? `<span style="font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.15);color:#34d399;margin-left:4px">-${discount}%</span>` : '',
-    '{{couponHtml}}': coupon ? `<div class="dd-sub" style="color:#34d399;font-weight:600">Coupon: ${escapeHtml(coupon)}</div>` : '',
-    '{{pricingOfferCount}}': String(data.pricingOfferCount || 1),
+    // Callout boxes
+    '{{calloutContentClass}}': content.contentClass,
+    '{{calloutContentValue}}': content.contentValue,
+    '{{calloutContentDetail}}': content.contentDetail,
+    '{{calloutRatingClass}}': rating.ratingClass,
+    '{{calloutRatingDetail}}': rating.ratingDetail,
+    '{{calloutFulfillClass}}': fulfill.fulfillClass,
+    '{{calloutFulfillValue}}': fulfill.fulfillValue,
+    '{{calloutFulfillDetail}}': fulfill.fulfillDetail,
+    '{{calloutCompClass}}': comp.compClass,
+    '{{calloutCompValue}}': comp.compValue,
+    '{{calloutCompDetail}}': comp.compDetail,
 
-    '{{bsrSubcategory}}': data.bsrSubcategory || 'N/A',
-    '{{bsrMainCategory}}': data.bsrMainCategory || '',
-
-    '{{ratingDistribution}}': renderRatingDistribution(data),
-    '{{listingHealthChecks}}': renderListingHealth(data),
-    '{{onPageCompetitorCount}}': String(data.onPageCompetitorCount || 0),
-    '{{reviewHighlights}}': escapeHtml(data.reviewHighlights || 'No review data available.'),
-
-    '{{brandVsCompetitorSection}}': (() => {
-      const comp = renderBrandVsCompetitor(data);
-      if (!comp) return '';
-      return `<div class="section-title"><div class="section-icon" style="background:rgba(239,68,68,0.12);color:#f87171;font-size:11px;font-weight:900;">VS</div>Your Brand vs Top Competitors</div>${comp}<div style="height:24px;"></div>`;
-    })(),
+    // Product table
     '{{productRows}}': renderProductRows(data.topProducts),
 
-    // Page 3
+    // Page 3: Cost of Friction
+    '{{revenueLeak}}': renderRevenueLeak(data),
+    '{{growthPlan}}': renderGrowthPlan(data),
     '{{findings}}': renderFindings(data.findings),
-    '{{actionPlan}}': renderActionPlan(data),
-    '{{expectedLift}}': renderExpectedLift(),
   };
 
   for (const [key, value] of Object.entries(replacements)) {
@@ -591,27 +570,19 @@ const DECK_PATH = path.join(__dirname, 'profitzon-deck.pdf');
 
 function renderCoverHTML(data, deckPageCount) {
   let html = fs.readFileSync(COVER_TEMPLATE_PATH, 'utf8');
-  // New order: Cover (1) → Audit (2-4) → Deck (5-17)
-  const auditStart = 2;
-  const auditEnd = 4;                          // 3 audit pages
-  const deckStart = auditEnd + 1;
-  const deckEnd = deckStart + deckPageCount - 1;
-  const deckTocItem = deckPageCount > 0 ? `<div class="toc-item">
-      <div class="toc-num">II</div>
-      <div class="toc-label">
-        <div class="toc-title">Who We Are</div>
-        <div class="toc-desc">Profitzon — Capital-backed Amazon wholesale growth partner</div>
-      </div>
-      <div class="toc-pages">p. ${deckStart}-${deckEnd}</div>
-    </div>` : '';
+  const reportId = `PZ-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+
+  // Product image watermark on cover (faded)
+  const productWatermark = data.productImageUrl
+    ? `<img class="product-watermark" src="${escapeHtml(data.productImageUrl)}" alt="">`
+    : '';
 
   const replacements = {
     '{{logoBase64}}': logoBase64,
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
-    '{{auditStartPage}}': String(auditStart),
-    '{{auditEndPage}}': String(auditEnd),
-    '{{deckTocItem}}': deckTocItem,
+    '{{reportId}}': reportId,
+    '{{productImageWatermark}}': productWatermark,
   };
   for (const [key, value] of Object.entries(replacements)) {
     html = html.split(key).join(value);
@@ -624,7 +595,6 @@ async function renderPDF(data) {
   const { PDFDocument } = require('pdf-lib');
   const os = require('os');
 
-  // Determine deck page count for cover TOC
   let deckPageCount = 0;
   let deckDoc = null;
   if (fs.existsSync(DECK_PATH)) {
@@ -650,10 +620,9 @@ async function renderPDF(data) {
   const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
 
-  // Set viewport to match page width for accurate layout
   await page.setViewport({ width: 1000, height: 1414 });
 
-  // Render cover page (no external resources, fast load)
+  // Render cover page
   await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
   const coverPdfBytes = await page.pdf({
     width: '1000px', height: '1414px',
@@ -661,7 +630,7 @@ async function renderPDF(data) {
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
 
-  // Render audit pages
+  // Render audit pages (allow network load for product images)
   await page.setContent(auditHtml, { waitUntil: 'load', timeout: 15000 });
   const auditPdfBytes = await page.pdf({
     width: '1000px', height: '1414px',
@@ -674,17 +643,14 @@ async function renderPDF(data) {
   // Merge: Cover → Audit → Deck
   const merged = await PDFDocument.create();
 
-  // 1. Cover page
   const coverDoc = await PDFDocument.load(coverPdfBytes);
   const coverPages = await merged.copyPages(coverDoc, coverDoc.getPageIndices());
   coverPages.forEach(p => merged.addPage(p));
 
-  // 2. Audit pages (report first — the brand wants to see their data)
   const auditDoc = await PDFDocument.load(auditPdfBytes);
   const auditPages = await merged.copyPages(auditDoc, auditDoc.getPageIndices());
   auditPages.forEach(p => merged.addPage(p));
 
-  // 3. Deck pages — who we are (presentation after the report)
   if (deckDoc) {
     try {
       const deckPages = await merged.copyPages(deckDoc, deckDoc.getPageIndices());
@@ -741,10 +707,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v10-sop' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v4-light' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v3 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v4 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
@@ -779,10 +745,10 @@ async function main() {
     return;
   }
 
-  // Demo: Nano Clear with Buy Box owned by third-party (showcases the alert)
+  // Demo with sample data
   const sampleData = {
     brandName: "Nano Clear",
-    reportDate: "2026-03-05",
+    reportDate: "2026-03-19",
     priorityScore: "75",
     brandMaturity: "Weak",
     outreachApproach: "Operational",
@@ -801,10 +767,8 @@ async function main() {
     avgRating: "4.0",
     ppcCount: 0,
     priceRange: "$19 - $95",
-
-    // Product scraper fields (demo: 3P seller owns Buy Box)
     bestAsin: "B0DQSK8Y52",
-    bestAsinTitle: "Nano Clear Watch Crystal Scratch Remover Kit Complete — Professional Grade",
+    bestAsinTitle: "Nano Clear Watch Crystal Scratch Remover Kit Complete - Professional Grade",
     buyBoxSellerName: "ClearDealz LLC",
     buyBoxIsTheBrand: false,
     buyBoxIsFba: true,
@@ -829,14 +793,13 @@ async function main() {
     dateFirstAvailable: "August 15, 2023",
     onPageCompetitorCount: 7,
     reviewHighlights: "Customers praise the effectiveness on minor scratches and ease of use. Common complaints include the small bottle size for the price and mixed results on deeper scratches.",
-
+    productImageUrl: "",
+    opportunitySummary: "Nano Clear has 6 products on Amazon but zero Prime coverage, 8 unauthorized sellers, and a third-party controls the Buy Box on the top product. Moving to FBA, cleaning up sellers, and launching brand defense ads could recover 30-50% in lost revenue.",
     findings: [
-      { type: "issue", text: "Buy Box on your top product is controlled by ClearDealz LLC — a third-party seller, not Nano Clear. They are capturing your revenue from your best listing." },
-      { type: "issue", text: "0% FBA coverage — all Nano Clear products ship FBM. No Prime badge means 30-50% lower Buy Box win rate." },
+      { type: "issue", text: "Buy Box on your top product is controlled by ClearDealz LLC - a third-party seller, not Nano Clear. They are capturing your revenue from your best listing." },
+      { type: "issue", text: "0% FBA coverage - all Nano Clear products ship FBM. No Prime badge means 30-50% lower Buy Box win rate." },
       { type: "issue", text: "8 different sellers detected on your ASINs. Multiple unauthorized resellers are eroding margins and causing price instability." },
-      { type: "competitor", text: "14 competitor products appear when customers search Nano Clear — with no defensive PPC running." },
-      { type: "warning", text: "7 competitor ads are running directly on your top product's page, stealing traffic from customers already viewing your listing." },
-      { type: "opportunity", text: "Moving top SKUs to FBA + reclaiming the Buy Box + launching brand defense campaigns could lift visibility and conversion by 30-50%." }
+      { type: "competitor", text: "14 competitor products appear when customers search Nano Clear - with no defensive PPC running." }
     ],
     topProducts: [
       { title: "Nano Clear Watch Crystal Scratch Remover Kit Complete", price: 49.99, rating: 4.2, reviews_count: 312, is_prime: false, is_amazons_choice: false, best_seller: false, is_sponsored: false, asin: "B0DQSK8Y52", pos: 3, sales_volume: "200+ bought" },
@@ -849,9 +812,8 @@ async function main() {
 
   const html = renderHTML(sampleData);
   fs.writeFileSync(path.join(__dirname, 'demo-report.html'), html);
-  console.log('Demo report v3 saved to demo-report.html');
+  console.log('Demo report v4 saved to demo-report.html');
 
-  // Also generate PDF if puppeteer available
   try {
     const tmpPdf = await renderPDF(sampleData);
     const outPath = path.join(__dirname, 'demo-report.pdf');
