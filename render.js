@@ -313,7 +313,7 @@ function renderActionPlan(data) {
     actions.push({ title: 'Scale What\'s Working', desc: 'Your Amazon operation is already strong. We focus on growing revenue through wholesale volume, new product launches, and advanced advertising — all funded by us.', impact: 'Growth' });
   }
 
-  return actions.slice(0, 4).map((a, i) =>
+  return actions.slice(0, 3).map((a, i) =>
     `<div class="action-item"><div class="action-num">${i + 1}</div><div class="action-content"><div class="action-title">${a.title}</div><div class="action-desc">${a.desc}</div><div class="action-impact">${a.impact}</div></div></div>`
   ).join('\n');
 }
