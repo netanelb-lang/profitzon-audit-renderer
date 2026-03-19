@@ -53,11 +53,12 @@ function truncate(str, len) {
 
 function escapeHtml(str) {
   if (!str) return '';
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function fmt(n) {
-  return Number(n || 0).toLocaleString();
+  const num = Number(n || 0);
+  return isNaN(num) ? '0' : num.toLocaleString();
 }
 
 // ============================================================
@@ -199,16 +200,24 @@ function renderBrandVsCompetitor(data) {
     </div>`;
   };
 
+  // Dynamic colors: green = winning, red = losing (for rating/reviews/prime, higher is better)
+  const ratingColor = brandAvgRating >= compAvgRating ? '#d4a54a' : '#94a3b8';
+  const compRatingColor = compAvgRating >= brandAvgRating ? '#d4a54a' : '#94a3b8';
+  const reviewsColor = brandAvgReviews >= compAvgReviews ? '#d4a54a' : '#94a3b8';
+  const compReviewsColor = compAvgReviews >= brandAvgReviews ? '#d4a54a' : '#94a3b8';
+  const primeColor = (brandPrime / brandProducts.length) >= (compPrime / compProducts.length) ? '#d4a54a' : '#94a3b8';
+  const compPrimeColor = (compPrime / compProducts.length) >= (brandPrime / brandProducts.length) ? '#d4a54a' : '#94a3b8';
+
   return `<div class="comparison">
     <div class="comp-col brand-col">
       <div class="comp-header">Your Brand (${brandProducts.length})</div>
-      <div class="comp-metric-value" style="color:#f87171">$${brandAvgPrice.toFixed(2)}</div>
+      <div class="comp-metric-value" style="color:#e2e8f0">$${brandAvgPrice.toFixed(2)}</div>
       <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:#f87171">${brandAvgRating.toFixed(1)} &#9733;</div>
+      <div class="comp-metric-value" style="color:${ratingColor}">${brandAvgRating.toFixed(1)} &#9733;</div>
       <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:#f87171">${fmt(Math.round(brandAvgReviews))}</div>
+      <div class="comp-metric-value" style="color:${reviewsColor}">${fmt(Math.round(brandAvgReviews))}</div>
       <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:#f87171">${brandPrime}/${brandProducts.length}</div>
+      <div class="comp-metric-value" style="color:${primeColor}">${brandPrime}/${brandProducts.length}</div>
       <div class="comp-metric-sub">Prime Eligible</div>
     </div>
     <div class="comp-col vs-col">
@@ -223,13 +232,13 @@ function renderBrandVsCompetitor(data) {
     </div>
     <div class="comp-col competitor-col">
       <div class="comp-header">Competitors (${compProducts.length})</div>
-      <div class="comp-metric-value" style="color:#34d399">$${compAvgPrice.toFixed(2)}</div>
+      <div class="comp-metric-value" style="color:#e2e8f0">$${compAvgPrice.toFixed(2)}</div>
       <div class="comp-metric-sub">Avg Price</div>
-      <div class="comp-metric-value" style="color:#34d399">${compAvgRating.toFixed(1)} &#9733;</div>
+      <div class="comp-metric-value" style="color:${compRatingColor}">${compAvgRating.toFixed(1)} &#9733;</div>
       <div class="comp-metric-sub">Avg Rating</div>
-      <div class="comp-metric-value" style="color:#34d399">${fmt(Math.round(compAvgReviews))}</div>
+      <div class="comp-metric-value" style="color:${compReviewsColor}">${fmt(Math.round(compAvgReviews))}</div>
       <div class="comp-metric-sub">Avg Reviews</div>
-      <div class="comp-metric-value" style="color:#34d399">${compPrime}/${compProducts.length}</div>
+      <div class="comp-metric-value" style="color:${compPrimeColor}">${compPrime}/${compProducts.length}</div>
       <div class="comp-metric-sub">Prime Eligible</div>
     </div>
   </div>`;
@@ -248,7 +257,7 @@ function renderFindings(findings) {
   const labels = { issue: 'Revenue at Risk', opportunity: 'Growth Opportunity', warning: 'Attention Needed', competitor: 'Competitive Pressure' };
   return findings.slice(0, 4).map(f => {
     const type = f.type || 'warning';
-    return `<div class="finding-row ${type}"><div class="finding-icon">${icons[type] || '&#128269;'}</div><div class="finding-content"><div class="finding-label">${labels[type] || 'Info'}</div><div class="finding-text">${f.text}</div></div></div>`;
+    return `<div class="finding-row ${type}"><div class="finding-icon">${icons[type] || '&#128269;'}</div><div class="finding-content"><div class="finding-label">${labels[type] || 'Info'}</div><div class="finding-text">${escapeHtml(f.text)}</div></div></div>`;
   }).join('\n');
 }
 
@@ -424,7 +433,7 @@ function normalizeAgentData(input) {
     listingImageCount: rd.listing_image_count || 0,
     listingBulletCount: rd.listing_bullet_count || 0,
     answeredQuestionsCount: rd.answered_questions || 0,
-    onPageCompetitorCount: rd.on_page_competitor_count || parseInt(rd.competitor_count || 0),
+    onPageCompetitorCount: rd.on_page_competitor_count || 0,
     reviewHighlights: rd.review_highlights || '',
 
     // Rating distribution
@@ -432,6 +441,12 @@ function normalizeAgentData(input) {
 
     // Opportunity summary (plain English insight from agent)
     opportunitySummary: input.opportunity_summary || '',
+
+    // New Step 4 fields (date, discount, coupon)
+    dateFirstAvailable: rd.date_first_available || '',
+    priceStrikethroughValue: rd.price_strikethrough || 0,
+    discountPercentage: rd.discount_percentage || 0,
+    activeCoupon: rd.coupon_text || '',
 
     // Findings & products (pass through)
     findings: rd.findings || input.findings || [],
@@ -581,14 +596,22 @@ function renderCoverHTML(data, deckPageCount) {
   const auditEnd = 4;                          // 3 audit pages
   const deckStart = auditEnd + 1;
   const deckEnd = deckStart + deckPageCount - 1;
+  const deckTocItem = deckPageCount > 0 ? `<div class="toc-item">
+      <div class="toc-num">II</div>
+      <div class="toc-label">
+        <div class="toc-title">Who We Are</div>
+        <div class="toc-desc">Profitzon — Capital-backed Amazon wholesale growth partner</div>
+      </div>
+      <div class="toc-pages">p. ${deckStart}-${deckEnd}</div>
+    </div>` : '';
+
   const replacements = {
     '{{logoBase64}}': logoBase64,
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportDate}}': data.reportDate || new Date().toISOString().split('T')[0],
     '{{auditStartPage}}': String(auditStart),
     '{{auditEndPage}}': String(auditEnd),
-    '{{deckStartPage}}': String(deckStart),
-    '{{deckEndPage}}': String(deckEnd),
+    '{{deckTocItem}}': deckTocItem,
   };
   for (const [key, value] of Object.entries(replacements)) {
     html = html.split(key).join(value);
@@ -626,6 +649,9 @@ async function renderPDF(data) {
   }
   const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
+
+  // Set viewport to match page width for accurate layout
+  await page.setViewport({ width: 1000, height: 1414 });
 
   // Render cover page (no external resources, fast load)
   await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
@@ -707,6 +733,9 @@ async function startServer(port) {
 
   app.get('/deck', (req, res) => {
     const deckPath = path.join(__dirname, 'profitzon-deck.pdf');
+    if (!fs.existsSync(deckPath)) {
+      return res.status(404).json({ error: 'Deck PDF not found' });
+    }
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename="Profitzon_Capital_Partner.pdf"');
     fs.createReadStream(deckPath).pipe(res);
