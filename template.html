@@ -12,181 +12,186 @@
   .page + .page { page-break-before: always; }
 
   /* WATERMARK */
-  .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 120px; font-weight: 900; color: rgba(212,165,74,0.03); letter-spacing: 15px; white-space: nowrap; z-index: 0; text-transform: uppercase; pointer-events: none; }
+  .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg); font-size: 140px; font-weight: 900; color: rgba(212,165,74,0.025); letter-spacing: 15px; white-space: nowrap; z-index: 0; text-transform: uppercase; pointer-events: none; }
 
-  /* PAGE HEADER */
-  .page-header { padding: 28px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; }
-  .page-header-left { display: flex; align-items: center; gap: 16px; }
-  .page-header-logo img { height: 32px; display: block; }
-  .page-header-brand { font-size: 14px; font-weight: 700; color: #1a1a2e; }
-  .page-header-right { font-size: 11px; color: #94a3b8; text-align: right; }
+  /* PAGE HEADER - sleek dark bar */
+  .page-header { padding: 18px 50px; display: flex; justify-content: space-between; align-items: center; background: #0f172a; }
+  .page-header-left { display: flex; align-items: center; gap: 14px; }
+  .page-header-logo img { height: 28px; display: block; }
+  .page-header-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }
+  .page-header-brand { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+  .page-header-right { font-size: 10px; color: rgba(255,255,255,0.5); text-align: right; letter-spacing: 0.5px; }
 
   /* PAGE FOOTER */
-  .page-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; background: #fff; }
-  .page-footer-left { font-size: 11px; color: #94a3b8; }
+  .page-footer { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e5e7eb; background: #fff; }
+  .page-footer-left { font-size: 10px; color: #94a3b8; }
   .page-footer-left strong { color: #d4a54a; }
-  .page-footer-right { font-size: 11px; color: #cbd5e1; }
+  .page-footer-right { font-size: 10px; color: #cbd5e1; }
 
-  /* SECTION TITLES */
-  .section-hero { padding: 30px 50px 20px; }
-  .section-hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #d4a54a; font-weight: 700; margin-bottom: 8px; }
-  .section-hero-title { font-size: 36px; font-weight: 900; color: #1a1a2e; letter-spacing: -1px; line-height: 1.15; }
-  .section-hero-sub { font-size: 15px; color: #64748b; margin-top: 6px; line-height: 1.5; }
+  /* SECTION HERO */
+  .section-hero { padding: 32px 50px 16px; position: relative; }
+  .section-hero-label { font-size: 11px; text-transform: uppercase; letter-spacing: 4px; color: #d4a54a; font-weight: 700; margin-bottom: 6px; }
+  .section-hero-title { font-size: 42px; font-weight: 900; color: #0f172a; letter-spacing: -1.5px; line-height: 1.1; }
+  .section-hero-sub { font-size: 14px; color: #64748b; margin-top: 8px; line-height: 1.5; }
 
   /* ================================================================ */
   /* PAGE 1: THE PARADOX                                               */
   /* ================================================================ */
 
-  /* Gauge area */
-  .gauge-area { display: flex; justify-content: center; padding: 20px 50px 10px; }
+  /* Gauge area - big and bold */
+  .gauge-area { display: flex; justify-content: center; align-items: center; padding: 10px 50px 0; position: relative; }
+  .gauge-bg { background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-radius: 20px; padding: 24px 60px 16px; text-align: center; border: 1px solid #e2e8f0; }
 
-  /* Score details strip */
-  .score-strip { display: flex; margin: 0 50px; background: #f8fafc; border-radius: 12px; border: 1px solid #e5e7eb; overflow: hidden; }
-  .score-strip-item { flex: 1; text-align: center; padding: 14px 8px; border-right: 1px solid #e5e7eb; }
-  .score-strip-item:last-child { border-right: none; }
-  .score-strip-value { font-size: 16px; font-weight: 800; color: #1a1a2e; }
-  .score-strip-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; font-weight: 600; margin-top: 2px; }
+  /* Score KPI strip */
+  .kpi-strip { display: flex; margin: 16px 50px 0; gap: 10px; }
+  .kpi-card { flex: 1; background: #0f172a; border-radius: 12px; padding: 16px 10px; text-align: center; }
+  .kpi-value { font-size: 20px; font-weight: 900; color: #fff; }
+  .kpi-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; color: #d4a54a; font-weight: 700; margin-top: 4px; }
 
-  /* Strengths vs Vulnerabilities columns */
-  .paradox-columns { display: flex; gap: 24px; padding: 24px 50px 0; }
+  /* Strengths vs Vulnerabilities */
+  .paradox-columns { display: flex; gap: 20px; padding: 20px 50px 0; }
   .paradox-col { flex: 1; }
-  .paradox-col-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .paradox-col-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .paradox-col-dot.green { background: #10b981; }
-  .paradox-col-dot.red { background: #ef4444; }
-  .paradox-col-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
-  .paradox-col-title.green { color: #10b981; }
-  .paradox-col-title.red { color: #ef4444; }
 
-  .paradox-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; }
-  .paradox-item.strength { background: #f0fdf4; border: 1px solid #bbf7d0; }
-  .paradox-item.vulnerability { background: #fef2f2; border: 1px solid #fecaca; }
-  .paradox-item-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-  .paradox-item-text { font-size: 14px; color: #334155; line-height: 1.5; }
-  .paradox-item-text strong { color: #1a1a2e; }
+  .paradox-col-header { margin-bottom: 12px; padding-bottom: 10px; }
+  .paradox-col-title { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+  .paradox-col-title.green { color: #059669; }
+  .paradox-col-title.red { color: #dc2626; }
+  .paradox-col-title .col-line { flex: 1; height: 2px; border-radius: 1px; }
+  .paradox-col-title.green .col-line { background: linear-gradient(90deg, #10b981, transparent); }
+  .paradox-col-title.red .col-line { background: linear-gradient(90deg, #ef4444, transparent); }
+
+  .paradox-item { display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; border-radius: 10px; margin-bottom: 7px; }
+  .paradox-item.strength { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border-left: 3px solid #10b981; }
+  .paradox-item.vulnerability { background: linear-gradient(135deg, #fef2f2, #fff1f2); border-left: 3px solid #ef4444; }
+  .paradox-item-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; }
+  .paradox-item.strength .paradox-item-icon { background: #10b981; }
+  .paradox-item.vulnerability .paradox-item-icon { background: #ef4444; }
+  .paradox-item-text { font-size: 13px; color: #334155; line-height: 1.5; }
+  .paradox-item-text strong { color: #0f172a; font-weight: 800; }
 
   /* Executive summary box */
-  .exec-box { margin: 20px 50px 0; padding: 20px 24px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; }
-  .exec-box-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #d4a54a; font-weight: 700; margin-bottom: 8px; }
-  .exec-box-text { font-size: 14px; color: #334155; line-height: 1.6; }
+  .exec-box { margin: 16px 50px 0; padding: 18px 22px; background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; border-radius: 12px; border-left: 4px solid #d4a54a; }
+  .exec-box-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #d4a54a; font-weight: 800; margin-bottom: 6px; }
+  .exec-box-text { font-size: 13px; color: #334155; line-height: 1.6; }
 
   /* ================================================================ */
   /* PAGE 2: ASSET X-RAY                                               */
   /* ================================================================ */
 
   /* Product showcase */
-  .product-showcase { display: flex; align-items: center; justify-content: center; padding: 20px 50px 10px; position: relative; }
-  .product-image-wrap { width: 280px; height: 280px; background: #f8fafc; border: 2px solid #e5e7eb; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; position: relative; z-index: 1; }
-  .product-image-wrap img { max-width: 240px; max-height: 240px; object-fit: contain; }
+  .product-image-wrap { width: 260px; height: 260px; background: linear-gradient(135deg, #f8fafc, #fff); border: 2px solid #e2e8f0; border-radius: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; position: relative; z-index: 1; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .product-image-wrap img { max-width: 230px; max-height: 230px; object-fit: contain; }
   .product-image-placeholder { font-size: 14px; color: #94a3b8; text-align: center; padding: 20px; }
   .product-image-placeholder .asin-code { font-family: monospace; font-size: 12px; color: #d4a54a; margin-top: 6px; }
 
   /* Callout boxes around product image */
-  .callouts-grid { display: grid; grid-template-columns: 1fr 280px 1fr; grid-template-rows: auto auto; gap: 12px; padding: 0 50px; align-items: start; }
-  .callout-box { padding: 16px 18px; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff; }
+  .callouts-grid { display: grid; grid-template-columns: 1fr 260px 1fr; grid-template-rows: auto auto; gap: 10px; padding: 0 50px; align-items: stretch; }
+  .callout-box { padding: 18px 16px; border-radius: 14px; border: none; position: relative; overflow: hidden; }
+  .callout-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
   .callout-box.tl { grid-column: 1; grid-row: 1; }
   .callout-box.tr { grid-column: 3; grid-row: 1; }
   .callout-box.bl { grid-column: 1; grid-row: 2; }
   .callout-box.br { grid-column: 3; grid-row: 2; }
-  .callout-box.good { border-color: #bbf7d0; background: #f0fdf4; }
-  .callout-box.warn { border-color: #fde68a; background: #fffbeb; }
-  .callout-box.bad { border-color: #fecaca; background: #fef2f2; }
-  .callout-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; color: #94a3b8; font-weight: 700; margin-bottom: 6px; }
-  .callout-value { font-size: 22px; font-weight: 800; color: #1a1a2e; }
-  .callout-detail { font-size: 12px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+  .callout-box.good { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
+  .callout-box.good::before { background: #10b981; }
+  .callout-box.warn { background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+  .callout-box.warn::before { background: #f59e0b; }
+  .callout-box.bad { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+  .callout-box.bad::before { background: #ef4444; }
+  .callout-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; font-weight: 700; margin-bottom: 8px; }
+  .callout-value { font-size: 24px; font-weight: 900; color: #0f172a; }
+  .callout-detail { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
   .product-center-cell { grid-column: 2; grid-row: 1 / 3; display: flex; align-items: center; justify-content: center; }
 
   /* Product ASIN header */
-  .product-asin-bar { padding: 0 50px; margin-bottom: 8px; }
-  .product-asin-title { font-size: 15px; font-weight: 600; color: #334155; line-height: 1.4; }
+  .product-asin-bar { padding: 4px 50px; margin-bottom: 6px; }
+  .product-asin-title { font-size: 14px; font-weight: 700; color: #334155; line-height: 1.4; }
   .product-asin-meta { font-size: 11px; color: #94a3b8; margin-top: 2px; }
   .product-asin-meta span { color: #d4a54a; font-weight: 600; }
 
   /* Products table */
-  .products-section { padding: 16px 50px 0; }
-  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #d4a54a; font-weight: 700; margin-bottom: 10px; }
+  .products-section { padding: 14px 50px 0; }
+  .section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2.5px; color: #d4a54a; font-weight: 800; margin-bottom: 8px; }
   .products-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; border: 1px solid #e5e7eb; }
-  .products-table th { background: #f8fafc; padding: 12px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700; text-align: left; border-bottom: 1px solid #e5e7eb; }
-  .products-table td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+  .products-table th { background: #0f172a; padding: 10px 12px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #d4a54a; font-weight: 700; text-align: left; }
+  .products-table td { padding: 10px 12px; font-size: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
   .products-table tr:last-child td { border-bottom: none; }
-  .badge-sm { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; margin-right: 2px; }
-  .badge-prime { background: #dbeafe; color: #2563eb; }
-  .badge-choice { background: #d1fae5; color: #059669; }
-  .badge-bestseller { background: #fef3c7; color: #d97706; }
+  .products-table tr:nth-child(even) td { background: #fafbfc; }
+  .badge-sm { font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-right: 2px; }
+  .badge-prime { background: #dbeafe; color: #1d4ed8; }
+  .badge-choice { background: #d1fae5; color: #047857; }
+  .badge-bestseller { background: #fef3c7; color: #b45309; }
   .badge-sponsored { background: #f1f5f9; color: #64748b; }
-  .badge-notbrand { background: #fef2f2; color: #dc2626; }
-  .pos-badge { font-size: 13px; font-weight: 800; color: #d4a54a; }
+  .badge-notbrand { background: #fee2e2; color: #b91c1c; }
+  .pos-badge { font-size: 12px; font-weight: 900; color: #d4a54a; }
 
   /* ================================================================ */
   /* PAGE 3: COST OF FRICTION                                          */
   /* ================================================================ */
 
   /* Two-column layout */
-  .friction-columns { display: flex; gap: 20px; padding: 16px 50px 0; }
+  .friction-columns { display: flex; gap: 16px; padding: 14px 50px 0; }
   .friction-col { flex: 1; }
 
-  /* Revenue Leak column */
-  .leak-card { background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 20px; margin-bottom: 12px; }
-  .leak-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .leak-card-icon { width: 32px; height: 32px; background: #ef4444; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 800; flex-shrink: 0; }
-  .leak-card-title { font-size: 15px; font-weight: 800; color: #991b1b; }
-  .leak-card-severity { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #fee2e2; color: #dc2626; }
-  .leak-card-text { font-size: 13px; color: #7f1d1d; line-height: 1.5; }
-
-  /* Growth Plan column */
-  .plan-card { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px; padding: 20px; margin-bottom: 12px; }
-  .plan-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-  .plan-card-icon { width: 32px; height: 32px; background: #3b82f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 800; flex-shrink: 0; }
-  .plan-card-title { font-size: 15px; font-weight: 800; color: #1e3a5f; }
-  .plan-card-impact { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #dbeafe; color: #2563eb; }
-  .plan-card-text { font-size: 13px; color: #1e3a5f; line-height: 1.5; }
-
   /* Column headers */
-  .col-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid; }
-  .col-header.leak { border-color: #fecaca; }
-  .col-header.plan { border-color: #bfdbfe; }
-  .col-header-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; font-weight: 800; }
-  .col-header-icon.leak { background: #ef4444; }
-  .col-header-icon.plan { background: #3b82f6; }
-  .col-header-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
-  .col-header-title.leak { color: #dc2626; }
-  .col-header-title.plan { color: #2563eb; }
+  .col-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 12px 16px; border-radius: 10px; }
+  .col-header.leak { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+  .col-header.plan { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .col-header-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.3); font-weight: 800; background: rgba(255,255,255,0.15); }
+  .col-header-title { font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
+
+  /* Revenue Leak cards */
+  .leak-card { background: #fff; border: 1px solid #fecaca; border-radius: 12px; padding: 16px; margin-bottom: 10px; border-left: 4px solid #ef4444; }
+  .leak-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .leak-card-icon { width: 26px; height: 26px; background: #ef4444; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+  .leak-card-title { font-size: 14px; font-weight: 800; color: #991b1b; flex: 1; }
+  .leak-card-severity { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: #fee2e2; color: #dc2626; letter-spacing: 0.5px; }
+  .leak-card-text { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+
+  /* Growth Plan cards */
+  .plan-card { background: #fff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; margin-bottom: 10px; border-left: 4px solid #3b82f6; }
+  .plan-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .plan-card-icon { width: 26px; height: 26px; background: #3b82f6; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+  .plan-card-title { font-size: 14px; font-weight: 800; color: #1e3a5f; flex: 1; }
+  .plan-card-impact { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; background: #dbeafe; color: #1d4ed8; letter-spacing: 0.5px; }
+  .plan-card-text { font-size: 12px; color: #1e3a5f; line-height: 1.5; }
 
   /* Key Findings */
   .findings-section { padding: 12px 50px 0; }
-  .finding-row { display: flex; align-items: flex-start; padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; gap: 10px; border: 1px solid #e5e7eb; }
-  .finding-row.issue { background: #fef2f2; border-color: #fecaca; }
-  .finding-row.opportunity { background: #f0fdf4; border-color: #bbf7d0; }
-  .finding-row.warning { background: #fffbeb; border-color: #fde68a; }
-  .finding-row.competitor { background: #eff6ff; border-color: #bfdbfe; }
-  .finding-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0; margin-top: 1px; }
+  .finding-row { display: flex; align-items: flex-start; padding: 10px 14px; border-radius: 10px; margin-bottom: 5px; gap: 10px; border-left: 3px solid; }
+  .finding-row.issue { background: #fef2f2; border-color: #ef4444; }
+  .finding-row.opportunity { background: #f0fdf4; border-color: #10b981; }
+  .finding-row.warning { background: #fffbeb; border-color: #f59e0b; }
+  .finding-row.competitor { background: #eff6ff; border-color: #3b82f6; }
+  .finding-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #fff; flex-shrink: 0; margin-top: 1px; }
   .finding-icon.issue { background: #ef4444; }
   .finding-icon.opportunity { background: #10b981; }
   .finding-icon.warning { background: #f59e0b; }
   .finding-icon.competitor { background: #3b82f6; }
-  .finding-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 2px; }
+  .finding-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 800; margin-bottom: 2px; }
   .finding-label.issue { color: #dc2626; }
   .finding-label.opportunity { color: #059669; }
   .finding-label.warning { color: #d97706; }
   .finding-label.competitor { color: #2563eb; }
-  .finding-text { font-size: 13px; color: #334155; line-height: 1.5; }
+  .finding-text { font-size: 12px; color: #334155; line-height: 1.5; }
 
   /* CTA */
-  .cta-section { margin: 16px 50px 0; background: linear-gradient(135deg, #1a1a2e, #0f172a); border-radius: 16px; padding: 28px 36px; text-align: center; position: relative; overflow: hidden; }
-  .cta-accent { position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(212,165,74,0.15), transparent 70%); border-radius: 50%; }
-  .cta-title { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 8px; position: relative; z-index: 1; }
-  .cta-sub { font-size: 14px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5; position: relative; z-index: 1; }
-  .cta-button { display: inline-block; background: #d4a54a; color: #1a1a2e; padding: 14px 40px; border-radius: 10px; font-size: 15px; font-weight: 800; text-decoration: none; position: relative; z-index: 1; }
-  .cta-trust { margin-top: 10px; font-size: 11px; color: #64748b; position: relative; z-index: 1; }
+  .cta-section { margin: 14px 50px 0; background: linear-gradient(135deg, #0f172a, #1e293b); border-radius: 16px; padding: 26px 36px; text-align: center; position: relative; overflow: hidden; }
+  .cta-glow { position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(212,165,74,0.2), transparent 70%); border-radius: 50%; }
+  .cta-glow-2 { position: absolute; bottom: -40px; left: -40px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(59,130,246,0.1), transparent 70%); border-radius: 50%; }
+  .cta-title { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 8px; position: relative; z-index: 1; }
+  .cta-sub { font-size: 13px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5; position: relative; z-index: 1; }
+  .cta-button { display: inline-block; background: linear-gradient(135deg, #d4a54a, #b8892e); color: #0f172a; padding: 14px 44px; border-radius: 10px; font-size: 15px; font-weight: 900; text-decoration: none; position: relative; z-index: 1; letter-spacing: 0.3px; }
+  .cta-trust { margin-top: 10px; font-size: 10px; color: #475569; position: relative; z-index: 1; }
 
   /* Final footer */
   .final-footer { position: absolute; bottom: 0; left: 0; right: 0; }
-  .final-footer-conf { text-align: center; padding: 8px; font-size: 10px; color: #94a3b8; background: #f8fafc; border-top: 1px solid #e5e7eb; }
-  .final-footer-main { padding: 14px 50px; display: flex; justify-content: space-between; align-items: center; background: #fff; }
-  .final-footer-main .left { font-size: 12px; color: #64748b; }
+  .final-footer-conf { text-align: center; padding: 6px; font-size: 9px; color: #94a3b8; background: #f8fafc; border-top: 1px solid #e5e7eb; }
+  .final-footer-main { padding: 12px 50px; display: flex; justify-content: space-between; align-items: center; background: #fff; }
+  .final-footer-main .left { font-size: 11px; color: #64748b; }
   .final-footer-main .left strong { color: #d4a54a; }
   .final-footer-main .left a { color: #d4a54a; text-decoration: none; }
-  .final-footer-main .right { font-size: 11px; color: #94a3b8; text-align: right; }
+  .final-footer-main .right { font-size: 10px; color: #94a3b8; text-align: right; }
   .final-footer-main .right strong { color: #d4a54a; }
 
   @media print { body { background: #fff; } .page { box-shadow: none; margin: 0; } }
@@ -203,9 +208,10 @@
   <div class="page-header">
     <div class="page-header-left">
       <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
+      <div class="page-header-divider"></div>
       <div class="page-header-brand">{{brandName}}</div>
     </div>
-    <div class="page-header-right">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
   </div>
 
   <div class="section-hero">
@@ -215,44 +221,44 @@
   </div>
 
   <div class="gauge-area">
-    {{gaugeSVG}}
+    <div class="gauge-bg">
+      {{gaugeSVG}}
+    </div>
   </div>
 
-  <div class="score-strip">
-    <div class="score-strip-item">
-      <div class="score-strip-value">{{brandMaturity}}</div>
-      <div class="score-strip-label">Brand Maturity</div>
+  <div class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-value">{{brandMaturity}}</div>
+      <div class="kpi-label">Brand Maturity</div>
     </div>
-    <div class="score-strip-item">
-      <div class="score-strip-value">{{brandProductCount}} / {{totalResults}}</div>
-      <div class="score-strip-label">Your Products / Total Results</div>
+    <div class="kpi-card">
+      <div class="kpi-value">{{brandProductCount}} / {{totalResults}}</div>
+      <div class="kpi-label">Your Products / Total</div>
     </div>
-    <div class="score-strip-item">
-      <div class="score-strip-value">{{sellerCount}}</div>
-      <div class="score-strip-label">Active Sellers</div>
+    <div class="kpi-card">
+      <div class="kpi-value">{{sellerCount}}</div>
+      <div class="kpi-label">Active Sellers</div>
     </div>
-    <div class="score-strip-item">
-      <div class="score-strip-value">{{fbaPercent}}%</div>
-      <div class="score-strip-label">Prime Coverage</div>
+    <div class="kpi-card">
+      <div class="kpi-value">{{fbaPercent}}%</div>
+      <div class="kpi-label">Prime Coverage</div>
     </div>
-    <div class="score-strip-item">
-      <div class="score-strip-value">{{avgRating}} &#9733;</div>
-      <div class="score-strip-label">Avg Rating</div>
+    <div class="kpi-card">
+      <div class="kpi-value">{{avgRating}} &#9733;</div>
+      <div class="kpi-label">Avg Rating</div>
     </div>
   </div>
 
   <div class="paradox-columns">
     <div class="paradox-col">
       <div class="paradox-col-header">
-        <div class="paradox-col-dot green"></div>
-        <div class="paradox-col-title green">Strengths</div>
+        <div class="paradox-col-title green">Strengths <div class="col-line"></div></div>
       </div>
       {{strengthsList}}
     </div>
     <div class="paradox-col">
       <div class="paradox-col-header">
-        <div class="paradox-col-dot red"></div>
-        <div class="paradox-col-title red">Vulnerabilities</div>
+        <div class="paradox-col-title red">Vulnerabilities <div class="col-line"></div></div>
       </div>
       {{vulnerabilitiesList}}
     </div>
@@ -275,9 +281,10 @@
   <div class="page-header">
     <div class="page-header-left">
       <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
+      <div class="page-header-divider"></div>
       <div class="page-header-brand">{{brandName}}</div>
     </div>
-    <div class="page-header-right">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
   </div>
 
   <div class="section-hero">
@@ -358,9 +365,10 @@
   <div class="page-header">
     <div class="page-header-left">
       <div class="page-header-logo"><img src="{{logoBase64}}" alt="Profitzon"></div>
+      <div class="page-header-divider"></div>
       <div class="page-header-brand">{{brandName}}</div>
     </div>
-    <div class="page-header-right">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="page-header-right">AMAZON BRAND AUDIT &middot; {{reportDate}}</div>
   </div>
 
   <div class="section-hero">
@@ -372,15 +380,15 @@
   <div class="friction-columns">
     <div class="friction-col">
       <div class="col-header leak">
-        <div class="col-header-icon leak">!</div>
-        <div class="col-header-title leak">Revenue Leak</div>
+        <div class="col-header-icon">!</div>
+        <div class="col-header-title">Revenue Leak</div>
       </div>
       {{revenueLeak}}
     </div>
     <div class="friction-col">
       <div class="col-header plan">
-        <div class="col-header-icon plan">&#10003;</div>
-        <div class="col-header-title plan">Growth Plan</div>
+        <div class="col-header-icon">&#10003;</div>
+        <div class="col-header-title">Growth Plan</div>
       </div>
       {{growthPlan}}
     </div>
@@ -392,7 +400,8 @@
   </div>
 
   <div class="cta-section">
-    <div class="cta-accent"></div>
+    <div class="cta-glow"></div>
+    <div class="cta-glow-2"></div>
     <div class="cta-title">Ready to Fix This?</div>
     <div class="cta-sub">We invest our own capital to buy your inventory and manage Amazon end-to-end.<br>No fees. No retainer. We make money when you make money.</div>
     <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-button">Book a 30-Minute Strategy Call &rarr;</a>

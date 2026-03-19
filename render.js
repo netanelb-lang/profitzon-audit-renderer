@@ -48,8 +48,8 @@ function fmt(n) {
 
 function renderGaugeSVG(score) {
   const s = Math.max(0, Math.min(100, score));
-  const cx = 150, cy = 130;
-  const radius = 100;
+  const cx = 160, cy = 140;
+  const radius = 110;
   const startAngle = 135;
   const totalSweep = 270;
   const scoreAngle = startAngle + (s / 100) * totalSweep;
@@ -71,15 +71,39 @@ function renderGaugeSVG(score) {
   else if (s >= 50) color = '#f59e0b';
   else if (s >= 30) color = '#f97316';
 
+  // Gradient ID unique per render
+  const gradId = `gauge-grad-${s}`;
+
   const label = s < 30 ? 'Critical' : s < 50 ? 'Needs Work' : s < 70 ? 'Fair' : s < 85 ? 'Good' : 'Excellent';
 
-  return `<svg width="300" height="190" viewBox="0 0 300 190" xmlns="http://www.w3.org/2000/svg">
-    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="#e5e7eb" stroke-width="18" stroke-linecap="round"/>
-    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="${color}" stroke-width="18" stroke-linecap="round"/>` : ''}
-    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="52" font-weight="900" fill="#1a1a2e">${s}</text>
-    <text x="${cx}" y="${cy + 16}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="16" fill="#94a3b8" font-weight="600">/100</text>
-    <text x="${cx}" y="${cy + 42}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="14" fill="${color}" font-weight="700" letter-spacing="1.5">${label.toUpperCase()}</text>
-    <text x="${cx}" y="${cy + 60}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="10" fill="#94a3b8" font-weight="600" letter-spacing="1">BRAND HEALTH SCORE</text>
+  // Needle tip position
+  const needleAngle = startAngle + (s / 100) * totalSweep;
+  const needleLen = radius - 30;
+  const nx = cx + needleLen * Math.cos(toRad(needleAngle));
+  const ny = cy + needleLen * Math.sin(toRad(needleAngle));
+
+  return `<svg width="320" height="200" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ef4444"/>
+        <stop offset="35%" stop-color="#f97316"/>
+        <stop offset="55%" stop-color="#f59e0b"/>
+        <stop offset="75%" stop-color="#84cc16"/>
+        <stop offset="100%" stop-color="#10b981"/>
+      </linearGradient>
+    </defs>
+    <!-- Background track -->
+    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="#e5e7eb" stroke-width="22" stroke-linecap="round"/>
+    <!-- Colored fill with gradient -->
+    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="url(#${gradId})" stroke-width="22" stroke-linecap="round"/>` : ''}
+    <!-- Needle -->
+    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="${cx}" cy="${cy}" r="6" fill="#0f172a"/>
+    <circle cx="${cx}" cy="${cy}" r="3" fill="#d4a54a"/>
+    <!-- Score text -->
+    <text x="${cx}" y="${cy + 36}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="900" fill="#0f172a">${s}</text>
+    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#94a3b8" font-weight="600">/100</text>
+    <text x="${cx}" y="${cy + 56}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="${color}" font-weight="800" letter-spacing="2">${label.toUpperCase()}</text>
   </svg>`;
 }
 
@@ -379,7 +403,12 @@ function renderProductRows(products) {
   if (!products || !products.length) {
     return '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:14px">No product data available</td></tr>';
   }
-  return products.slice(0, 6).map(p => {
+  // Filter out ASINs with no price data - $0 or null means no useful data
+  const valid = products.filter(p => p.price && p.price > 0);
+  if (!valid.length) {
+    return '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:14px">No product data available</td></tr>';
+  }
+  return valid.slice(0, 6).map(p => {
     const pos = p.pos ? `<span class="pos-badge">#${p.pos}</span>` : '<span style="color:#94a3b8">-</span>';
     const asin = p.asin ? `<span style="font-size:9px;color:#d4a54a;font-family:monospace">${p.asin}</span>` : '-';
     return `<tr${p.notBrand ? ' style="opacity:0.55"' : ''}>
