@@ -49,40 +49,22 @@ function fmt(n) {
 function renderGaugeSVG(score) {
   const s = Math.max(0, Math.min(100, score));
 
-  let color = '#e05252';
-  if (s >= 70) color = '#4ade80';
+  let color = '#dc2626';
+  if (s >= 70) color = '#16a34a';
   else if (s >= 50) color = '#f5a623';
-  else if (s >= 30) color = '#f97316';
+  else if (s >= 30) color = '#ea580c';
 
   const label = s < 45 ? 'NEEDS WORK' : s < 60 ? 'FAIR' : s < 75 ? 'GOOD' : s < 88 ? 'STRONG' : 'EXCELLENT';
 
-  // Retro segmented health bar (10 segments)
-  const totalSegs = 10;
-  const filled = Math.round((s / 100) * totalSegs);
-  const segW = 22, segH = 26, gap = 4;
-  const barW = totalSegs * (segW + gap) - gap;
-  const startX = Math.round((280 - barW) / 2);
-  const barY = 120;
+  // Clean progress bar
+  const barW = 240, barH = 12, barX = 20, barY = 120;
+  const fillW = Math.round((s / 100) * barW);
 
-  let segs = '';
-  for (let i = 0; i < totalSegs; i++) {
-    const x = startX + i * (segW + gap);
-    if (i < filled) {
-      const pct = i / totalSegs;
-      let c = '#e05252';
-      if (pct >= 0.7) c = '#4ade80';
-      else if (pct >= 0.5) c = '#f5a623';
-      else if (pct >= 0.3) c = '#f97316';
-      segs += `<rect x="${x}" y="${barY}" width="${segW}" height="${segH}" fill="${c}"/>`;
-    } else {
-      segs += `<rect x="${x}" y="${barY}" width="${segW}" height="${segH}" fill="#333"/>`;
-    }
-  }
-
-  return `<svg width="280" height="160" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <text x="140" y="65" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="56" fill="#fff">${s}</text>
-    <text x="140" y="95" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="13" fill="${color}" letter-spacing="3">${label}</text>
-    ${segs}
+  return `<svg width="280" height="150" viewBox="0 0 280 150" xmlns="http://www.w3.org/2000/svg">
+    <text x="140" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="56" font-weight="900" fill="#1a1b1e">${s}</text>
+    <text x="140" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="${color}" letter-spacing="3">${label}</text>
+    <rect x="${barX}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="#e5e7eb"/>
+    <rect x="${barX}" y="${barY}" width="${fillW}" height="${barH}" rx="6" fill="${color}"/>
   </svg>`;
 }
 
@@ -883,7 +865,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.7-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9.0-corporate' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);

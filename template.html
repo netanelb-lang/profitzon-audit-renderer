@@ -3,253 +3,233 @@
 <head>
 <meta charset="UTF-8">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#1c1c1c;color:#d4d4d4;-webkit-font-smoothing:antialiased;line-height:1.45}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#fff;color:#1a1b1e;-webkit-font-smoothing:antialiased;line-height:1.5}
 
-  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#1c1c1c}
+  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#fff}
   .page:last-child{page-break-after:avoid}
   .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
-  /* Pixel font helper */
-  .pxf{font-family:'Press Start 2P',monospace}
-
-  /* Scanline overlay */
-  .page::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:100}
-
   /* ── Header ── */
-  .hdr{padding:16px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:3px solid #f5a623}
+  .hdr{padding:18px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:3px solid #f5a623;background:#fff}
   .hdr-l{display:flex;align-items:center;gap:14px}
   .hdr-l img{height:30px}
-  .hdr-sep{width:3px;height:22px;background:#f5a623}
-  .hdr-brand{font-family:'Press Start 2P',monospace;font-size:12px;color:#f5a623;letter-spacing:1px}
-  .hdr-r{font-family:'Press Start 2P',monospace;font-size:8px;color:#737373;letter-spacing:1px;text-transform:uppercase}
+  .hdr-sep{width:2px;height:22px;background:#f5a623}
+  .hdr-brand{font-size:14px;font-weight:800;color:#1a1b1e;letter-spacing:.5px}
+  .hdr-r{font-size:11px;font-weight:600;color:#9ca3af;letter-spacing:1px;text-transform:uppercase}
 
   /* ── Footer ── */
-  .ftr{flex-shrink:0;padding:8px 40px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#525252;border-top:3px solid #333}
+  .ftr{flex-shrink:0;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb}
   .ftr strong{color:#f5a623}
 
   /* ── BENTO BLOCK SYSTEM ── */
   .bento{display:grid;gap:10px;padding:0 36px;flex:1}
-  .block{border-radius:4px;padding:22px;position:relative;overflow:visible;display:flex;flex-direction:column;justify-content:center;border:2px solid #333}
+  .block{border-radius:8px;padding:22px;position:relative;overflow:visible;display:flex;flex-direction:column;justify-content:center;border:1px solid #e5e7eb;background:#fff}
 
-  /* Color blocks - warm palette */
-  .b-navy{background:#252525;border-color:#333}
-  .b-dark{background:#1a1a1a;border-color:#2d2d2d}
-  .b-gold{background:#f5a623;border-color:#d4900a}
-  .b-gold .bl,.b-gold .bv,.b-gold .bs{color:#1c1c1c}
-  .b-red{background:#e05252;border-color:#c43e3e}
-  .b-red .bl,.b-red .bv,.b-red .bs{color:#fff}
-  .b-green{background:#4ade80;border-color:#2db85e}
-  .b-green .bl,.b-green .bv,.b-green .bs{color:#1c1c1c}
-  .b-blue{background:#f5a623;border-color:#d4900a}
-  .b-blue .bl,.b-blue .bv,.b-blue .bs{color:#1c1c1c}
-  .b-cyan{background:#4ade80;border-color:#2db85e}
-  .b-cyan .bl,.b-cyan .bv,.b-cyan .bs{color:#1c1c1c}
-  .b-purple{background:#f5a623;border-color:#d4900a}
-  .b-orange{background:#f97316;border-color:#ea580c}
-  .b-orange .bl,.b-orange .bv,.b-orange .bs{color:#1c1c1c}
-  .b-slate{background:#2d2d2d;border-color:#404040}
+  /* Color blocks - corporate */
+  .b-navy{background:#f8f9fa;border-color:#e5e7eb}
+  .b-dark{background:#f8f9fa;border-color:#e5e7eb}
+  .b-gold{background:#fef9f0;border-color:#f5a623}
+  .b-gold .bl{color:#b8860b}
+  .b-gold .bv,.b-gold .bs{color:#1a1b1e}
+  .b-red{background:#fef2f2;border-color:#fca5a5}
+  .b-red .bl{color:#dc2626}
+  .b-red .bv{color:#dc2626}
+  .b-red .bs{color:#7f1d1d}
+  .b-green{background:#f0fdf4;border-color:#86efac}
+  .b-green .bl{color:#16a34a}
+  .b-green .bv{color:#16a34a}
+  .b-green .bs{color:#14532d}
+  .b-slate{background:#f8f9fa;border-color:#e5e7eb}
 
-  /* Block typography — BIG & BOLD */
-  .bl{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:5px}
-  .bv{font-size:44px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
-  .bv-xl{font-size:56px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
-  .bs{font-size:15px;color:#a3a3a3;line-height:1.45;margin-top:4px}
-  .bs strong{color:#fff;font-weight:800}
+  /* Block typography */
+  .bl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#9ca3af;margin-bottom:5px}
+  .bv{font-size:42px;font-weight:900;color:#1a1b1e;line-height:1.1;letter-spacing:-1px}
+  .bs{font-size:14px;color:#6b7280;line-height:1.5;margin-top:4px}
+  .bs strong{color:#1a1b1e;font-weight:700}
 
   /* ════════════════════════════════════════════
-     PAGE 1: THE PARADOX
+     PAGE 1: BRAND OVERVIEW
      ════════════════════════════════════════════ */
 
   .p1-grid{grid-template-columns:300px 1fr;grid-template-rows:auto auto auto 1fr;min-height:0}
 
-  /* Gauge block — single row, compact */
-  .gauge-block{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#252525;border:3px solid #f5a623;padding:16px}
-  .gauge-block .bl{text-align:center;width:100%;color:#f5a623;font-size:9px}
+  /* Gauge block */
+  .gauge-block{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8f9fa;border:2px solid #e5e7eb;padding:16px}
+  .gauge-block .bl{text-align:center;width:100%;color:#6b7280;font-size:9px}
   .gauge-block svg{max-width:260px}
 
   /* KPI strip */
   .kpi-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .kpi-mini{background:#2d2d2d;border-radius:4px;padding:14px 16px;border:2px solid #404040}
-  .kpi-mini .bl{font-size:8px;letter-spacing:1.5px;margin-bottom:4px;color:#737373}
-  .kpi-mini .bv{font-size:24px;color:#f5a623}
+  .kpi-mini{background:#f8f9fa;border-radius:8px;padding:14px 16px;border:1px solid #e5e7eb}
+  .kpi-mini .bl{font-size:8px;letter-spacing:1.5px;margin-bottom:4px;color:#9ca3af}
+  .kpi-mini .bv{font-size:22px;color:#1a1b1e}
 
   /* Strengths/Vulns */
   .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-  .si{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:4px;margin-bottom:6px}
-  .si.g{background:rgba(74,222,128,.08);border:2px solid rgba(74,222,128,.2);border-left:5px solid #4ade80}
-  .si.r{background:rgba(224,82,82,.15);border:3px solid #e05252;border-left:6px solid #e05252;position:relative}
-  .si.r::before{content:'⚠';position:absolute;top:4px;right:8px;font-size:11px;color:#e05252;opacity:.5}
-  .si-ic{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:900;flex-shrink:0}
-  .si.g .si-ic{background:#4ade80;color:#1c1c1c}
-  .si.r .si-ic{background:#e05252;font-size:17px}
-  .si-tx{font-size:18px;color:#d4d4d4;line-height:1.55}
-  .si-tx strong{color:#fff;font-weight:800}
+  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;margin-bottom:5px}
+  .si.g{background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #16a34a}
+  .si.r{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid #dc2626;position:relative}
+  .si.r::before{display:none}
+  .si-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
+  .si.g .si-ic{background:#16a34a}
+  .si.r .si-ic{background:#dc2626;font-size:14px}
+  .si-tx{font-size:14px;color:#374151;line-height:1.5}
+  .si-tx strong{color:#1a1b1e;font-weight:700}
 
-  .sv-hd{font-family:'Press Start 2P',monospace;font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
-  .sv-hd.grn{color:#4ade80}
-  .sv-hd.red{color:#e05252}
-  .sv-hd .ln{flex:1;height:3px}
-  .sv-hd.grn .ln{background:linear-gradient(90deg,#4ade80,transparent)}
-  .sv-hd.red .ln{background:linear-gradient(90deg,#e05252,transparent)}
+  .sv-hd{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .sv-hd.grn{color:#16a34a}
+  .sv-hd.red{color:#dc2626}
+  .sv-hd .ln{flex:1;height:1px}
+  .sv-hd.grn .ln{background:linear-gradient(90deg,#16a34a22,transparent)}
+  .sv-hd.red .ln{background:linear-gradient(90deg,#dc262622,transparent)}
 
   /* Exec summary */
-  .exec{background:rgba(245,166,35,.08);border:2px solid rgba(245,166,35,.2);border-left:5px solid #f5a623;border-radius:4px;padding:36px 34px;grid-column:1/-1;flex:1;display:flex;flex-direction:column;justify-content:center}
-  .exec-lbl{font-family:'Press Start 2P',monospace;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;margin-bottom:14px}
-  .exec-tx{font-size:24px;color:#d4d4d4;line-height:1.7}
+  .exec{background:#fef9f0;border:1px solid #fde68a;border-left:4px solid #f5a623;border-radius:8px;padding:30px 28px;grid-column:1/-1;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .exec-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#b8860b;margin-bottom:12px}
+  .exec-tx{font-size:20px;color:#374151;line-height:1.7}
 
   /* Ownership bar */
-  .own{grid-column:1/-1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:18px 24px;display:flex;align-items:center;gap:20px}
-  .own-pct{font-family:'Press Start 2P',monospace;font-size:28px;color:#f5a623}
+  .own{grid-column:1/-1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px 24px;display:flex;align-items:center;gap:20px}
+  .own-pct{font-size:28px;font-weight:900;color:#f5a623}
   .own-info{flex:1}
-  .own-title{font-size:18px;font-weight:800;color:#fff}
-  .own-desc{font-size:15px;color:#a3a3a3;margin-top:2px}
-  .own-track{width:200px;height:14px;background:#1c1c1c;border:2px solid #404040;border-radius:2px;overflow:hidden;flex-shrink:0}
-  .own-fill{height:100%;background:#f5a623}
+  .own-title{font-size:16px;font-weight:800;color:#1a1b1e}
+  .own-desc{font-size:14px;color:#6b7280;margin-top:2px}
+  .own-track{width:200px;height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden;flex-shrink:0}
+  .own-fill{height:100%;background:#f5a623;border-radius:5px}
 
   /* ════════════════════════════════════════════
-     PAGE 2: ASSET X-RAY
+     PAGE 2: PRODUCT ANALYSIS
      ════════════════════════════════════════════ */
 
-  .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto minmax(0,280px) auto 1fr auto;min-height:0}
+  .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto minmax(0,260px) auto 1fr auto;min-height:0}
 
   .asin-bar{grid-column:1/-1;padding:0}
-  .asin-title{font-size:20px;font-weight:900;color:#fff}
-  .asin-meta{font-size:15px;color:#737373;margin-top:3px}
+  .asin-title{font-size:18px;font-weight:800;color:#1a1b1e}
+  .asin-meta{font-size:13px;color:#9ca3af;margin-top:3px}
   .asin-meta span{color:#f5a623;font-weight:700;font-family:monospace}
 
   /* Product image */
-  .img-block{display:flex;align-items:stretch;justify-content:stretch;max-height:280px;overflow:hidden}
-  .img-wrap{width:100%;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
+  .img-block{display:flex;align-items:stretch;justify-content:stretch;max-height:260px;overflow:hidden}
+  .img-wrap{width:100%;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
   .img-wrap img{width:100%;height:100%;object-fit:contain}
-  .img-ph{font-size:16px;color:#737373;text-align:center;padding:20px}
-  .img-ph .code{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5a623;margin-top:8px}
+  .img-ph{font-size:14px;color:#9ca3af;text-align:center;padding:20px}
 
   /* Detail cards */
-  .dc{background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px;display:flex;flex-direction:column}
-  .dc-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:8px}
-  .dc-big{font-size:36px;font-weight:900;color:#f5a623}
-  .dc-sub{font-size:15px;color:#a3a3a3;margin-top:4px}
+  .dc{background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px;display:flex;flex-direction:column}
+  .dc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#9ca3af;margin-bottom:8px}
+  .dc-big{font-size:32px;font-weight:900;color:#f5a623}
+  .dc-sub{font-size:14px;color:#6b7280;margin-top:4px}
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-  .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
-  .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
-  .dc-badge.third{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
-  .dc-badge.fba{background:rgba(245,166,35,.1);color:#f5a623;border-color:#f5a623}
-  .dc-badge.fbm{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
+  .dc-badge{font-size:9px;font-weight:700;padding:4px 10px;border-radius:4px;border:1px solid}
+  .dc-badge.brand{background:#f0fdf4;color:#16a34a;border-color:#86efac}
+  .dc-badge.third{background:#f8f9fa;color:#6b7280;border-color:#d1d5db}
+  .dc-badge.fba{background:#fef9f0;color:#b8860b;border-color:#fde68a}
+  .dc-badge.fbm{background:#f8f9fa;color:#6b7280;border-color:#d1d5db}
   .dc-review{grid-column:span 2}
-  .dc-review-text{font-size:16px;color:#a3a3a3;line-height:1.6;font-style:italic;margin-top:6px;border-left:3px solid #525252;padding-left:12px}
+  .dc-review-text{font-size:14px;color:#6b7280;line-height:1.6;font-style:italic;margin-top:6px;border-left:3px solid #e5e7eb;padding-left:12px}
   .rb{margin-top:10px}
-  .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
-  .rb-lbl{font-family:'Press Start 2P',monospace;font-size:9px;color:#a3a3a3;width:30px;text-align:right}
-  .rb-track{flex:1;height:14px;background:#1c1c1c;border:2px solid #333;border-radius:2px;overflow:hidden}
-  .rb-fill{height:100%}
-  .rb-fill.r5{background:#4ade80}
-  .rb-fill.r4{background:#a3e635}
+  .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+  .rb-lbl{font-size:10px;font-weight:700;color:#9ca3af;width:28px;text-align:right}
+  .rb-track{flex:1;height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden}
+  .rb-fill{height:100%;border-radius:5px}
+  .rb-fill.r5{background:#16a34a}
+  .rb-fill.r4{background:#65a30d}
   .rb-fill.r3{background:#f5a623}
-  .rb-fill.r2{background:#f97316}
-  .rb-fill.r1{background:#e05252}
-  .rb-pct{font-family:monospace;font-size:13px;font-weight:700;color:#737373;width:36px}
+  .rb-fill.r2{background:#ea580c}
+  .rb-fill.r1{background:#dc2626}
+  .rb-pct{font-family:monospace;font-size:12px;font-weight:700;color:#9ca3af;width:34px}
 
   /* Product table */
   .tbl-block{grid-column:1/-1}
-  .tbl-lbl{font-family:'Press Start 2P',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:10px}
-  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border:2px solid #404040;border-radius:4px;overflow:hidden}
-  .ptbl th{background:#2d2d2d;padding:14px 16px;font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:#f5a623;text-align:left;border-bottom:3px solid #f5a623}
-  .ptbl td{padding:13px 16px;font-size:16px;color:#d4d4d4;border-bottom:1px solid #333;background:#252525}
+  .tbl-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#1a1b1e;margin-bottom:8px}
+  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+  .ptbl th{background:#f8f9fa;padding:12px 14px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b7280;text-align:left;border-bottom:2px solid #e5e7eb}
+  .ptbl td{padding:11px 14px;font-size:14px;color:#374151;border-bottom:1px solid #f3f4f6;background:#fff}
   .ptbl tr:last-child td{border-bottom:none}
-  .ptbl tr:nth-child(even) td{background:#2d2d2d}
-  .badge-sm{font-family:'Press Start 2P',monospace;font-size:7px;padding:4px 10px;border-radius:2px;display:inline-block;margin-right:2px;border:1px solid}
-  .badge-prime{background:rgba(245,166,35,.15);color:#f5a623;border-color:#f5a623}
-  .badge-choice{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
-  .badge-bestseller{background:rgba(245,166,35,.2);color:#f5a623;border-color:#f5a623}
-  .badge-sponsored{background:rgba(163,163,163,.08);color:#737373;border-color:#525252}
-  .badge-notbrand{background:rgba(224,82,82,.1);color:#e05252;border-color:#e05252}
-  .pos-badge{font-family:'Press Start 2P',monospace;font-size:14px;color:#f5a623}
+  .ptbl tr:nth-child(even) td{background:#f8f9fa}
+  .badge-sm{font-size:8px;font-weight:700;padding:3px 8px;border-radius:4px;display:inline-block;margin-right:2px;border:1px solid}
+  .badge-prime{background:#fef9f0;color:#b8860b;border-color:#fde68a}
+  .badge-choice{background:#f0fdf4;color:#16a34a;border-color:#86efac}
+  .badge-bestseller{background:#fef9f0;color:#b8860b;border-color:#fde68a}
+  .badge-sponsored{background:#f3f4f6;color:#6b7280;border-color:#d1d5db}
+  .badge-notbrand{background:#fef2f2;color:#dc2626;border-color:#fca5a5}
+  .pos-badge{font-size:14px;font-weight:800;color:#f5a623}
 
   /* Extra detail */
-  .extra-detail{display:flex;gap:12px;margin-top:10px}
-  .ed-card{flex:1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px}
-  .ed-title{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:12px}
-  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #333}
+  .extra-detail{display:flex;gap:10px;margin-top:10px}
+  .ed-card{flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px}
+  .ed-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#9ca3af;margin-bottom:10px}
+  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f3f4f6}
   .ed-row:last-child{border-bottom:none}
-  .ed-label{font-size:18px;color:#a3a3a3}
-  .ed-value{font-size:20px;font-weight:700;color:#fff}
+  .ed-label{font-size:14px;color:#6b7280}
+  .ed-value{font-size:16px;font-weight:700;color:#1a1b1e}
 
   /* Market strip */
   .mkt-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
 
   /* ════════════════════════════════════════════
-     PAGE 3: COST OF FRICTION
+     PAGE 3: ACTION PLAN
      ════════════════════════════════════════════ */
 
   .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto;min-height:0}
 
-  /* ALARM MODE: Leak cards */
-  .lc{background:rgba(224,82,82,.12);border:3px solid #e05252;border-radius:4px;padding:14px 18px;margin-bottom:6px;position:relative;overflow:hidden;clip-path:inset(0)}
-  .lc::before{content:'';position:absolute;top:0;right:0;width:44px;height:44px;background:repeating-linear-gradient(45deg,#e05252 0,#e05252 4px,transparent 4px,transparent 8px);opacity:.15}
-  .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .lc-ic{width:32px;height:32px;background:#e05252;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Press Start 2P',monospace;font-size:13px;font-weight:900;flex-shrink:0}
-  .lc-title{font-size:18px;font-weight:900;color:#e05252;flex:1}
-  .lc-sev{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:#e05252;color:#fff;border:2px solid #c43e3e;text-transform:uppercase;letter-spacing:1px}
-  .lc-tx{font-size:14px;color:#d4d4d4;line-height:1.5}
+  /* Leak cards */
+  .lc{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid #dc2626;border-radius:8px;padding:14px 18px;margin-bottom:6px;position:relative;overflow:hidden}
+  .lc::before{display:none}
+  .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .lc-ic{width:28px;height:28px;background:#dc2626;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
+  .lc-title{font-size:16px;font-weight:800;color:#dc2626;flex:1}
+  .lc-sev{font-size:8px;font-weight:700;padding:4px 10px;border-radius:4px;background:#dc2626;color:#fff;text-transform:uppercase;letter-spacing:1px}
+  .lc-tx{font-size:13px;color:#374151;line-height:1.5}
 
   /* Plan cards */
-  .pc{background:rgba(245,166,35,.06);border:2px solid rgba(245,166,35,.3);border-left:5px solid #f5a623;border-radius:4px;padding:14px 18px;margin-bottom:6px}
-  .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .pc-ic{width:30px;height:30px;background:#f5a623;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#1c1c1c;font-family:'Press Start 2P',monospace;font-size:11px;font-weight:900;flex-shrink:0}
-  .pc-title{font-size:18px;font-weight:800;color:#f5a623;flex:1}
-  .pc-imp{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:rgba(74,222,128,.1);color:#4ade80;border:2px solid rgba(74,222,128,.3);letter-spacing:1px}
-  .pc-tx{font-size:14px;color:#a3a3a3;line-height:1.5}
+  .pc{background:#fef9f0;border:1px solid #fde68a;border-left:4px solid #f5a623;border-radius:8px;padding:14px 18px;margin-bottom:6px}
+  .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .pc-ic{width:28px;height:28px;background:#f5a623;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900;flex-shrink:0}
+  .pc-title{font-size:16px;font-weight:800;color:#b8860b;flex:1}
+  .pc-imp{font-size:8px;font-weight:700;padding:4px 10px;border-radius:4px;background:#f0fdf4;color:#16a34a;border:1px solid #86efac;letter-spacing:1px}
+  .pc-tx{font-size:13px;color:#6b7280;line-height:1.5}
 
-  /* ALARM MODE: Findings */
+  /* Findings */
   .find-block{grid-column:1/-1}
-  .fr{display:flex;align-items:flex-start;padding:14px 18px;border-radius:4px;margin-bottom:6px;gap:12px;border:2px solid;position:relative}
-  .fr.issue{background:rgba(224,82,82,.1);border-color:#e05252;border-left:6px solid #e05252}
-  .fr.issue::after{content:'⚠ ALERT';position:absolute;top:6px;right:10px;font-family:'Press Start 2P',monospace;font-size:7px;color:#e05252;opacity:.6;letter-spacing:1px}
-  .fr.opportunity{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.3);border-left:5px solid #4ade80}
-  .fr.warning{background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.3);border-left:5px solid #f5a623}
-  .fr.competitor{background:rgba(245,166,35,.04);border-color:rgba(245,166,35,.15);border-left:5px solid #f97316}
-  .fr-ic{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
-  .fr-ic.issue{background:#e05252}.fr-ic.opportunity{background:#4ade80;color:#1c1c1c}
-  .fr-ic.warning{background:#f5a623;color:#1c1c1c}.fr-ic.competitor{background:#f97316;color:#1c1c1c}
-  .fr-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
-  .fr-lbl.issue{color:#e05252}.fr-lbl.opportunity{color:#4ade80}.fr-lbl.warning{color:#f5a623}.fr-lbl.competitor{color:#f97316}
-  .fr-tx{font-size:14px;color:#d4d4d4;line-height:1.5}
-
-  /* Results strip */
-  .rs-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .fr{display:flex;align-items:flex-start;padding:14px 18px;border-radius:8px;margin-bottom:6px;gap:12px;border:1px solid;position:relative}
+  .fr.issue{background:#fef2f2;border-color:#fecaca;border-left:4px solid #dc2626}
+  .fr.issue::after{content:'ALERT';position:absolute;top:8px;right:12px;font-size:8px;font-weight:700;color:#dc2626;opacity:.5;letter-spacing:1px}
+  .fr.opportunity{background:#f0fdf4;border-color:#bbf7d0;border-left:4px solid #16a34a}
+  .fr.warning{background:#fef9f0;border-color:#fde68a;border-left:4px solid #f5a623}
+  .fr.competitor{background:#fff7ed;border-color:#fed7aa;border-left:4px solid #ea580c}
+  .fr-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
+  .fr-ic.issue{background:#dc2626}.fr-ic.opportunity{background:#16a34a}
+  .fr-ic.warning{background:#f5a623}.fr-ic.competitor{background:#ea580c}
+  .fr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px}
+  .fr-lbl.issue{color:#dc2626}.fr-lbl.opportunity{color:#16a34a}.fr-lbl.warning{color:#b8860b}.fr-lbl.competitor{color:#ea580c}
+  .fr-tx{font-size:13px;color:#374151;line-height:1.5}
 
   /* CTA */
-  .cta{grid-column:1/-1;background:#2d2d2d;border:3px solid #f5a623;border-radius:4px;padding:24px 40px;text-align:center;position:relative;overflow:hidden}
-  .cta::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(245,166,35,.03) 20px,rgba(245,166,35,.03) 40px);pointer-events:none}
-  .cta-glow{display:none}.cta-glow2{display:none}
-  .cta-t{font-family:'Press Start 2P',monospace;font-size:22px;color:#f5a623;position:relative;z-index:1;line-height:1.4}
-  .cta-s{font-size:19px;color:#a3a3a3;margin:14px 0 26px;line-height:1.6;position:relative;z-index:1}
-  .cta-btn{display:inline-block;background:#f5a623;color:#1c1c1c;padding:20px 60px;border-radius:4px;font-family:'Press Start 2P',monospace;font-size:12px;text-decoration:none;letter-spacing:1px;position:relative;z-index:1;border:3px solid #d4900a}
-  .cta-trust{margin-top:14px;font-size:14px;color:#737373;position:relative;z-index:1}
-
-  /* About row */
-  .about-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .cta{grid-column:1/-1;background:#1a1b2e;border:none;border-radius:8px;padding:28px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta-t{font-size:22px;font-weight:900;color:#fff;position:relative;z-index:1;line-height:1.4;letter-spacing:-.5px}
+  .cta-btn{display:inline-block;background:#f5a623;color:#fff;padding:16px 50px;border-radius:8px;font-size:14px;font-weight:800;text-decoration:none;letter-spacing:.5px;position:relative;z-index:1}
 
   /* Final footer */
   .fftr{flex-shrink:0}
-  .fftr-conf{text-align:center;padding:8px;font-size:11px;color:#525252;border-top:2px solid #333}
+  .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#9ca3af;border-top:1px solid #e5e7eb}
   .fftr-main{padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
-  .fftr-left{font-size:14px;color:#737373}
+  .fftr-left{font-size:13px;color:#6b7280}
   .fftr-left strong{color:#f5a623}
   .fftr-left a{color:#f5a623;text-decoration:none}
-  .fftr-right{font-size:12px;color:#525252;text-align:right}
+  .fftr-right{font-size:11px;color:#9ca3af;text-align:right}
   .fftr-right strong{color:#f5a623}
 
-  @media print{body{background:#1c1c1c}.page{box-shadow:none;margin:0}}
+  @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ PAGE 1: THE PARADOX ═══════════════ -->
+<!-- ═══════════════ PAGE 1: BRAND OVERVIEW ═══════════════ -->
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
@@ -257,48 +237,47 @@
   </div>
   <div class="pb">
     <div class="bento p1-grid">
-      <!-- Section Title - full width -->
-      <div class="block b-gold" style="grid-column:1/-1;padding:18px 26px;border:3px solid #d4900a;display:flex;flex-direction:row;align-items:center;gap:16px">
-        <svg viewBox="0 0 32 32" width="36" height="36" style="flex-shrink:0"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="24" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="8" height="4" fill="#1c1c1c"/><rect x="8" y="24" width="16" height="4" fill="#1c1c1c"/></svg>
+      <!-- Section Title -->
+      <div class="block" style="grid-column:1/-1;padding:18px 26px;background:#1a1b2e;border:none;display:flex;flex-direction:row;align-items:center;gap:16px;border-radius:8px">
         <div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.45)">Section I</div>
-          <div style="font-size:44px;font-weight:900;color:#1c1c1c;letter-spacing:-2px;line-height:1.1">The Paradox</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.4)">Section I</div>
+          <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1">Brand Overview</div>
         </div>
         <div style="flex:1"></div>
         <div style="text-align:right">
-          <div style="font-family:'Press Start 2P',monospace;font-size:8px;color:rgba(28,28,28,.4);margin-bottom:4px">Strengths vs. gaps</div>
-          <div style="font-size:16px;font-weight:800;color:#1c1c1c">costing you revenue</div>
+          <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.35);margin-bottom:4px">Strengths vs. gaps</div>
+          <div style="font-size:15px;font-weight:700;color:#f5a623">costing you revenue</div>
         </div>
       </div>
 
-      <!-- Gauge (compact) -->
+      <!-- Gauge -->
       <div class="block gauge-block">
         <div class="bl">Brand Health</div>
         <div style="max-width:260px;margin:0 auto">{{gaugeSVG}}</div>
       </div>
 
-      <!-- KPIs right of gauge -->
+      <!-- KPIs -->
       <div style="display:flex;flex-direction:column;gap:8px">
         <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:26px">{{brandMaturity}}</div></div>
-          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:26px">{{brandProductCount}}/{{totalResults}}</div></div>
-          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:26px">{{sellerCount}}</div></div>
+          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:22px">{{brandMaturity}}</div></div>
+          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:22px">{{brandProductCount}}/{{totalResults}}</div></div>
+          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:22px">{{sellerCount}}</div></div>
         </div>
         <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:26px">{{fbaPercent}}%</div></div>
-          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:26px">{{avgRating}} &#9733;</div></div>
-          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:26px">{{ownershipPct}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:22px">{{fbaPercent}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:22px">{{avgRating}} &#9733;</div></div>
+          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:22px">{{ownershipPct}}%</div></div>
         </div>
       </div>
 
       <!-- Strengths + Vulnerabilities -->
       <div class="sv-block">
         <div>
-          <div class="sv-hd grn"><svg viewBox="0 0 20 20" width="18" height="18" style="flex-shrink:0"><rect x="16" y="2" width="4" height="4" fill="#4ade80"/><rect x="12" y="6" width="4" height="4" fill="#4ade80"/><rect x="8" y="10" width="4" height="4" fill="#4ade80"/><rect x="4" y="6" width="4" height="4" fill="#4ade80"/><rect x="0" y="2" width="4" height="4" fill="#4ade80"/></svg> Strengths <div class="ln"></div></div>
+          <div class="sv-hd grn">&#10003; Strengths <div class="ln"></div></div>
           {{strengthsList}}
         </div>
         <div>
-          <div class="sv-hd red"><svg viewBox="0 0 20 20" width="18" height="18" style="flex-shrink:0"><rect x="0" y="0" width="4" height="4" fill="#e05252"/><rect x="16" y="0" width="4" height="4" fill="#e05252"/><rect x="4" y="4" width="4" height="4" fill="#e05252"/><rect x="12" y="4" width="4" height="4" fill="#e05252"/><rect x="8" y="8" width="4" height="4" fill="#e05252"/><rect x="4" y="12" width="4" height="4" fill="#e05252"/><rect x="12" y="12" width="4" height="4" fill="#e05252"/><rect x="0" y="16" width="4" height="4" fill="#e05252"/><rect x="16" y="16" width="4" height="4" fill="#e05252"/></svg> Vulnerabilities <div class="ln"></div></div>
+          <div class="sv-hd red">&#10007; Vulnerabilities <div class="ln"></div></div>
           {{vulnerabilitiesList}}
         </div>
       </div>
@@ -311,7 +290,7 @@
   </div>
 </div>
 
-<!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
+<!-- ═══════════════ PAGE 2: PRODUCT ANALYSIS ═══════════════ -->
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
@@ -320,20 +299,19 @@
   <div class="pb">
     <div class="bento p2-grid">
       <!-- Title block -->
-      <div class="block b-gold" style="grid-column:1/-1;padding:14px 26px;border:3px solid #d4900a">
+      <div class="block" style="grid-column:1/-1;padding:14px 26px;background:#1a1b2e;border:none;border-radius:8px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-          <svg viewBox="0 0 32 32" width="24" height="24" style="flex-shrink:0"><rect x="4" y="4" width="4" height="4" fill="#1c1c1c"/><rect x="8" y="8" width="20" height="4" fill="#1c1c1c"/><rect x="8" y="12" width="20" height="4" fill="#1c1c1c"/><rect x="10" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="12" height="4" fill="#1c1c1c"/><rect x="12" y="26" width="4" height="4" fill="#1c1c1c"/><rect x="20" y="26" width="4" height="4" fill="#1c1c1c"/></svg>
-          <span style="font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.45)">Section II</span>
-          <span style="font-size:28px;font-weight:900;letter-spacing:-1px;color:#1c1c1c">Asset X-Ray</span>
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.4)">Section II</span>
+          <span style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-.5px">Product Analysis</span>
         </div>
-        <div style="font-size:15px;font-weight:700;color:#1c1c1c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{bestAsinTitleTruncated}}</div>
-        <div class="asin-meta"><span style="color:#1c1c1c;font-weight:700">{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+        <div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{bestAsinTitleTruncated}}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px"><span style="color:#f5a623;font-weight:700">{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
       </div>
 
-      <!-- Callout blocks — bigger text -->
-      <div class="block {{calloutContentBg}}" style="padding:20px">
+      <!-- Callout blocks -->
+      <div class="block {{calloutContentBg}}" style="padding:18px">
         <div class="bl">Content</div>
-        <div class="bv" style="font-size:38px">{{calloutContentValue}}</div>
+        <div class="bv" style="font-size:34px">{{calloutContentValue}}</div>
         <div class="bs">{{calloutContentDetail}}</div>
       </div>
 
@@ -342,15 +320,15 @@
         <div class="img-wrap">{{productImageHtml}}</div>
       </div>
 
-      <div class="block {{calloutRatingBg}}" style="padding:20px">
+      <div class="block {{calloutRatingBg}}" style="padding:18px">
         <div class="bl">Rating</div>
-        <div class="bv" style="font-size:38px">{{avgRating}} &#9733;</div>
+        <div class="bv" style="font-size:34px">{{avgRating}} &#9733;</div>
         <div class="bs">{{calloutRatingDetail}}</div>
       </div>
 
-      <div class="block {{calloutFulfillBg}}" style="padding:20px">
+      <div class="block {{calloutFulfillBg}}" style="padding:18px">
         <div class="bl">Fulfillment</div>
-        <div class="bv" style="font-size:38px">{{calloutFulfillValue}}</div>
+        <div class="bv" style="font-size:34px">{{calloutFulfillValue}}</div>
         <div class="bs">{{calloutFulfillDetail}}</div>
       </div>
 
@@ -358,9 +336,9 @@
         {{buyBoxCard}}
       </div>
 
-      <div class="block {{calloutCompBg}}" style="padding:20px">
+      <div class="block {{calloutCompBg}}" style="padding:18px">
         <div class="bl">Competition</div>
-        <div class="bv" style="font-size:38px">{{calloutCompValue}}</div>
+        <div class="bv" style="font-size:34px">{{calloutCompValue}}</div>
         <div class="bs">{{calloutCompDetail}}</div>
       </div>
 
@@ -376,10 +354,10 @@
 
       <!-- Market strip -->
       <div class="mkt-row">
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:28px;color:#f5a623">{{priceRange}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:28px;color:#f5a623">{{ppcCount}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:28px;color:#f5a623">{{competitorCount}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:28px;color:#f5a623">{{catalogSize}}</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{priceRange}}</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{ppcCount}}</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{competitorCount}}</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{catalogSize}}</div></div>
       </div>
     </div>
 
@@ -387,7 +365,7 @@
   </div>
 </div>
 
-<!-- ═══════════════ PAGE 3: COST OF FRICTION ═══════════════ -->
+<!-- ═══════════════ PAGE 3: ACTION PLAN ═══════════════ -->
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
@@ -396,18 +374,18 @@
   <div class="pb">
     <div class="bento p3-grid">
       <!-- Title blocks -->
-      <div class="block" style="grid-column:1;padding:20px 24px;background:#e05252;border:3px solid #c43e3e;display:flex;flex-direction:row;align-items:center;gap:14px">
-        <svg viewBox="0 0 32 32" width="32" height="32" style="flex-shrink:0"><rect x="14" y="2" width="4" height="4" fill="#fff"/><rect x="12" y="6" width="8" height="4" fill="#fff"/><rect x="10" y="10" width="12" height="4" fill="#fff"/><rect x="8" y="14" width="16" height="4" fill="#fff"/><rect x="6" y="18" width="20" height="4" fill="#fff"/><rect x="4" y="22" width="24" height="4" fill="#fff"/><rect x="14" y="10" width="4" height="8" fill="#e05252"/><rect x="14" y="20" width="4" height="4" fill="#e05252"/></svg>
+      <div class="block" style="grid-column:1;padding:18px 22px;background:#dc2626;border:none;border-radius:8px;display:flex;flex-direction:row;align-items:center;gap:14px">
+        <div style="width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:900;flex-shrink:0">!</div>
         <div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Section III</div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#fff;line-height:1.4;letter-spacing:1px">REVENUE<br>LEAK</div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Section III</div>
+          <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.3">Revenue Leak</div>
         </div>
       </div>
-      <div class="block" style="grid-column:2;padding:20px 24px;background:#f5a623;border:3px solid #d4900a;display:flex;flex-direction:row;align-items:center;gap:14px">
-        <svg viewBox="0 0 32 32" width="32" height="32" style="flex-shrink:0"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="8" y="20" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="24" width="8" height="4" fill="#1c1c1c"/><rect x="14" y="28" width="4" height="4" fill="#1c1c1c"/></svg>
+      <div class="block" style="grid-column:2;padding:18px 22px;background:#f5a623;border:none;border-radius:8px;display:flex;flex-direction:row;align-items:center;gap:14px">
+        <div style="width:36px;height:36px;background:rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:900;flex-shrink:0">&#10140;</div>
         <div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(28,28,28,.5)">Our Plan</div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#1c1c1c;line-height:1.4;letter-spacing:1px">GROWTH<br>PLAN</div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Our Plan</div>
+          <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.3">Growth Plan</div>
         </div>
       </div>
 
@@ -425,7 +403,7 @@
         {{findings}}
       </div>
 
-      <!-- CTA — clean, title + button -->
+      <!-- CTA -->
       <div class="cta">
         <div class="cta-t">READY TO FIX THIS?</div>
         <div style="height:16px"></div>
