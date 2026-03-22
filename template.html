@@ -53,17 +53,17 @@
   .b-slate{background:#2d2d2d;border-color:#404040}
 
   /* Block typography — BIG & BOLD */
-  .bl{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#737373;margin-bottom:6px}
+  .bl{font-family:'Press Start 2P',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#737373;margin-bottom:6px}
   .bv{font-size:44px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
   .bv-xl{font-size:56px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
-  .bs{font-size:17px;color:#a3a3a3;line-height:1.5;margin-top:6px}
+  .bs{font-size:19px;color:#a3a3a3;line-height:1.5;margin-top:6px}
   .bs strong{color:#fff;font-weight:800}
 
   /* ════════════════════════════════════════════
      PAGE 1: THE PARADOX
      ════════════════════════════════════════════ */
 
-  .p1-grid{grid-template-columns:300px 1fr;grid-template-rows:auto auto 1fr auto;min-height:0}
+  .p1-grid{grid-template-columns:300px 1fr;grid-template-rows:auto auto auto 1fr;min-height:0}
 
   /* Gauge block — single row, compact */
   .gauge-block{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#252525;border:3px solid #f5a623;padding:16px}
@@ -79,14 +79,14 @@
   /* Strengths/Vulns */
   .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-  .si{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;border-radius:4px;margin-bottom:6px}
+  .si{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:4px;margin-bottom:6px}
   .si.g{background:rgba(74,222,128,.08);border:2px solid rgba(74,222,128,.2);border-left:5px solid #4ade80}
   .si.r{background:rgba(224,82,82,.15);border:3px solid #e05252;border-left:6px solid #e05252;position:relative}
   .si.r::before{content:'⚠';position:absolute;top:4px;right:8px;font-size:11px;color:#e05252;opacity:.5}
   .si-ic{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:900;flex-shrink:0}
   .si.g .si-ic{background:#4ade80;color:#1c1c1c}
   .si.r .si-ic{background:#e05252;font-size:17px}
-  .si-tx{font-size:16px;color:#d4d4d4;line-height:1.55}
+  .si-tx{font-size:18px;color:#d4d4d4;line-height:1.55}
   .si-tx strong{color:#fff;font-weight:800}
 
   .sv-hd{font-family:'Press Start 2P',monospace;font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
@@ -97,9 +97,9 @@
   .sv-hd.red .ln{background:linear-gradient(90deg,#e05252,transparent)}
 
   /* Exec summary */
-  .exec{background:rgba(245,166,35,.08);border:2px solid rgba(245,166,35,.2);border-left:5px solid #f5a623;border-radius:4px;padding:22px 26px;grid-column:1/-1}
-  .exec-lbl{font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:8px}
-  .exec-tx{font-size:17px;color:#d4d4d4;line-height:1.65}
+  .exec{background:rgba(245,166,35,.08);border:2px solid rgba(245,166,35,.2);border-left:5px solid #f5a623;border-radius:4px;padding:36px 34px;grid-column:1/-1;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .exec-lbl{font-family:'Press Start 2P',monospace;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;margin-bottom:14px}
+  .exec-tx{font-size:24px;color:#d4d4d4;line-height:1.7}
 
   /* Ownership bar */
   .own{grid-column:1/-1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:18px 24px;display:flex;align-items:center;gap:20px}
@@ -131,8 +131,8 @@
   /* Detail cards */
   .dc{background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px;display:flex;flex-direction:column}
   .dc-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:8px}
-  .dc-big{font-size:34px;font-weight:900;color:#f5a623}
-  .dc-sub{font-size:16px;color:#a3a3a3;margin-top:4px}
+  .dc-big{font-size:42px;font-weight:900;color:#f5a623}
+  .dc-sub{font-size:18px;color:#a3a3a3;margin-top:4px}
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
   .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
   .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
@@ -175,8 +175,8 @@
   .ed-title{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:12px}
   .ed-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #333}
   .ed-row:last-child{border-bottom:none}
-  .ed-label{font-size:16px;color:#a3a3a3}
-  .ed-value{font-size:18px;font-weight:700;color:#fff}
+  .ed-label{font-size:18px;color:#a3a3a3}
+  .ed-value{font-size:20px;font-weight:700;color:#fff}
 
   /* Market strip */
   .mkt-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
@@ -280,14 +280,14 @@
       <!-- KPIs right of gauge -->
       <div style="display:flex;flex-direction:column;gap:8px">
         <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:22px">{{brandMaturity}}</div></div>
-          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:22px">{{brandProductCount}}/{{totalResults}}</div></div>
-          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:22px">{{sellerCount}}</div></div>
+          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:26px">{{brandMaturity}}</div></div>
+          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:26px">{{brandProductCount}}/{{totalResults}}</div></div>
+          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:26px">{{sellerCount}}</div></div>
         </div>
         <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:22px">{{fbaPercent}}%</div></div>
-          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:22px">{{avgRating}} &#9733;</div></div>
-          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:22px">{{ownershipPct}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:26px">{{fbaPercent}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:26px">{{avgRating}} &#9733;</div></div>
+          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:26px">{{ownershipPct}}%</div></div>
         </div>
       </div>
 
@@ -335,7 +335,7 @@
       <!-- Callout blocks — bigger text -->
       <div class="block {{calloutContentBg}}" style="padding:20px">
         <div class="bl">Content</div>
-        <div class="bv" style="font-size:36px">{{calloutContentValue}}</div>
+        <div class="bv" style="font-size:48px">{{calloutContentValue}}</div>
         <div class="bs">{{calloutContentDetail}}</div>
       </div>
 
@@ -346,13 +346,13 @@
 
       <div class="block {{calloutRatingBg}}" style="padding:20px">
         <div class="bl">Rating</div>
-        <div class="bv" style="font-size:36px">{{avgRating}} &#9733;</div>
+        <div class="bv" style="font-size:48px">{{avgRating}} &#9733;</div>
         <div class="bs">{{calloutRatingDetail}}</div>
       </div>
 
       <div class="block {{calloutFulfillBg}}" style="padding:20px">
         <div class="bl">Fulfillment</div>
-        <div class="bv" style="font-size:36px">{{calloutFulfillValue}}</div>
+        <div class="bv" style="font-size:48px">{{calloutFulfillValue}}</div>
         <div class="bs">{{calloutFulfillDetail}}</div>
       </div>
 
@@ -362,7 +362,7 @@
 
       <div class="block {{calloutCompBg}}" style="padding:20px">
         <div class="bl">Competition</div>
-        <div class="bv" style="font-size:36px">{{calloutCompValue}}</div>
+        <div class="bv" style="font-size:48px">{{calloutCompValue}}</div>
         <div class="bs">{{calloutCompDetail}}</div>
       </div>
 
@@ -378,10 +378,10 @@
 
       <!-- Market strip -->
       <div class="mkt-row">
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:22px;color:#f5a623">{{priceRange}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:22px;color:#f5a623">{{ppcCount}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:22px;color:#f5a623">{{competitorCount}}</div></div>
-        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:22px;color:#f5a623">{{catalogSize}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:28px;color:#f5a623">{{priceRange}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:28px;color:#f5a623">{{ppcCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:28px;color:#f5a623">{{competitorCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:28px;color:#f5a623">{{catalogSize}}</div></div>
       </div>
     </div>
 
@@ -429,29 +429,18 @@
 
       <!-- Results strip -->
       <div class="rs-row">
-        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:22px">&ge;90%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Sales Control</div></div>
-        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:22px">&ge;95%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Price Stability</div></div>
-        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:22px">+10-30%</div><div class="bl" style="margin-top:4px">More Buyers</div></div>
-        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:22px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
-        <div class="block" style="padding:14px;text-align:center;background:#f97316;border:3px solid #ea580c"><div class="bv" style="font-size:22px">+15-40%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Revenue</div></div>
+        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:26px">&ge;90%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Sales Control</div></div>
+        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:26px">&ge;95%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Price Stability</div></div>
+        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:26px">+10-30%</div><div class="bl" style="margin-top:4px">More Buyers</div></div>
+        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:26px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
+        <div class="block" style="padding:14px;text-align:center;background:#f97316;border:3px solid #ea580c"><div class="bv" style="font-size:26px">+15-40%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Revenue</div></div>
       </div>
 
-      <!-- CTA -->
+      <!-- CTA — clean, just title + button -->
       <div class="cta">
-        <div class="cta-glow"></div><div class="cta-glow2"></div>
         <div class="cta-t">READY TO FIX THIS?</div>
-        <div class="cta-s">We invest our own capital. No fees. No retainer. We make money when you make money.</div>
+        <div style="height:20px"></div>
         <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
-        <div class="cta-trust">No commitment &middot; We walk you through the numbers</div>
-      </div>
-
-      <!-- About row -->
-      <div class="about-row">
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px;color:#f5a623">$XX M+</div><div class="bl" style="margin-top:4px">Annual Sales</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px;color:#f5a623">70+</div><div class="bl" style="margin-top:4px">Specialists</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px;color:#f5a623">100s</div><div class="bl" style="margin-top:4px">Active Stores</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px;color:#f5a623">0</div><div class="bl" style="margin-top:4px">Fees to You</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px;color:#f5a623">100%</div><div class="bl" style="margin-top:4px">Our Capital</div></div>
       </div>
     </div>
 

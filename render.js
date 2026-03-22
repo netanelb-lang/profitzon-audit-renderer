@@ -48,62 +48,41 @@ function fmt(n) {
 
 function renderGaugeSVG(score) {
   const s = Math.max(0, Math.min(100, score));
-  const cx = 160, cy = 140;
-  const radius = 110;
-  const startAngle = 135;
-  const totalSweep = 270;
-  const scoreAngle = startAngle + (s / 100) * totalSweep;
-
-  const toRad = (deg) => (deg * Math.PI) / 180;
-
-  const arcPath = (sDeg, eDeg, r) => {
-    const x1 = cx + r * Math.cos(toRad(sDeg));
-    const y1 = cy + r * Math.sin(toRad(sDeg));
-    const x2 = cx + r * Math.cos(toRad(eDeg));
-    const y2 = cy + r * Math.sin(toRad(eDeg));
-    const sweep = eDeg - sDeg;
-    const largeArc = sweep > 180 ? 1 : 0;
-    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`;
-  };
 
   let color = '#e05252';
   if (s >= 70) color = '#4ade80';
   else if (s >= 50) color = '#f5a623';
   else if (s >= 30) color = '#f97316';
 
-  // Gradient ID unique per render
-  const gradId = `gauge-grad-${s}`;
+  const label = s < 45 ? 'NEEDS WORK' : s < 60 ? 'FAIR' : s < 75 ? 'GOOD' : s < 88 ? 'STRONG' : 'EXCELLENT';
 
-  const label = s < 45 ? 'Needs Work' : s < 60 ? 'Fair' : s < 75 ? 'Good' : s < 88 ? 'Strong' : 'Excellent';
+  // Retro segmented health bar (10 segments)
+  const totalSegs = 10;
+  const filled = Math.round((s / 100) * totalSegs);
+  const segW = 22, segH = 26, gap = 4;
+  const barW = totalSegs * (segW + gap) - gap;
+  const startX = Math.round((280 - barW) / 2);
+  const barY = 120;
 
-  // Needle tip position
-  const needleAngle = startAngle + (s / 100) * totalSweep;
-  const needleLen = radius - 30;
-  const nx = cx + needleLen * Math.cos(toRad(needleAngle));
-  const ny = cy + needleLen * Math.sin(toRad(needleAngle));
+  let segs = '';
+  for (let i = 0; i < totalSegs; i++) {
+    const x = startX + i * (segW + gap);
+    if (i < filled) {
+      const pct = i / totalSegs;
+      let c = '#e05252';
+      if (pct >= 0.7) c = '#4ade80';
+      else if (pct >= 0.5) c = '#f5a623';
+      else if (pct >= 0.3) c = '#f97316';
+      segs += `<rect x="${x}" y="${barY}" width="${segW}" height="${segH}" fill="${c}"/>`;
+    } else {
+      segs += `<rect x="${x}" y="${barY}" width="${segW}" height="${segH}" fill="#333"/>`;
+    }
+  }
 
-  return `<svg width="320" height="200" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#e05252"/>
-        <stop offset="35%" stop-color="#f97316"/>
-        <stop offset="55%" stop-color="#f5a623"/>
-        <stop offset="75%" stop-color="#a3e635"/>
-        <stop offset="100%" stop-color="#4ade80"/>
-      </linearGradient>
-    </defs>
-    <!-- Background track -->
-    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="22" stroke-linecap="butt"/>
-    <!-- Colored fill with gradient -->
-    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="url(#${gradId})" stroke-width="22" stroke-linecap="butt"/>` : ''}
-    <!-- Needle -->
-    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="6" fill="#fff"/>
-    <circle cx="${cx}" cy="${cy}" r="3" fill="#f5a623"/>
-    <!-- Score text -->
-    <text x="${cx}" y="${cy + 36}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="900" fill="#fff">${s}</text>
-    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#737373" font-weight="600">/100</text>
-    <text x="${cx}" y="${cy + 56}" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="10" fill="${color}" font-weight="800" letter-spacing="2">${label.toUpperCase()}</text>
+  return `<svg width="280" height="160" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
+    <text x="140" y="65" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="56" fill="#fff">${s}</text>
+    <text x="140" y="95" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="13" fill="${color}" letter-spacing="3">${label}</text>
+    ${segs}
   </svg>`;
 }
 
@@ -873,7 +852,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.1-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.2-retro' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);
