@@ -53,10 +53,10 @@
   .b-slate{background:#2d2d2d;border-color:#404040}
 
   /* Block typography — BIG & BOLD */
-  .bl{font-family:'Press Start 2P',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#737373;margin-bottom:6px}
+  .bl{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:5px}
   .bv{font-size:44px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
   .bv-xl{font-size:56px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
-  .bs{font-size:19px;color:#a3a3a3;line-height:1.5;margin-top:6px}
+  .bs{font-size:15px;color:#a3a3a3;line-height:1.45;margin-top:4px}
   .bs strong{color:#fff;font-weight:800}
 
   /* ════════════════════════════════════════════
@@ -123,16 +123,16 @@
 
   /* Product image */
   .img-block{display:flex;align-items:center;justify-content:center}
-  .img-wrap{width:100%;height:100%;min-height:180px;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .img-wrap img{max-width:95%;max-height:95%;object-fit:contain}
+  .img-wrap{width:100%;max-width:280px;aspect-ratio:1;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 auto}
+  .img-wrap img{max-width:85%;max-height:85%;object-fit:contain}
   .img-ph{font-size:16px;color:#737373;text-align:center;padding:20px}
   .img-ph .code{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5a623;margin-top:8px}
 
   /* Detail cards */
   .dc{background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px;display:flex;flex-direction:column}
   .dc-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:8px}
-  .dc-big{font-size:42px;font-weight:900;color:#f5a623}
-  .dc-sub{font-size:18px;color:#a3a3a3;margin-top:4px}
+  .dc-big{font-size:36px;font-weight:900;color:#f5a623}
+  .dc-sub{font-size:15px;color:#a3a3a3;margin-top:4px}
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
   .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
   .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
@@ -324,7 +324,7 @@
         <svg viewBox="0 0 32 32" width="32" height="32" style="flex-shrink:0"><rect x="4" y="4" width="4" height="4" fill="#1c1c1c"/><rect x="8" y="8" width="20" height="4" fill="#1c1c1c"/><rect x="8" y="12" width="20" height="4" fill="#1c1c1c"/><rect x="10" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="12" height="4" fill="#1c1c1c"/><rect x="12" y="26" width="4" height="4" fill="#1c1c1c"/><rect x="20" y="26" width="4" height="4" fill="#1c1c1c"/></svg>
         <div style="flex:1">
           <div style="font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.45)">Section II</div>
-          <div style="font-size:40px;font-weight:900;letter-spacing:-2px;line-height:1.1;color:#1c1c1c">Asset X-Ray</div>
+          <div style="font-size:32px;font-weight:900;letter-spacing:-1px;line-height:1.1;color:#1c1c1c">Asset X-Ray</div>
         </div>
         <div class="asin-bar" style="text-align:right">
           <div class="asin-title" style="font-size:16px;color:#1c1c1c">{{bestAsinTitleTruncated}}</div>
@@ -335,7 +335,7 @@
       <!-- Callout blocks — bigger text -->
       <div class="block {{calloutContentBg}}" style="padding:20px">
         <div class="bl">Content</div>
-        <div class="bv" style="font-size:48px">{{calloutContentValue}}</div>
+        <div class="bv" style="font-size:38px">{{calloutContentValue}}</div>
         <div class="bs">{{calloutContentDetail}}</div>
       </div>
 
@@ -346,13 +346,13 @@
 
       <div class="block {{calloutRatingBg}}" style="padding:20px">
         <div class="bl">Rating</div>
-        <div class="bv" style="font-size:48px">{{avgRating}} &#9733;</div>
+        <div class="bv" style="font-size:38px">{{avgRating}} &#9733;</div>
         <div class="bs">{{calloutRatingDetail}}</div>
       </div>
 
       <div class="block {{calloutFulfillBg}}" style="padding:20px">
         <div class="bl">Fulfillment</div>
-        <div class="bv" style="font-size:48px">{{calloutFulfillValue}}</div>
+        <div class="bv" style="font-size:38px">{{calloutFulfillValue}}</div>
         <div class="bs">{{calloutFulfillDetail}}</div>
       </div>
 
@@ -362,7 +362,7 @@
 
       <div class="block {{calloutCompBg}}" style="padding:20px">
         <div class="bl">Competition</div>
-        <div class="bv" style="font-size:48px">{{calloutCompValue}}</div>
+        <div class="bv" style="font-size:38px">{{calloutCompValue}}</div>
         <div class="bs">{{calloutCompDetail}}</div>
       </div>
 
