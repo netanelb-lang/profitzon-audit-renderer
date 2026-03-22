@@ -1,6 +1,6 @@
 /**
- * Profitzon Brand Audit Report Renderer v5
- * Premium light theme with adaptive layout. No blank space.
+ * Profitzon Brand Audit Report Renderer v8
+ * Retro pixel + warm grey + gold + alarm mode. No blank space.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
@@ -66,9 +66,9 @@ function renderGaugeSVG(score) {
     return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${r} ${r} 0 ${largeArc} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`;
   };
 
-  let color = '#ef4444';
-  if (s >= 70) color = '#10b981';
-  else if (s >= 50) color = '#f59e0b';
+  let color = '#e05252';
+  if (s >= 70) color = '#4ade80';
+  else if (s >= 50) color = '#f5a623';
   else if (s >= 30) color = '#f97316';
 
   // Gradient ID unique per render
@@ -85,25 +85,25 @@ function renderGaugeSVG(score) {
   return `<svg width="320" height="200" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#ef4444"/>
+        <stop offset="0%" stop-color="#e05252"/>
         <stop offset="35%" stop-color="#f97316"/>
-        <stop offset="55%" stop-color="#f59e0b"/>
-        <stop offset="75%" stop-color="#84cc16"/>
-        <stop offset="100%" stop-color="#10b981"/>
+        <stop offset="55%" stop-color="#f5a623"/>
+        <stop offset="75%" stop-color="#a3e635"/>
+        <stop offset="100%" stop-color="#4ade80"/>
       </linearGradient>
     </defs>
     <!-- Background track -->
-    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="22" stroke-linecap="round"/>
+    <path d="${arcPath(startAngle, startAngle + totalSweep, radius)}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="22" stroke-linecap="butt"/>
     <!-- Colored fill with gradient -->
-    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="url(#${gradId})" stroke-width="22" stroke-linecap="round"/>` : ''}
+    ${s > 0 ? `<path d="${arcPath(startAngle, scoreAngle, radius)}" fill="none" stroke="url(#${gradId})" stroke-width="22" stroke-linecap="butt"/>` : ''}
     <!-- Needle -->
     <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
     <circle cx="${cx}" cy="${cy}" r="6" fill="#fff"/>
-    <circle cx="${cx}" cy="${cy}" r="3" fill="#d4a54a"/>
+    <circle cx="${cx}" cy="${cy}" r="3" fill="#f5a623"/>
     <!-- Score text -->
     <text x="${cx}" y="${cy + 36}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="900" fill="#fff">${s}</text>
-    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#64748b" font-weight="600">/100</text>
-    <text x="${cx}" y="${cy + 56}" text-anchor="middle" font-family="Inter, -apple-system, sans-serif" font-size="12" fill="${color}" font-weight="800" letter-spacing="2">${label.toUpperCase()}</text>
+    <text x="${cx + 28}" y="${cy + 24}" text-anchor="start" font-family="Inter, -apple-system, sans-serif" font-size="18" fill="#737373" font-weight="600">/100</text>
+    <text x="${cx}" y="${cy + 56}" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="10" fill="${color}" font-weight="800" letter-spacing="2">${label.toUpperCase()}</text>
   </svg>`;
 }
 
@@ -870,10 +870,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v7-bento' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8-retro' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v7 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v8 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
@@ -975,7 +975,7 @@ async function main() {
 
   const html = renderHTML(sampleData);
   fs.writeFileSync(path.join(__dirname, 'demo-report.html'), html);
-  console.log('Demo report v5 saved to demo-report.html');
+  console.log('Demo report v8 saved to demo-report.html');
 
   try {
     const tmpPdf = await renderPDF(sampleData);

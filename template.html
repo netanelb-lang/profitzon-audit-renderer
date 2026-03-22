@@ -3,51 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#0a1628;color:#fff;-webkit-font-smoothing:antialiased;line-height:1.4}
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#0a1628}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#1c1c1c;color:#d4d4d4;-webkit-font-smoothing:antialiased;line-height:1.4}
+
+  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#1c1c1c}
   .page:last-child{page-break-after:avoid}
   .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
+  /* Pixel font helper */
+  .pxf{font-family:'Press Start 2P',monospace}
+
+  /* Scanline overlay */
+  .page::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:100}
+
   /* ── Header ── */
-  .hdr{padding:18px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+  .hdr{padding:18px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:3px solid #f5a623}
   .hdr-l{display:flex;align-items:center;gap:14px}
   .hdr-l img{height:32px}
-  .hdr-sep{width:2px;height:24px;background:rgba(255,255,255,.1)}
-  .hdr-brand{font-size:16px;font-weight:800;color:#fff;letter-spacing:.5px}
-  .hdr-r{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase}
+  .hdr-sep{width:3px;height:24px;background:#f5a623}
+  .hdr-brand{font-family:'Press Start 2P',monospace;font-size:11px;color:#f5a623;letter-spacing:1px}
+  .hdr-r{font-family:'Press Start 2P',monospace;font-size:8px;color:#737373;letter-spacing:1px;text-transform:uppercase}
 
   /* ── Footer ── */
-  .ftr{flex-shrink:0;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#475569}
+  .ftr{flex-shrink:0;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#525252;border-top:3px solid #333}
   .ftr strong{color:#f5a623}
 
   /* ── BENTO BLOCK SYSTEM ── */
   .bento{display:grid;gap:10px;padding:0 40px;flex:1}
-  .block{border-radius:16px;padding:24px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+  .block{border-radius:4px;padding:24px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;border:2px solid #333}
 
-  /* Color blocks */
-  .b-navy{background:linear-gradient(135deg,#132b4d,#1a3a5c)}
-  .b-dark{background:linear-gradient(135deg,#0f1d32,#162d4a)}
-  .b-gold{background:linear-gradient(135deg,#f5a623,#e8961a)}
-  .b-gold .bl,.b-gold .bv,.b-gold .bs{color:#0a1628}
-  .b-red{background:linear-gradient(135deg,#ff5252,#e04444)}
-  .b-green{background:linear-gradient(135deg,#00c853,#00a844)}
-  .b-green .bl,.b-green .bv,.b-green .bs{color:#0a1628}
-  .b-blue{background:linear-gradient(135deg,#2d7dd2,#2468b0)}
-  .b-cyan{background:linear-gradient(135deg,#45b7d1,#3a9db4)}
-  .b-cyan .bl,.b-cyan .bv,.b-cyan .bs{color:#0a1628}
-  .b-purple{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
-  .b-orange{background:linear-gradient(135deg,#f97316,#ea580c)}
-  .b-orange .bl,.b-orange .bv,.b-orange .bs{color:#0a1628}
-  .b-slate{background:linear-gradient(135deg,#1e293b,#334155)}
+  /* Color blocks - warm palette */
+  .b-navy{background:#252525;border-color:#333}
+  .b-dark{background:#1a1a1a;border-color:#2d2d2d}
+  .b-gold{background:#f5a623;border-color:#d4900a}
+  .b-gold .bl,.b-gold .bv,.b-gold .bs{color:#1c1c1c}
+  .b-red{background:#e05252;border-color:#c43e3e}
+  .b-red .bl,.b-red .bv,.b-red .bs{color:#fff}
+  .b-green{background:#4ade80;border-color:#2db85e}
+  .b-green .bl,.b-green .bv,.b-green .bs{color:#1c1c1c}
+  .b-blue{background:#f5a623;border-color:#d4900a}
+  .b-blue .bl,.b-blue .bv,.b-blue .bs{color:#1c1c1c}
+  .b-cyan{background:#4ade80;border-color:#2db85e}
+  .b-cyan .bl,.b-cyan .bv,.b-cyan .bs{color:#1c1c1c}
+  .b-purple{background:#f5a623;border-color:#d4900a}
+  .b-orange{background:#f97316;border-color:#ea580c}
+  .b-orange .bl,.b-orange .bv,.b-orange .bs{color:#1c1c1c}
+  .b-slate{background:#2d2d2d;border-color:#404040}
 
   /* Block typography */
-  .bl{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:6px}
+  .bl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#737373;margin-bottom:6px}
   .bv{font-size:36px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
   .bv-xl{font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
   .bv-lg{font-size:44px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-1.5px}
-  .bs{font-size:14px;color:rgba(255,255,255,.6);line-height:1.5;margin-top:6px}
+  .bs{font-size:14px;color:#a3a3a3;line-height:1.5;margin-top:6px}
   .bs strong{color:#fff;font-weight:800}
 
   /* ════════════════════════════════════════════
@@ -56,115 +66,116 @@
 
   .p1-grid{grid-template-columns:380px 1fr;grid-template-rows:auto 1fr 1fr auto;min-height:0}
 
-  /* Gauge block - spans 2 rows */
-  .gauge-block{grid-row:1/3;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .gauge-block .bl{text-align:center;width:100%}
+  /* Gauge block */
+  .gauge-block{grid-row:1/3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#252525;border:3px solid #f5a623}
+  .gauge-block .bl{text-align:center;width:100%;color:#f5a623}
 
   /* KPI strip */
   .kpi-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .kpi-mini{background:rgba(255,255,255,.04);border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,.06)}
-  .kpi-mini .bl{font-size:8px;letter-spacing:2px;margin-bottom:4px}
-  .kpi-mini .bv{font-size:22px}
+  .kpi-mini{background:#2d2d2d;border-radius:4px;padding:14px 16px;border:2px solid #404040}
+  .kpi-mini .bl{font-size:7px;letter-spacing:1.5px;margin-bottom:4px;color:#737373}
+  .kpi-mini .bv{font-size:22px;color:#f5a623}
 
   /* Strengths/Vulns */
   .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;margin-bottom:6px}
-  .si.g{background:rgba(0,200,83,.08);border-left:4px solid #00c853}
-  .si.r{background:rgba(255,82,82,.08);border-left:4px solid #ff5252}
-  .si-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-  .si.g .si-ic{background:#00c853}
-  .si.r .si-ic{background:#ff5252}
-  .si-tx{font-size:14px;color:#cbd5e1;line-height:1.5}
+  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:4px;margin-bottom:6px}
+  .si.g{background:rgba(74,222,128,.08);border-left:5px solid #4ade80;border:2px solid rgba(74,222,128,.2);border-left:5px solid #4ade80}
+  .si.r{background:rgba(224,82,82,.15);border:3px solid #e05252;border-left:6px solid #e05252;position:relative}
+  .si.r::before{content:'⚠';position:absolute;top:4px;right:8px;font-size:10px;color:#e05252;opacity:.5}
+  .si-ic{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900;flex-shrink:0}
+  .si.g .si-ic{background:#4ade80;color:#1c1c1c}
+  .si.r .si-ic{background:#e05252;font-size:16px}
+  .si-tx{font-size:14px;color:#d4d4d4;line-height:1.5}
   .si-tx strong{color:#fff;font-weight:800}
 
-  .sv-hd{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
-  .sv-hd.grn{color:#00c853}
-  .sv-hd.red{color:#ff5252}
-  .sv-hd .ln{flex:1;height:2px}
-  .sv-hd.grn .ln{background:linear-gradient(90deg,#00c853,transparent)}
-  .sv-hd.red .ln{background:linear-gradient(90deg,#ff5252,transparent)}
+  .sv-hd{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .sv-hd.grn{color:#4ade80}
+  .sv-hd.red{color:#e05252}
+  .sv-hd .ln{flex:1;height:3px}
+  .sv-hd.grn .ln{background:linear-gradient(90deg,#4ade80,transparent)}
+  .sv-hd.red .ln{background:linear-gradient(90deg,#e05252,transparent)}
 
   /* Exec summary */
-  .exec{background:rgba(245,166,35,.06);border-left:4px solid #f5a623;border-radius:0 14px 14px 0;padding:20px 24px;grid-column:1/-1}
-  .exec-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;font-weight:800;margin-bottom:6px}
-  .exec-tx{font-size:15px;color:#cbd5e1;line-height:1.6}
+  .exec{background:rgba(245,166,35,.08);border-left:5px solid #f5a623;border:2px solid rgba(245,166,35,.2);border-left:5px solid #f5a623;border-radius:4px;padding:20px 24px;grid-column:1/-1}
+  .exec-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:8px}
+  .exec-tx{font-size:15px;color:#d4d4d4;line-height:1.6}
 
   /* Ownership bar */
-  .own{grid-column:1/-1;background:linear-gradient(135deg,#132b4d,#1e3a5f);border-radius:14px;padding:18px 24px;display:flex;align-items:center;gap:20px}
-  .own-pct{font-size:48px;font-weight:900;color:#2d7dd2}
+  .own{grid-column:1/-1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:18px 24px;display:flex;align-items:center;gap:20px}
+  .own-pct{font-family:'Press Start 2P',monospace;font-size:32px;color:#f5a623}
   .own-info{flex:1}
   .own-title{font-size:16px;font-weight:800;color:#fff}
-  .own-desc{font-size:13px;color:#94a3b8;margin-top:2px}
-  .own-track{width:200px;height:12px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;flex-shrink:0}
-  .own-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#2d7dd2,#45b7d1)}
+  .own-desc{font-size:13px;color:#a3a3a3;margin-top:2px}
+  .own-track{width:200px;height:14px;background:#1c1c1c;border:2px solid #404040;border-radius:2px;overflow:hidden;flex-shrink:0}
+  .own-fill{height:100%;background:#f5a623}
 
   /* ════════════════════════════════════════════
-     PAGE 2: ASSET X-RAY (Bento grid)
+     PAGE 2: ASSET X-RAY
      ════════════════════════════════════════════ */
 
   .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto auto 1fr auto;min-height:0}
 
   .asin-bar{grid-column:1/-1;padding:0}
-  .asin-title{font-size:20px;font-weight:900;color:#fff}
-  .asin-meta{font-size:13px;color:#64748b;margin-top:3px}
-  .asin-meta span{color:#f5a623;font-weight:700}
+  .asin-title{font-size:18px;font-weight:900;color:#fff}
+  .asin-meta{font-size:13px;color:#737373;margin-top:3px}
+  .asin-meta span{color:#f5a623;font-weight:700;font-family:monospace}
 
-  /* Callouts as bento blocks */
+  /* Product image */
   .img-block{display:flex;align-items:center;justify-content:center}
-  .img-wrap{width:100%;max-width:280px;aspect-ratio:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .img-wrap{width:100%;max-width:280px;aspect-ratio:1;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;image-rendering:auto}
   .img-wrap img{max-width:90%;max-height:90%;object-fit:contain}
-  .img-ph{font-size:14px;color:#64748b;text-align:center;padding:20px}
-  .img-ph .code{font-family:monospace;font-size:13px;color:#f5a623;margin-top:8px}
+  .img-ph{font-size:14px;color:#737373;text-align:center;padding:20px}
+  .img-ph .code{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5a623;margin-top:8px}
 
   /* Detail cards */
-  .dc{background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column}
-  .dc-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#64748b;font-weight:700;margin-bottom:8px}
-  .dc-big{font-size:28px;font-weight:900;color:#2d7dd2}
-  .dc-sub{font-size:14px;color:#94a3b8;margin-top:4px}
+  .dc{background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px;display:flex;flex-direction:column}
+  .dc-lbl{font-family:'Press Start 2P',monospace;font-size:7px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:8px}
+  .dc-big{font-size:28px;font-weight:900;color:#f5a623}
+  .dc-sub{font-size:14px;color:#a3a3a3;margin-top:4px}
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-  .dc-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
-  .dc-badge.brand{background:rgba(0,200,83,.15);color:#00c853;border:1px solid rgba(0,200,83,.25)}
-  .dc-badge.third{background:rgba(255,82,82,.15);color:#ff5252;border:1px solid rgba(255,82,82,.25)}
-  .dc-badge.fba{background:rgba(45,125,210,.15);color:#45b7d1;border:1px solid rgba(45,125,210,.25)}
-  .dc-badge.fbm{background:rgba(148,163,184,.1);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
+  .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
+  .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
+  .dc-badge.third{background:rgba(224,82,82,.15);color:#e05252;border-color:#e05252}
+  .dc-badge.fba{background:rgba(245,166,35,.1);color:#f5a623;border-color:#f5a623}
+  .dc-badge.fbm{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
   .dc-review{grid-column:span 2}
-  .dc-review-text{font-size:14px;color:#94a3b8;line-height:1.6;font-style:italic;margin-top:6px}
+  .dc-review-text{font-size:14px;color:#a3a3a3;line-height:1.6;font-style:italic;margin-top:6px;border-left:3px solid #525252;padding-left:12px}
   .rb{margin-top:10px}
   .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-  .rb-lbl{font-size:12px;font-weight:700;color:#94a3b8;width:26px;text-align:right}
-  .rb-track{flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden}
-  .rb-fill{height:100%;border-radius:5px}
-  .rb-fill.r5{background:linear-gradient(90deg,#00c853,#69f0ae)}
-  .rb-fill.r4{background:linear-gradient(90deg,#84cc16,#a3e635)}
-  .rb-fill.r3{background:linear-gradient(90deg,#f5a623,#f7c948)}
-  .rb-fill.r2{background:linear-gradient(90deg,#f97316,#fb923c)}
-  .rb-fill.r1{background:linear-gradient(90deg,#ff5252,#ff8a80)}
-  .rb-pct{font-size:11px;font-weight:700;color:#64748b;width:34px}
+  .rb-lbl{font-family:'Press Start 2P',monospace;font-size:8px;color:#a3a3a3;width:30px;text-align:right}
+  .rb-track{flex:1;height:12px;background:#1c1c1c;border:2px solid #333;border-radius:2px;overflow:hidden}
+  .rb-fill{height:100%}
+  .rb-fill.r5{background:#4ade80}
+  .rb-fill.r4{background:#a3e635}
+  .rb-fill.r3{background:#f5a623}
+  .rb-fill.r2{background:#f97316}
+  .rb-fill.r1{background:#e05252}
+  .rb-pct{font-family:monospace;font-size:11px;font-weight:700;color:#737373;width:34px}
 
   /* Product table */
   .tbl-block{grid-column:1/-1}
-  .tbl-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;font-weight:800;margin-bottom:10px}
-  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:14px;overflow:hidden}
-  .ptbl th{background:linear-gradient(135deg,#1e3a5f,#132b4d);padding:14px 16px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#f5a623;font-weight:700;text-align:left;border-bottom:2px solid rgba(45,125,210,.2)}
-  .ptbl td{padding:12px 16px;font-size:14px;color:#cbd5e1;border-bottom:1px solid rgba(45,125,210,.06);background:rgba(19,43,77,.4)}
+  .tbl-lbl{font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:10px}
+  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border:2px solid #404040;border-radius:4px;overflow:hidden}
+  .ptbl th{background:#2d2d2d;padding:14px 16px;font-family:'Press Start 2P',monospace;font-size:7px;text-transform:uppercase;letter-spacing:1px;color:#f5a623;text-align:left;border-bottom:3px solid #f5a623}
+  .ptbl td{padding:12px 16px;font-size:14px;color:#d4d4d4;border-bottom:1px solid #333;background:#252525}
   .ptbl tr:last-child td{border-bottom:none}
-  .ptbl tr:nth-child(even) td{background:rgba(19,43,77,.6)}
-  .badge-sm{font-size:9px;font-weight:800;padding:3px 8px;border-radius:10px;display:inline-block;margin-right:2px}
-  .badge-prime{background:rgba(45,125,210,.2);color:#45b7d1}
-  .badge-choice{background:rgba(0,200,83,.15);color:#00c853}
-  .badge-bestseller{background:rgba(245,166,35,.15);color:#f5a623}
-  .badge-sponsored{background:rgba(148,163,184,.1);color:#94a3b8}
-  .badge-notbrand{background:rgba(255,82,82,.12);color:#ff5252}
-  .pos-badge{font-size:16px;font-weight:900;color:#f5a623}
+  .ptbl tr:nth-child(even) td{background:#2d2d2d}
+  .badge-sm{font-family:'Press Start 2P',monospace;font-size:6px;padding:3px 8px;border-radius:2px;display:inline-block;margin-right:2px;border:1px solid}
+  .badge-prime{background:rgba(245,166,35,.15);color:#f5a623;border-color:#f5a623}
+  .badge-choice{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
+  .badge-bestseller{background:rgba(245,166,35,.2);color:#f5a623;border-color:#f5a623}
+  .badge-sponsored{background:rgba(163,163,163,.08);color:#737373;border-color:#525252}
+  .badge-notbrand{background:rgba(224,82,82,.1);color:#e05252;border-color:#e05252}
+  .pos-badge{font-family:'Press Start 2P',monospace;font-size:12px;color:#f5a623}
 
   /* Extra detail */
   .extra-detail{display:flex;gap:12px;margin-top:10px}
-  .ed-card{flex:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:20px}
-  .ed-title{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:#f5a623;font-weight:800;margin-bottom:12px}
-  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(45,125,210,.06)}
+  .ed-card{flex:1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px}
+  .ed-title{font-family:'Press Start 2P',monospace;font-size:7px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:12px}
+  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #333}
   .ed-row:last-child{border-bottom:none}
-  .ed-label{font-size:14px;color:#94a3b8}
+  .ed-label{font-size:14px;color:#a3a3a3}
   .ed-value{font-size:16px;font-weight:700;color:#fff}
 
   /* Market strip */
@@ -176,66 +187,74 @@
 
   .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto auto;min-height:0}
 
-  .lp-hd{display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:14px;margin-bottom:12px}
-  .lp-hd.leak{background:linear-gradient(135deg,#ff5252,#d32f2f)}
-  .lp-hd.plan{background:linear-gradient(135deg,#2d7dd2,#1565c0)}
-  .lp-hd-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(255,255,255,.5);font-weight:900;background:rgba(255,255,255,.15)}
-  .lp-hd-t{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:3px;color:#fff}
+  /* Section headers for leak/plan */
+  .lp-hd{display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:4px;margin-bottom:12px;border:2px solid}
+  .lp-hd.leak{background:#e05252;border-color:#c43e3e}
+  .lp-hd.plan{background:#f5a623;border-color:#d4900a}
+  .lp-hd-ic{width:32px;height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(0,0,0,.4);font-weight:900;background:rgba(0,0,0,.15)}
+  .lp-hd-t{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#fff}
 
-  .lc{background:rgba(255,82,82,.06);border-left:4px solid #ff5252;border-radius:0 14px 14px 0;padding:18px 20px;margin-bottom:8px}
+  /* ALARM MODE: Leak cards */
+  .lc{background:rgba(224,82,82,.12);border:3px solid #e05252;border-radius:4px;padding:18px 20px;margin-bottom:8px;position:relative;overflow:hidden}
+  .lc::before{content:'';position:absolute;top:0;right:0;width:40px;height:40px;background:repeating-linear-gradient(45deg,#e05252 0,#e05252 4px,transparent 4px,transparent 8px);opacity:.15}
   .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .lc-ic{width:28px;height:28px;background:#ff5252;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-  .lc-title{font-size:17px;font-weight:800;color:#ff8a80;flex:1}
-  .lc-sev{font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(255,82,82,.15);color:#ff5252;border:1px solid rgba(255,82,82,.25)}
-  .lc-tx{font-size:14px;color:#e0b0b0;line-height:1.6}
+  .lc-ic{width:30px;height:30px;background:#e05252;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Press Start 2P',monospace;font-size:12px;font-weight:900;flex-shrink:0}
+  .lc-title{font-size:17px;font-weight:900;color:#e05252;flex:1}
+  .lc-sev{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:#e05252;color:#fff;border:2px solid #c43e3e;text-transform:uppercase;letter-spacing:1px}
+  .lc-tx{font-size:14px;color:#d4d4d4;line-height:1.6}
 
-  .pc{background:rgba(45,125,210,.06);border-left:4px solid #2d7dd2;border-radius:0 14px 14px 0;padding:18px 20px;margin-bottom:8px}
+  /* Plan cards */
+  .pc{background:rgba(245,166,35,.06);border:2px solid rgba(245,166,35,.3);border-left:5px solid #f5a623;border-radius:4px;padding:18px 20px;margin-bottom:8px}
   .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .pc-ic{width:28px;height:28px;background:#2d7dd2;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-  .pc-title{font-size:17px;font-weight:800;color:#90caf9;flex:1}
-  .pc-imp{font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(45,125,210,.15);color:#45b7d1;border:1px solid rgba(45,125,210,.25)}
-  .pc-tx{font-size:14px;color:#b0c4de;line-height:1.6}
+  .pc-ic{width:28px;height:28px;background:#f5a623;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#1c1c1c;font-family:'Press Start 2P',monospace;font-size:10px;font-weight:900;flex-shrink:0}
+  .pc-title{font-size:17px;font-weight:800;color:#f5a623;flex:1}
+  .pc-imp{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:rgba(74,222,128,.1);color:#4ade80;border:2px solid rgba(74,222,128,.3);letter-spacing:1px}
+  .pc-tx{font-size:14px;color:#a3a3a3;line-height:1.6}
 
-  /* Findings */
+  /* ALARM MODE: Findings */
   .find-block{grid-column:1/-1}
-  .fr{display:flex;align-items:flex-start;padding:16px 20px;border-radius:0 14px 14px 0;margin-bottom:8px;gap:14px;border-left:4px solid}
-  .fr.issue{background:rgba(255,82,82,.05);border-color:#ff5252}
-  .fr.opportunity{background:rgba(0,200,83,.05);border-color:#00c853}
-  .fr.warning{background:rgba(245,166,35,.05);border-color:#f5a623}
-  .fr.competitor{background:rgba(45,125,210,.05);border-color:#2d7dd2}
-  .fr-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
-  .fr-ic.issue{background:#ff5252}.fr-ic.opportunity{background:#00c853}
-  .fr-ic.warning{background:#f5a623}.fr-ic.competitor{background:#2d7dd2}
-  .fr-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:800;margin-bottom:3px}
-  .fr-lbl.issue{color:#ff5252}.fr-lbl.opportunity{color:#00c853}.fr-lbl.warning{color:#f5a623}.fr-lbl.competitor{color:#2d7dd2}
-  .fr-tx{font-size:14px;color:#cbd5e1;line-height:1.55}
+  .fr{display:flex;align-items:flex-start;padding:16px 20px;border-radius:4px;margin-bottom:8px;gap:14px;border:2px solid;position:relative}
+  .fr.issue{background:rgba(224,82,82,.1);border-color:#e05252;border-left:6px solid #e05252}
+  .fr.issue::after{content:'⚠ ALERT';position:absolute;top:6px;right:10px;font-family:'Press Start 2P',monospace;font-size:6px;color:#e05252;opacity:.6;letter-spacing:1px}
+  .fr.opportunity{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.3);border-left:5px solid #4ade80}
+  .fr.warning{background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.3);border-left:5px solid #f5a623}
+  .fr.competitor{background:rgba(245,166,35,.04);border-color:rgba(245,166,35,.15);border-left:5px solid #f97316}
+  .fr-ic{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:10px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
+  .fr-ic.issue{background:#e05252}.fr-ic.opportunity{background:#4ade80;color:#1c1c1c}
+  .fr-ic.warning{background:#f5a623;color:#1c1c1c}.fr-ic.competitor{background:#f97316;color:#1c1c1c}
+  .fr-lbl{font-family:'Press Start 2P',monospace;font-size:7px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px}
+  .fr-lbl.issue{color:#e05252}.fr-lbl.opportunity{color:#4ade80}.fr-lbl.warning{color:#f5a623}.fr-lbl.competitor{color:#f97316}
+  .fr-tx{font-size:14px;color:#d4d4d4;line-height:1.55}
 
   /* Results strip */
   .rs-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 
   /* CTA */
-  .cta{grid-column:1/-1;background:linear-gradient(135deg,#132b4d 0%,#1e3a5f 100%);border:1px solid rgba(212,165,74,.15);border-radius:18px;padding:32px 40px;text-align:center;position:relative;overflow:hidden}
-  .cta-glow{position:absolute;top:-70px;right:-70px;width:250px;height:250px;background:radial-gradient(circle,rgba(212,165,74,.2),transparent 70%);border-radius:50%}
-  .cta-glow2{position:absolute;bottom:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(45,125,210,.12),transparent 70%);border-radius:50%}
-  .cta-t{font-size:32px;font-weight:900;color:#fff;position:relative;z-index:1}
-  .cta-s{font-size:16px;color:#94a3b8;margin:10px 0 20px;line-height:1.6;position:relative;z-index:1}
-  .cta-btn{display:inline-block;background:linear-gradient(135deg,#f5a623,#e8961a);color:#0a1628;padding:18px 56px;border-radius:14px;font-size:18px;font-weight:900;text-decoration:none;letter-spacing:.5px;position:relative;z-index:1;box-shadow:0 6px 24px rgba(245,166,35,.3)}
-  .cta-trust{margin-top:12px;font-size:12px;color:#64748b;position:relative;z-index:1}
+  .cta{grid-column:1/-1;background:#2d2d2d;border:3px solid #f5a623;border-radius:4px;padding:32px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(245,166,35,.03) 20px,rgba(245,166,35,.03) 40px);pointer-events:none}
+  .cta-glow{display:none}.cta-glow2{display:none}
+  .cta-t{font-family:'Press Start 2P',monospace;font-size:18px;color:#f5a623;position:relative;z-index:1;line-height:1.4}
+  .cta-s{font-size:16px;color:#a3a3a3;margin:12px 0 24px;line-height:1.6;position:relative;z-index:1}
+  .cta-btn{display:inline-block;background:#f5a623;color:#1c1c1c;padding:18px 56px;border-radius:4px;font-family:'Press Start 2P',monospace;font-size:11px;text-decoration:none;letter-spacing:1px;position:relative;z-index:1;border:3px solid #d4900a}
+  .cta-trust{margin-top:14px;font-size:12px;color:#737373;position:relative;z-index:1}
 
   /* About row */
   .about-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 
   /* Final footer */
   .fftr{flex-shrink:0}
-  .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#475569;border-top:1px solid rgba(45,125,210,.08)}
+  .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#525252;border-top:2px solid #333}
   .fftr-main{padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
-  .fftr-left{font-size:13px;color:#64748b}
+  .fftr-left{font-size:13px;color:#737373}
   .fftr-left strong{color:#f5a623}
   .fftr-left a{color:#f5a623;text-decoration:none}
-  .fftr-right{font-size:11px;color:#475569;text-align:right}
+  .fftr-right{font-size:11px;color:#525252;text-align:right}
   .fftr-right strong{color:#f5a623}
 
-  @media print{body{background:#0a1628}.page{box-shadow:none;margin:0}}
+  /* ── Pixel Art SVG Icons (section decorators) ── */
+  .px-icon{display:inline-block;vertical-align:middle;margin-right:10px}
+
+  @media print{body{background:#1c1c1c}.page{box-shadow:none;margin:0}}
 </style>
 </head>
 <body>
@@ -244,22 +263,25 @@
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
     <div class="bento p1-grid">
       <!-- Gauge -->
-      <div class="block b-navy gauge-block">
+      <div class="block gauge-block">
         <div class="bl">Brand Health Score</div>
         {{gaugeSVG}}
       </div>
 
       <!-- Top right: title + KPIs -->
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="block b-gold" style="padding:20px 24px">
-          <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(10,22,40,.5)">Section I</div>
-          <div style="font-size:40px;font-weight:900;color:#0a1628;letter-spacing:-1.5px;line-height:1.05">The Paradox</div>
-          <div style="font-size:14px;color:rgba(10,22,40,.6);margin-top:4px">Strengths vs. gaps costing you revenue</div>
+        <div class="block b-gold" style="padding:20px 24px;border:3px solid #d4900a">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+            <svg class="px-icon" viewBox="0 0 32 32" width="28" height="28"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="24" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="8" height="4" fill="#1c1c1c"/><rect x="8" y="24" width="16" height="4" fill="#1c1c1c"/></svg>
+            <div style="font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.5)">Section I</div>
+          </div>
+          <div style="font-size:38px;font-weight:900;color:#1c1c1c;letter-spacing:-1.5px;line-height:1.05">The Paradox</div>
+          <div style="font-size:14px;color:rgba(28,28,28,.6);margin-top:4px">Strengths vs. gaps costing you revenue</div>
         </div>
         <div class="kpi-strip">
           <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:18px">{{brandMaturity}}</div></div>
@@ -276,11 +298,11 @@
       <!-- Strengths + Vulnerabilities -->
       <div class="sv-block">
         <div>
-          <div class="sv-hd grn">Strengths <div class="ln"></div></div>
+          <div class="sv-hd grn"><svg viewBox="0 0 20 20" width="16" height="16" style="flex-shrink:0"><rect x="16" y="2" width="4" height="4" fill="#4ade80"/><rect x="12" y="6" width="4" height="4" fill="#4ade80"/><rect x="8" y="10" width="4" height="4" fill="#4ade80"/><rect x="4" y="6" width="4" height="4" fill="#4ade80"/><rect x="0" y="2" width="4" height="4" fill="#4ade80"/></svg> Strengths <div class="ln"></div></div>
           {{strengthsList}}
         </div>
         <div>
-          <div class="sv-hd red">Vulnerabilities <div class="ln"></div></div>
+          <div class="sv-hd red"><svg viewBox="0 0 20 20" width="16" height="16" style="flex-shrink:0"><rect x="0" y="0" width="4" height="4" fill="#e05252"/><rect x="16" y="0" width="4" height="4" fill="#e05252"/><rect x="4" y="4" width="4" height="4" fill="#e05252"/><rect x="12" y="4" width="4" height="4" fill="#e05252"/><rect x="8" y="8" width="4" height="4" fill="#e05252"/><rect x="4" y="12" width="4" height="4" fill="#e05252"/><rect x="12" y="12" width="4" height="4" fill="#e05252"/><rect x="0" y="16" width="4" height="4" fill="#e05252"/><rect x="16" y="16" width="4" height="4" fill="#e05252"/></svg> Vulnerabilities <div class="ln"></div></div>
           {{vulnerabilitiesList}}
         </div>
       </div>
@@ -297,17 +319,20 @@
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
     <div class="bento p2-grid">
       <!-- Title block -->
-      <div class="block b-blue" style="grid-column:1/-1;padding:20px 24px">
-        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Section II</div>
-        <div style="font-size:40px;font-weight:900;letter-spacing:-1.5px;line-height:1.05">Asset X-Ray</div>
+      <div class="block b-gold" style="grid-column:1/-1;padding:20px 24px;border:3px solid #d4900a">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+          <svg class="px-icon" viewBox="0 0 32 32" width="24" height="24"><rect x="4" y="4" width="4" height="4" fill="#1c1c1c"/><rect x="8" y="8" width="20" height="4" fill="#1c1c1c"/><rect x="8" y="12" width="20" height="4" fill="#1c1c1c"/><rect x="10" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="12" height="4" fill="#1c1c1c"/><rect x="12" y="26" width="4" height="4" fill="#1c1c1c"/><rect x="20" y="26" width="4" height="4" fill="#1c1c1c"/></svg>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.5)">Section II</div>
+        </div>
+        <div style="font-size:38px;font-weight:900;letter-spacing:-1.5px;line-height:1.05;color:#1c1c1c">Asset X-Ray</div>
         <div class="asin-bar" style="margin-top:6px">
-          <div class="asin-title" style="font-size:16px">{{bestAsinTitleTruncated}}</div>
-          <div class="asin-meta"><span>{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+          <div class="asin-title" style="font-size:16px;color:#1c1c1c">{{bestAsinTitleTruncated}}</div>
+          <div class="asin-meta"><span style="color:#1c1c1c">{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
         </div>
       </div>
 
@@ -357,10 +382,10 @@
 
       <!-- Market strip -->
       <div class="mkt-row">
-        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:20px">{{priceRange}}</div></div>
-        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:20px">{{ppcCount}}</div></div>
-        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:20px">{{competitorCount}}</div></div>
-        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:20px">{{catalogSize}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:20px;color:#f5a623">{{priceRange}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:20px;color:#f5a623">{{ppcCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:20px;color:#f5a623">{{competitorCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:20px;color:#f5a623">{{catalogSize}}</div></div>
       </div>
     </div>
 
@@ -372,18 +397,24 @@
 <div class="page">
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
     <div class="bento p3-grid">
-      <!-- Title -->
-      <div class="block b-red" style="grid-column:1;padding:20px 24px">
-        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Section III</div>
-        <div style="font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.05">Revenue<br>Leak</div>
+      <!-- Title blocks -->
+      <div class="block" style="grid-column:1;padding:20px 24px;background:#e05252;border:3px solid #c43e3e">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <svg viewBox="0 0 32 32" width="24" height="24"><rect x="14" y="2" width="4" height="4" fill="#fff"/><rect x="12" y="6" width="8" height="4" fill="#fff"/><rect x="10" y="10" width="12" height="4" fill="#fff"/><rect x="8" y="14" width="16" height="4" fill="#fff"/><rect x="6" y="18" width="20" height="4" fill="#fff"/><rect x="4" y="22" width="24" height="4" fill="#fff"/><rect x="14" y="10" width="4" height="8" fill="#e05252"/><rect x="14" y="20" width="4" height="4" fill="#e05252"/></svg>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Section III</div>
+        </div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:16px;color:#fff;line-height:1.4;letter-spacing:1px">REVENUE<br>LEAK</div>
       </div>
-      <div class="block b-blue" style="grid-column:2;padding:20px 24px">
-        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Our Plan</div>
-        <div style="font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.05">Growth<br>Plan</div>
+      <div class="block" style="grid-column:2;padding:20px 24px;background:#f5a623;border:3px solid #d4900a">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <svg viewBox="0 0 32 32" width="24" height="24"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="8" y="20" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="24" width="8" height="4" fill="#1c1c1c"/><rect x="14" y="28" width="4" height="4" fill="#1c1c1c"/></svg>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(28,28,28,.5)">Our Plan</div>
+        </div>
+        <div style="font-family:'Press Start 2P',monospace;font-size:16px;color:#1c1c1c;line-height:1.4;letter-spacing:1px">GROWTH<br>PLAN</div>
       </div>
 
       <!-- Leak + Plan cards -->
@@ -402,29 +433,29 @@
 
       <!-- Results strip -->
       <div class="rs-row">
-        <div class="block b-green" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">&ge;90%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">Sales Control</div></div>
-        <div class="block b-green" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">&ge;95%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">Price Stability</div></div>
-        <div class="block b-cyan" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">+10-30%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">More Buyers</div></div>
-        <div class="block b-gold" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
-        <div class="block b-orange" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">+15-40%</div><div class="bl" style="margin-top:4px">Revenue</div></div>
+        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:20px">&ge;90%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Sales Control</div></div>
+        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:20px">&ge;95%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Price Stability</div></div>
+        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:20px">+10-30%</div><div class="bl" style="margin-top:4px">More Buyers</div></div>
+        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:20px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
+        <div class="block" style="padding:14px;text-align:center;background:#f97316;border:3px solid #ea580c"><div class="bv" style="font-size:20px">+15-40%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Revenue</div></div>
       </div>
 
       <!-- CTA -->
       <div class="cta">
         <div class="cta-glow"></div><div class="cta-glow2"></div>
-        <div class="cta-t">Ready to Fix This?</div>
+        <div class="cta-t">READY TO FIX THIS?</div>
         <div class="cta-s">We invest our own capital. No fees. No retainer. We make money when you make money.</div>
-        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a 30-Min Strategy Call &rarr;</a>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
         <div class="cta-trust">No commitment &middot; We walk you through the numbers</div>
       </div>
 
       <!-- About row -->
       <div class="about-row">
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">$XX M+</div><div class="bl" style="margin-top:4px">Annual Sales</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">70+</div><div class="bl" style="margin-top:4px">Specialists</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">100s</div><div class="bl" style="margin-top:4px">Active Stores</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">0</div><div class="bl" style="margin-top:4px">Fees to You</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">100%</div><div class="bl" style="margin-top:4px">Our Capital</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px;color:#f5a623">$XX M+</div><div class="bl" style="margin-top:4px">Annual Sales</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px;color:#f5a623">70+</div><div class="bl" style="margin-top:4px">Specialists</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px;color:#f5a623">100s</div><div class="bl" style="margin-top:4px">Active Stores</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px;color:#f5a623">0</div><div class="bl" style="margin-top:4px">Fees to You</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px;color:#f5a623">100%</div><div class="bl" style="margin-top:4px">Our Capital</div></div>
       </div>
     </div>
 
