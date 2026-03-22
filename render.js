@@ -99,7 +99,7 @@ function renderStrengths(data) {
   const rating = parseFloat(data.avgRating || 0);
   const sc = parseInt(data.sellerCount || 0);
 
-  if (data.storefront === 'Exists') {
+  if (data.storefront === 'Exists - optimized') {
     items.push('Active Amazon storefront with <strong>' + bp + ' branded products</strong> listed.');
   }
   if (pct >= 50) {
@@ -163,8 +163,8 @@ function renderVulnerabilities(data) {
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
     items.push('Product pages could benefit from <strong>A+ content, video, and enhanced brand storefront</strong> — we handle full optimization.');
   }
-  if (data.storefront === 'Missing') {
-    items.push('No Amazon storefront detected — we build <strong>premium brand storefronts with A+ content</strong> and optimized pages.');
+  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
+    items.push('No designed Amazon storefront — we build <strong>premium brand storefronts with A+ content</strong> and curated collections.');
   }
   if (data.priceStability === 'MAP Violated' || data.priceStability === 'Minor Fluctuation') {
     items.push('<strong>Price instability</strong> detected across your products (range: ' + escapeHtml(data.priceRange || 'N/A') + ').');
@@ -409,8 +409,22 @@ function renderRevenueLeak(data) {
     leaks.push({ title: 'Content Gap', severity: 'Medium', text: 'Product pages missing A+ enhanced brand content, video, or optimized storefront. We handle the full build.' });
   }
 
+  // Always show at least one growth-related item
+  const catalogSize = parseInt(data.catalogSize || data.brandProductCount || 0);
+  if (catalogSize > 0 && catalogSize <= 3) {
+    leaks.push({ title: 'Single-SKU Risk', severity: 'Medium', text: `Only ${catalogSize} product${catalogSize > 1 ? 's' : ''} in the catalog. One listing suspension or stockout means zero revenue. Expanding with variations and bundles protects against this.` });
+  }
+  const onPage = parseInt(data.onPageCompetitorCount || 0);
+  if (onPage >= 3 && !leaks.find(l => l.title.includes('Search'))) {
+    leaks.push({ title: 'Ad Leakage', severity: 'Medium', text: `${onPage} competitor ads appear on your product page and brand search results. Every click they capture is revenue walking away from your brand.` });
+  }
+  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
+    if (!leaks.find(l => l.title.includes('Content'))) {
+      leaks.push({ title: 'Storefront Gap', severity: 'Medium', text: 'No designed brand storefront on Amazon. A premium storefront with curated collections increases browse-to-purchase conversion by 15-25%.' });
+    }
+  }
   if (leaks.length === 0) {
-    leaks.push({ title: 'Minor Friction', severity: 'Low', text: 'No critical leaks detected, but optimization opportunities exist to grow revenue further.' });
+    leaks.push({ title: 'Scale Opportunity', severity: 'Low', text: 'No critical leaks detected, but funded inventory scaling and catalog expansion can accelerate revenue growth significantly.' });
   }
 
   return leaks.slice(0, 3).map(l =>
@@ -445,8 +459,20 @@ function renderGrowthPlan(data) {
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
     plans.push({ title: 'A+ Storefront & Content', impact: '+15-25% Conversion', text: 'We build your Amazon storefront with A+ enhanced brand content, professional video, premium images, and optimized bullets — all funded by us.' });
   }
+  // Always add catalog + storefront growth plans for any brand
+  const catSize = parseInt(data.catalogSize || data.brandProductCount || 0);
+  if (catSize > 0 && catSize <= 5 && !plans.find(p => p.title.includes('Catalog'))) {
+    plans.push({ title: 'Catalog Expansion', impact: '+40-80% Revenue', text: `With only ${catSize} product${catSize > 1 ? 's' : ''}, adding variations, bundles, and new SKUs captures more search real estate and reduces single-product risk. We fund all new launches.` });
+  }
+  if ((data.storefront === 'Missing' || data.storefront === 'Exists - needs work') && !plans.find(p => p.title.includes('Storefront'))) {
+    plans.push({ title: 'Premium Storefront', impact: '+15-25% Conversion', text: 'We build a custom multi-page brand storefront with curated collections, branded imagery, and A+ enhanced content — all funded by us.' });
+  }
+  const onPageComp = parseInt(data.onPageCompetitorCount || 0);
+  if (onPageComp >= 3 && !plans.find(p => p.title.includes('Defense') || p.title.includes('Ads'))) {
+    plans.push({ title: 'Brand Defense Ads', impact: 'Traffic Protection', text: `${onPageComp} competitor ads on your pages. We launch Sponsored Brand and Display campaigns to defend your search results and product pages.` });
+  }
   if (plans.length === 0) {
-    plans.push({ title: 'Scale Revenue', impact: 'Growth', text: 'Your Amazon operation is strong. We focus on volume growth, new launches, and advanced advertising - all funded by us.' });
+    plans.push({ title: 'Scale Revenue', impact: 'Growth', text: 'We focus on volume growth through funded wholesale orders, new product launches, and advanced advertising — all our capital, your brand.' });
   }
 
   return plans.slice(0, 3).map((p, i) =>
@@ -857,7 +883,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.6-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.7-retro' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);
