@@ -74,7 +74,7 @@ function renderGaugeSVG(score) {
   // Gradient ID unique per render
   const gradId = `gauge-grad-${s}`;
 
-  const label = s < 30 ? 'Critical' : s < 50 ? 'Needs Work' : s < 70 ? 'Fair' : s < 85 ? 'Good' : 'Excellent';
+  const label = s < 45 ? 'Needs Work' : s < 60 ? 'Fair' : s < 75 ? 'Good' : s < 88 ? 'Strong' : 'Excellent';
 
   // Needle tip position
   const needleAngle = startAngle + (s / 100) * totalSweep;
@@ -163,8 +163,9 @@ function renderVulnerabilities(data) {
   const sc = parseInt(data.sellerCount || 0);
   const rating = parseFloat(data.avgRating || 0);
 
-  if (data.buyBoxIsTheBrand === false) {
-    items.push('<strong>Another seller controls your Buy Box</strong> - they get the revenue when customers click "Add to Cart".');
+  // Only flag Buy Box if many unauthorized sellers suggest it's not an authorized reseller
+  if (data.buyBoxIsTheBrand === false && sc > 5) {
+    items.push('<strong>Multiple unauthorized sellers</strong> detected — Buy Box may be held by a non-authorized reseller.');
   }
   if (fba < 30) {
     items.push('Only <strong>' + fba + '% Prime coverage</strong> - products without Prime sell 30-50% less.');
@@ -407,8 +408,9 @@ function renderRevenueLeak(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const sc = parseInt(data.sellerCount || 0);
 
-  if (data.buyBoxIsTheBrand === false) {
-    leaks.push({ title: 'Buy Box Lost', severity: 'Critical', text: 'Another seller controls the purchase button on your top product. Every sale goes to them, not you.' });
+  // Only flag Buy Box as a leak if many unauthorized sellers suggest it's not an authorized partner
+  if (data.buyBoxIsTheBrand === false && sc > 5) {
+    leaks.push({ title: 'Buy Box at Risk', severity: 'High', text: `With ${sc} sellers competing, the Buy Box holder may not be an authorized partner. Revenue could be leaking to unauthorized resellers.` });
   }
   if (fba < 50) {
     leaks.push({ title: 'No Prime Badge', severity: fba === 0 ? 'Critical' : 'High', text: `Only ${fba}% of your products have Prime. Customers filter for Prime - products without it are invisible to 200M+ shoppers.` });
@@ -444,8 +446,8 @@ function renderGrowthPlan(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const sc = parseInt(data.sellerCount || 0);
 
-  if (data.buyBoxIsTheBrand === false) {
-    plans.push({ title: 'Reclaim Your Sales Button', impact: 'Revenue Recovery', text: 'We remove unauthorized sellers and ensure you control the Buy Box on every product page.' });
+  if (data.buyBoxIsTheBrand === false && sc > 5) {
+    plans.push({ title: 'Secure Your Buy Box', impact: 'Revenue Recovery', text: 'We remove unauthorized sellers and ensure the Buy Box is held by authorized partners only.' });
   }
   if (fba < 70) {
     plans.push({ title: 'Prime Badge Strategy', impact: '+30-50% Sales', text: `Ship ${fba === 0 ? 'your entire catalog' : 'remaining products'} through our Las Vegas FBA hub. Prime products convert dramatically more.` });
@@ -642,7 +644,8 @@ function renderHTML(data) {
   let html = fs.readFileSync(TEMPLATE_PATH, 'utf8');
 
   const priority = parseInt(data.priorityScore || '50');
-  const healthScore = Math.max(0, Math.min(100, 100 - priority));
+  // Compressed health score — even troubled brands show 50+, avoids insulting brand owners
+  const healthScore = Math.max(50, Math.min(88, Math.round(100 - priority * 0.55)));
   const reportId = `PZ-${Date.now().toString(36).toUpperCase().slice(-6)}`;
 
   // Callout data
