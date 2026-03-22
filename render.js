@@ -873,7 +873,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.1-retro' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);
