@@ -4,240 +4,236 @@
 <meta charset="UTF-8">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#0a1628;color:#e2e8f0;-webkit-font-smoothing:antialiased;line-height:1.5}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#0a1628;color:#fff;-webkit-font-smoothing:antialiased;line-height:1.4}
 
-  /* ── Page ── */
   .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#0a1628}
   .page:last-child{page-break-after:avoid}
-  .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
-
-  /* Corner glow */
-  .glow-tr{position:absolute;top:-80px;right:-80px;width:350px;height:350px;background:radial-gradient(circle,rgba(45,125,210,.1),transparent 70%);pointer-events:none;z-index:0}
-  .glow-bl{position:absolute;bottom:-60px;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(212,165,74,.06),transparent 70%);pointer-events:none;z-index:0}
+  .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
   /* ── Header ── */
-  .hdr{background:linear-gradient(90deg,#0f1d32,#132b4d);padding:16px 48px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(45,125,210,.15)}
-  .hdr-l{display:flex;align-items:center;gap:16px}
-  .hdr-l img{height:30px}
-  .hdr-sep{width:1px;height:22px;background:rgba(255,255,255,.12)}
-  .hdr-brand{font-size:15px;font-weight:700;color:#fff}
-  .hdr-r{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase}
-
-  /* ── Hero ── */
-  .hero{padding:28px 48px 18px;flex-shrink:0;position:relative;z-index:1}
-  .hero-lbl{font-size:12px;text-transform:uppercase;letter-spacing:5px;color:#d4a54a;font-weight:800}
-  .hero-t{font-size:48px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1.05;margin-top:4px}
-  .hero-s{font-size:16px;color:#94a3b8;margin-top:6px;line-height:1.4}
-  .hero-line{width:70px;height:3px;background:linear-gradient(90deg,#d4a54a,#f5a623);border-radius:2px;margin-top:10px}
+  .hdr{padding:18px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+  .hdr-l{display:flex;align-items:center;gap:14px}
+  .hdr-l img{height:32px}
+  .hdr-sep{width:2px;height:24px;background:rgba(255,255,255,.1)}
+  .hdr-brand{font-size:16px;font-weight:800;color:#fff;letter-spacing:.5px}
+  .hdr-r{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase}
 
   /* ── Footer ── */
-  .ftr{flex-shrink:0;padding:10px 48px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#475569;border-top:1px solid rgba(45,125,210,.1);background:rgba(10,22,40,.8);position:relative;z-index:1}
-  .ftr strong{color:#d4a54a}
+  .ftr{flex-shrink:0;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#475569}
+  .ftr strong{color:#f5a623}
+
+  /* ── BENTO BLOCK SYSTEM ── */
+  .bento{display:grid;gap:10px;padding:0 40px;flex:1}
+  .block{border-radius:16px;padding:24px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+
+  /* Color blocks */
+  .b-navy{background:linear-gradient(135deg,#132b4d,#1a3a5c)}
+  .b-dark{background:linear-gradient(135deg,#0f1d32,#162d4a)}
+  .b-gold{background:linear-gradient(135deg,#f5a623,#e8961a)}
+  .b-gold .bl,.b-gold .bv,.b-gold .bs{color:#0a1628}
+  .b-red{background:linear-gradient(135deg,#ff5252,#e04444)}
+  .b-green{background:linear-gradient(135deg,#00c853,#00a844)}
+  .b-green .bl,.b-green .bv,.b-green .bs{color:#0a1628}
+  .b-blue{background:linear-gradient(135deg,#2d7dd2,#2468b0)}
+  .b-cyan{background:linear-gradient(135deg,#45b7d1,#3a9db4)}
+  .b-cyan .bl,.b-cyan .bv,.b-cyan .bs{color:#0a1628}
+  .b-purple{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+  .b-orange{background:linear-gradient(135deg,#f97316,#ea580c)}
+  .b-orange .bl,.b-orange .bv,.b-orange .bs{color:#0a1628}
+  .b-slate{background:linear-gradient(135deg,#1e293b,#334155)}
+
+  /* Block typography */
+  .bl{font-size:10px;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:6px}
+  .bv{font-size:36px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
+  .bv-xl{font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
+  .bv-lg{font-size:44px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-1.5px}
+  .bs{font-size:14px;color:rgba(255,255,255,.6);line-height:1.5;margin-top:6px}
+  .bs strong{color:#fff;font-weight:800}
 
   /* ════════════════════════════════════════════
      PAGE 1: THE PARADOX
      ════════════════════════════════════════════ */
 
-  .gk-row{display:flex;gap:20px;padding:0 48px;flex-shrink:0;position:relative;z-index:1}
-  .gauge-box{background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.12);border-radius:16px;padding:16px 28px 8px;flex-shrink:0}
-  .kpi-col{display:flex;flex-direction:column;gap:8px;flex:1}
-  .kpi{background:linear-gradient(135deg,#132b4d,#1e3a5f);border-radius:12px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(45,125,210,.08)}
-  .kpi-v{font-size:20px;font-weight:900;color:#fff}
-  .kpi-l{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#d4a54a;font-weight:700}
+  .p1-grid{grid-template-columns:380px 1fr;grid-template-rows:auto 1fr 1fr auto;min-height:0}
 
-  /* Ownership bar */
-  .own{margin:14px 48px 0;padding:16px 24px;background:linear-gradient(135deg,#132b4d,#1e3a5f);border:1px solid rgba(45,125,210,.1);border-radius:14px;display:flex;align-items:center;gap:20px;flex-shrink:0;position:relative;z-index:1}
-  .own-pct{font-size:42px;font-weight:900;color:#2d7dd2;flex-shrink:0}
-  .own-info{flex:1}
-  .own-title{font-size:15px;font-weight:700;color:#fff}
-  .own-desc{font-size:13px;color:#94a3b8;margin-top:2px}
-  .own-track{width:200px;height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;flex-shrink:0}
-  .own-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#2d7dd2,#45b7d1)}
+  /* Gauge block - spans 2 rows */
+  .gauge-block{grid-row:1/3;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .gauge-block .bl{text-align:center;width:100%}
 
-  /* Strengths/Vulns columns */
-  .sv-cols{display:flex;gap:20px;padding:16px 48px 0;flex:1;position:relative;z-index:1}
-  .sv-col{flex:1;display:flex;flex-direction:column}
-  .sv-hd{font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:3px;display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-shrink:0}
+  /* KPI strip */
+  .kpi-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .kpi-mini{background:rgba(255,255,255,.04);border-radius:12px;padding:14px 16px;border:1px solid rgba(255,255,255,.06)}
+  .kpi-mini .bl{font-size:8px;letter-spacing:2px;margin-bottom:4px}
+  .kpi-mini .bv{font-size:22px}
+
+  /* Strengths/Vulns */
+  .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;margin-bottom:6px}
+  .si.g{background:rgba(0,200,83,.08);border-left:4px solid #00c853}
+  .si.r{background:rgba(255,82,82,.08);border-left:4px solid #ff5252}
+  .si-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
+  .si.g .si-ic{background:#00c853}
+  .si.r .si-ic{background:#ff5252}
+  .si-tx{font-size:14px;color:#cbd5e1;line-height:1.5}
+  .si-tx strong{color:#fff;font-weight:800}
+
+  .sv-hd{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:3px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
   .sv-hd.grn{color:#00c853}
   .sv-hd.red{color:#ff5252}
   .sv-hd .ln{flex:1;height:2px}
   .sv-hd.grn .ln{background:linear-gradient(90deg,#00c853,transparent)}
   .sv-hd.red .ln{background:linear-gradient(90deg,#ff5252,transparent)}
-  .sv-list{display:flex;flex-direction:column;gap:8px;flex:1}
-  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;flex:1}
-  .si.g{background:rgba(0,200,83,.06);border-left:3px solid #00c853}
-  .si.r{background:rgba(255,82,82,.06);border-left:3px solid #ff5252}
-  .si-ic{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900;flex-shrink:0;margin-top:1px}
-  .si.g .si-ic{background:#00c853}
-  .si.r .si-ic{background:#ff5252}
-  .si-tx{font-size:14px;color:#cbd5e1;line-height:1.55}
-  .si-tx strong{color:#fff;font-weight:800}
 
   /* Exec summary */
-  .exec{margin:14px 48px 0;padding:20px 24px;background:linear-gradient(135deg,rgba(212,165,74,.08),rgba(245,166,35,.04));border-left:4px solid #d4a54a;border-radius:0 14px 14px 0;flex-shrink:0;position:relative;z-index:1}
-  .exec-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#d4a54a;font-weight:800;margin-bottom:6px}
-  .exec-tx{font-size:14px;color:#cbd5e1;line-height:1.65}
+  .exec{background:rgba(245,166,35,.06);border-left:4px solid #f5a623;border-radius:0 14px 14px 0;padding:20px 24px;grid-column:1/-1}
+  .exec-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;font-weight:800;margin-bottom:6px}
+  .exec-tx{font-size:15px;color:#cbd5e1;line-height:1.6}
+
+  /* Ownership bar */
+  .own{grid-column:1/-1;background:linear-gradient(135deg,#132b4d,#1e3a5f);border-radius:14px;padding:18px 24px;display:flex;align-items:center;gap:20px}
+  .own-pct{font-size:48px;font-weight:900;color:#2d7dd2}
+  .own-info{flex:1}
+  .own-title{font-size:16px;font-weight:800;color:#fff}
+  .own-desc{font-size:13px;color:#94a3b8;margin-top:2px}
+  .own-track{width:200px;height:12px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;flex-shrink:0}
+  .own-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#2d7dd2,#45b7d1)}
 
   /* ════════════════════════════════════════════
-     PAGE 2: ASSET X-RAY
+     PAGE 2: ASSET X-RAY (Bento grid)
      ════════════════════════════════════════════ */
 
-  .asin-bar{padding:0 48px 8px;flex-shrink:0;position:relative;z-index:1}
-  .asin-title{font-size:17px;font-weight:800;color:#fff}
-  .asin-meta{font-size:12px;color:#64748b;margin-top:3px}
-  .asin-meta span{color:#d4a54a;font-weight:700}
+  .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto auto 1fr auto;min-height:0}
 
-  /* Callout grid */
-  .cg{display:grid;grid-template-columns:1fr 240px 1fr;grid-template-rows:auto auto;gap:12px;padding:0 48px;flex-shrink:0;position:relative;z-index:1}
-  .cb{padding:18px;border-radius:14px;position:relative;overflow:hidden}
-  .cb::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-  .cb.tl{grid-column:1;grid-row:1}.cb.tr{grid-column:3;grid-row:1}
-  .cb.bl{grid-column:1;grid-row:2}.cb.br{grid-column:3;grid-row:2}
-  .cb.good{background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.15)}
-  .cb.good::before{background:linear-gradient(90deg,#00c853,#69f0ae)}
-  .cb.warn{background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.15)}
-  .cb.warn::before{background:linear-gradient(90deg,#f5a623,#f7c948)}
-  .cb.bad{background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.15)}
-  .cb.bad::before{background:linear-gradient(90deg,#ff5252,#ff8a80)}
-  .cb-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#64748b;font-weight:700;margin-bottom:6px}
-  .cb-val{font-size:26px;font-weight:900;color:#fff}
-  .cb-det{font-size:12px;color:#94a3b8;margin-top:4px;line-height:1.5}
-  .img-cell{grid-column:2;grid-row:1/3;display:flex;align-items:center;justify-content:center}
-  .img-wrap{width:230px;height:230px;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.12);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3)}
-  .img-wrap img{max-width:210px;max-height:210px;object-fit:contain}
-  .img-ph{font-size:14px;color:#64748b;text-align:center;padding:16px}
-  .img-ph .code{font-family:monospace;font-size:12px;color:#d4a54a;margin-top:6px}
+  .asin-bar{grid-column:1/-1;padding:0}
+  .asin-title{font-size:20px;font-weight:900;color:#fff}
+  .asin-meta{font-size:13px;color:#64748b;margin-top:3px}
+  .asin-meta span{color:#f5a623;font-weight:700}
 
-  /* Detail cards row */
-  .dc-row{display:flex;gap:14px;padding:14px 48px 0;flex-shrink:0;position:relative;z-index:1}
-  .dc{flex:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:18px 20px}
+  /* Callouts as bento blocks */
+  .img-block{display:flex;align-items:center;justify-content:center}
+  .img-wrap{width:100%;max-width:280px;aspect-ratio:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .img-wrap img{max-width:90%;max-height:90%;object-fit:contain}
+  .img-ph{font-size:14px;color:#64748b;text-align:center;padding:20px}
+  .img-ph .code{font-family:monospace;font-size:13px;color:#f5a623;margin-top:8px}
+
+  /* Detail cards */
+  .dc{background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:20px;display:flex;flex-direction:column}
   .dc-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#64748b;font-weight:700;margin-bottom:8px}
-  .dc-big{font-size:24px;font-weight:900;color:#2d7dd2}
-  .dc-sub{font-size:13px;color:#94a3b8;margin-top:3px}
+  .dc-big{font-size:28px;font-weight:900;color:#2d7dd2}
+  .dc-sub{font-size:14px;color:#94a3b8;margin-top:4px}
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-  .dc-badge{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px}
+  .dc-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px}
   .dc-badge.brand{background:rgba(0,200,83,.15);color:#00c853;border:1px solid rgba(0,200,83,.25)}
   .dc-badge.third{background:rgba(255,82,82,.15);color:#ff5252;border:1px solid rgba(255,82,82,.25)}
   .dc-badge.fba{background:rgba(45,125,210,.15);color:#45b7d1;border:1px solid rgba(45,125,210,.25)}
   .dc-badge.fbm{background:rgba(148,163,184,.1);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
-  .dc-review{flex:1.5}
-  .dc-review-text{font-size:13px;color:#94a3b8;line-height:1.65;font-style:italic;margin-top:6px}
+  .dc-review{grid-column:span 2}
+  .dc-review-text{font-size:14px;color:#94a3b8;line-height:1.6;font-style:italic;margin-top:6px}
   .rb{margin-top:10px}
   .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-  .rb-lbl{font-size:11px;font-weight:700;color:#94a3b8;width:24px;text-align:right}
-  .rb-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
-  .rb-fill{height:100%;border-radius:4px}
+  .rb-lbl{font-size:12px;font-weight:700;color:#94a3b8;width:26px;text-align:right}
+  .rb-track{flex:1;height:10px;background:rgba(255,255,255,.05);border-radius:5px;overflow:hidden}
+  .rb-fill{height:100%;border-radius:5px}
   .rb-fill.r5{background:linear-gradient(90deg,#00c853,#69f0ae)}
   .rb-fill.r4{background:linear-gradient(90deg,#84cc16,#a3e635)}
   .rb-fill.r3{background:linear-gradient(90deg,#f5a623,#f7c948)}
   .rb-fill.r2{background:linear-gradient(90deg,#f97316,#fb923c)}
   .rb-fill.r1{background:linear-gradient(90deg,#ff5252,#ff8a80)}
-  .rb-pct{font-size:11px;font-weight:700;color:#64748b;width:32px}
+  .rb-pct{font-size:11px;font-weight:700;color:#64748b;width:34px}
 
   /* Product table */
-  .tbl-sec{padding:14px 48px 0;flex:1;display:flex;flex-direction:column;position:relative;z-index:1}
-  .tbl-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#d4a54a;font-weight:800;margin-bottom:10px;flex-shrink:0}
-  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;flex-shrink:0}
-  .ptbl th{background:linear-gradient(135deg,#1e3a5f,#132b4d);padding:12px 14px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#d4a54a;font-weight:700;text-align:left;border-bottom:2px solid rgba(45,125,210,.2)}
-  .ptbl td{padding:11px 14px;font-size:13px;color:#cbd5e1;border-bottom:1px solid rgba(45,125,210,.06);background:rgba(19,43,77,.4)}
+  .tbl-block{grid-column:1/-1}
+  .tbl-lbl{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;font-weight:800;margin-bottom:10px}
+  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:14px;overflow:hidden}
+  .ptbl th{background:linear-gradient(135deg,#1e3a5f,#132b4d);padding:14px 16px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#f5a623;font-weight:700;text-align:left;border-bottom:2px solid rgba(45,125,210,.2)}
+  .ptbl td{padding:12px 16px;font-size:14px;color:#cbd5e1;border-bottom:1px solid rgba(45,125,210,.06);background:rgba(19,43,77,.4)}
   .ptbl tr:last-child td{border-bottom:none}
   .ptbl tr:nth-child(even) td{background:rgba(19,43,77,.6)}
-  .badge-sm{font-size:8px;font-weight:800;padding:3px 7px;border-radius:10px;display:inline-block;margin-right:2px}
+  .badge-sm{font-size:9px;font-weight:800;padding:3px 8px;border-radius:10px;display:inline-block;margin-right:2px}
   .badge-prime{background:rgba(45,125,210,.2);color:#45b7d1}
   .badge-choice{background:rgba(0,200,83,.15);color:#00c853}
   .badge-bestseller{background:rgba(245,166,35,.15);color:#f5a623}
   .badge-sponsored{background:rgba(148,163,184,.1);color:#94a3b8}
   .badge-notbrand{background:rgba(255,82,82,.12);color:#ff5252}
-  .pos-badge{font-size:14px;font-weight:900;color:#d4a54a}
+  .pos-badge{font-size:16px;font-weight:900;color:#f5a623}
 
-  /* Extra detail section */
-  .extra-detail{padding:12px 48px 0;flex:1;display:flex;gap:14px;position:relative;z-index:1}
-  .ed-card{flex:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:20px 22px;display:flex;flex-direction:column}
-  .ed-title{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:#d4a54a;font-weight:800;margin-bottom:12px}
+  /* Extra detail */
+  .extra-detail{display:flex;gap:12px;margin-top:10px}
+  .ed-card{flex:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.1);border-radius:14px;padding:20px}
+  .ed-title{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:#f5a623;font-weight:800;margin-bottom:12px}
   .ed-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(45,125,210,.06)}
   .ed-row:last-child{border-bottom:none}
-  .ed-label{font-size:13px;color:#94a3b8}
-  .ed-value{font-size:15px;font-weight:700;color:#fff}
+  .ed-label{font-size:14px;color:#94a3b8}
+  .ed-value{font-size:16px;font-weight:700;color:#fff}
 
   /* Market strip */
-  .mkt-strip{display:flex;gap:10px;padding:12px 48px 0;flex-shrink:0;position:relative;z-index:1}
-  .mkt{flex:1;background:linear-gradient(135deg,#1e3a5f,#132b4d);border:1px solid rgba(45,125,210,.12);border-radius:12px;padding:16px 14px;text-align:center}
-  .mkt::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;background:linear-gradient(90deg,#2d7dd2,#45b7d1)}
-  .mkt{position:relative;overflow:hidden}
-  .mkt-v{font-size:20px;font-weight:900;color:#fff}
-  .mkt-l{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:#d4a54a;font-weight:700;margin-top:4px}
+  .mkt-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
 
   /* ════════════════════════════════════════════
      PAGE 3: COST OF FRICTION
      ════════════════════════════════════════════ */
 
-  .lp-cols{display:flex;gap:18px;padding:0 48px;flex:1;position:relative;z-index:1}
-  .lp-col{flex:1;display:flex;flex-direction:column}
-  .lp-hd{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:12px;margin-bottom:12px;flex-shrink:0}
+  .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto auto;min-height:0}
+
+  .lp-hd{display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:14px;margin-bottom:12px}
   .lp-hd.leak{background:linear-gradient(135deg,#ff5252,#d32f2f)}
   .lp-hd.plan{background:linear-gradient(135deg,#2d7dd2,#1565c0)}
-  .lp-hd-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(255,255,255,.5);font-weight:900;background:rgba(255,255,255,.15)}
-  .lp-hd-t{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:3px;color:#fff}
-  .lp-list{display:flex;flex-direction:column;gap:10px;flex:1}
+  .lp-hd-ic{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;color:rgba(255,255,255,.5);font-weight:900;background:rgba(255,255,255,.15)}
+  .lp-hd-t{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:3px;color:#fff}
 
-  .lc{background:rgba(255,82,82,.06);border-left:4px solid #ff5252;border-radius:0 14px 14px 0;padding:18px 20px;flex:1}
+  .lc{background:rgba(255,82,82,.06);border-left:4px solid #ff5252;border-radius:0 14px 14px 0;padding:18px 20px;margin-bottom:8px}
   .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .lc-ic{width:26px;height:26px;background:#ff5252;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900;flex-shrink:0}
-  .lc-title{font-size:16px;font-weight:800;color:#ff8a80;flex:1}
-  .lc-sev{font-size:9px;font-weight:800;padding:4px 10px;border-radius:20px;background:rgba(255,82,82,.15);color:#ff5252;border:1px solid rgba(255,82,82,.25)}
-  .lc-tx{font-size:13px;color:#e0b0b0;line-height:1.6}
+  .lc-ic{width:28px;height:28px;background:#ff5252;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
+  .lc-title{font-size:17px;font-weight:800;color:#ff8a80;flex:1}
+  .lc-sev{font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(255,82,82,.15);color:#ff5252;border:1px solid rgba(255,82,82,.25)}
+  .lc-tx{font-size:14px;color:#e0b0b0;line-height:1.6}
 
-  .pc{background:rgba(45,125,210,.06);border-left:4px solid #2d7dd2;border-radius:0 14px 14px 0;padding:18px 20px;flex:1}
+  .pc{background:rgba(45,125,210,.06);border-left:4px solid #2d7dd2;border-radius:0 14px 14px 0;padding:18px 20px;margin-bottom:8px}
   .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .pc-ic{width:26px;height:26px;background:#2d7dd2;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900;flex-shrink:0}
-  .pc-title{font-size:16px;font-weight:800;color:#90caf9;flex:1}
-  .pc-imp{font-size:9px;font-weight:800;padding:4px 10px;border-radius:20px;background:rgba(45,125,210,.15);color:#45b7d1;border:1px solid rgba(45,125,210,.25)}
-  .pc-tx{font-size:13px;color:#b0c4de;line-height:1.6}
+  .pc-ic{width:28px;height:28px;background:#2d7dd2;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
+  .pc-title{font-size:17px;font-weight:800;color:#90caf9;flex:1}
+  .pc-imp{font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;background:rgba(45,125,210,.15);color:#45b7d1;border:1px solid rgba(45,125,210,.25)}
+  .pc-tx{font-size:14px;color:#b0c4de;line-height:1.6}
 
   /* Findings */
-  .find-sec{padding:14px 48px 0;flex-shrink:0;position:relative;z-index:1}
-  .fr{display:flex;align-items:flex-start;padding:14px 18px;border-radius:0 12px 12px 0;margin-bottom:8px;gap:12px;border-left:4px solid}
+  .find-block{grid-column:1/-1}
+  .fr{display:flex;align-items:flex-start;padding:16px 20px;border-radius:0 14px 14px 0;margin-bottom:8px;gap:14px;border-left:4px solid}
   .fr.issue{background:rgba(255,82,82,.05);border-color:#ff5252}
   .fr.opportunity{background:rgba(0,200,83,.05);border-color:#00c853}
   .fr.warning{background:rgba(245,166,35,.05);border-color:#f5a623}
   .fr.competitor{background:rgba(45,125,210,.05);border-color:#2d7dd2}
-  .fr-ic{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
+  .fr-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
   .fr-ic.issue{background:#ff5252}.fr-ic.opportunity{background:#00c853}
   .fr-ic.warning{background:#f5a623}.fr-ic.competitor{background:#2d7dd2}
-  .fr-lbl{font-size:9px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800;margin-bottom:2px}
+  .fr-lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:800;margin-bottom:3px}
   .fr-lbl.issue{color:#ff5252}.fr-lbl.opportunity{color:#00c853}.fr-lbl.warning{color:#f5a623}.fr-lbl.competitor{color:#2d7dd2}
-  .fr-tx{font-size:13px;color:#cbd5e1;line-height:1.55}
+  .fr-tx{font-size:14px;color:#cbd5e1;line-height:1.55}
 
   /* Results strip */
-  .rs-strip{display:flex;gap:10px;padding:12px 48px 0;flex-shrink:0;position:relative;z-index:1}
-  .rs{flex:1;background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.15);border-radius:12px;padding:14px 10px;text-align:center}
-  .rs-v{font-size:20px;font-weight:900;color:#00c853}
-  .rs-l{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:#94a3b8;font-weight:700;margin-top:4px}
+  .rs-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 
   /* CTA */
-  .cta{margin:14px 48px 0;background:linear-gradient(135deg,#132b4d 0%,#1e3a5f 100%);border:1px solid rgba(212,165,74,.15);border-radius:18px;padding:32px 40px;text-align:center;position:relative;overflow:hidden;flex-shrink:0}
+  .cta{grid-column:1/-1;background:linear-gradient(135deg,#132b4d 0%,#1e3a5f 100%);border:1px solid rgba(212,165,74,.15);border-radius:18px;padding:32px 40px;text-align:center;position:relative;overflow:hidden}
   .cta-glow{position:absolute;top:-70px;right:-70px;width:250px;height:250px;background:radial-gradient(circle,rgba(212,165,74,.2),transparent 70%);border-radius:50%}
   .cta-glow2{position:absolute;bottom:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(45,125,210,.12),transparent 70%);border-radius:50%}
-  .cta-t{font-size:28px;font-weight:900;color:#fff;position:relative;z-index:1}
-  .cta-s{font-size:15px;color:#94a3b8;margin:10px 0 18px;line-height:1.6;position:relative;z-index:1}
-  .cta-btn{display:inline-block;background:linear-gradient(135deg,#d4a54a,#f5a623);color:#0a1628;padding:16px 52px;border-radius:12px;font-size:17px;font-weight:900;text-decoration:none;letter-spacing:.5px;position:relative;z-index:1;box-shadow:0 4px 24px rgba(212,165,74,.3)}
-  .cta-trust{margin-top:12px;font-size:11px;color:#64748b;position:relative;z-index:1}
+  .cta-t{font-size:32px;font-weight:900;color:#fff;position:relative;z-index:1}
+  .cta-s{font-size:16px;color:#94a3b8;margin:10px 0 20px;line-height:1.6;position:relative;z-index:1}
+  .cta-btn{display:inline-block;background:linear-gradient(135deg,#f5a623,#e8961a);color:#0a1628;padding:18px 56px;border-radius:14px;font-size:18px;font-weight:900;text-decoration:none;letter-spacing:.5px;position:relative;z-index:1;box-shadow:0 6px 24px rgba(245,166,35,.3)}
+  .cta-trust{margin-top:12px;font-size:12px;color:#64748b;position:relative;z-index:1}
 
-  /* About strip */
-  .about{display:flex;gap:10px;padding:12px 48px 0;flex-shrink:0;position:relative;z-index:1}
-  .about-c{flex:1;background:linear-gradient(180deg,#132b4d,#0f2240);border:1px solid rgba(45,125,210,.08);border-radius:12px;padding:14px 12px;text-align:center}
-  .about-v{font-size:20px;font-weight:900;color:#fff}
-  .about-l{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:#64748b;font-weight:700;margin-top:4px}
+  /* About row */
+  .about-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 
   /* Final footer */
-  .fftr{flex-shrink:0;background:rgba(10,22,40,.9);position:relative;z-index:1}
+  .fftr{flex-shrink:0}
   .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#475569;border-top:1px solid rgba(45,125,210,.08)}
-  .fftr-main{padding:12px 48px;display:flex;justify-content:space-between;align-items:center}
-  .fftr-left{font-size:12px;color:#64748b}
-  .fftr-left strong{color:#d4a54a}
-  .fftr-left a{color:#d4a54a;text-decoration:none}
+  .fftr-main{padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
+  .fftr-left{font-size:13px;color:#64748b}
+  .fftr-left strong{color:#f5a623}
+  .fftr-left a{color:#f5a623;text-decoration:none}
   .fftr-right{font-size:11px;color:#475569;text-align:right}
-  .fftr-right strong{color:#d4a54a}
+  .fftr-right strong{color:#f5a623}
 
   @media print{body{background:#0a1628}.page{box-shadow:none;margin:0}}
 </style>
@@ -246,44 +242,52 @@
 
 <!-- ═══════════════ PAGE 1: THE PARADOX ═══════════════ -->
 <div class="page">
-  <div class="glow-tr"></div><div class="glow-bl"></div>
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
     <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
-    <div class="hero">
-      <div class="hero-lbl">Section I</div>
-      <div class="hero-t">The Paradox</div>
-      <div class="hero-s">Your brand has real strengths on Amazon — but critical gaps are costing you revenue every day.</div>
-      <div class="hero-line"></div>
-    </div>
-
-    <div class="gk-row">
-      <div class="gauge-box">{{gaugeSVG}}</div>
-      <div class="kpi-col">
-        <div class="kpi"><div class="kpi-v">{{brandMaturity}}</div><div class="kpi-l">Brand Maturity</div></div>
-        <div class="kpi"><div class="kpi-v">{{brandProductCount}} / {{totalResults}}</div><div class="kpi-l">Your Products / Total Results</div></div>
-        <div class="kpi"><div class="kpi-v">{{sellerCount}} sellers</div><div class="kpi-l">Active on Your Products</div></div>
-        <div class="kpi"><div class="kpi-v">{{fbaPercent}}% Prime</div><div class="kpi-l">Fulfillment Coverage</div></div>
-        <div class="kpi"><div class="kpi-v">{{avgRating}} &#9733; avg</div><div class="kpi-l">Customer Rating</div></div>
+    <div class="bento p1-grid">
+      <!-- Gauge -->
+      <div class="block b-navy gauge-block">
+        <div class="bl">Brand Health Score</div>
+        {{gaugeSVG}}
       </div>
-    </div>
 
-    {{ownershipBar}}
-
-    <div class="sv-cols">
-      <div class="sv-col">
-        <div class="sv-hd grn">Strengths <div class="ln"></div></div>
-        <div class="sv-list">{{strengthsList}}</div>
+      <!-- Top right: title + KPIs -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="block b-gold" style="padding:20px 24px">
+          <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(10,22,40,.5)">Section I</div>
+          <div style="font-size:40px;font-weight:900;color:#0a1628;letter-spacing:-1.5px;line-height:1.05">The Paradox</div>
+          <div style="font-size:14px;color:rgba(10,22,40,.6);margin-top:4px">Strengths vs. gaps costing you revenue</div>
+        </div>
+        <div class="kpi-strip">
+          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:18px">{{brandMaturity}}</div></div>
+          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:18px">{{brandProductCount}}/{{totalResults}}</div></div>
+          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:18px">{{sellerCount}}</div></div>
+        </div>
+        <div class="kpi-strip">
+          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:18px">{{fbaPercent}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:18px">{{avgRating}} &#9733;</div></div>
+          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:18px">{{ownershipPct}}%</div></div>
+        </div>
       </div>
-      <div class="sv-col">
-        <div class="sv-hd red">Vulnerabilities <div class="ln"></div></div>
-        <div class="sv-list">{{vulnerabilitiesList}}</div>
-      </div>
-    </div>
 
-    {{executiveSummaryBox}}
+      <!-- Strengths + Vulnerabilities -->
+      <div class="sv-block">
+        <div>
+          <div class="sv-hd grn">Strengths <div class="ln"></div></div>
+          {{strengthsList}}
+        </div>
+        <div>
+          <div class="sv-hd red">Vulnerabilities <div class="ln"></div></div>
+          {{vulnerabilitiesList}}
+        </div>
+      </div>
+
+      <!-- Exec summary -->
+      {{executiveSummaryBox}}
+    </div>
 
     <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
   </div>
@@ -291,52 +295,73 @@
 
 <!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
 <div class="page">
-  <div class="glow-tr"></div><div class="glow-bl"></div>
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
     <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
-    <div class="hero">
-      <div class="hero-lbl">Section II</div>
-      <div class="hero-t">Asset X-Ray</div>
-      <div class="hero-s">Your top product under the microscope — here is what the data reveals.</div>
-      <div class="hero-line"></div>
-    </div>
+    <div class="bento p2-grid">
+      <!-- Title block -->
+      <div class="block b-blue" style="grid-column:1/-1;padding:20px 24px">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Section II</div>
+        <div style="font-size:40px;font-weight:900;letter-spacing:-1.5px;line-height:1.05">Asset X-Ray</div>
+        <div class="asin-bar" style="margin-top:6px">
+          <div class="asin-title" style="font-size:16px">{{bestAsinTitleTruncated}}</div>
+          <div class="asin-meta"><span>{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+        </div>
+      </div>
 
-    <div class="asin-bar">
-      <div class="asin-title">{{bestAsinTitleTruncated}}</div>
-      <div class="asin-meta"><span>{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
-    </div>
+      <!-- Callout blocks -->
+      <div class="block {{calloutContentBg}}">
+        <div class="bl">Content</div>
+        <div class="bv">{{calloutContentValue}}</div>
+        <div class="bs">{{calloutContentDetail}}</div>
+      </div>
 
-    <div class="cg">
-      <div class="cb tl {{calloutContentClass}}"><div class="cb-lbl">Content Quality</div><div class="cb-val">{{calloutContentValue}}</div><div class="cb-det">{{calloutContentDetail}}</div></div>
-      <div class="img-cell"><div class="img-wrap">{{productImageHtml}}</div></div>
-      <div class="cb tr {{calloutRatingClass}}"><div class="cb-lbl">Customer Rating</div><div class="cb-val">{{avgRating}} &#9733;</div><div class="cb-det">{{calloutRatingDetail}}</div></div>
-      <div class="cb bl {{calloutFulfillClass}}"><div class="cb-lbl">Fulfillment</div><div class="cb-val">{{calloutFulfillValue}}</div><div class="cb-det">{{calloutFulfillDetail}}</div></div>
-      <div class="cb br {{calloutCompClass}}"><div class="cb-lbl">Competition</div><div class="cb-val">{{calloutCompValue}}</div><div class="cb-det">{{calloutCompDetail}}</div></div>
-    </div>
+      <!-- Product image -->
+      <div class="block b-dark img-block">
+        <div class="img-wrap">{{productImageHtml}}</div>
+      </div>
 
-    <div class="dc-row">
-      {{buyBoxCard}}
-      {{ratingCard}}
-      {{reviewCard}}
-    </div>
+      <div class="block {{calloutRatingBg}}">
+        <div class="bl">Rating</div>
+        <div class="bv">{{avgRating}} &#9733;</div>
+        <div class="bs">{{calloutRatingDetail}}</div>
+      </div>
 
-    <div class="tbl-sec">
-      <div class="tbl-lbl">Products Analyzed</div>
-      <table class="ptbl">
-        <thead><tr><th style="width:4%">#</th><th style="width:32%">Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
-        <tbody>{{productRows}}</tbody>
-      </table>
-      {{extraDetail}}
-    </div>
+      <div class="block {{calloutFulfillBg}}">
+        <div class="bl">Fulfillment</div>
+        <div class="bv">{{calloutFulfillValue}}</div>
+        <div class="bs">{{calloutFulfillDetail}}</div>
+      </div>
 
-    <div class="mkt-strip">
-      <div class="mkt"><div class="mkt-v">{{priceRange}}</div><div class="mkt-l">Price Range</div></div>
-      <div class="mkt"><div class="mkt-v">{{ppcCount}}</div><div class="mkt-l">Search Ads</div></div>
-      <div class="mkt"><div class="mkt-v">{{competitorCount}}</div><div class="mkt-l">Competitors</div></div>
-      <div class="mkt"><div class="mkt-v">{{catalogSize}}</div><div class="mkt-l">Catalog Size</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        {{buyBoxCard}}
+      </div>
+
+      <div class="block {{calloutCompBg}}">
+        <div class="bl">Competition</div>
+        <div class="bv">{{calloutCompValue}}</div>
+        <div class="bs">{{calloutCompDetail}}</div>
+      </div>
+
+      <!-- Products table -->
+      <div class="tbl-block">
+        <div class="tbl-lbl">Products Analyzed</div>
+        <table class="ptbl">
+          <thead><tr><th style="width:4%">#</th><th style="width:32%">Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
+          <tbody>{{productRows}}</tbody>
+        </table>
+        {{extraDetail}}
+      </div>
+
+      <!-- Market strip -->
+      <div class="mkt-row">
+        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:20px">{{priceRange}}</div></div>
+        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:20px">{{ppcCount}}</div></div>
+        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:20px">{{competitorCount}}</div></div>
+        <div class="block b-navy" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:20px">{{catalogSize}}</div></div>
+      </div>
     </div>
 
     <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
@@ -345,58 +370,62 @@
 
 <!-- ═══════════════ PAGE 3: COST OF FRICTION ═══════════════ -->
 <div class="page">
-  <div class="glow-tr"></div><div class="glow-bl"></div>
   <div class="hdr">
     <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
     <div class="hdr-r">Amazon Brand Audit &middot; {{reportDate}}</div>
   </div>
   <div class="pb">
-    <div class="hero">
-      <div class="hero-lbl">Section III</div>
-      <div class="hero-t">The Cost of Friction</div>
-      <div class="hero-s">What your current gaps are costing you — and exactly how we fix each one.</div>
-      <div class="hero-line"></div>
-    </div>
-
-    <div class="lp-cols">
-      <div class="lp-col">
-        <div class="lp-hd leak"><div class="lp-hd-ic">!</div><div class="lp-hd-t">Revenue Leak</div></div>
-        <div class="lp-list">{{revenueLeak}}</div>
+    <div class="bento p3-grid">
+      <!-- Title -->
+      <div class="block b-red" style="grid-column:1;padding:20px 24px">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Section III</div>
+        <div style="font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.05">Revenue<br>Leak</div>
       </div>
-      <div class="lp-col">
-        <div class="lp-hd plan"><div class="lp-hd-ic">&#10003;</div><div class="lp-hd-t">Growth Plan</div></div>
-        <div class="lp-list">{{growthPlan}}</div>
+      <div class="block b-blue" style="grid-column:2;padding:20px 24px">
+        <div style="font-size:12px;text-transform:uppercase;letter-spacing:4px;font-weight:800;color:rgba(255,255,255,.4)">Our Plan</div>
+        <div style="font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.05">Growth<br>Plan</div>
       </div>
-    </div>
 
-    <div class="find-sec">
-      <div class="tbl-lbl">Key Findings</div>
-      {{findings}}
-    </div>
+      <!-- Leak + Plan cards -->
+      <div style="display:flex;flex-direction:column">
+        {{revenueLeak}}
+      </div>
+      <div style="display:flex;flex-direction:column">
+        {{growthPlan}}
+      </div>
 
-    <div class="rs-strip">
-      <div class="rs"><div class="rs-v">&ge;90%</div><div class="rs-l">Sales Control</div></div>
-      <div class="rs"><div class="rs-v">&ge;95%</div><div class="rs-l">Price Stability</div></div>
-      <div class="rs"><div class="rs-v">+10-30%</div><div class="rs-l">More Buyers</div></div>
-      <div class="rs"><div class="rs-v">8-15%</div><div class="rs-l">Ad Efficiency</div></div>
-      <div class="rs"><div class="rs-v">+15-40%</div><div class="rs-l">Revenue Growth</div></div>
-    </div>
+      <!-- Findings -->
+      <div class="find-block">
+        <div class="tbl-lbl">Key Findings</div>
+        {{findings}}
+      </div>
 
-    <div class="cta">
-      <div class="cta-glow"></div>
-      <div class="cta-glow2"></div>
-      <div class="cta-t">Ready to Fix This?</div>
-      <div class="cta-s">We invest our own capital to buy your inventory and manage Amazon end-to-end.<br>No fees. No retainer. We make money when you make money.</div>
-      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a 30-Minute Strategy Call &rarr;</a>
-      <div class="cta-trust">No commitment &middot; We walk you through the numbers</div>
-    </div>
+      <!-- Results strip -->
+      <div class="rs-row">
+        <div class="block b-green" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">&ge;90%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">Sales Control</div></div>
+        <div class="block b-green" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">&ge;95%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">Price Stability</div></div>
+        <div class="block b-cyan" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">+10-30%</div><div class="bl" style="color:rgba(10,22,40,.5);margin-top:4px">More Buyers</div></div>
+        <div class="block b-gold" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
+        <div class="block b-orange" style="padding:14px;text-align:center"><div class="bv" style="font-size:20px">+15-40%</div><div class="bl" style="margin-top:4px">Revenue</div></div>
+      </div>
 
-    <div class="about">
-      <div class="about-c"><div class="about-v">$XX M+</div><div class="about-l">Annual Sales</div></div>
-      <div class="about-c"><div class="about-v">70+</div><div class="about-l">Specialists</div></div>
-      <div class="about-c"><div class="about-v">100s</div><div class="about-l">Active Stores</div></div>
-      <div class="about-c"><div class="about-v">0</div><div class="about-l">Fees to You</div></div>
-      <div class="about-c"><div class="about-v">100%</div><div class="about-l">Our Capital</div></div>
+      <!-- CTA -->
+      <div class="cta">
+        <div class="cta-glow"></div><div class="cta-glow2"></div>
+        <div class="cta-t">Ready to Fix This?</div>
+        <div class="cta-s">We invest our own capital. No fees. No retainer. We make money when you make money.</div>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a 30-Min Strategy Call &rarr;</a>
+        <div class="cta-trust">No commitment &middot; We walk you through the numbers</div>
+      </div>
+
+      <!-- About row -->
+      <div class="about-row">
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">$XX M+</div><div class="bl" style="margin-top:4px">Annual Sales</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">70+</div><div class="bl" style="margin-top:4px">Specialists</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">100s</div><div class="bl" style="margin-top:4px">Active Stores</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">0</div><div class="bl" style="margin-top:4px">Fees to You</div></div>
+        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bv" style="font-size:18px">100%</div><div class="bl" style="margin-top:4px">Our Capital</div></div>
+      </div>
     </div>
 
     <div class="fftr">

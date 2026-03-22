@@ -651,6 +651,14 @@ function renderHTML(data) {
   const fulfill = getCalloutFulfill(data);
   const comp = getCalloutComp(data);
 
+  // Ownership percentage for KPI strip
+  const bp = parseInt(data.brandProductCount || 0);
+  const tr = parseInt(data.totalResults || 1);
+  const ownershipPct = Math.round((bp / tr) * 100);
+
+  // Map callout status to bento block color class
+  const bgMap = { good: 'b-green', warn: 'b-gold', bad: 'b-red' };
+
   const replacements = {
     '{{logoBase64}}': logoBase64,
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
@@ -665,10 +673,10 @@ function renderHTML(data) {
     '{{sellerCount}}': String(data.sellerCount || '0'),
     '{{fbaPercent}}': String(data.fbaPercent || 0),
     '{{avgRating}}': String(data.avgRating || '0.0'),
+    '{{ownershipPct}}': String(ownershipPct),
     '{{strengthsList}}': renderStrengths(data),
     '{{vulnerabilitiesList}}': renderVulnerabilities(data),
     '{{executiveSummaryBox}}': renderExecutiveSummaryBox(data),
-    '{{ownershipBar}}': renderOwnershipBar(data),
 
     // Page 2: Asset X-Ray
     '{{bestAsin}}': data.bestAsin || 'N/A',
@@ -677,16 +685,16 @@ function renderHTML(data) {
     '{{dateFirstAvailable}}': data.dateFirstAvailable ? 'Listed ' + data.dateFirstAvailable : '',
     '{{productImageHtml}}': renderProductImage(data),
 
-    // Callout boxes
-    '{{calloutContentClass}}': content.contentClass,
+    // Callout boxes - bento color blocks
+    '{{calloutContentBg}}': bgMap[content.contentClass] || 'b-navy',
     '{{calloutContentValue}}': content.contentValue,
     '{{calloutContentDetail}}': content.contentDetail,
-    '{{calloutRatingClass}}': rating.ratingClass,
+    '{{calloutRatingBg}}': bgMap[rating.ratingClass] || 'b-navy',
     '{{calloutRatingDetail}}': rating.ratingDetail,
-    '{{calloutFulfillClass}}': fulfill.fulfillClass,
+    '{{calloutFulfillBg}}': bgMap[fulfill.fulfillClass] || 'b-navy',
     '{{calloutFulfillValue}}': fulfill.fulfillValue,
     '{{calloutFulfillDetail}}': fulfill.fulfillDetail,
-    '{{calloutCompClass}}': comp.compClass,
+    '{{calloutCompBg}}': bgMap[comp.compClass] || 'b-navy',
     '{{calloutCompValue}}': comp.compValue,
     '{{calloutCompDetail}}': comp.compDetail,
 
@@ -862,10 +870,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v6-dark-4k' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v7-bento' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v6 running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v7 running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
