@@ -161,10 +161,10 @@ function renderVulnerabilities(data) {
     items.push('<strong>No defensive advertising</strong> - competitors bid on your brand name and steal traffic.');
   }
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    items.push('<strong>Weak product pages</strong> - missing A+ content, video, or optimized images.');
+    items.push('Product pages could benefit from <strong>A+ content, video, and enhanced brand storefront</strong> — we handle full optimization.');
   }
   if (data.storefront === 'Missing') {
-    items.push('<strong>No Amazon storefront</strong> detected for your brand.');
+    items.push('No Amazon storefront detected — we build <strong>premium brand storefronts with A+ content</strong> and optimized pages.');
   }
   if (data.priceStability === 'MAP Violated' || data.priceStability === 'Minor Fluctuation') {
     items.push('<strong>Price instability</strong> detected across your products (range: ' + escapeHtml(data.priceRange || 'N/A') + ').');
@@ -264,8 +264,8 @@ function renderExtraDetail(data) {
 function renderBuyBoxCard(data) {
   const seller = escapeHtml(data.buyBoxSellerName || 'Unknown');
   const owned = data.buyBoxIsTheBrand !== false;
-  const badgeClass = owned ? 'brand' : 'third';
-  const badgeText = owned ? 'Brand Owner' : 'Third Party';
+  const badgeClass = owned ? 'brand' : 'fba';
+  const badgeText = owned ? 'Brand Owner' : 'Reseller';
   const fbaClass = data.buyBoxIsFba ? 'fba' : 'fbm';
   const fbaText = data.buyBoxIsFba ? 'FBA' : 'FBM';
   const price = parseFloat(data.buyBoxPrice || 0);
@@ -335,8 +335,13 @@ function getCalloutContent(data) {
   let contentValue = 'Strong';
   let contentDetail = `${imgs} images, ${bullets} bullet points`;
   if (hasVideo) contentDetail += ', video';
-  if (!hasVideo && imgs < 5) { contentClass = 'bad'; contentValue = 'Weak'; }
-  else if (!hasVideo || imgs < 6) { contentClass = 'warn'; contentValue = 'Adequate'; }
+  if (!hasVideo && imgs < 5) {
+    contentClass = 'bad'; contentValue = 'Weak';
+    contentDetail = `${imgs} images, ${bullets} bullets — we build A+ content, video & optimized storefront`;
+  } else if (!hasVideo || imgs < 6) {
+    contentClass = 'warn'; contentValue = 'Adequate';
+    contentDetail = `${imgs} images, ${bullets} bullets — room for A+ content & video`;
+  }
 
   return { contentClass, contentValue, contentDetail };
 }
@@ -401,7 +406,7 @@ function renderRevenueLeak(data) {
     leaks.push({ title: 'Search Hijacked', severity: 'High', text: 'Competitors are bidding on your brand name. Customers searching for you see their products first.' });
   }
   if (data.listingQuality === 'Weak/No A+') {
-    leaks.push({ title: 'Weak Content', severity: 'Medium', text: 'Product pages lack A+ content, video, or optimized images. Visitors arrive but do not convert.' });
+    leaks.push({ title: 'Content Gap', severity: 'Medium', text: 'Product pages missing A+ enhanced brand content, video, or optimized storefront. We handle the full build.' });
   }
 
   if (leaks.length === 0) {
@@ -438,7 +443,7 @@ function renderGrowthPlan(data) {
     plans.push({ title: 'Brand Defense Ads', impact: 'Traffic Protection', text: 'Launch search ads on your brand name to keep competitors off your results. Protect every search.' });
   }
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    plans.push({ title: 'Content Overhaul', impact: '+15-25% Conversion', text: 'Premium images, video, A+ content, and optimized bullets that turn browsers into buyers.' });
+    plans.push({ title: 'A+ Storefront & Content', impact: '+15-25% Conversion', text: 'We build your Amazon storefront with A+ enhanced brand content, professional video, premium images, and optimized bullets — all funded by us.' });
   }
   if (plans.length === 0) {
     plans.push({ title: 'Scale Revenue', impact: 'Growth', text: 'Your Amazon operation is strong. We focus on volume growth, new launches, and advanced advertising - all funded by us.' });
@@ -470,7 +475,7 @@ function renderFindings(findings) {
   const labels = { issue: 'Revenue at Risk', opportunity: 'Growth Opportunity', warning: 'Attention Needed', competitor: 'Competitive Pressure' };
   const icons = { issue: '!', opportunity: '+', warning: '!', competitor: 'C' };
 
-  return findings.slice(0, 4).map(f => {
+  return findings.slice(0, 3).map(f => {
     const type = f.type || 'warning';
     return `<div class="fr ${type}">
       <div class="fr-ic ${type}">${icons[type] || 'i'}</div>
@@ -852,7 +857,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.2-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.3-retro' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);

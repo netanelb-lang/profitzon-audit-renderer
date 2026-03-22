@@ -123,8 +123,8 @@
 
   /* Product image */
   .img-block{display:flex;align-items:center;justify-content:center}
-  .img-wrap{width:100%;max-width:260px;aspect-ratio:1;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .img-wrap img{max-width:90%;max-height:90%;object-fit:contain}
+  .img-wrap{width:100%;height:100%;min-height:180px;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .img-wrap img{max-width:95%;max-height:95%;object-fit:contain}
   .img-ph{font-size:16px;color:#737373;text-align:center;padding:20px}
   .img-ph .code{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5a623;margin-top:8px}
 
@@ -136,7 +136,7 @@
   .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
   .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
   .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
-  .dc-badge.third{background:rgba(224,82,82,.15);color:#e05252;border-color:#e05252}
+  .dc-badge.third{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
   .dc-badge.fba{background:rgba(245,166,35,.1);color:#f5a623;border-color:#f5a623}
   .dc-badge.fbm{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
   .dc-review{grid-column:span 2}
@@ -185,7 +185,7 @@
      PAGE 3: COST OF FRICTION
      ════════════════════════════════════════════ */
 
-  .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto auto;min-height:0}
+  .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto;min-height:0}
 
   /* ALARM MODE: Leak cards */
   .lc{background:rgba(224,82,82,.12);border:3px solid #e05252;border-radius:4px;padding:20px 22px;margin-bottom:8px;position:relative;overflow:hidden}
@@ -427,19 +427,10 @@
         {{findings}}
       </div>
 
-      <!-- Results strip -->
-      <div class="rs-row">
-        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:26px">&ge;90%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Sales Control</div></div>
-        <div class="block b-green" style="padding:14px;text-align:center;border:3px solid #2db85e"><div class="bv" style="font-size:26px">&ge;95%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Price Stability</div></div>
-        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:26px">+10-30%</div><div class="bl" style="margin-top:4px">More Buyers</div></div>
-        <div class="block b-gold" style="padding:14px;text-align:center;border:3px solid #d4900a"><div class="bv" style="font-size:26px">8-15%</div><div class="bl" style="margin-top:4px">Ad Efficiency</div></div>
-        <div class="block" style="padding:14px;text-align:center;background:#f97316;border:3px solid #ea580c"><div class="bv" style="font-size:26px">+15-40%</div><div class="bl" style="color:rgba(28,28,28,.5);margin-top:4px">Revenue</div></div>
-      </div>
-
-      <!-- CTA — clean, just title + button -->
+      <!-- CTA — clean, title + button -->
       <div class="cta">
         <div class="cta-t">READY TO FIX THIS?</div>
-        <div style="height:20px"></div>
+        <div style="height:24px"></div>
         <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
       </div>
     </div>
