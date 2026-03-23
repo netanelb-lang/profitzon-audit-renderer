@@ -3,308 +3,443 @@
 <head>
 <meta charset="UTF-8">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-  :root{
-    --green:#228B22;--green-bg:#E9F5EA;--green-border:#b6e2b6;
-    --red:#C41E3A;--red-bg:#FDEAEA;--red-border:#f5c4c4;
-    --navy:#0f172a;--navy-light:#1e293b;--navy-mid:#334155;
-    --gold:#f5a623;
-    --text:#0f172a;--text-muted:#64748b;--text-light:#94a3b8;
-    --bg:#f8f9fb;--card:#fff;--border:#e2e8f0;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#1c1c1c;color:#d4d4d4;-webkit-font-smoothing:antialiased;line-height:1.45}
 
-  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#fff}
+  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#1c1c1c}
   .page:last-child{page-break-after:avoid}
+  .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
-  .ftr{position:absolute;bottom:0;left:0;right:0;height:38px;padding:10px 50px;display:flex;justify-content:space-between;align-items:center;font-size:8px;color:var(--text-muted);background:#f8f9fb;border-top:1px solid var(--border)}
-  .ftr strong{color:var(--navy)}
+  /* Pixel font helper */
+  .pxf{font-family:'Press Start 2P',monospace}
+
+  /* Scanline overlay */
+  .page::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none;z-index:100}
+
+  /* ── Header ── */
+  .hdr{padding:16px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:3px solid #f5a623}
+  .hdr-l{display:flex;align-items:center;gap:14px}
+  .hdr-l img{height:30px}
+  .hdr-sep{width:3px;height:22px;background:#f5a623}
+  .hdr-brand{font-family:'Press Start 2P',monospace;font-size:12px;color:#f5a623;letter-spacing:1px}
+  .hdr-r{font-family:'Press Start 2P',monospace;font-size:8px;color:#737373;letter-spacing:1px;text-transform:uppercase}
+
+  /* ── Footer ── */
+  .ftr{flex-shrink:0;padding:8px 40px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#525252;border-top:3px solid #333}
+  .ftr strong{color:#f5a623}
+
+  /* ── BENTO BLOCK SYSTEM ── */
+  .bento{display:grid;gap:10px;padding:0 36px;flex:1}
+  .block{border-radius:4px;padding:22px;position:relative;overflow:visible;display:flex;flex-direction:column;justify-content:center;border:2px solid #333}
+
+  /* Color blocks - warm palette */
+  .b-navy{background:#252525;border-color:#333}
+  .b-dark{background:#1a1a1a;border-color:#2d2d2d}
+  .b-gold{background:#f5a623;border-color:#d4900a}
+  .b-gold .bl,.b-gold .bv,.b-gold .bs{color:#1c1c1c}
+  .b-red{background:#e05252;border-color:#c43e3e}
+  .b-red .bl,.b-red .bv,.b-red .bs{color:#fff}
+  .b-green{background:#4ade80;border-color:#2db85e}
+  .b-green .bl,.b-green .bv,.b-green .bs{color:#1c1c1c}
+  .b-blue{background:#f5a623;border-color:#d4900a}
+  .b-blue .bl,.b-blue .bv,.b-blue .bs{color:#1c1c1c}
+  .b-cyan{background:#4ade80;border-color:#2db85e}
+  .b-cyan .bl,.b-cyan .bv,.b-cyan .bs{color:#1c1c1c}
+  .b-purple{background:#f5a623;border-color:#d4900a}
+  .b-orange{background:#f97316;border-color:#ea580c}
+  .b-orange .bl,.b-orange .bv,.b-orange .bs{color:#1c1c1c}
+  .b-slate{background:#2d2d2d;border-color:#404040}
+
+  /* Block typography — BIG & BOLD */
+  .bl{font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:5px}
+  .bv{font-size:44px;font-weight:900;color:#fff;line-height:1.1;letter-spacing:-1px}
+  .bv-xl{font-size:56px;font-weight:900;color:#fff;line-height:1;letter-spacing:-2px}
+  .bs{font-size:15px;color:#a3a3a3;line-height:1.45;margin-top:4px}
+  .bs strong{color:#fff;font-weight:800}
 
   /* ════════════════════════════════════════════
-     PAGE 1: AUDIT DASHBOARD
+     PAGE 1: THE PARADOX
      ════════════════════════════════════════════ */
 
-  .dash-header{background:var(--navy);padding:40px 50px 32px;color:#fff}
-  .dash-header .title{font-size:26px;font-weight:800;letter-spacing:-0.5px;line-height:1.2}
-  .dash-header .subtitle{font-size:12px;color:var(--text-light);margin-top:6px}
-  .dash-header .gold-line{width:48px;height:3px;background:var(--gold);margin-top:14px;border-radius:2px}
+  .p1-grid{grid-template-columns:300px 1fr;grid-template-rows:auto auto auto 1fr;min-height:0}
 
-  .dash-body{flex:1;padding:28px 50px 48px;display:flex;flex-direction:column;gap:22px;background:var(--bg)}
+  /* Gauge block — single row, compact */
+  .gauge-block{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#252525;border:3px solid #f5a623;padding:16px}
+  .gauge-block .bl{text-align:center;width:100%;color:#f5a623;font-size:9px}
+  .gauge-block svg{max-width:260px}
 
-  /* Two-column layout */
-  .dash-cols{display:flex;gap:20px;flex:1}
-  .dash-col{flex:1;display:flex;flex-direction:column;gap:12px}
+  /* KPI strip */
+  .kpi-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .kpi-mini{background:#2d2d2d;border-radius:4px;padding:14px 16px;border:2px solid #404040}
+  .kpi-mini .bl{font-size:8px;letter-spacing:1.5px;margin-bottom:4px;color:#737373}
+  .kpi-mini .bv{font-size:24px;color:#f5a623}
 
-  .col-header{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:14px 20px;border-radius:8px}
-  .col-header.green{background:var(--green);color:#fff}
-  .col-header.red{background:var(--red);color:#fff}
+  /* Strengths/Vulns */
+  .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-  /* Dashboard cards */
-  .dash-card{border-radius:10px;padding:22px 24px;border:1px solid var(--border);flex:1;display:flex;flex-direction:column;justify-content:center}
-  .dash-card.green-card{background:var(--green-bg);border-color:var(--green-border)}
-  .dash-card.red-card{background:var(--red-bg);border-color:var(--red-border)}
-  .dash-card-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);margin-bottom:8px}
-  .dash-card-val{font-size:36px;font-weight:900;line-height:1.1}
-  .dash-card-val.green-text{color:var(--green)}
-  .dash-card-val.red-text{color:var(--red)}
-  .dash-card-sub{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.5;font-weight:500}
-  .dash-card-icon{font-size:28px;margin-bottom:6px}
+  .si{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:4px;margin-bottom:6px}
+  .si.g{background:rgba(74,222,128,.08);border:2px solid rgba(74,222,128,.2);border-left:5px solid #4ade80}
+  .si.r{background:rgba(224,82,82,.15);border:3px solid #e05252;border-left:6px solid #e05252;position:relative}
+  .si.r::before{content:'⚠';position:absolute;top:4px;right:8px;font-size:11px;color:#e05252;opacity:.5}
+  .si-ic{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:900;flex-shrink:0}
+  .si.g .si-ic{background:#4ade80;color:#1c1c1c}
+  .si.r .si-ic{background:#e05252;font-size:17px}
+  .si-tx{font-size:18px;color:#d4d4d4;line-height:1.55}
+  .si-tx strong{color:#fff;font-weight:800}
 
-  /* Star rating visual */
-  .stars{display:flex;gap:3px;margin-top:4px}
-  .star{width:22px;height:22px}
+  .sv-hd{font-family:'Press Start 2P',monospace;font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .sv-hd.grn{color:#4ade80}
+  .sv-hd.red{color:#e05252}
+  .sv-hd .ln{flex:1;height:3px}
+  .sv-hd.grn .ln{background:linear-gradient(90deg,#4ade80,transparent)}
+  .sv-hd.red .ln{background:linear-gradient(90deg,#e05252,transparent)}
 
-  /* Mini metric row inside card */
-  .mini-metrics{display:flex;gap:12px;margin-top:10px}
-  .mini-m{flex:1;text-align:center;padding:8px;background:rgba(255,255,255,.7);border-radius:6px}
-  .mini-m-val{font-size:14px;font-weight:800;color:var(--text)}
-  .mini-m-label{font-size:8px;font-weight:600;color:var(--text-muted);margin-top:2px}
+  /* Exec summary */
+  .exec{background:rgba(245,166,35,.08);border:2px solid rgba(245,166,35,.2);border-left:5px solid #f5a623;border-radius:4px;padding:36px 34px;grid-column:1/-1;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .exec-lbl{font-family:'Press Start 2P',monospace;font-size:13px;text-transform:uppercase;letter-spacing:3px;color:#f5a623;margin-bottom:14px}
+  .exec-tx{font-size:24px;color:#d4d4d4;line-height:1.7}
 
-  /* Health gauge bar */
-  .gauge-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 28px}
-  .gauge-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-  .gauge-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted)}
-  .gauge-score{font-size:28px;font-weight:900;color:var(--navy)}
-  .gauge-label{font-size:11px;font-weight:700;color:var(--gold);margin-left:8px;text-transform:uppercase;letter-spacing:1px}
-  .gauge-bar{height:12px;background:#e9ecef;border-radius:6px;overflow:hidden}
-  .gauge-fill{height:100%;border-radius:6px;transition:width .3s}
-  .gauge-legend{display:flex;justify-content:space-between;margin-top:8px;font-size:9px;font-weight:600;color:var(--text-muted)}
-
-  /* Insight bar */
-  .dash-insight{background:var(--navy);border-radius:8px;padding:16px 22px;display:flex;gap:14px;align-items:flex-start}
-  .dash-insight-icon{color:var(--gold);font-size:18px;flex-shrink:0;margin-top:1px}
-  .dash-insight-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:3px}
-  .dash-insight-text{font-size:11px;color:#cbd5e1;line-height:1.7}
+  /* Ownership bar */
+  .own{grid-column:1/-1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:18px 24px;display:flex;align-items:center;gap:20px}
+  .own-pct{font-family:'Press Start 2P',monospace;font-size:28px;color:#f5a623}
+  .own-info{flex:1}
+  .own-title{font-size:18px;font-weight:800;color:#fff}
+  .own-desc{font-size:15px;color:#a3a3a3;margin-top:2px}
+  .own-track{width:200px;height:14px;background:#1c1c1c;border:2px solid #404040;border-radius:2px;overflow:hidden;flex-shrink:0}
+  .own-fill{height:100%;background:#f5a623}
 
   /* ════════════════════════════════════════════
      PAGE 2: ASSET X-RAY
      ════════════════════════════════════════════ */
 
-  .xray-header{background:var(--navy);padding:36px 50px 24px;color:#fff}
-  .xray-header .title{font-size:24px;font-weight:800;letter-spacing:-0.3px}
-  .xray-header .gold-line{width:40px;height:3px;background:var(--gold);margin-top:10px;border-radius:2px}
-  .xray-meta{display:flex;gap:28px;margin-top:16px;font-size:11px;color:var(--text-light)}
-  .xray-meta span{color:#fff;font-weight:700}
+  .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto minmax(0,280px) auto 1fr auto;min-height:0}
 
-  .xray-body{flex:1;padding:24px 50px 48px;display:flex;flex-direction:column;gap:18px;background:var(--bg)}
+  .asin-bar{grid-column:1/-1;padding:0}
+  .asin-title{font-size:20px;font-weight:900;color:#fff}
+  .asin-meta{font-size:15px;color:#737373;margin-top:3px}
+  .asin-meta span{color:#f5a623;font-weight:700;font-family:monospace}
 
-  /* Annotated product area */
-  .xray-main{display:flex;gap:16px;flex:1;align-items:stretch}
+  /* Product image */
+  .img-block{display:flex;align-items:stretch;justify-content:stretch;max-height:280px;overflow:hidden}
+  .img-wrap{width:100%;background:#252525;border:3px solid #404040;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
+  .img-wrap img{width:100%;height:100%;object-fit:contain}
+  .img-ph{font-size:16px;color:#737373;text-align:center;padding:20px}
+  .img-ph .code{font-family:'Press Start 2P',monospace;font-size:10px;color:#f5a623;margin-top:8px}
 
-  /* Left callouts */
-  .xray-callouts{width:220px;display:flex;flex-direction:column;gap:12px;justify-content:center}
-  .callout{border-radius:8px;padding:16px 18px;border:2px solid;position:relative}
-  .callout.green-c{background:var(--green-bg);border-color:var(--green)}
-  .callout.red-c{background:var(--red-bg);border-color:var(--red)}
-  .callout-icon{font-size:16px;margin-bottom:4px}
-  .callout-title{font-size:14px;font-weight:800;line-height:1.3}
-  .callout-title.green-text{color:var(--green)}
-  .callout-title.red-text{color:var(--red)}
-  .callout-desc{font-size:10px;color:var(--text-muted);margin-top:3px;line-height:1.5}
-  /* Connector line stub */
-  .callout-connector{position:absolute;top:50%;width:16px;height:2px}
-  .callout.green-c .callout-connector{right:-16px;background:var(--green)}
-  .callout.red-c .callout-connector{left:-16px;background:var(--red)}
+  /* Detail cards */
+  .dc{background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px;display:flex;flex-direction:column}
+  .dc-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:#737373;margin-bottom:8px}
+  .dc-big{font-size:36px;font-weight:900;color:#f5a623}
+  .dc-sub{font-size:15px;color:#a3a3a3;margin-top:4px}
+  .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .dc-badge{font-family:'Press Start 2P',monospace;font-size:7px;font-weight:700;padding:5px 12px;border-radius:2px;border:2px solid}
+  .dc-badge.brand{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
+  .dc-badge.third{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
+  .dc-badge.fba{background:rgba(245,166,35,.1);color:#f5a623;border-color:#f5a623}
+  .dc-badge.fbm{background:rgba(163,163,163,.1);color:#a3a3a3;border-color:#525252}
+  .dc-review{grid-column:span 2}
+  .dc-review-text{font-size:16px;color:#a3a3a3;line-height:1.6;font-style:italic;margin-top:6px;border-left:3px solid #525252;padding-left:12px}
+  .rb{margin-top:10px}
+  .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .rb-lbl{font-family:'Press Start 2P',monospace;font-size:9px;color:#a3a3a3;width:30px;text-align:right}
+  .rb-track{flex:1;height:14px;background:#1c1c1c;border:2px solid #333;border-radius:2px;overflow:hidden}
+  .rb-fill{height:100%}
+  .rb-fill.r5{background:#4ade80}
+  .rb-fill.r4{background:#a3e635}
+  .rb-fill.r3{background:#f5a623}
+  .rb-fill.r2{background:#f97316}
+  .rb-fill.r1{background:#e05252}
+  .rb-pct{font-family:monospace;font-size:13px;font-weight:700;color:#737373;width:36px}
 
-  /* Center image */
-  .xray-img{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card);border:2px solid var(--border);border-radius:12px;overflow:hidden;position:relative;min-height:400px}
-  .xray-img img{max-width:94%;max-height:94%;object-fit:contain}
-  .xray-img .product-placeholder{color:var(--text-light);font-size:13px}
+  /* Product table */
+  .tbl-block{grid-column:1/-1}
+  .tbl-lbl{font-family:'Press Start 2P',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:10px}
+  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border:2px solid #404040;border-radius:4px;overflow:hidden}
+  .ptbl th{background:#2d2d2d;padding:14px 16px;font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:#f5a623;text-align:left;border-bottom:3px solid #f5a623}
+  .ptbl td{padding:13px 16px;font-size:16px;color:#d4d4d4;border-bottom:1px solid #333;background:#252525}
+  .ptbl tr:last-child td{border-bottom:none}
+  .ptbl tr:nth-child(even) td{background:#2d2d2d}
+  .badge-sm{font-family:'Press Start 2P',monospace;font-size:7px;padding:4px 10px;border-radius:2px;display:inline-block;margin-right:2px;border:1px solid}
+  .badge-prime{background:rgba(245,166,35,.15);color:#f5a623;border-color:#f5a623}
+  .badge-choice{background:rgba(74,222,128,.1);color:#4ade80;border-color:#4ade80}
+  .badge-bestseller{background:rgba(245,166,35,.2);color:#f5a623;border-color:#f5a623}
+  .badge-sponsored{background:rgba(163,163,163,.08);color:#737373;border-color:#525252}
+  .badge-notbrand{background:rgba(224,82,82,.1);color:#e05252;border-color:#e05252}
+  .pos-badge{font-family:'Press Start 2P',monospace;font-size:14px;color:#f5a623}
 
-  /* Assessment cards below image */
-  .xray-assess{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .xa{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
-  .xa-top{display:flex;justify-content:space-between;align-items:center}
-  .xa-cat{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted)}
-  .xa-badge{font-size:8px;font-weight:700;padding:2px 8px;border-radius:4px;color:#fff}
-  .xa-badge.strong{background:var(--green)}
-  .xa-badge.needs{background:var(--red)}
-  .xa-badge.ok{background:var(--gold)}
-  .xa-val{font-size:15px;font-weight:800;color:var(--text);margin-top:5px;line-height:1.3}
-  .xa-bar{height:3px;background:#e9ecef;border-radius:2px;margin-top:6px;overflow:hidden}
-  .xa-fill{height:100%;border-radius:2px}
-  .xa-fill.green{background:var(--green)}
-  .xa-fill.red{background:var(--red)}
-  .xa-fill.gold{background:var(--gold)}
+  /* Extra detail */
+  .extra-detail{display:flex;gap:12px;margin-top:10px}
+  .ed-card{flex:1;background:#2d2d2d;border:2px solid #404040;border-radius:4px;padding:20px}
+  .ed-title{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:12px}
+  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #333}
+  .ed-row:last-child{border-bottom:none}
+  .ed-label{font-size:18px;color:#a3a3a3}
+  .ed-value{font-size:20px;font-weight:700;color:#fff}
 
-  /* Stats strip */
-  .xray-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-  .xs{text-align:center;padding:14px 8px;background:var(--navy)}
-  .xs+.xs{border-left:1px solid var(--navy-light)}
-  .xs-val{font-size:18px;font-weight:800;color:#fff}
-  .xs-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-top:3px}
+  /* Market strip */
+  .mkt-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
 
   /* ════════════════════════════════════════════
-     PAGE 3: REVENUE LEAK & GROWTH PLAN
+     PAGE 3: COST OF FRICTION
      ════════════════════════════════════════════ */
 
-  .leak-header{background:var(--navy);padding:36px 50px 20px;color:#fff}
-  .leak-header .title{font-size:24px;font-weight:800;letter-spacing:-0.3px}
-  .leak-header .subtitle{font-size:11px;color:var(--text-light);margin-top:4px}
-  .leak-header .gold-line{width:40px;height:3px;background:var(--gold);margin-top:10px;border-radius:2px}
+  .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto;min-height:0}
 
-  .leak-body{flex:1;padding:24px 50px 48px;display:flex;flex-direction:column;gap:16px;background:var(--bg)}
+  /* ALARM MODE: Leak cards */
+  .lc{background:rgba(224,82,82,.12);border:3px solid #e05252;border-radius:4px;padding:14px 18px;margin-bottom:6px;position:relative;overflow:hidden;clip-path:inset(0)}
+  .lc::before{content:'';position:absolute;top:0;right:0;width:44px;height:44px;background:repeating-linear-gradient(45deg,#e05252 0,#e05252 4px,transparent 4px,transparent 8px);opacity:.15}
+  .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .lc-ic{width:32px;height:32px;background:#e05252;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Press Start 2P',monospace;font-size:13px;font-weight:900;flex-shrink:0}
+  .lc-title{font-size:18px;font-weight:900;color:#e05252;flex:1}
+  .lc-sev{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:#e05252;color:#fff;border:2px solid #c43e3e;text-transform:uppercase;letter-spacing:1px}
+  .lc-tx{font-size:14px;color:#d4d4d4;line-height:1.5}
 
-  /* Section headers */
-  .section-hdr{display:flex;align-items:center;gap:10px;padding:14px 20px;border-radius:8px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#fff}
-  .section-hdr.red-hdr{background:var(--red)}
-  .section-hdr.green-hdr{background:var(--green)}
-  .section-hdr-icon{font-size:18px}
+  /* Plan cards */
+  .pc{background:rgba(245,166,35,.06);border:2px solid rgba(245,166,35,.3);border-left:5px solid #f5a623;border-radius:4px;padding:14px 18px;margin-bottom:6px}
+  .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .pc-ic{width:30px;height:30px;background:#f5a623;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#1c1c1c;font-family:'Press Start 2P',monospace;font-size:11px;font-weight:900;flex-shrink:0}
+  .pc-title{font-size:18px;font-weight:800;color:#f5a623;flex:1}
+  .pc-imp{font-family:'Press Start 2P',monospace;font-size:7px;padding:5px 12px;border-radius:2px;background:rgba(74,222,128,.1);color:#4ade80;border:2px solid rgba(74,222,128,.3);letter-spacing:1px}
+  .pc-tx{font-size:14px;color:#a3a3a3;line-height:1.5}
 
-  /* Leak cards */
-  .leak-cards{display:flex;gap:12px}
-  .leak-card{flex:1;background:var(--red-bg);border:1px solid var(--red-border);border-left:4px solid var(--red);border-radius:8px;padding:20px 22px}
-  .leak-card-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--red);margin-bottom:6px}
-  .leak-card-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
-  .leak-card-amount{font-size:24px;font-weight:900;color:var(--red);margin-bottom:6px}
-  .leak-card-desc{font-size:11px;color:var(--text-muted);line-height:1.6}
+  /* ALARM MODE: Findings */
+  .find-block{grid-column:1/-1}
+  .fr{display:flex;align-items:flex-start;padding:14px 18px;border-radius:4px;margin-bottom:6px;gap:12px;border:2px solid;position:relative}
+  .fr.issue{background:rgba(224,82,82,.1);border-color:#e05252;border-left:6px solid #e05252}
+  .fr.issue::after{content:'⚠ ALERT';position:absolute;top:6px;right:10px;font-family:'Press Start 2P',monospace;font-size:7px;color:#e05252;opacity:.6;letter-spacing:1px}
+  .fr.opportunity{background:rgba(74,222,128,.06);border-color:rgba(74,222,128,.3);border-left:5px solid #4ade80}
+  .fr.warning{background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.3);border-left:5px solid #f5a623}
+  .fr.competitor{background:rgba(245,166,35,.04);border-color:rgba(245,166,35,.15);border-left:5px solid #f97316}
+  .fr-ic{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Press Start 2P',monospace;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
+  .fr-ic.issue{background:#e05252}.fr-ic.opportunity{background:#4ade80;color:#1c1c1c}
+  .fr-ic.warning{background:#f5a623;color:#1c1c1c}.fr-ic.competitor{background:#f97316;color:#1c1c1c}
+  .fr-lbl{font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+  .fr-lbl.issue{color:#e05252}.fr-lbl.opportunity{color:#4ade80}.fr-lbl.warning{color:#f5a623}.fr-lbl.competitor{color:#f97316}
+  .fr-tx{font-size:14px;color:#d4d4d4;line-height:1.5}
 
-  /* Growth plan cards */
-  .plan-cards{display:flex;gap:12px}
-  .plan-card{flex:1;background:var(--green-bg);border:1px solid var(--green-border);border-left:4px solid var(--green);border-radius:8px;padding:20px 22px}
-  .plan-card-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:6px}
-  .plan-card-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
-  .plan-card-impact{font-size:20px;font-weight:900;color:var(--green);margin-bottom:6px}
-  .plan-card-desc{font-size:11px;color:var(--text-muted);line-height:1.6}
-
-  /* Outcome strip */
-  .outcome-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto}
-  .outcome{background:var(--navy);border-radius:8px;padding:18px 14px;text-align:center}
-  .outcome-val{font-size:22px;font-weight:900;color:var(--gold)}
-  .outcome-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-top:4px}
-
-  /* Disclaimer */
-  .disclaimer{background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;padding:16px 22px;text-align:center;margin-top:12px}
-  .disclaimer-text{font-size:11px;color:var(--green);font-weight:600;line-height:1.5}
-  .disclaimer-text strong{font-weight:800}
+  /* Results strip */
+  .rs-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
 
   /* CTA */
-  .cta-box{background:var(--navy);border-radius:10px;padding:24px 40px;text-align:center;margin-top:12px}
-  .cta-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:8px}
-  .cta-btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 40px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:1px;text-transform:uppercase}
+  .cta{grid-column:1/-1;background:#2d2d2d;border:3px solid #f5a623;border-radius:4px;padding:24px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(245,166,35,.03) 20px,rgba(245,166,35,.03) 40px);pointer-events:none}
+  .cta-glow{display:none}.cta-glow2{display:none}
+  .cta-t{font-family:'Press Start 2P',monospace;font-size:22px;color:#f5a623;position:relative;z-index:1;line-height:1.4}
+  .cta-s{font-size:19px;color:#a3a3a3;margin:14px 0 26px;line-height:1.6;position:relative;z-index:1}
+  .cta-btn{display:inline-block;background:#f5a623;color:#1c1c1c;padding:20px 60px;border-radius:4px;font-family:'Press Start 2P',monospace;font-size:12px;text-decoration:none;letter-spacing:1px;position:relative;z-index:1;border:3px solid #d4900a}
+  .cta-trust{margin-top:14px;font-size:14px;color:#737373;position:relative;z-index:1}
 
-  @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
+  /* About row */
+  .about-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+
+  /* Final footer */
+  .fftr{flex-shrink:0}
+  .fftr-conf{text-align:center;padding:8px;font-size:11px;color:#525252;border-top:2px solid #333}
+  .fftr-main{padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
+  .fftr-left{font-size:14px;color:#737373}
+  .fftr-left strong{color:#f5a623}
+  .fftr-left a{color:#f5a623;text-decoration:none}
+  .fftr-right{font-size:12px;color:#525252;text-align:right}
+  .fftr-right strong{color:#f5a623}
+
+  @media print{body{background:#1c1c1c}.page{box-shadow:none;margin:0}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ PAGE 1: AUDIT DASHBOARD ═══════════════ -->
+<!-- ═══════════════ PAGE 1: THE PARADOX ═══════════════ -->
 <div class="page">
-  <div class="dash-header">
-    <div class="title">{{brandName}}: Amazon Control &amp; Growth Audit</div>
-    <div class="subtitle">Uncovering operational leaks and unlocking top-line revenue on the world's largest marketplace.</div>
-    <div class="gold-line"></div>
+  <div class="hdr">
+    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
-
-  <div class="dash-body">
-    <div class="dash-cols">
-      <!-- LEFT: STRENGTHS -->
-      <div class="dash-col">
-        <div class="col-header green">Brand Power (Strengths)</div>
-        {{strengthCards}}
+  <div class="pb">
+    <div class="bento p1-grid">
+      <!-- Section Title - full width -->
+      <div class="block b-gold" style="grid-column:1/-1;padding:18px 26px;border:3px solid #d4900a;display:flex;flex-direction:row;align-items:center;gap:16px">
+        <svg viewBox="0 0 32 32" width="36" height="36" style="flex-shrink:0"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="24" y="8" width="4" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="8" height="4" fill="#1c1c1c"/><rect x="8" y="24" width="16" height="4" fill="#1c1c1c"/></svg>
+        <div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.45)">Section I</div>
+          <div style="font-size:44px;font-weight:900;color:#1c1c1c;letter-spacing:-2px;line-height:1.1">The Paradox</div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="text-align:right">
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;color:rgba(28,28,28,.4);margin-bottom:4px">Strengths vs. gaps</div>
+          <div style="font-size:16px;font-weight:800;color:#1c1c1c">costing you revenue</div>
+        </div>
       </div>
 
-      <!-- RIGHT: VULNERABILITIES -->
-      <div class="dash-col">
-        <div class="col-header red">Amazon Mechanics (Vulnerabilities)</div>
-        {{vulnCards}}
+      <!-- Gauge (compact) -->
+      <div class="block gauge-block">
+        <div class="bl">Brand Health</div>
+        <div style="max-width:260px;margin:0 auto">{{gaugeSVG}}</div>
       </div>
+
+      <!-- KPIs right of gauge -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="kpi-strip">
+          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:26px">{{brandMaturity}}</div></div>
+          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:26px">{{brandProductCount}}/{{totalResults}}</div></div>
+          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:26px">{{sellerCount}}</div></div>
+        </div>
+        <div class="kpi-strip">
+          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:26px">{{fbaPercent}}%</div></div>
+          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:26px">{{avgRating}} &#9733;</div></div>
+          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:26px">{{ownershipPct}}%</div></div>
+        </div>
+      </div>
+
+      <!-- Strengths + Vulnerabilities -->
+      <div class="sv-block">
+        <div>
+          <div class="sv-hd grn"><svg viewBox="0 0 20 20" width="18" height="18" style="flex-shrink:0"><rect x="16" y="2" width="4" height="4" fill="#4ade80"/><rect x="12" y="6" width="4" height="4" fill="#4ade80"/><rect x="8" y="10" width="4" height="4" fill="#4ade80"/><rect x="4" y="6" width="4" height="4" fill="#4ade80"/><rect x="0" y="2" width="4" height="4" fill="#4ade80"/></svg> Strengths <div class="ln"></div></div>
+          {{strengthsList}}
+        </div>
+        <div>
+          <div class="sv-hd red"><svg viewBox="0 0 20 20" width="18" height="18" style="flex-shrink:0"><rect x="0" y="0" width="4" height="4" fill="#e05252"/><rect x="16" y="0" width="4" height="4" fill="#e05252"/><rect x="4" y="4" width="4" height="4" fill="#e05252"/><rect x="12" y="4" width="4" height="4" fill="#e05252"/><rect x="8" y="8" width="4" height="4" fill="#e05252"/><rect x="4" y="12" width="4" height="4" fill="#e05252"/><rect x="12" y="12" width="4" height="4" fill="#e05252"/><rect x="0" y="16" width="4" height="4" fill="#e05252"/><rect x="16" y="16" width="4" height="4" fill="#e05252"/></svg> Vulnerabilities <div class="ln"></div></div>
+          {{vulnerabilitiesList}}
+        </div>
+      </div>
+
+      <!-- Exec summary -->
+      {{executiveSummaryBox}}
     </div>
 
-    <!-- HEALTH GAUGE -->
-    <div class="gauge-section">{{gaugeBar}}</div>
-
-    <!-- KEY INSIGHT -->
-    <div class="dash-insight">
-      <div class="dash-insight-icon">&#9670;</div>
-      <div>
-        <div class="dash-insight-label">Key Insight</div>
-        <div class="dash-insight-text">{{opportunitySummary}}</div>
-      </div>
-    </div>
+    <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
   </div>
-
-  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
 </div>
 
 <!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
 <div class="page">
-  <div class="xray-header">
-    <div class="title">Asset X-Ray: {{bestAsinTitleShort}}</div>
-    <div class="gold-line"></div>
-    <div class="xray-meta">
-      <div>ASIN <span>{{bestAsin}}</span></div>
-      <div>Volume <span>{{bestAsinSalesVolume}}</span></div>
-      <div>Price <span>${{bestAsinPrice}}</span></div>
-      <div>Run Rate <span>{{grossRunRate}}</span></div>
-    </div>
+  <div class="hdr">
+    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
+  <div class="pb">
+    <div class="bento p2-grid">
+      <!-- Title block -->
+      <div class="block b-gold" style="grid-column:1/-1;padding:14px 26px;border:3px solid #d4900a">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+          <svg viewBox="0 0 32 32" width="24" height="24" style="flex-shrink:0"><rect x="4" y="4" width="4" height="4" fill="#1c1c1c"/><rect x="8" y="8" width="20" height="4" fill="#1c1c1c"/><rect x="8" y="12" width="20" height="4" fill="#1c1c1c"/><rect x="10" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="20" width="12" height="4" fill="#1c1c1c"/><rect x="12" y="26" width="4" height="4" fill="#1c1c1c"/><rect x="20" y="26" width="4" height="4" fill="#1c1c1c"/></svg>
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;text-transform:uppercase;letter-spacing:3px;color:rgba(28,28,28,.45)">Section II</span>
+          <span style="font-size:28px;font-weight:900;letter-spacing:-1px;color:#1c1c1c">Asset X-Ray</span>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:#1c1c1c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{bestAsinTitleTruncated}}</div>
+        <div class="asin-meta"><span style="color:#1c1c1c;font-weight:700">{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+      </div>
 
-  <div class="xray-body">
-    <div class="xray-main">
-      <!-- Left callouts (green = strengths) -->
-      <div class="xray-callouts">{{leftCallouts}}</div>
+      <!-- Callout blocks — bigger text -->
+      <div class="block {{calloutContentBg}}" style="padding:20px">
+        <div class="bl">Content</div>
+        <div class="bv" style="font-size:38px">{{calloutContentValue}}</div>
+        <div class="bs">{{calloutContentDetail}}</div>
+      </div>
 
       <!-- Product image -->
-      <div class="xray-img">{{productImageHtml}}</div>
+      <div class="block b-dark img-block">
+        <div class="img-wrap">{{productImageHtml}}</div>
+      </div>
 
-      <!-- Right callouts (red = vulnerabilities) -->
-      <div class="xray-callouts">{{rightCallouts}}</div>
+      <div class="block {{calloutRatingBg}}" style="padding:20px">
+        <div class="bl">Rating</div>
+        <div class="bv" style="font-size:38px">{{avgRating}} &#9733;</div>
+        <div class="bs">{{calloutRatingDetail}}</div>
+      </div>
+
+      <div class="block {{calloutFulfillBg}}" style="padding:20px">
+        <div class="bl">Fulfillment</div>
+        <div class="bv" style="font-size:38px">{{calloutFulfillValue}}</div>
+        <div class="bs">{{calloutFulfillDetail}}</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px">
+        {{buyBoxCard}}
+      </div>
+
+      <div class="block {{calloutCompBg}}" style="padding:20px">
+        <div class="bl">Competition</div>
+        <div class="bv" style="font-size:38px">{{calloutCompValue}}</div>
+        <div class="bs">{{calloutCompDetail}}</div>
+      </div>
+
+      <!-- Products table -->
+      <div class="tbl-block">
+        <div class="tbl-lbl">Products Analyzed</div>
+        <table class="ptbl">
+          <thead><tr><th style="width:4%">#</th><th style="width:32%">Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
+          <tbody>{{productRows}}</tbody>
+        </table>
+        {{extraDetail}}
+      </div>
+
+      <!-- Market strip -->
+      <div class="mkt-row">
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:28px;color:#f5a623">{{priceRange}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:28px;color:#f5a623">{{ppcCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:28px;color:#f5a623">{{competitorCount}}</div></div>
+        <div class="block b-slate" style="padding:16px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:28px;color:#f5a623">{{catalogSize}}</div></div>
+      </div>
     </div>
 
-    <!-- Assessment grid -->
-    <div class="xray-assess">{{assessmentCards}}</div>
-
-    <!-- Stats strip -->
-    <div class="xray-stats">
-      <div class="xs"><div class="xs-val">{{priceRange}}</div><div class="xs-label">Price Range</div></div>
-      <div class="xs"><div class="xs-val">{{sellerCount}}</div><div class="xs-label">Active Sellers</div></div>
-      <div class="xs"><div class="xs-val">{{competitorCount}}</div><div class="xs-label">Competitors</div></div>
-      <div class="xs"><div class="xs-val">{{catalogSize}}</div><div class="xs-label">Catalog SKUs</div></div>
-    </div>
+    <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
   </div>
-
-  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
 </div>
 
-<!-- ═══════════════ PAGE 3: REVENUE LEAK & GROWTH PLAN ═══════════════ -->
+<!-- ═══════════════ PAGE 3: COST OF FRICTION ═══════════════ -->
 <div class="page">
-  <div class="leak-header">
-    <div class="title">Revenue Leak &amp; Growth Plan</div>
-    <div class="subtitle">Quantified losses today and the specific actions to recover them.</div>
-    <div class="gold-line"></div>
+  <div class="hdr">
+    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
+    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
   </div>
+  <div class="pb">
+    <div class="bento p3-grid">
+      <!-- Title blocks -->
+      <div class="block" style="grid-column:1;padding:20px 24px;background:#e05252;border:3px solid #c43e3e;display:flex;flex-direction:row;align-items:center;gap:14px">
+        <svg viewBox="0 0 32 32" width="32" height="32" style="flex-shrink:0"><rect x="14" y="2" width="4" height="4" fill="#fff"/><rect x="12" y="6" width="8" height="4" fill="#fff"/><rect x="10" y="10" width="12" height="4" fill="#fff"/><rect x="8" y="14" width="16" height="4" fill="#fff"/><rect x="6" y="18" width="20" height="4" fill="#fff"/><rect x="4" y="22" width="24" height="4" fill="#fff"/><rect x="14" y="10" width="4" height="8" fill="#e05252"/><rect x="14" y="20" width="4" height="4" fill="#e05252"/></svg>
+        <div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Section III</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#fff;line-height:1.4;letter-spacing:1px">REVENUE<br>LEAK</div>
+        </div>
+      </div>
+      <div class="block" style="grid-column:2;padding:20px 24px;background:#f5a623;border:3px solid #d4900a;display:flex;flex-direction:row;align-items:center;gap:14px">
+        <svg viewBox="0 0 32 32" width="32" height="32" style="flex-shrink:0"><rect x="8" y="0" width="16" height="4" fill="#1c1c1c"/><rect x="4" y="4" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="8" width="24" height="4" fill="#1c1c1c"/><rect x="4" y="12" width="24" height="4" fill="#1c1c1c"/><rect x="8" y="16" width="16" height="4" fill="#1c1c1c"/><rect x="8" y="20" width="16" height="4" fill="#1c1c1c"/><rect x="12" y="24" width="8" height="4" fill="#1c1c1c"/><rect x="14" y="28" width="4" height="4" fill="#1c1c1c"/></svg>
+        <div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:8px;text-transform:uppercase;letter-spacing:2px;color:rgba(28,28,28,.5)">Our Plan</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:18px;color:#1c1c1c;line-height:1.4;letter-spacing:1px">GROWTH<br>PLAN</div>
+        </div>
+      </div>
 
-  <div class="leak-body">
-    <!-- REVENUE LEAKS -->
-    <div class="section-hdr red-hdr"><span class="section-hdr-icon">&#9888;</span> The Revenue Leak (Current State)</div>
-    <div class="leak-cards">{{leakCards}}</div>
+      <!-- Leak + Plan cards -->
+      <div style="display:flex;flex-direction:column">
+        {{revenueLeak}}
+      </div>
+      <div style="display:flex;flex-direction:column">
+        {{growthPlan}}
+      </div>
 
-    <!-- GROWTH PLAN -->
-    <div class="section-hdr green-hdr"><span class="section-hdr-icon">&#10004;</span> The Growth Plan (Optimal State)</div>
-    <div class="plan-cards">{{planCards}}</div>
+      <!-- Findings -->
+      <div class="find-block">
+        <div class="tbl-lbl">Key Findings</div>
+        {{findings}}
+      </div>
 
-    <!-- OUTCOMES -->
-    <div class="outcome-strip">{{expectedResults}}</div>
-
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-      <div class="disclaimer-text"><strong>Zero operational load for you.</strong> Profitzon funds 100% of inventory, marketing, logistics, and brand protection. We buy at wholesale, invest our own capital, and handle everything from factory to Prime delivery.</div>
+      <!-- CTA — clean, title + button -->
+      <div class="cta">
+        <div class="cta-t">READY TO FIX THIS?</div>
+        <div style="height:16px"></div>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
+      </div>
     </div>
 
-    <!-- CTA -->
-    <div class="cta-box">
-      <div class="cta-title">Ready to Fix This?</div>
-      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a Strategy Call &rarr;</a>
+    <div class="fftr">
+      <div class="fftr-conf">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
+      <div class="fftr-main">
+        <div class="fftr-left"><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>gal@profitzon.net &middot; <a href="https://profitzon.net">profitzon.net</a></div>
+        <div class="fftr-right">Prepared for <strong>{{brandName}}</strong><br>Report ID: {{reportId}} &middot; Page 3/3</div>
+      </div>
     </div>
-  </div>
-
-  <div class="ftr">
-    <div><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner &middot; gal@profitzon.net</div>
-    <div>Prepared for <strong>{{brandName}}</strong> &middot; Report ID: {{reportId}} &middot; Page 3/3</div>
   </div>
 </div>
 </body>
