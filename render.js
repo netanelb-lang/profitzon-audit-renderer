@@ -1,6 +1,6 @@
 /**
- * Profitzon Brand Audit Report Renderer v10.0-clean
- * Clean white infographic style — Inter font, corporate palette.
+ * Profitzon Brand Audit Report Renderer v11.0-premium
+ * Dark navy + gold infographic — premium consulting aesthetic.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
@@ -48,37 +48,20 @@ function fmt(n) {
 
 function renderGaugeSVG(score) {
   const s = Math.max(0, Math.min(100, score));
-  let color = '#dc2626';
-  if (s >= 70) color = '#16a34a';
-  else if (s >= 50) color = '#f59e0b';
-  else if (s >= 30) color = '#ea580c';
   const label = s < 45 ? 'NEEDS WORK' : s < 60 ? 'FAIR' : s < 75 ? 'GOOD' : s < 88 ? 'STRONG' : 'EXCELLENT';
-
-  const cx = 100, cy = 100, r = 80;
-  const angle = Math.PI - (s / 100) * Math.PI;
-  const nx = cx + (r - 18) * Math.cos(angle);
-  const ny = cy - (r - 18) * Math.sin(angle);
-
-  const arc = (start, end, clr) => {
-    const x1 = cx + r * Math.cos(Math.PI - start * Math.PI);
-    const y1 = cy - r * Math.sin(Math.PI - start * Math.PI);
-    const x2 = cx + r * Math.cos(Math.PI - end * Math.PI);
-    const y2 = cy - r * Math.sin(Math.PI - end * Math.PI);
-    return `<path d="M${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2}" stroke="${clr}" stroke-width="14" fill="none"/>`;
-  };
-
-  return `<svg width="200" height="130" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
-    <path d="M${cx - r},${cy} A${r},${r} 0 0,1 ${cx + r},${cy}" stroke="#e2e8f0" stroke-width="16" fill="none"/>
-    ${arc(0, 0.3, '#dc2626')}${arc(0.3, 0.5, '#ea580c')}${arc(0.5, 0.7, '#f59e0b')}${arc(0.7, 1.0, '#16a34a')}
-    <line x1="${cx}" y1="${cy}" x2="${nx}" y2="${ny}" stroke="#0f172a" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="${cx}" cy="${cy}" r="5" fill="#0f172a"/>
-    <text x="${cx}" y="${cy - 22}" text-anchor="middle" font-family="Inter,sans-serif" font-size="36" font-weight="900" fill="#0f172a">${s}</text>
-    <text x="${cx}" y="${cy - 2}" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="${color}" letter-spacing="2">${label}</text>
+  // Gold donut ring on dark background
+  const circ = 2 * Math.PI * 54;
+  const filled = (s / 100) * circ;
+  return `<svg width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="70" cy="70" r="54" fill="none" stroke="#1e293b" stroke-width="10"/>
+    <circle cx="70" cy="70" r="54" fill="none" stroke="#f5a623" stroke-width="10" stroke-dasharray="${filled} ${circ}" stroke-dashoffset="${circ / 4}" stroke-linecap="round" transform="rotate(-90 70 70)"/>
+    <text x="70" y="64" text-anchor="middle" font-family="Inter,sans-serif" font-size="34" font-weight="900" fill="#fff">${s}</text>
+    <text x="70" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#f5a623" letter-spacing="2">${label}</text>
   </svg>`;
 }
 
 // ============================================================
-// PAGE 1: METRICS GRID
+// PAGE 1: METRICS GRID (on dark bg)
 // ============================================================
 
 function renderMetricsGrid(data) {
@@ -86,19 +69,27 @@ function renderMetricsGrid(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const sc = parseInt(data.sellerCount || 0);
   const cat = parseInt(data.catalogSize || data.brandProductCount || 0);
+  const bp = parseInt(data.brandProductCount || 0);
+  const tr = parseInt(data.totalResults || 1);
+  const pct = bp > 0 ? Math.round((bp / tr) * 100) : 0;
+  const onPage = parseInt(data.onPageCompetitorCount || 0);
   const metrics = [
     { val: rating > 0 ? rating.toFixed(1) + ' &#9733;' : 'N/A', label: 'Avg Rating' },
     { val: fba + '%', label: 'Prime / FBA' },
-    { val: String(sc), label: 'Active Sellers' },
+    { val: String(sc), label: 'Sellers' },
     { val: String(cat), label: 'Catalog SKUs' },
+    { val: pct + '%', label: 'Search Share' },
+    { val: escapeHtml(data.priceRange || 'N/A'), label: 'Price Range' },
+    { val: String(onPage), label: 'Competitor Ads' },
+    { val: data.buyBoxIsTheBrand !== false ? 'Brand' : 'Lost', label: 'Buy Box' },
   ];
   return metrics.map(m =>
-    `<div class="hm"><div class="hm-val">${m.val}</div><div class="hm-label">${m.label}</div></div>`
+    `<div class="mt"><div class="mt-val">${m.val}</div><div class="mt-label">${m.label}</div></div>`
   ).join('\n');
 }
 
 // ============================================================
-// PAGE 1: STRENGTHS & VULNERABILITIES
+// PAGE 1: STRENGTHS & VULNERABILITIES (gold/slate dots)
 // ============================================================
 
 function renderStrengthCards(data) {
@@ -108,16 +99,19 @@ function renderStrengthCards(data) {
   const pct = Math.round((bp / tr) * 100);
   const fba = parseInt(data.fbaPercent || 0);
   const rating = parseFloat(data.avgRating || 0);
+  const best = data.topProducts && data.topProducts[0];
+  const reviews = best ? (best.reviews_count || 0) : 0;
 
-  if (pct > 0) items.push({ val: pct + '% Search Dominance', desc: 'Brand products lead search results' });
-  if (rating > 0) items.push({ val: rating.toFixed(1) + ' Customer Rating', desc: 'Strong customer satisfaction signal' });
-  if (data.priceRange && data.priceRange !== 'N/A') items.push({ val: escapeHtml(data.priceRange) + ' Pricing', desc: 'Stable price mechanics across catalog' });
-  if (fba >= 70) items.push({ val: fba + '% Prime Coverage', desc: 'Strong fulfillment footprint' });
-  if (data.buyBoxIsTheBrand !== false) items.push({ val: 'Buy Box Controlled', desc: 'Brand holds the purchase button' });
-  if (items.length === 0) items.push({ val: 'Brand Presence Active', desc: 'Listed and discoverable on Amazon' });
+  if (rating > 0) items.push({ val: rating.toFixed(1) + ' Customer Rating', desc: fmt(reviews) + ' reviews — strong social proof driving purchases' });
+  if (pct > 0) items.push({ val: pct + '% Search Dominance', desc: 'Brand products lead organic search results' });
+  if (data.priceRange && data.priceRange !== 'N/A') items.push({ val: escapeHtml(data.priceRange) + ' Price Range', desc: 'Stable pricing mechanics across catalog' });
+  if (fba >= 70) items.push({ val: fba + '% Prime Coverage', desc: 'Strong fulfillment footprint on Amazon' });
+  if (data.buyBoxIsTheBrand !== false) items.push({ val: 'Buy Box Controlled', desc: 'Brand holds the primary purchase button' });
+  if (best && best.monthly_sales > 0) items.push({ val: fmt(best.monthly_sales) + '+ Units/Month', desc: 'Proven demand on top-selling product' });
+  if (items.length === 0) items.push({ val: 'Brand Presence Active', desc: 'Listed and discoverable on Amazon marketplace' });
 
-  return items.slice(0, 4).map(i =>
-    `<div class="sv-item"><div class="sv-val">${i.val}</div><div class="sv-desc">${i.desc}</div></div>`
+  return items.slice(0, 5).map(i =>
+    `<div class="finding"><div class="finding-dot gold"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
@@ -126,26 +120,28 @@ function renderVulnCards(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const sc = parseInt(data.sellerCount || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
+  const bp = parseInt(data.brandProductCount || 0);
 
-  if (fba < 50) items.push({ val: `Only ${fba}% Prime Coverage`, desc: 'Missing Prime badge suppresses conversion' });
-  if (onPage >= 3) items.push({ val: `${onPage} Competitor Ads on Page`, desc: 'Rivals siphoning traffic from your listings' });
-  if (sc > 3) items.push({ val: `${sc} Unauthorized Sellers`, desc: 'Price erosion and brand inconsistency' });
+  if (data.buyBoxIsTheBrand === false && sc > 5) items.push({ val: 'Buy Box Lost to Reseller', desc: escapeHtml(data.buyBoxSellerName || 'Third party') + ' controls the primary purchase button' });
+  if (sc > 3) items.push({ val: sc + ' Unauthorized Sellers', desc: 'Price erosion, margin compression, brand inconsistency' });
+  if (fba < 50) items.push({ val: 'Only ' + fba + '% Prime Coverage', desc: 'Missing Prime badge suppressing conversion rate' });
+  if (onPage >= 3) items.push({ val: onPage + ' Competitor Ads on Page', desc: 'Rivals siphoning traffic from your product listings' });
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') items.push({ val: 'Weak Listing Content', desc: 'Missing A+ content suppressing algorithm visibility' });
-  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') items.push({ val: 'No Brand Storefront', desc: 'Missing branded shopping experience' });
-  if (data.buyBoxIsTheBrand === false && sc > 5) items.push({ val: 'Buy Box at Risk', desc: 'Non-authorized seller controls the sale' });
-  if (items.length === 0) items.push({ val: 'Minor Optimizations Available', desc: 'No critical gaps — room for growth' });
+  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') items.push({ val: 'No Optimized Storefront', desc: 'Missing branded shopping experience on Amazon' });
+  if (bp > 0 && bp <= 3) items.push({ val: 'Only ' + bp + ' SKU' + (bp > 1 ? 's' : '') + ' in Catalog', desc: 'Single-product risk — one suspension means zero revenue' });
+  if (items.length === 0) items.push({ val: 'Minor Optimizations Available', desc: 'No critical gaps — room for strategic growth' });
 
-  return items.slice(0, 4).map(i =>
-    `<div class="sv-item"><div class="sv-val">${i.val}</div><div class="sv-desc">${i.desc}</div></div>`
+  return items.slice(0, 5).map(i =>
+    `<div class="finding"><div class="finding-dot slate"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
 // ============================================================
-// PAGE 2: ANNOTATIONS (combined left+right into single column)
+// PAGE 2: ASSESSMENT CARDS (replaces callouts)
 // ============================================================
 
-function renderAllCallouts(data) {
-  const callouts = [];
+function renderAssessmentCards(data) {
+  const cards = [];
   const imgs = parseInt(data.listingImageCount || 0);
   const hasVideo = data.listingHasVideo;
   const rating = parseFloat(data.avgRating || 0);
@@ -155,61 +151,41 @@ function renderAllCallouts(data) {
   const sc = parseInt(data.sellerCount || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
 
-  // Content quality
-  if (hasVideo && imgs >= 7) {
-    callouts.push({ type: 'good', title: `${imgs} Images + Video`, desc: 'Rich content present — strong conversion signals' });
-  } else if (imgs >= 5) {
-    callouts.push({ type: 'warn', title: `${imgs} Images, No Video`, desc: 'Room for A+ content and video upgrade' });
-  } else {
-    callouts.push({ type: 'bad', title: `Only ${imgs} Images${hasVideo ? '' : ', No Video'}`, desc: 'Weak content suppressing conversion rate' });
-  }
+  // Content
+  const contentScore = (hasVideo && imgs >= 7) ? 90 : (imgs >= 5) ? 60 : 30;
+  const contentBadge = contentScore >= 80 ? 'strong' : contentScore >= 50 ? 'ok' : 'needs';
+  const contentLabel = contentScore >= 80 ? 'Strong' : contentScore >= 50 ? 'Adequate' : 'Weak';
+  cards.push({ cat: 'Content', val: `${imgs} Images${hasVideo ? ' + Video' : ', No Video'}`, note: hasVideo && imgs >= 7 ? 'Rich listing content present' : 'A+ content and video recommended', badge: contentBadge, label: contentLabel, pct: contentScore });
 
   // Rating
-  if (rating >= 4.0) {
-    callouts.push({ type: 'good', title: `${rating.toFixed(1)} Rating (${fmt(reviews)} Reviews)`, desc: 'Excellent social proof driving purchases' });
-  } else if (rating >= 3.5) {
-    callouts.push({ type: 'warn', title: `${rating.toFixed(1)} Rating (${fmt(reviews)} Reviews)`, desc: 'Adequate — room for review strategy improvement' });
-  } else if (rating > 0) {
-    callouts.push({ type: 'bad', title: `${rating.toFixed(1)} Rating`, desc: 'Below purchase decision threshold' });
-  }
+  const ratingScore = rating >= 4.0 ? 85 : rating >= 3.5 ? 60 : 30;
+  const ratingBadge = ratingScore >= 80 ? 'strong' : ratingScore >= 50 ? 'ok' : 'needs';
+  const ratingLabel = ratingScore >= 80 ? 'Strong' : ratingScore >= 50 ? 'OK' : 'Low';
+  cards.push({ cat: 'Rating', val: `${rating.toFixed(1)} &#9733; (${fmt(reviews)} Reviews)`, note: rating >= 4.0 ? 'Above purchase decision threshold' : 'Review strategy improvement recommended', badge: ratingBadge, label: ratingLabel, pct: ratingScore });
 
   // Buy Box
-  if (data.buyBoxIsTheBrand !== false) {
-    callouts.push({ type: 'good', title: 'Brand Controls Buy Box', desc: escapeHtml(data.buyBoxSellerName || 'Brand seller') + ' holds purchase button' });
-  } else if (sc > 5) {
-    callouts.push({ type: 'bad', title: 'Buy Box Lost to Reseller', desc: escapeHtml(data.buyBoxSellerName || 'Third party') + ' controls the sale' });
-  }
+  const bbOwned = data.buyBoxIsTheBrand !== false;
+  cards.push({ cat: 'Buy Box', val: bbOwned ? 'Brand Controlled' : escapeHtml(data.buyBoxSellerName || 'Third Party'), note: bbOwned ? 'Purchase button held by brand' : 'Non-authorized seller controls the sale', badge: bbOwned ? 'strong' : 'needs', label: bbOwned ? 'Owned' : 'Lost', pct: bbOwned ? 90 : 15 });
 
-  // FBA
-  if (fba === 0) {
-    callouts.push({ type: 'bad', title: 'No Prime Badge (FBM Only)', desc: 'Missing Prime = 30-50% fewer conversions' });
-  } else if (fba < 50) {
-    callouts.push({ type: 'bad', title: `Only ${fba}% Prime Coverage`, desc: 'Most products missing Prime badge' });
-  } else if (fba < 100) {
-    callouts.push({ type: 'warn', title: `${fba}% Prime Coverage`, desc: 'Some SKUs still missing Prime' });
-  }
+  // Fulfillment
+  const fbaScore = fba >= 90 ? 95 : fba >= 70 ? 75 : fba >= 40 ? 50 : 20;
+  cards.push({ cat: 'Fulfillment', val: fba + '% Prime / FBA', note: fba >= 90 ? 'Full Prime visibility' : 'Expand FBA coverage for conversion lift', badge: fbaScore >= 80 ? 'strong' : fbaScore >= 50 ? 'ok' : 'needs', label: fbaScore >= 80 ? 'Strong' : fbaScore >= 50 ? 'Partial' : 'Weak', pct: fbaScore });
 
-  // Competitor ads
-  if (onPage >= 3) {
-    callouts.push({ type: 'bad', title: `${onPage} Competitor Ads on Page`, desc: 'Rival placements blocking purchase path' });
-  }
+  // Competition
+  const compScore = onPage === 0 ? 90 : onPage <= 2 ? 65 : 25;
+  cards.push({ cat: 'Ad Defense', val: onPage > 0 ? `${onPage} Competitor Ads` : 'No Competitor Ads', note: onPage > 0 ? 'Rivals targeting your product pages' : 'Clean — no rival ad placements', badge: compScore >= 80 ? 'strong' : compScore >= 50 ? 'ok' : 'needs', label: compScore >= 80 ? 'Clean' : compScore >= 50 ? 'Moderate' : 'At Risk', pct: compScore });
 
   // Sellers
-  if (sc > 3) {
-    callouts.push({ type: 'bad', title: `${sc} Active Sellers`, desc: 'Price competition eroding margins' });
-  }
+  const sellerScore = sc <= 1 ? 95 : sc <= 3 ? 70 : sc <= 6 ? 40 : 15;
+  cards.push({ cat: 'Seller Map', val: `${sc} Active Seller${sc !== 1 ? 's' : ''}`, note: sc > 3 ? 'Price competition eroding margins' : 'Clean seller distribution', badge: sellerScore >= 70 ? 'strong' : sellerScore >= 40 ? 'ok' : 'needs', label: sellerScore >= 70 ? 'Clean' : sellerScore >= 40 ? 'Crowded' : 'Chaotic', pct: sellerScore });
 
-  // Storefront
-  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
-    callouts.push({ type: 'warn', title: 'No Brand Storefront', desc: 'Missing branded shopping destination' });
-  }
-
-  if (callouts.length === 0) {
-    callouts.push({ type: 'neutral', title: 'Clean Product Page', desc: 'No major issues detected' });
-  }
-
-  return callouts.slice(0, 6).map(c =>
-    `<div class="anno ${c.type}"><div class="anno-title">${c.title}</div><div class="anno-desc">${c.desc}</div></div>`
+  return cards.map(c =>
+    `<div class="assess">
+      <div class="assess-top"><div class="assess-cat">${c.cat}</div><div class="assess-badge ${c.badge}">${c.label}</div></div>
+      <div class="assess-val">${c.val}</div>
+      <div class="assess-note">${c.note}</div>
+      <div class="assess-bar"><div class="assess-fill" style="width:${c.pct}%"></div></div>
+    </div>`
   ).join('\n');
 }
 
@@ -308,29 +284,45 @@ function renderFrictionPairs(data) {
   const leaks = buildLeaks(data);
   const plans = buildPlans(data);
   const count = Math.max(leaks.length, plans.length);
-  const arrow = `<svg viewBox="0 0 20 20" fill="none"><path d="M4 10h10M11 6l4 4-4 4" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const arrow = `<svg viewBox="0 0 18 18" fill="none"><path d="M4 9h8M9 5l4 4-4 4" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
   let html = '';
   for (let i = 0; i < count; i++) {
     const leak = leaks[i] || { title: '', severity: '', text: '' };
     const plan = plans[i] || { title: '', impact: '', text: '' };
     const sevTag = leak.severity === 'Critical' ? 'Critical' : leak.severity === 'High' ? 'High Impact' : 'Medium';
-    html += `<div class="pair-row">
-      <div class="pair-num">${i + 1}</div>
-      <div class="pair-leak">
+    html += `<div class="pair">
+      <div class="pair-card leak-c">
         <div class="pair-title">${escapeHtml(leak.title)}</div>
         <div class="pair-desc">${escapeHtml(leak.text)}</div>
-        ${leak.severity ? `<div class="pair-tag red">${sevTag}</div>` : ''}
+        ${leak.severity ? `<div class="pair-tag dark">${sevTag}</div>` : ''}
       </div>
       <div class="pair-arrow">${arrow}</div>
-      <div class="pair-plan">
+      <div class="pair-card plan-c">
         <div class="pair-title">${escapeHtml(plan.title)}</div>
         <div class="pair-desc">${escapeHtml(plan.text)}</div>
-        ${plan.impact ? `<div class="pair-tag green">${escapeHtml(plan.impact)}</div>` : ''}
+        ${plan.impact ? `<div class="pair-tag gold">${escapeHtml(plan.impact)}</div>` : ''}
       </div>
     </div>`;
   }
   return html;
+}
+
+// ============================================================
+// PAGE 3: EXPECTED RESULTS
+// ============================================================
+
+function renderExpectedResults(data) {
+  const lift = (data.expectedLift || {});
+  const results = [
+    { val: lift.buy_box || '>=90%', label: 'Buy Box Win' },
+    { val: lift.cvr_lift || '+10-30%', label: 'Conv. Lift' },
+    { val: lift.revenue_growth || '15-40%', label: 'Revenue Growth' },
+    { val: lift.map_compliance || '>=95%', label: 'MAP Compliance' },
+  ];
+  return results.map(r =>
+    `<div class="result"><div class="result-val">${escapeHtml(r.val)}</div><div class="result-label">${r.label}</div></div>`
+  ).join('\n');
 }
 
 
@@ -410,6 +402,7 @@ function normalizeAgentData(input) {
     productImageUrl: rd.product_image_url || input.product_image_url || bestProduct.image_url || '',
 
     findings: rd.findings || input.findings || [],
+    expectedLift: rd.expected_lift || input.expected_lift || {},
     topProducts: topAsins.map(p => ({
       asin: p.asin,
       title: p.title,
@@ -474,14 +467,15 @@ function renderHTML(data) {
     '{{bestAsinPrice}}': bestPrice > 0 ? bestPrice.toFixed(2) : 'N/A',
     '{{grossRunRate}}': grossRunRate,
     '{{productImageHtml}}': renderProductImage(data),
-    '{{allCallouts}}': renderAllCallouts(data),
+    '{{assessmentCards}}': renderAssessmentCards(data),
     '{{priceRange}}': escapeHtml(data.priceRange || 'N/A'),
     '{{sellerCount}}': String(data.sellerCount || '0'),
     '{{competitorCount}}': String(data.competitorCount || 0),
     '{{catalogSize}}': String(data.catalogSize || 0),
 
-    // Page 3: Friction Pairs
+    // Page 3: Friction Pairs + Expected Results
     '{{frictionPairs}}': renderFrictionPairs(data),
+    '{{expectedResults}}': renderExpectedResults(data),
   };
 
   for (const [key, value] of Object.entries(replacements)) {
@@ -635,10 +629,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v10.0-clean' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v11.0-premium' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v10.0-clean running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v11.0-premium running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
