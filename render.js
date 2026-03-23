@@ -1,6 +1,6 @@
 /**
- * Profitzon Brand Audit Report Renderer v8
- * Retro pixel + warm grey + gold + alarm mode. No blank space.
+ * Profitzon Brand Audit Report Renderer v8.8-clean
+ * Clean Inter font + dark theme + gold accents + alarm mode. No blank space.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
@@ -80,8 +80,8 @@ function renderGaugeSVG(score) {
   }
 
   return `<svg width="280" height="160" viewBox="0 0 280 160" xmlns="http://www.w3.org/2000/svg">
-    <text x="140" y="65" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="56" fill="#fff">${s}</text>
-    <text x="140" y="95" text-anchor="middle" font-family="'Press Start 2P', monospace" font-size="13" fill="${color}" letter-spacing="3">${label}</text>
+    <text x="140" y="65" text-anchor="middle" font-family="Inter, sans-serif" font-size="64" font-weight="900" fill="#fff">${s}</text>
+    <text x="140" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="${color}" letter-spacing="2">${label}</text>
     ${segs}
   </svg>`;
 }
@@ -315,10 +315,10 @@ function renderProductImage(data) {
   if (data.productImageUrl) {
     return `<img src="${escapeHtml(data.productImageUrl)}" alt="${escapeHtml(data.brandName)} product">`;
   }
-  return `<div class="product-image-placeholder">
-    <div style="font-size:40px;margin-bottom:12px;color:#d4a54a;">&#128722;</div>
-    <div>${escapeHtml(data.brandName || 'Product')}</div>
-    ${data.bestAsin ? `<div class="asin-code">${escapeHtml(data.bestAsin)}</div>` : ''}
+  return `<div style="text-align:center;padding:30px;color:#737373">
+    <div style="font-size:60px;margin-bottom:16px;color:#f5a623;">&#128722;</div>
+    <div style="font-size:18px;font-weight:700;color:#a3a3a3;margin-bottom:6px">${escapeHtml(data.brandName || 'Product')}</div>
+    ${data.bestAsin ? `<div style="font-size:12px;font-family:monospace;color:#f5a623;margin-top:8px">${escapeHtml(data.bestAsin)}</div>` : ''}
   </div>`;
 }
 
@@ -883,7 +883,7 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.7-retro' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v8.8-clean' }));
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v8 running on port ${port}`);
