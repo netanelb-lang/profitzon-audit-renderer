@@ -6,418 +6,258 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#fff;color:#1a1b1e;-webkit-font-smoothing:antialiased;line-height:1.5}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#fff;color:#1a1a1a;-webkit-font-smoothing:antialiased;line-height:1.5}
 
   .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#fff}
   .page:last-child{page-break-after:avoid}
-  .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
-  /* ── Header ── */
-  .hdr{padding:18px 40px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:3px solid #f5a623;background:#fff}
-  .hdr-l{display:flex;align-items:center;gap:14px}
-  .hdr-l img{height:30px}
-  .hdr-sep{width:2px;height:22px;background:#f5a623}
-  .hdr-brand{font-size:14px;font-weight:800;color:#1a1b1e;letter-spacing:.5px}
-  .hdr-r{font-size:11px;font-weight:600;color:#9ca3af;letter-spacing:1px;text-transform:uppercase}
-
-  /* ── Footer ── */
-  .ftr{flex-shrink:0;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#9ca3af;border-top:1px solid #e5e7eb}
-  .ftr strong{color:#f5a623}
-
-  /* ── BENTO BLOCK SYSTEM ── */
-  .bento{display:grid;gap:10px;padding:0 36px;flex:1}
-  .block{border-radius:8px;padding:22px;position:relative;overflow:visible;display:flex;flex-direction:column;justify-content:center;border:1px solid #e5e7eb;background:#fff}
-
-  /* Color blocks - corporate */
-  .b-navy{background:#f8f9fa;border-color:#e5e7eb}
-  .b-dark{background:#f8f9fa;border-color:#e5e7eb}
-  .b-gold{background:#fef9f0;border-color:#f5a623}
-  .b-gold .bl{color:#b8860b}
-  .b-gold .bv,.b-gold .bs{color:#1a1b1e}
-  .b-red{background:#fef2f2;border-color:#fca5a5}
-  .b-red .bl{color:#dc2626}
-  .b-red .bv{color:#dc2626}
-  .b-red .bs{color:#7f1d1d}
-  .b-green{background:#f0fdf4;border-color:#86efac}
-  .b-green .bl{color:#16a34a}
-  .b-green .bv{color:#16a34a}
-  .b-green .bs{color:#14532d}
-  .b-slate{background:#f8f9fa;border-color:#e5e7eb}
-
-  /* Block typography */
-  .bl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#9ca3af;margin-bottom:5px}
-  .bv{font-size:42px;font-weight:900;color:#1a1b1e;line-height:1.1;letter-spacing:-1px}
-  .bs{font-size:14px;color:#6b7280;line-height:1.5;margin-top:4px}
-  .bs strong{color:#1a1b1e;font-weight:700}
+  /* ── Shared ── */
+  .sec-title{font-size:38px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1.15;padding:36px 50px 0}
+  .sec-sub{font-size:16px;color:#6b7280;padding:4px 50px 0;line-height:1.5}
+  .sec-line{width:80px;height:4px;background:#2563eb;margin:16px 50px 0;border-radius:2px}
+  .ftr{position:absolute;bottom:0;left:0;right:0;padding:12px 50px;display:flex;justify-content:space-between;font-size:10px;color:#9ca3af;border-top:1px solid #f3f4f6}
+  .ftr strong{color:#1a1a1a}
 
   /* ════════════════════════════════════════════
-     PAGE 1: BRAND OVERVIEW
+     PAGE 1: THE PARADOX
      ════════════════════════════════════════════ */
 
-  .p1-grid{grid-template-columns:300px 1fr;grid-template-rows:auto auto auto 1fr;min-height:0}
+  .p1-body{flex:1;padding:30px 50px 60px;display:flex;flex-direction:column}
 
-  /* Gauge block */
-  .gauge-block{display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8f9fa;border:2px solid #e5e7eb;padding:16px}
-  .gauge-block .bl{text-align:center;width:100%;color:#6b7280;font-size:9px}
-  .gauge-block svg{max-width:260px}
+  /* Three-column layout: Strengths | Gauge | Vulns */
+  .paradox-row{display:flex;gap:28px;flex:1;align-items:stretch;margin-top:24px}
 
-  /* KPI strip */
-  .kpi-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-  .kpi-mini{background:#f8f9fa;border-radius:8px;padding:14px 16px;border:1px solid #e5e7eb}
-  .kpi-mini .bl{font-size:8px;letter-spacing:1.5px;margin-bottom:4px;color:#9ca3af}
-  .kpi-mini .bv{font-size:22px;color:#1a1b1e}
+  .col-strengths,.col-vulns{flex:1;display:flex;flex-direction:column;gap:12px}
+  .col-gauge{width:280px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 
-  /* Strengths/Vulns */
-  .sv-block{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .col-header{font-size:15px;font-weight:800;color:#1a1a1a;padding:10px 16px;border-radius:6px;margin-bottom:4px}
+  .col-header.str{background:#f0fdf4;border:1px solid #bbf7d0}
+  .col-header.vul{background:#fef2f2;border:1px solid #fecaca}
 
-  .si{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:8px;margin-bottom:5px}
-  .si.g{background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #16a34a}
-  .si.r{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid #dc2626;position:relative}
-  .si.r::before{display:none}
-  .si-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-  .si.g .si-ic{background:#16a34a}
-  .si.r .si-ic{background:#dc2626;font-size:14px}
-  .si-tx{font-size:14px;color:#374151;line-height:1.5}
-  .si-tx strong{color:#1a1b1e;font-weight:700}
+  /* Strength/Vuln cards */
+  .info-card{background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px}
+  .info-card.red{background:#fef2f2;border-color:#fecaca}
+  .ic-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;font-weight:900}
+  .ic-icon.green{background:#16a34a;color:#fff}
+  .ic-icon.red{background:#dc2626;color:#fff}
+  .ic-icon.gold{background:#f5a623;color:#fff}
+  .ic-val{font-size:22px;font-weight:900;color:#1a1a1a;line-height:1.2}
+  .ic-label{font-size:13px;color:#6b7280;line-height:1.4;margin-top:2px}
 
-  .sv-hd{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
-  .sv-hd.grn{color:#16a34a}
-  .sv-hd.red{color:#dc2626}
-  .sv-hd .ln{flex:1;height:1px}
-  .sv-hd.grn .ln{background:linear-gradient(90deg,#16a34a22,transparent)}
-  .sv-hd.red .ln{background:linear-gradient(90deg,#dc262622,transparent)}
-
-  /* Exec summary */
-  .exec{background:#fef9f0;border:1px solid #fde68a;border-left:4px solid #f5a623;border-radius:8px;padding:30px 28px;grid-column:1/-1;flex:1;display:flex;flex-direction:column;justify-content:center}
-  .exec-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#b8860b;margin-bottom:12px}
-  .exec-tx{font-size:20px;color:#374151;line-height:1.7}
-
-  /* Ownership bar */
-  .own{grid-column:1/-1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px 24px;display:flex;align-items:center;gap:20px}
-  .own-pct{font-size:28px;font-weight:900;color:#f5a623}
-  .own-info{flex:1}
-  .own-title{font-size:16px;font-weight:800;color:#1a1b1e}
-  .own-desc{font-size:14px;color:#6b7280;margin-top:2px}
-  .own-track{width:200px;height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden;flex-shrink:0}
-  .own-fill{height:100%;background:#f5a623;border-radius:5px}
+  /* Exec summary bar */
+  .exec-bar{margin-top:auto;background:#f8f9fa;border:1px solid #e5e7eb;border-left:4px solid #2563eb;border-radius:8px;padding:22px 26px}
+  .exec-bar-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#2563eb;margin-bottom:8px}
+  .exec-bar-text{font-size:16px;color:#374151;line-height:1.65}
 
   /* ════════════════════════════════════════════
-     PAGE 2: PRODUCT ANALYSIS
+     PAGE 2: ASSET X-RAY
      ════════════════════════════════════════════ */
 
-  .p2-grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto minmax(0,260px) auto 1fr auto;min-height:0}
+  .p2-body{flex:1;padding:24px 50px 60px;display:flex;flex-direction:column}
 
-  .asin-bar{grid-column:1/-1;padding:0}
-  .asin-title{font-size:18px;font-weight:800;color:#1a1b1e}
-  .asin-meta{font-size:13px;color:#9ca3af;margin-top:3px}
-  .asin-meta span{color:#f5a623;font-weight:700;font-family:monospace}
+  /* Info strip */
+  .asin-strip{display:flex;gap:8px;font-size:13px;color:#6b7280;padding:16px 0;border-bottom:1px solid #e5e7eb;margin-bottom:20px}
+  .asin-strip span{font-weight:700;color:#1a1a1a}
+  .asin-strip .sep{color:#d1d5db}
 
-  /* Product image */
-  .img-block{display:flex;align-items:stretch;justify-content:stretch;max-height:260px;overflow:hidden}
-  .img-wrap{width:100%;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px}
-  .img-wrap img{width:100%;height:100%;object-fit:contain}
-  .img-ph{font-size:14px;color:#9ca3af;text-align:center;padding:20px}
+  /* Center layout: callouts around product image */
+  .xray-layout{flex:1;display:grid;grid-template-columns:240px 1fr 240px;gap:20px;align-items:center}
 
-  /* Detail cards */
-  .dc{background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px;display:flex;flex-direction:column}
-  .dc-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#9ca3af;margin-bottom:8px}
-  .dc-big{font-size:32px;font-weight:900;color:#f5a623}
-  .dc-sub{font-size:14px;color:#6b7280;margin-top:4px}
-  .dc-badges{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
-  .dc-badge{font-size:9px;font-weight:700;padding:4px 10px;border-radius:4px;border:1px solid}
-  .dc-badge.brand{background:#f0fdf4;color:#16a34a;border-color:#86efac}
-  .dc-badge.third{background:#f8f9fa;color:#6b7280;border-color:#d1d5db}
-  .dc-badge.fba{background:#fef9f0;color:#b8860b;border-color:#fde68a}
-  .dc-badge.fbm{background:#f8f9fa;color:#6b7280;border-color:#d1d5db}
-  .dc-review{grid-column:span 2}
-  .dc-review-text{font-size:14px;color:#6b7280;line-height:1.6;font-style:italic;margin-top:6px;border-left:3px solid #e5e7eb;padding-left:12px}
-  .rb{margin-top:10px}
-  .rb-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-  .rb-lbl{font-size:10px;font-weight:700;color:#9ca3af;width:28px;text-align:right}
-  .rb-track{flex:1;height:10px;background:#e5e7eb;border-radius:5px;overflow:hidden}
-  .rb-fill{height:100%;border-radius:5px}
-  .rb-fill.r5{background:#16a34a}
-  .rb-fill.r4{background:#65a30d}
-  .rb-fill.r3{background:#f5a623}
-  .rb-fill.r2{background:#ea580c}
-  .rb-fill.r1{background:#dc2626}
-  .rb-pct{font-family:monospace;font-size:12px;font-weight:700;color:#9ca3af;width:34px}
+  .callout-col{display:flex;flex-direction:column;gap:14px}
 
-  /* Product table */
-  .tbl-block{grid-column:1/-1}
-  .tbl-lbl{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#1a1b1e;margin-bottom:8px}
-  .ptbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
-  .ptbl th{background:#f8f9fa;padding:12px 14px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6b7280;text-align:left;border-bottom:2px solid #e5e7eb}
-  .ptbl td{padding:11px 14px;font-size:14px;color:#374151;border-bottom:1px solid #f3f4f6;background:#fff}
-  .ptbl tr:last-child td{border-bottom:none}
-  .ptbl tr:nth-child(even) td{background:#f8f9fa}
-  .badge-sm{font-size:8px;font-weight:700;padding:3px 8px;border-radius:4px;display:inline-block;margin-right:2px;border:1px solid}
-  .badge-prime{background:#fef9f0;color:#b8860b;border-color:#fde68a}
-  .badge-choice{background:#f0fdf4;color:#16a34a;border-color:#86efac}
-  .badge-bestseller{background:#fef9f0;color:#b8860b;border-color:#fde68a}
-  .badge-sponsored{background:#f3f4f6;color:#6b7280;border-color:#d1d5db}
-  .badge-notbrand{background:#fef2f2;color:#dc2626;border-color:#fca5a5}
-  .pos-badge{font-size:14px;font-weight:800;color:#f5a623}
+  .callout{border-radius:10px;padding:16px 18px;position:relative}
+  .callout.good{background:#f0fdf4;border:1.5px solid #86efac}
+  .callout.bad{background:#fef2f2;border:1.5px solid #fca5a5}
+  .callout.warn{background:#fef9f0;border:1.5px solid #fde68a}
+  .callout.neutral{background:#f8f9fa;border:1.5px solid #e5e7eb}
+  .co-badge{position:absolute;top:10px;right:12px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff}
+  .co-badge.g{background:#16a34a}
+  .co-badge.r{background:#dc2626}
+  .co-badge.w{background:#f5a623}
+  .co-title{font-size:14px;font-weight:800;color:#1a1a1a;line-height:1.3;padding-right:28px}
+  .co-desc{font-size:12px;color:#6b7280;margin-top:4px;line-height:1.45}
 
-  /* Extra detail */
-  .extra-detail{display:flex;gap:10px;margin-top:10px}
-  .ed-card{flex:1;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:18px}
-  .ed-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#9ca3af;margin-bottom:10px}
-  .ed-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f3f4f6}
-  .ed-row:last-child{border-bottom:none}
-  .ed-label{font-size:14px;color:#6b7280}
-  .ed-value{font-size:16px;font-weight:700;color:#1a1b1e}
+  /* Product image center */
+  .product-center{display:flex;align-items:center;justify-content:center}
+  .product-center img{max-width:100%;max-height:420px;object-fit:contain;border-radius:8px}
+  .product-placeholder{width:100%;height:300px;background:#f8f9fa;border:2px dashed #d1d5db;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#9ca3af}
 
-  /* Market strip */
-  .mkt-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+  /* Bottom detail strip */
+  .detail-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto;padding-top:16px;border-top:1px solid #e5e7eb}
+  .ds-item{text-align:center;padding:12px 8px}
+  .ds-val{font-size:22px;font-weight:900;color:#1a1a1a}
+  .ds-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#9ca3af;margin-top:2px}
 
   /* ════════════════════════════════════════════
-     PAGE 3: ACTION PLAN
+     PAGE 3: COST OF FRICTION
      ════════════════════════════════════════════ */
 
-  .p3-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr auto auto;min-height:0}
+  .p3-body{flex:1;padding:24px 50px 60px;display:flex;flex-direction:column}
 
-  /* Leak cards */
-  .lc{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid #dc2626;border-radius:8px;padding:14px 18px;margin-bottom:6px;position:relative;overflow:hidden}
-  .lc::before{display:none}
-  .lc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .lc-ic{width:28px;height:28px;background:#dc2626;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;flex-shrink:0}
-  .lc-title{font-size:16px;font-weight:800;color:#dc2626;flex:1}
-  .lc-sev{font-size:8px;font-weight:700;padding:4px 10px;border-radius:4px;background:#dc2626;color:#fff;text-transform:uppercase;letter-spacing:1px}
-  .lc-tx{font-size:13px;color:#374151;line-height:1.5}
+  /* Two columns with arrow */
+  .friction-row{display:flex;gap:0;flex:1;margin-top:20px}
+  .friction-col{flex:1;display:flex;flex-direction:column}
 
-  /* Plan cards */
-  .pc{background:#fef9f0;border:1px solid #fde68a;border-left:4px solid #f5a623;border-radius:8px;padding:14px 18px;margin-bottom:6px}
-  .pc-hd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .pc-ic{width:28px;height:28px;background:#f5a623;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900;flex-shrink:0}
-  .pc-title{font-size:16px;font-weight:800;color:#b8860b;flex:1}
-  .pc-imp{font-size:8px;font-weight:700;padding:4px 10px;border-radius:4px;background:#f0fdf4;color:#16a34a;border:1px solid #86efac;letter-spacing:1px}
-  .pc-tx{font-size:13px;color:#6b7280;line-height:1.5}
+  .friction-hdr{font-size:14px;font-weight:800;text-align:center;padding:12px 16px;border-radius:8px 8px 0 0;margin:0 4px}
+  .friction-hdr.leak{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-bottom:none}
+  .friction-hdr.plan{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;border-bottom:none}
 
-  /* Findings */
-  .find-block{grid-column:1/-1}
-  .fr{display:flex;align-items:flex-start;padding:14px 18px;border-radius:8px;margin-bottom:6px;gap:12px;border:1px solid;position:relative}
-  .fr.issue{background:#fef2f2;border-color:#fecaca;border-left:4px solid #dc2626}
-  .fr.issue::after{content:'ALERT';position:absolute;top:8px;right:12px;font-size:8px;font-weight:700;color:#dc2626;opacity:.5;letter-spacing:1px}
-  .fr.opportunity{background:#f0fdf4;border-color:#bbf7d0;border-left:4px solid #16a34a}
-  .fr.warning{background:#fef9f0;border-color:#fde68a;border-left:4px solid #f5a623}
-  .fr.competitor{background:#fff7ed;border-color:#fed7aa;border-left:4px solid #ea580c}
-  .fr-ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px}
-  .fr-ic.issue{background:#dc2626}.fr-ic.opportunity{background:#16a34a}
-  .fr-ic.warning{background:#f5a623}.fr-ic.competitor{background:#ea580c}
-  .fr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:3px}
-  .fr-lbl.issue{color:#dc2626}.fr-lbl.opportunity{color:#16a34a}.fr-lbl.warning{color:#b8860b}.fr-lbl.competitor{color:#ea580c}
-  .fr-tx{font-size:13px;color:#374151;line-height:1.5}
+  .friction-cards{flex:1;display:flex;flex-direction:column;gap:10px;padding:0 4px}
+
+  /* Arrow between columns */
+  .friction-arrow{width:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .friction-arrow svg{width:40px;height:40px}
+
+  /* Leak card */
+  .leak-card{background:#fff;border:1.5px solid #fecaca;border-left:4px solid #dc2626;border-radius:8px;padding:18px 20px;flex:1}
+  .leak-title{font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:6px}
+  .leak-desc{font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px}
+  .leak-impact{display:inline-block;background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:6px 14px;font-size:14px;font-weight:800;color:#dc2626}
+
+  /* Plan card */
+  .plan-card{background:#fff;border:1.5px solid #bbf7d0;border-left:4px solid #16a34a;border-radius:8px;padding:18px 20px;flex:1}
+  .plan-title{font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:6px}
+  .plan-desc{font-size:13px;color:#6b7280;line-height:1.5;margin-bottom:10px}
+  .plan-impact{display:inline-block;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:6px 14px;font-size:14px;font-weight:800;color:#16a34a}
+
+  /* Profitzon bar at bottom */
+  .pz-bar{margin-top:auto;background:#f8f9fa;border:1px solid #e5e7eb;border-radius:8px;padding:14px 24px;text-align:center;font-size:13px;color:#6b7280}
+  .pz-bar strong{color:#1a1a1a}
 
   /* CTA */
-  .cta{grid-column:1/-1;background:#1a1b2e;border:none;border-radius:8px;padding:28px 40px;text-align:center;position:relative;overflow:hidden}
-  .cta-t{font-size:22px;font-weight:900;color:#fff;position:relative;z-index:1;line-height:1.4;letter-spacing:-.5px}
-  .cta-btn{display:inline-block;background:#f5a623;color:#fff;padding:16px 50px;border-radius:8px;font-size:14px;font-weight:800;text-decoration:none;letter-spacing:.5px;position:relative;z-index:1}
-
-  /* Final footer */
-  .fftr{flex-shrink:0}
-  .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#9ca3af;border-top:1px solid #e5e7eb}
-  .fftr-main{padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
-  .fftr-left{font-size:13px;color:#6b7280}
-  .fftr-left strong{color:#f5a623}
-  .fftr-left a{color:#f5a623;text-decoration:none}
-  .fftr-right{font-size:11px;color:#9ca3af;text-align:right}
-  .fftr-right strong{color:#f5a623}
+  .cta-block{background:#1a1b2e;border-radius:10px;padding:30px 40px;text-align:center;margin-top:16px}
+  .cta-title{font-size:24px;font-weight:900;color:#fff;margin-bottom:14px}
+  .cta-btn{display:inline-block;background:#f5a623;color:#fff;padding:14px 44px;border-radius:8px;font-size:14px;font-weight:800;text-decoration:none;letter-spacing:.5px}
 
   @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ PAGE 1: BRAND OVERVIEW ═══════════════ -->
+<!-- ═══════════════ PAGE 1: THE PARADOX ═══════════════ -->
 <div class="page">
-  <div class="hdr">
-    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
-  </div>
-  <div class="pb">
-    <div class="bento p1-grid">
-      <!-- Section Title -->
-      <div class="block" style="grid-column:1/-1;padding:18px 26px;background:#1a1b2e;border:none;display:flex;flex-direction:row;align-items:center;gap:16px;border-radius:8px">
-        <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.4)">Section I</div>
-          <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1.1">Brand Overview</div>
-        </div>
-        <div style="flex:1"></div>
-        <div style="text-align:right">
-          <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.35);margin-bottom:4px">Strengths vs. gaps</div>
-          <div style="font-size:15px;font-weight:700;color:#f5a623">costing you revenue</div>
-        </div>
+  <div class="sec-title">The Paradox: High Brand Equity,<br>Sub-Optimal Execution</div>
+  <div class="sec-sub">Where {{brandName}} stands today — strengths vs. gaps costing you revenue.</div>
+  <div class="sec-line"></div>
+
+  <div class="p1-body">
+    <div class="paradox-row">
+      <!-- LEFT: Strengths -->
+      <div class="col-strengths">
+        <div class="col-header str">Brand Power (Strengths)</div>
+        {{strengthCards}}
       </div>
 
-      <!-- Gauge -->
-      <div class="block gauge-block">
-        <div class="bl">Brand Health</div>
-        <div style="max-width:260px;margin:0 auto">{{gaugeSVG}}</div>
+      <!-- CENTER: Gauge -->
+      <div class="col-gauge">
+        {{gaugeSVG}}
       </div>
 
-      <!-- KPIs -->
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Maturity</div><div class="bv" style="font-size:22px">{{brandMaturity}}</div></div>
-          <div class="kpi-mini"><div class="bl">Products</div><div class="bv" style="font-size:22px">{{brandProductCount}}/{{totalResults}}</div></div>
-          <div class="kpi-mini"><div class="bl">Sellers</div><div class="bv" style="font-size:22px">{{sellerCount}}</div></div>
-        </div>
-        <div class="kpi-strip">
-          <div class="kpi-mini"><div class="bl">Prime</div><div class="bv" style="font-size:22px">{{fbaPercent}}%</div></div>
-          <div class="kpi-mini"><div class="bl">Rating</div><div class="bv" style="font-size:22px">{{avgRating}} &#9733;</div></div>
-          <div class="kpi-mini"><div class="bl">Search</div><div class="bv" style="font-size:22px">{{ownershipPct}}%</div></div>
-        </div>
+      <!-- RIGHT: Vulnerabilities -->
+      <div class="col-vulns">
+        <div class="col-header vul">Amazon Mechanics (Vulnerabilities)</div>
+        {{vulnCards}}
       </div>
-
-      <!-- Strengths + Vulnerabilities -->
-      <div class="sv-block">
-        <div>
-          <div class="sv-hd grn">&#10003; Strengths <div class="ln"></div></div>
-          {{strengthsList}}
-        </div>
-        <div>
-          <div class="sv-hd red">&#10007; Vulnerabilities <div class="ln"></div></div>
-          {{vulnerabilitiesList}}
-        </div>
-      </div>
-
-      <!-- Exec summary -->
-      {{executiveSummaryBox}}
     </div>
 
-    <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
+    <!-- Exec summary -->
+    <div class="exec-bar">
+      <div class="exec-bar-label">Key Insight</div>
+      <div class="exec-bar-text">{{opportunitySummary}}</div>
+    </div>
   </div>
+
+  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
 </div>
 
-<!-- ═══════════════ PAGE 2: PRODUCT ANALYSIS ═══════════════ -->
+<!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
 <div class="page">
-  <div class="hdr">
-    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
-  </div>
-  <div class="pb">
-    <div class="bento p2-grid">
-      <!-- Title block -->
-      <div class="block" style="grid-column:1/-1;padding:14px 26px;background:#1a1b2e;border:none;border-radius:8px">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:rgba(255,255,255,.4)">Section II</span>
-          <span style="font-size:24px;font-weight:900;color:#fff;letter-spacing:-.5px">Product Analysis</span>
-        </div>
-        <div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{bestAsinTitleTruncated}}</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px"><span style="color:#f5a623;font-weight:700">{{bestAsin}}</span> &middot; {{dateFirstAvailable}} &middot; {{bestAsinSalesVolume}}</div>
+  <div class="sec-title">Asset X-Ray: {{bestAsinTitleShort}}</div>
+  <div class="sec-line"></div>
+
+  <div class="p2-body">
+    <div class="asin-strip">
+      <div>ASIN: <span>{{bestAsin}}</span></div>
+      <div class="sep">|</div>
+      <div>Volume: <span>{{bestAsinSalesVolume}}</span></div>
+      <div class="sep">|</div>
+      <div>Price: <span>${{bestAsinPrice}}</span></div>
+      <div class="sep">|</div>
+      <div>Gross Run Rate: <span>{{grossRunRate}}</span></div>
+    </div>
+
+    <div class="xray-layout">
+      <!-- Left callouts (strengths) -->
+      <div class="callout-col">
+        {{leftCallouts}}
       </div>
 
-      <!-- Callout blocks -->
-      <div class="block {{calloutContentBg}}" style="padding:18px">
-        <div class="bl">Content</div>
-        <div class="bv" style="font-size:34px">{{calloutContentValue}}</div>
-        <div class="bs">{{calloutContentDetail}}</div>
+      <!-- Center product image -->
+      <div class="product-center">
+        {{productImageHtml}}
       </div>
 
-      <!-- Product image -->
-      <div class="block b-dark img-block">
-        <div class="img-wrap">{{productImageHtml}}</div>
-      </div>
-
-      <div class="block {{calloutRatingBg}}" style="padding:18px">
-        <div class="bl">Rating</div>
-        <div class="bv" style="font-size:34px">{{avgRating}} &#9733;</div>
-        <div class="bs">{{calloutRatingDetail}}</div>
-      </div>
-
-      <div class="block {{calloutFulfillBg}}" style="padding:18px">
-        <div class="bl">Fulfillment</div>
-        <div class="bv" style="font-size:34px">{{calloutFulfillValue}}</div>
-        <div class="bs">{{calloutFulfillDetail}}</div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:10px">
-        {{buyBoxCard}}
-      </div>
-
-      <div class="block {{calloutCompBg}}" style="padding:18px">
-        <div class="bl">Competition</div>
-        <div class="bv" style="font-size:34px">{{calloutCompValue}}</div>
-        <div class="bs">{{calloutCompDetail}}</div>
-      </div>
-
-      <!-- Products table -->
-      <div class="tbl-block">
-        <div class="tbl-lbl">Products Analyzed</div>
-        <table class="ptbl">
-          <thead><tr><th style="width:4%">#</th><th style="width:32%">Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
-          <tbody>{{productRows}}</tbody>
-        </table>
-        {{extraDetail}}
-      </div>
-
-      <!-- Market strip -->
-      <div class="mkt-row">
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Price Range</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{priceRange}}</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Search Ads</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{ppcCount}}</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Competitors</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{competitorCount}}</div></div>
-        <div class="block b-slate" style="padding:14px;text-align:center"><div class="bl">Catalog</div><div class="bv" style="font-size:24px;color:#1a1b1e">{{catalogSize}}</div></div>
+      <!-- Right callouts (issues) -->
+      <div class="callout-col">
+        {{rightCallouts}}
       </div>
     </div>
 
-    <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
+    <!-- Bottom metrics -->
+    <div class="detail-strip">
+      <div class="ds-item"><div class="ds-val">{{priceRange}}</div><div class="ds-label">Price Range</div></div>
+      <div class="ds-item"><div class="ds-val">{{sellerCount}}</div><div class="ds-label">Active Sellers</div></div>
+      <div class="ds-item"><div class="ds-val">{{competitorCount}}</div><div class="ds-label">Competitors</div></div>
+      <div class="ds-item"><div class="ds-val">{{catalogSize}}</div><div class="ds-label">Catalog SKUs</div></div>
+    </div>
   </div>
+
+  <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
 </div>
 
-<!-- ═══════════════ PAGE 3: ACTION PLAN ═══════════════ -->
+<!-- ═══════════════ PAGE 3: COST OF FRICTION ═══════════════ -->
 <div class="page">
-  <div class="hdr">
-    <div class="hdr-l"><img src="{{logoBase64}}" alt="Profitzon"><div class="hdr-sep"></div><div class="hdr-brand">{{brandName}}</div></div>
-    <div class="hdr-r">Brand Audit &middot; {{reportDate}}</div>
+  <div class="sec-title">The Cost of Friction &amp; The 30-Day Intervention</div>
+  <div class="sec-sub">Quantifying the top-line bleed and deploying the immediate mechanical fix.</div>
+  <div class="sec-line"></div>
+
+  <div class="p3-body">
+    <div class="friction-row">
+      <!-- Left: Revenue Leaks -->
+      <div class="friction-col">
+        <div class="friction-hdr leak">The Revenue Leak (Current State)</div>
+        <div class="friction-cards">
+          {{leakCards}}
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <div class="friction-arrow">
+        <svg viewBox="0 0 40 40" fill="none"><path d="M8 20h20M22 14l6 6-6 6" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- Right: Growth Plan -->
+      <div class="friction-col">
+        <div class="friction-hdr plan">The Growth Plan (Optimal State)</div>
+        <div class="friction-cards">
+          {{planCards}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Profitzon bar -->
+    <div class="pz-bar">Execution is handled entirely by the <strong>Profitzon</strong> infrastructure — zero operational load or workflow changes for the {{brandName}} team.</div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <div class="cta-title">Ready to Fix This?</div>
+      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
+    </div>
   </div>
-  <div class="pb">
-    <div class="bento p3-grid">
-      <!-- Title blocks -->
-      <div class="block" style="grid-column:1;padding:18px 22px;background:#dc2626;border:none;border-radius:8px;display:flex;flex-direction:row;align-items:center;gap:14px">
-        <div style="width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:900;flex-shrink:0">!</div>
-        <div>
-          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Section III</div>
-          <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.3">Revenue Leak</div>
-        </div>
-      </div>
-      <div class="block" style="grid-column:2;padding:18px 22px;background:#f5a623;border:none;border-radius:8px;display:flex;flex-direction:row;align-items:center;gap:14px">
-        <div style="width:36px;height:36px;background:rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-weight:900;flex-shrink:0">&#10140;</div>
-        <div>
-          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6)">Our Plan</div>
-          <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.3">Growth Plan</div>
-        </div>
-      </div>
 
-      <!-- Leak + Plan cards -->
-      <div style="display:flex;flex-direction:column">
-        {{revenueLeak}}
-      </div>
-      <div style="display:flex;flex-direction:column">
-        {{growthPlan}}
-      </div>
-
-      <!-- Findings -->
-      <div class="find-block">
-        <div class="tbl-lbl">Key Findings</div>
-        {{findings}}
-      </div>
-
-      <!-- CTA -->
-      <div class="cta">
-        <div class="cta-t">READY TO FIX THIS?</div>
-        <div style="height:16px"></div>
-        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">BOOK A STRATEGY CALL &rarr;</a>
-      </div>
-    </div>
-
-    <div class="fftr">
-      <div class="fftr-conf">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
-      <div class="fftr-main">
-        <div class="fftr-left"><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>gal@profitzon.net &middot; <a href="https://profitzon.net">profitzon.net</a></div>
-        <div class="fftr-right">Prepared for <strong>{{brandName}}</strong><br>Report ID: {{reportId}} &middot; Page 3/3</div>
-      </div>
-    </div>
+  <div class="ftr">
+    <div><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner &middot; gal@profitzon.net</div>
+    <div>Prepared for <strong>{{brandName}}</strong> &middot; Report ID: {{reportId}} &middot; Page 3/3</div>
   </div>
 </div>
 </body>
