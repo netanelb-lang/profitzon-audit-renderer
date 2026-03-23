@@ -1,6 +1,6 @@
 /**
- * Profitzon Brand Audit Report Renderer v11.0-premium
- * Dark navy + gold infographic — premium consulting aesthetic.
+ * Profitzon Brand Audit Report Renderer v12.0-premium
+ * Dark navy + gold + dark red/green — premium consulting aesthetic.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
  * Usage:
@@ -111,7 +111,7 @@ function renderStrengthCards(data) {
   if (items.length === 0) items.push({ val: 'Brand Presence Active', desc: 'Listed and discoverable on Amazon marketplace' });
 
   return items.slice(0, 5).map(i =>
-    `<div class="finding"><div class="finding-dot gold"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
+    `<div class="finding"><div class="finding-dot green"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
@@ -132,7 +132,7 @@ function renderVulnCards(data) {
   if (items.length === 0) items.push({ val: 'Minor Optimizations Available', desc: 'No critical gaps — room for strategic growth' });
 
   return items.slice(0, 5).map(i =>
-    `<div class="finding"><div class="finding-dot slate"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
+    `<div class="finding"><div class="finding-dot red"></div><div><div class="finding-title">${i.val}</div><div class="finding-desc">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
@@ -179,14 +179,15 @@ function renderAssessmentCards(data) {
   const sellerScore = sc <= 1 ? 95 : sc <= 3 ? 70 : sc <= 6 ? 40 : 15;
   cards.push({ cat: 'Seller Map', val: `${sc} Active Seller${sc !== 1 ? 's' : ''}`, note: sc > 3 ? 'Price competition eroding margins' : 'Clean seller distribution', badge: sellerScore >= 70 ? 'strong' : sellerScore >= 40 ? 'ok' : 'needs', label: sellerScore >= 70 ? 'Clean' : sellerScore >= 40 ? 'Crowded' : 'Chaotic', pct: sellerScore });
 
-  return cards.map(c =>
-    `<div class="assess">
+  return cards.map(c => {
+    const barColor = c.badge === 'strong' ? 'green' : c.badge === 'needs' ? 'red' : 'gold';
+    return `<div class="assess">
       <div class="assess-top"><div class="assess-cat">${c.cat}</div><div class="assess-badge ${c.badge}">${c.label}</div></div>
       <div class="assess-val">${c.val}</div>
       <div class="assess-note">${c.note}</div>
-      <div class="assess-bar"><div class="assess-fill" style="width:${c.pct}%"></div></div>
-    </div>`
-  ).join('\n');
+      <div class="assess-bar"><div class="assess-fill ${barColor}" style="width:${c.pct}%"></div></div>
+    </div>`;
+  }).join('\n');
 }
 
 // ============================================================
@@ -629,10 +630,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v11.0-premium' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v12.0-premium' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v11.0-premium running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v12.0-premium running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
