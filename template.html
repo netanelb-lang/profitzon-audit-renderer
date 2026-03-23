@@ -5,188 +5,237 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#f1f5f9;color:#0f172a;-webkit-font-smoothing:antialiased;line-height:1.5}
+  :root{
+    --green:#228B22;--green-bg:#E9F5EA;--green-border:#b6e2b6;
+    --red:#C41E3A;--red-bg:#FDEAEA;--red-border:#f5c4c4;
+    --navy:#0f172a;--navy-light:#1e293b;--navy-mid:#334155;
+    --gold:#f5a623;
+    --text:#0f172a;--text-muted:#64748b;--text-light:#94a3b8;
+    --bg:#f8f9fb;--card:#fff;--border:#e2e8f0;
+  }
 
-  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#f1f5f9}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+
+  .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#fff}
   .page:last-child{page-break-after:avoid}
 
-  /* ── Palette: navy + gold + dark red/green ── */
-  /* Dark: #0f172a #1e293b #334155              */
-  /* Gold: #f5a623                              */
-  /* Green: #166534 (strengths)                 */
-  /* Red: #991b1b (vulnerabilities)             */
-  /* Text: #fff #94a3b8 #64748b #0f172a         */
-
-  .ftr{position:absolute;bottom:0;left:0;right:0;height:36px;padding:8px 56px;display:flex;justify-content:space-between;align-items:center;font-size:8px;color:#64748b;background:#e2e8f0;border-top:1px solid #cbd5e1}
-  .ftr strong{color:#0f172a}
+  .ftr{position:absolute;bottom:0;left:0;right:0;height:38px;padding:10px 50px;display:flex;justify-content:space-between;align-items:center;font-size:8px;color:var(--text-muted);background:#f8f9fb;border-top:1px solid var(--border)}
+  .ftr strong{color:var(--navy)}
 
   /* ════════════════════════════════════════════
-     PAGE 1: THE PARADOX
+     PAGE 1: AUDIT DASHBOARD
      ════════════════════════════════════════════ */
 
-  /* Dark hero section */
-  .p1-dark{background:#0f172a;padding:40px 56px 36px;color:#fff}
-  .p1-dark .title{font-size:28px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;color:#fff}
-  .p1-dark .subtitle{font-size:12px;color:#94a3b8;margin-top:6px}
-  .p1-dark .gold-line{width:40px;height:3px;background:#f5a623;margin-top:12px;border-radius:2px}
+  .dash-header{background:var(--navy);padding:40px 50px 32px;color:#fff}
+  .dash-header .title{font-size:26px;font-weight:800;letter-spacing:-0.5px;line-height:1.2}
+  .dash-header .subtitle{font-size:12px;color:var(--text-light);margin-top:6px}
+  .dash-header .gold-line{width:48px;height:3px;background:var(--gold);margin-top:14px;border-radius:2px}
 
-  /* Score row inside dark section */
-  .score-row{display:flex;gap:24px;align-items:center;margin-top:28px}
-  .score-ring{flex-shrink:0}
-  .metrics-wrap{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .mt{background:#1e293b;border-radius:8px;padding:16px 14px;text-align:center}
-  .mt-val{font-size:22px;font-weight:800;color:#fff;line-height:1.2}
-  .mt-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-top:4px}
+  .dash-body{flex:1;padding:28px 50px 48px;display:flex;flex-direction:column;gap:22px;background:var(--bg)}
 
-  /* Insight bar inside dark section */
-  .p1-insight{margin-top:24px;border-left:3px solid #f5a623;padding:14px 20px;background:#1e293b;border-radius:0 8px 8px 0}
-  .p1-insight-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#f5a623;margin-bottom:4px}
-  .p1-insight-text{font-size:12px;color:#cbd5e1;line-height:1.7}
+  /* Two-column layout */
+  .dash-cols{display:flex;gap:20px;flex:1}
+  .dash-col{flex:1;display:flex;flex-direction:column;gap:12px}
 
-  /* Light content section — light grey bg, fills remaining space */
-  .p1-light{flex:1;padding:28px 56px 44px;display:flex;gap:28px;background:#f1f5f9}
-  .p1-col{flex:1;display:flex;flex-direction:column}
-  .p1-col-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding-bottom:12px;border-bottom:2px solid #cbd5e1;margin-bottom:14px}
-  .p1-col-title.green{color:#166534}
-  .p1-col-title.red{color:#991b1b}
+  .col-header{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:14px 20px;border-radius:8px}
+  .col-header.green{background:var(--green);color:#fff}
+  .col-header.red{background:var(--red);color:#fff}
 
-  .finding{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid #e2e8f0}
-  .finding:last-child{border-bottom:none}
-  .finding-dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0}
-  .finding-dot.green{background:#166534}
-  .finding-dot.red{background:#991b1b}
-  .finding-title{font-size:18px;font-weight:800;color:#0f172a;line-height:1.35}
-  .finding-desc{font-size:12px;color:#475569;margin-top:4px;line-height:1.6}
+  /* Dashboard cards */
+  .dash-card{border-radius:10px;padding:22px 24px;border:1px solid var(--border);flex:1;display:flex;flex-direction:column;justify-content:center}
+  .dash-card.green-card{background:var(--green-bg);border-color:var(--green-border)}
+  .dash-card.red-card{background:var(--red-bg);border-color:var(--red-border)}
+  .dash-card-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted);margin-bottom:8px}
+  .dash-card-val{font-size:36px;font-weight:900;line-height:1.1}
+  .dash-card-val.green-text{color:var(--green)}
+  .dash-card-val.red-text{color:var(--red)}
+  .dash-card-sub{font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.5;font-weight:500}
+  .dash-card-icon{font-size:28px;margin-bottom:6px}
+
+  /* Star rating visual */
+  .stars{display:flex;gap:3px;margin-top:4px}
+  .star{width:22px;height:22px}
+
+  /* Mini metric row inside card */
+  .mini-metrics{display:flex;gap:12px;margin-top:10px}
+  .mini-m{flex:1;text-align:center;padding:8px;background:rgba(255,255,255,.7);border-radius:6px}
+  .mini-m-val{font-size:14px;font-weight:800;color:var(--text)}
+  .mini-m-label{font-size:8px;font-weight:600;color:var(--text-muted);margin-top:2px}
+
+  /* Health gauge bar */
+  .gauge-section{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 28px}
+  .gauge-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .gauge-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text-muted)}
+  .gauge-score{font-size:28px;font-weight:900;color:var(--navy)}
+  .gauge-label{font-size:11px;font-weight:700;color:var(--gold);margin-left:8px;text-transform:uppercase;letter-spacing:1px}
+  .gauge-bar{height:12px;background:#e9ecef;border-radius:6px;overflow:hidden}
+  .gauge-fill{height:100%;border-radius:6px;transition:width .3s}
+  .gauge-legend{display:flex;justify-content:space-between;margin-top:8px;font-size:9px;font-weight:600;color:var(--text-muted)}
+
+  /* Insight bar */
+  .dash-insight{background:var(--navy);border-radius:8px;padding:16px 22px;display:flex;gap:14px;align-items:flex-start}
+  .dash-insight-icon{color:var(--gold);font-size:18px;flex-shrink:0;margin-top:1px}
+  .dash-insight-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:3px}
+  .dash-insight-text{font-size:11px;color:#cbd5e1;line-height:1.7}
 
   /* ════════════════════════════════════════════
      PAGE 2: ASSET X-RAY
      ════════════════════════════════════════════ */
 
-  .p2-dark{background:#0f172a;padding:36px 56px 24px;color:#fff}
-  .p2-dark .title{font-size:24px;font-weight:800;letter-spacing:-0.3px;color:#fff}
-  .p2-dark .gold-line{width:40px;height:3px;background:#f5a623;margin-top:10px;border-radius:2px}
-  .asin-bar{display:flex;gap:24px;margin-top:16px;font-size:11px;color:#94a3b8}
-  .asin-bar span{color:#fff;font-weight:700}
+  .xray-header{background:var(--navy);padding:36px 50px 24px;color:#fff}
+  .xray-header .title{font-size:24px;font-weight:800;letter-spacing:-0.3px}
+  .xray-header .gold-line{width:40px;height:3px;background:var(--gold);margin-top:10px;border-radius:2px}
+  .xray-meta{display:flex;gap:28px;margin-top:16px;font-size:11px;color:var(--text-light)}
+  .xray-meta span{color:#fff;font-weight:700}
 
-  .p2-body{flex:1;padding:24px 56px 44px;display:flex;flex-direction:column;gap:20px;background:#f1f5f9}
+  .xray-body{flex:1;padding:24px 50px 48px;display:flex;flex-direction:column;gap:18px;background:var(--bg)}
 
-  /* Product + assessments side by side */
-  .p2-main{display:flex;gap:24px;flex:1}
-  .p2-img{width:380px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
-  .p2-img img{max-width:92%;max-height:92%;object-fit:contain}
-  .p2-img .product-placeholder{color:#94a3b8;font-size:13px}
+  /* Annotated product area */
+  .xray-main{display:flex;gap:16px;flex:1;align-items:stretch}
 
-  /* Assessment cards */
-  .assess-col{flex:1;display:flex;flex-direction:column;gap:10px;justify-content:center}
-  .assess{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px}
-  .assess-top{display:flex;justify-content:space-between;align-items:center}
-  .assess-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#64748b}
-  .assess-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px}
-  .assess-badge.strong{background:#166534;color:#fff}
-  .assess-badge.needs{background:#991b1b;color:#fff}
-  .assess-badge.ok{background:#f5a623;color:#fff}
-  .assess-val{font-size:16px;font-weight:800;color:#0f172a;margin-top:6px;line-height:1.35}
-  .assess-note{font-size:10px;color:#64748b;margin-top:2px}
-  .assess-bar{height:4px;background:#e2e8f0;border-radius:2px;margin-top:8px;overflow:hidden}
-  .assess-fill{height:100%;border-radius:2px}
-  .assess-fill.green{background:#166534}
-  .assess-fill.red{background:#991b1b}
-  .assess-fill.gold{background:#f5a623}
+  /* Left callouts */
+  .xray-callouts{width:220px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .callout{border-radius:8px;padding:16px 18px;border:2px solid;position:relative}
+  .callout.green-c{background:var(--green-bg);border-color:var(--green)}
+  .callout.red-c{background:var(--red-bg);border-color:var(--red)}
+  .callout-icon{font-size:16px;margin-bottom:4px}
+  .callout-title{font-size:14px;font-weight:800;line-height:1.3}
+  .callout-title.green-text{color:var(--green)}
+  .callout-title.red-text{color:var(--red)}
+  .callout-desc{font-size:10px;color:var(--text-muted);margin-top:3px;line-height:1.5}
+  /* Connector line stub */
+  .callout-connector{position:absolute;top:50%;width:16px;height:2px}
+  .callout.green-c .callout-connector{right:-16px;background:var(--green)}
+  .callout.red-c .callout-connector{left:-16px;background:var(--red)}
+
+  /* Center image */
+  .xray-img{flex:1;display:flex;align-items:center;justify-content:center;background:var(--card);border:2px solid var(--border);border-radius:12px;overflow:hidden;position:relative;min-height:400px}
+  .xray-img img{max-width:94%;max-height:94%;object-fit:contain}
+  .xray-img .product-placeholder{color:var(--text-light);font-size:13px}
+
+  /* Assessment cards below image */
+  .xray-assess{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .xa{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+  .xa-top{display:flex;justify-content:space-between;align-items:center}
+  .xa-cat{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted)}
+  .xa-badge{font-size:8px;font-weight:700;padding:2px 8px;border-radius:4px;color:#fff}
+  .xa-badge.strong{background:var(--green)}
+  .xa-badge.needs{background:var(--red)}
+  .xa-badge.ok{background:var(--gold)}
+  .xa-val{font-size:15px;font-weight:800;color:var(--text);margin-top:5px;line-height:1.3}
+  .xa-bar{height:3px;background:#e9ecef;border-radius:2px;margin-top:6px;overflow:hidden}
+  .xa-fill{height:100%;border-radius:2px}
+  .xa-fill.green{background:var(--green)}
+  .xa-fill.red{background:var(--red)}
+  .xa-fill.gold{background:var(--gold)}
 
   /* Stats strip */
-  .p2-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
-  .p2-stat{text-align:center;padding:14px 8px;background:#0f172a}
-  .p2-stat+.p2-stat{border-left:1px solid #1e293b}
-  .p2-stat-val{font-size:18px;font-weight:800;color:#fff}
-  .p2-stat-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-top:3px}
+  .xray-stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .xs{text-align:center;padding:14px 8px;background:var(--navy)}
+  .xs+.xs{border-left:1px solid var(--navy-light)}
+  .xs-val{font-size:18px;font-weight:800;color:#fff}
+  .xs-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-top:3px}
 
   /* ════════════════════════════════════════════
-     PAGE 3: COST OF FRICTION
+     PAGE 3: REVENUE LEAK & GROWTH PLAN
      ════════════════════════════════════════════ */
 
-  .p3-dark{background:#0f172a;padding:36px 56px 20px;color:#fff}
-  .p3-dark .title{font-size:24px;font-weight:800;letter-spacing:-0.3px;color:#fff}
-  .p3-dark .subtitle{font-size:11px;color:#94a3b8;margin-top:4px}
-  .p3-dark .gold-line{width:40px;height:3px;background:#f5a623;margin-top:10px;border-radius:2px}
+  .leak-header{background:var(--navy);padding:36px 50px 20px;color:#fff}
+  .leak-header .title{font-size:24px;font-weight:800;letter-spacing:-0.3px}
+  .leak-header .subtitle{font-size:11px;color:var(--text-light);margin-top:4px}
+  .leak-header .gold-line{width:40px;height:3px;background:var(--gold);margin-top:10px;border-radius:2px}
 
-  .p3-body{flex:1;padding:24px 56px 44px;display:flex;flex-direction:column;background:#f1f5f9}
+  .leak-body{flex:1;padding:24px 50px 48px;display:flex;flex-direction:column;gap:16px;background:var(--bg)}
 
-  /* Column headers */
-  .pair-hdr{display:flex;gap:12px;margin-bottom:14px}
-  .pair-hdr-item{flex:1;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:2px;padding:12px 18px;border-radius:6px}
-  .pair-hdr-item.leak{background:#991b1b;color:#fff}
-  .pair-hdr-item.plan{background:#166534;color:#fff}
-  .pair-hdr-arrow{width:32px}
+  /* Section headers */
+  .section-hdr{display:flex;align-items:center;gap:10px;padding:14px 20px;border-radius:8px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#fff}
+  .section-hdr.red-hdr{background:var(--red)}
+  .section-hdr.green-hdr{background:var(--green)}
+  .section-hdr-icon{font-size:18px}
 
-  /* Pairs — no flex:1 so they don't stretch with empty space */
-  .pairs{display:flex;flex-direction:column;gap:14px}
-  .pair{display:flex;gap:12px;align-items:stretch}
-  .pair-card{flex:1;padding:20px 24px;border-radius:8px;border:1px solid #e2e8f0;background:#fff}
-  .pair-card.leak-c{border-left:4px solid #991b1b}
-  .pair-card.plan-c{border-left:4px solid #166534}
-  .pair-title{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:6px}
-  .pair-desc{font-size:12px;color:#475569;line-height:1.6}
-  .pair-tag{display:inline-block;margin-top:10px;padding:4px 12px;border-radius:4px;font-size:9px;font-weight:700}
-  .pair-tag.dark{background:#991b1b;color:#fff}
-  .pair-tag.gold{background:#166534;color:#fff}
-  .pair-arrow{width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-  .pair-arrow svg{width:20px;height:20px}
+  /* Leak cards */
+  .leak-cards{display:flex;gap:12px}
+  .leak-card{flex:1;background:var(--red-bg);border:1px solid var(--red-border);border-left:4px solid var(--red);border-radius:8px;padding:20px 22px}
+  .leak-card-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--red);margin-bottom:6px}
+  .leak-card-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+  .leak-card-amount{font-size:24px;font-weight:900;color:var(--red);margin-bottom:6px}
+  .leak-card-desc{font-size:11px;color:var(--text-muted);line-height:1.6}
 
-  /* Expected results strip — pushed to bottom */
-  .results-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto;padding-top:20px}
-  .result{background:#0f172a;border-radius:8px;padding:18px 16px;text-align:center}
-  .result-val{font-size:20px;font-weight:900;color:#f5a623}
-  .result-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-top:4px}
+  /* Growth plan cards */
+  .plan-cards{display:flex;gap:12px}
+  .plan-card{flex:1;background:var(--green-bg);border:1px solid var(--green-border);border-left:4px solid var(--green);border-radius:8px;padding:20px 22px}
+  .plan-card-num{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--green);margin-bottom:6px}
+  .plan-card-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;line-height:1.3}
+  .plan-card-impact{font-size:20px;font-weight:900;color:var(--green);margin-bottom:6px}
+  .plan-card-desc{font-size:11px;color:var(--text-muted);line-height:1.6}
+
+  /* Outcome strip */
+  .outcome-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto}
+  .outcome{background:var(--navy);border-radius:8px;padding:18px 14px;text-align:center}
+  .outcome-val{font-size:22px;font-weight:900;color:var(--gold)}
+  .outcome-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-top:4px}
+
+  /* Disclaimer */
+  .disclaimer{background:var(--green-bg);border:1px solid var(--green-border);border-radius:8px;padding:16px 22px;text-align:center;margin-top:12px}
+  .disclaimer-text{font-size:11px;color:var(--green);font-weight:600;line-height:1.5}
+  .disclaimer-text strong{font-weight:800}
 
   /* CTA */
-  .p3-cta{background:#0f172a;border-radius:10px;padding:28px 40px;text-align:center;margin-top:16px}
-  .p3-cta-title{font-size:22px;font-weight:900;color:#fff;margin-bottom:10px}
-  .p3-cta-btn{display:inline-block;background:#f5a623;color:#fff;padding:12px 40px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:1px;text-transform:uppercase}
+  .cta-box{background:var(--navy);border-radius:10px;padding:24px 40px;text-align:center;margin-top:12px}
+  .cta-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:8px}
+  .cta-btn{display:inline-block;background:var(--gold);color:#fff;padding:12px 40px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:1px;text-transform:uppercase}
 
-  @media print{body{background:#f1f5f9}.page{box-shadow:none;margin:0}}
+  @media print{body{background:#fff}.page{box-shadow:none;margin:0}}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════ PAGE 1 ═══════════════ -->
+<!-- ═══════════════ PAGE 1: AUDIT DASHBOARD ═══════════════ -->
 <div class="page">
-  <div class="p1-dark">
-    <div class="title">The Paradox: High Brand Equity,<br>Sub-Optimal Execution</div>
-    <div class="subtitle">Where {{brandName}} stands today — strengths vs. gaps costing you revenue.</div>
+  <div class="dash-header">
+    <div class="title">{{brandName}}: Amazon Control &amp; Growth Audit</div>
+    <div class="subtitle">Uncovering operational leaks and unlocking top-line revenue on the world's largest marketplace.</div>
     <div class="gold-line"></div>
-
-    <div class="score-row">
-      <div class="score-ring">{{gaugeSVG}}</div>
-      <div class="metrics-wrap">{{metricsGrid}}</div>
-    </div>
-
-    <div class="p1-insight">
-      <div class="p1-insight-label">Key Insight</div>
-      <div class="p1-insight-text">{{opportunitySummary}}</div>
-    </div>
   </div>
 
-  <div class="p1-light">
-    <div class="p1-col">
-      <div class="p1-col-title green">What's Working</div>
-      {{strengthCards}}
+  <div class="dash-body">
+    <div class="dash-cols">
+      <!-- LEFT: STRENGTHS -->
+      <div class="dash-col">
+        <div class="col-header green">Brand Power (Strengths)</div>
+        {{strengthCards}}
+      </div>
+
+      <!-- RIGHT: VULNERABILITIES -->
+      <div class="dash-col">
+        <div class="col-header red">Amazon Mechanics (Vulnerabilities)</div>
+        {{vulnCards}}
+      </div>
     </div>
-    <div class="p1-col">
-      <div class="p1-col-title red">Where You're Losing</div>
-      {{vulnCards}}
+
+    <!-- HEALTH GAUGE -->
+    <div class="gauge-section">{{gaugeBar}}</div>
+
+    <!-- KEY INSIGHT -->
+    <div class="dash-insight">
+      <div class="dash-insight-icon">&#9670;</div>
+      <div>
+        <div class="dash-insight-label">Key Insight</div>
+        <div class="dash-insight-text">{{opportunitySummary}}</div>
+      </div>
     </div>
   </div>
 
   <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 1/3</div></div>
 </div>
 
-<!-- ═══════════════ PAGE 2 ═══════════════ -->
+<!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
 <div class="page">
-  <div class="p2-dark">
+  <div class="xray-header">
     <div class="title">Asset X-Ray: {{bestAsinTitleShort}}</div>
     <div class="gold-line"></div>
-    <div class="asin-bar">
+    <div class="xray-meta">
       <div>ASIN <span>{{bestAsin}}</span></div>
       <div>Volume <span>{{bestAsinSalesVolume}}</span></div>
       <div>Price <span>${{bestAsinPrice}}</span></div>
@@ -194,45 +243,62 @@
     </div>
   </div>
 
-  <div class="p2-body">
-    <div class="p2-main">
-      <div class="p2-img">{{productImageHtml}}</div>
-      <div class="assess-col">{{assessmentCards}}</div>
+  <div class="xray-body">
+    <div class="xray-main">
+      <!-- Left callouts (green = strengths) -->
+      <div class="xray-callouts">{{leftCallouts}}</div>
+
+      <!-- Product image -->
+      <div class="xray-img">{{productImageHtml}}</div>
+
+      <!-- Right callouts (red = vulnerabilities) -->
+      <div class="xray-callouts">{{rightCallouts}}</div>
     </div>
 
-    <div class="p2-stats">
-      <div class="p2-stat"><div class="p2-stat-val">{{priceRange}}</div><div class="p2-stat-label">Price Range</div></div>
-      <div class="p2-stat"><div class="p2-stat-val">{{sellerCount}}</div><div class="p2-stat-label">Active Sellers</div></div>
-      <div class="p2-stat"><div class="p2-stat-val">{{competitorCount}}</div><div class="p2-stat-label">Competitors</div></div>
-      <div class="p2-stat"><div class="p2-stat-val">{{catalogSize}}</div><div class="p2-stat-label">Catalog SKUs</div></div>
+    <!-- Assessment grid -->
+    <div class="xray-assess">{{assessmentCards}}</div>
+
+    <!-- Stats strip -->
+    <div class="xray-stats">
+      <div class="xs"><div class="xs-val">{{priceRange}}</div><div class="xs-label">Price Range</div></div>
+      <div class="xs"><div class="xs-val">{{sellerCount}}</div><div class="xs-label">Active Sellers</div></div>
+      <div class="xs"><div class="xs-val">{{competitorCount}}</div><div class="xs-label">Competitors</div></div>
+      <div class="xs"><div class="xs-val">{{catalogSize}}</div><div class="xs-label">Catalog SKUs</div></div>
     </div>
   </div>
 
   <div class="ftr"><div><strong>Profitzon</strong> &middot; Amazon Brand Audit</div><div>{{brandName}} &middot; {{reportDate}} &middot; Page 2/3</div></div>
 </div>
 
-<!-- ═══════════════ PAGE 3 ═══════════════ -->
+<!-- ═══════════════ PAGE 3: REVENUE LEAK & GROWTH PLAN ═══════════════ -->
 <div class="page">
-  <div class="p3-dark">
-    <div class="title">The Cost of Friction &amp; The 30-Day Fix</div>
-    <div class="subtitle">Where revenue leaks today and how we fix it.</div>
+  <div class="leak-header">
+    <div class="title">Revenue Leak &amp; Growth Plan</div>
+    <div class="subtitle">Quantified losses today and the specific actions to recover them.</div>
     <div class="gold-line"></div>
   </div>
 
-  <div class="p3-body">
-    <div class="pair-hdr">
-      <div class="pair-hdr-item leak">Revenue Leak</div>
-      <div class="pair-hdr-arrow"></div>
-      <div class="pair-hdr-item plan">Growth Plan</div>
+  <div class="leak-body">
+    <!-- REVENUE LEAKS -->
+    <div class="section-hdr red-hdr"><span class="section-hdr-icon">&#9888;</span> The Revenue Leak (Current State)</div>
+    <div class="leak-cards">{{leakCards}}</div>
+
+    <!-- GROWTH PLAN -->
+    <div class="section-hdr green-hdr"><span class="section-hdr-icon">&#10004;</span> The Growth Plan (Optimal State)</div>
+    <div class="plan-cards">{{planCards}}</div>
+
+    <!-- OUTCOMES -->
+    <div class="outcome-strip">{{expectedResults}}</div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+      <div class="disclaimer-text"><strong>Zero operational load for you.</strong> Profitzon funds 100% of inventory, marketing, logistics, and brand protection. We buy at wholesale, invest our own capital, and handle everything from factory to Prime delivery.</div>
     </div>
 
-    <div class="pairs">{{frictionPairs}}</div>
-
-    <div class="results-strip">{{expectedResults}}</div>
-
-    <div class="p3-cta">
-      <div class="p3-cta-title">Ready to Fix This?</div>
-      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="p3-cta-btn">Book a Strategy Call &rarr;</a>
+    <!-- CTA -->
+    <div class="cta-box">
+      <div class="cta-title">Ready to Fix This?</div>
+      <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a Strategy Call &rarr;</a>
     </div>
   </div>
 
