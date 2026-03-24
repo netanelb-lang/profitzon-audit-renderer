@@ -51,12 +51,9 @@ function renderGaugeSVG(score) {
 
   const label = s < 45 ? 'NEEDS WORK' : s < 60 ? 'FAIR' : s < 75 ? 'GOOD' : s < 88 ? 'STRONG' : 'EXCELLENT';
 
-  // Half-circle arc gauge: red → orange → yellow → green
-  const cx = 180, cy = 170, r = 140;
-  const startAngle = Math.PI; // 180°
-  const endAngle = 0;        // 0°
+  // Half-circle arc gauge — large, centered
+  const cx = 180, cy = 175, r = 150;
 
-  // Arc segments (background track)
   function arcPath(startDeg, endDeg, radius) {
     const s1 = (startDeg * Math.PI) / 180;
     const e1 = (endDeg * Math.PI) / 180;
@@ -68,44 +65,33 @@ function renderGaugeSVG(score) {
     return `M ${x1} ${y1} A ${radius} ${radius} 0 ${large} 1 ${x2} ${y2}`;
   }
 
-  // Colored arc segments
   const segments = [
-    { start: 180, end: 216, color: '#c62828' },   // red
-    { start: 216, end: 252, color: '#e65100' },   // dark orange
-    { start: 252, end: 288, color: '#f57f17' },   // orange/yellow
-    { start: 288, end: 324, color: '#f9a825' },   // gold
-    { start: 324, end: 360, color: '#2e7d32' },   // green
+    { start: 180, end: 216, color: '#c62828' },
+    { start: 216, end: 252, color: '#e65100' },
+    { start: 252, end: 288, color: '#f57f17' },
+    { start: 288, end: 324, color: '#f9a825' },
+    { start: 324, end: 360, color: '#2e7d32' },
   ];
 
   let arcs = segments.map(seg =>
-    `<path d="${arcPath(seg.start, seg.end, r)}" fill="none" stroke="${seg.color}" stroke-width="22" stroke-linecap="butt"/>`
+    `<path d="${arcPath(seg.start, seg.end, r)}" fill="none" stroke="${seg.color}" stroke-width="20" stroke-linecap="butt"/>`
   ).join('\n');
 
-  // Tick marks at 0 and 100
-  const tickColor = '#999';
-
-  // Needle — points to score position
   const needleAngle = 180 + (s / 100) * 180;
   const needleRad = (needleAngle * Math.PI) / 180;
-  const needleLen = r - 30;
+  const needleLen = r - 25;
   const nx = cx + needleLen * Math.cos(needleRad);
   const ny = cy + needleLen * Math.sin(needleRad);
 
-  return `<svg width="360" height="220" viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg">
-    <!-- Arc track -->
+  return `<svg width="360" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
     <path d="${arcPath(180, 360, r)}" fill="none" stroke="#e0e0e0" stroke-width="24" stroke-linecap="butt"/>
-    <!-- Colored segments -->
     ${arcs}
-    <!-- Center hub -->
     <circle cx="${cx}" cy="${cy}" r="8" fill="#1a2744"/>
-    <!-- Needle -->
     <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#1a2744" stroke-width="4" stroke-linecap="round"/>
-    <!-- Score text -->
-    <text x="${cx}" y="${cy - 20}" text-anchor="middle" font-family="Inter, sans-serif" font-size="56" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="28" fill="#999">/100</tspan></text>
-    <text x="${cx}" y="${cy + 16}" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="#666" letter-spacing="3">${label}</text>
-    <!-- 0 and 100 labels -->
-    <text x="${cx - r - 5}" y="${cy + 24}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">0</text>
-    <text x="${cx + r + 5}" y="${cy + 24}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">100</text>
+    <text x="${cx}" y="${cy - 40}" text-anchor="middle" font-family="Inter, sans-serif" font-size="60" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="26" fill="#999">/100</tspan></text>
+    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="800" fill="#666" letter-spacing="3">${label}</text>
+    <text x="${cx - r - 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">0</text>
+    <text x="${cx + r + 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">100</text>
   </svg>`;
 }
 
@@ -474,15 +460,60 @@ function renderActionCards(data) {
 function renderArrowsSVG(leakCount) {
   const n = Math.min(leakCount, 2);
   const arrows = [];
-  // Position arrows between each leak→action pair
-  const yPositions = [200, 400];
   for (let i = 0; i < n; i++) {
-    const y = yPositions[i] || 200 + i * 200;
-    arrows.push(`<svg class="arrow-svg" style="position:absolute;left:50%;top:${y}px;transform:translate(-50%,-50%)" width="48" height="48" viewBox="0 0 48 48">
-      <polygon points="8,14 30,14 30,6 46,24 30,42 30,34 8,34" fill="#1a2744"/>
+    arrows.push(`<svg width="36" height="36" viewBox="0 0 36 36" style="margin:8px 0">
+      <polygon points="4,10 22,10 22,4 34,18 22,32 22,26 4,26" fill="#1a2744"/>
     </svg>`);
   }
   return arrows.join('\n');
+}
+
+// ============================================================
+// EXECUTIVE SUMMARY BOX (Page 1)
+// ============================================================
+
+function renderExecutiveSummaryBox(data) {
+  if (!data.opportunitySummary) return '';
+  return `<div class="exec-bar">
+    <div class="el">Key Insight</div>
+    <div class="et">${escapeHtml(data.opportunitySummary)}</div>
+  </div>`;
+}
+
+// ============================================================
+// PRODUCT TABLE ROWS (Page 2)
+// ============================================================
+
+function renderBadges(product) {
+  const badges = [];
+  if (product.is_prime) badges.push('<span class="badge-sm badge-prime">PRIME</span>');
+  if (product.is_amazons_choice) badges.push('<span class="badge-sm badge-choice">CHOICE</span>');
+  if (product.is_sponsored) badges.push('<span class="badge-sm badge-sponsored">AD</span>');
+  if (product.notBrand) badges.push('<span class="badge-sm badge-notbrand">OTHER</span>');
+  return badges.join(' ') || '<span style="color:#ccc;font-size:9px">—</span>';
+}
+
+function renderProductRows(products) {
+  if (!products || !products.length) {
+    return '<tr><td colspan="7" style="text-align:center;color:#999;padding:14px">No product data available</td></tr>';
+  }
+  const valid = products.filter(p => p.price && p.price > 0);
+  if (!valid.length) {
+    return '<tr><td colspan="7" style="text-align:center;color:#999;padding:14px">No product data available</td></tr>';
+  }
+  return valid.slice(0, 5).map(p => {
+    const pos = p.pos ? `<strong style="color:#1a2744">#${p.pos}</strong>` : '—';
+    const asin = p.asin ? `<span style="font-size:10px;color:#1a2744;font-family:'IBM Plex Mono',monospace">${p.asin}</span>` : '—';
+    return `<tr${p.notBrand ? ' style="opacity:0.5"' : ''}>
+      <td>${pos}</td>
+      <td style="font-weight:600">${escapeHtml(truncate(p.title, 35))}</td>
+      <td>${asin}</td>
+      <td>$${(p.price || 0).toFixed(2)}</td>
+      <td>${(p.rating || 0).toFixed(1)} ★</td>
+      <td>${fmt(p.reviews_count || 0)}</td>
+      <td>${renderBadges(p)}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ============================================================
@@ -612,6 +643,10 @@ function renderHTML(data) {
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') leakCount++;
   if (leakCount === 0) leakCount = 1;
 
+  // Ownership percentage
+  const bp = parseInt(data.brandProductCount || 0);
+  const tr = parseInt(data.totalResults || 1);
+
   const replacements = {
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportId}}': reportId,
@@ -620,6 +655,13 @@ function renderHTML(data) {
     '{{gaugeSVG}}': renderGaugeSVG(healthScore),
     '{{strengthCards}}': renderStrengthCards(data),
     '{{vulnerabilityCards}}': renderVulnerabilityCards(data),
+    '{{brandProductCount}}': String(bp || '?'),
+    '{{fbaPercent}}': String(data.fbaPercent || 0),
+    '{{avgRating}}': String(data.avgRating || '0.0'),
+    '{{sellerCount}}': String(data.sellerCount || '0'),
+    '{{competitorCount}}': String(data.competitorCount || 0),
+    '{{ppcCount}}': String(data.ppcCount || 0),
+    '{{executiveSummaryBox}}': renderExecutiveSummaryBox(data),
 
     // Page 2
     '{{bestAsinTitleShort}}': escapeHtml(truncate(data.bestAsinTitle || data.brandName + ' - Top Product', 40)),
@@ -628,7 +670,6 @@ function renderHTML(data) {
     '{{bestAsinSalesVolume}}': escapeHtml(bestVolume),
     '{{grossRunRate}}': escapeHtml(grossRunRate),
     '{{productImageHtml}}': renderProductImage(data),
-    '{{connectorLines}}': renderConnectorLines(),
     '{{callout1Title}}': escapeHtml(callouts.c1Title),
     '{{callout1Desc}}': escapeHtml(callouts.c1Desc),
     '{{callout2Title}}': escapeHtml(callouts.c2Title),
@@ -637,6 +678,7 @@ function renderHTML(data) {
     '{{callout3Desc}}': escapeHtml(callouts.c3Desc),
     '{{callout4Title}}': escapeHtml(callouts.c4Title),
     '{{callout4Desc}}': escapeHtml(callouts.c4Desc),
+    '{{productRows}}': renderProductRows(data.topProducts),
 
     // Page 3
     '{{leakCards}}': renderLeakCards(data),

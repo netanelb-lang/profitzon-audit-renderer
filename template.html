@@ -11,120 +11,147 @@
 
   .page{width:1000px;height:1414px;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;background:#ecedf1}
   .page:last-child{page-break-after:avoid}
-  .pb{flex:1;display:flex;flex-direction:column;overflow:hidden;padding:0}
 
   /* ── Footer (all pages) ── */
-  .ftr{flex-shrink:0;padding:12px 48px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#999}
+  .ftr{flex-shrink:0;padding:14px 48px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#999}
 
   /* ════════════════════════════════════════════
      PAGE 1: THE PARADOX
      ════════════════════════════════════════════ */
 
-  .p1-title{padding:40px 48px 0;font-size:36px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1.2}
+  .p1-title{padding:36px 48px 0;font-size:34px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1.15}
 
-  .p1-layout{flex:1;display:grid;grid-template-columns:280px 1fr 280px;gap:28px;padding:28px 48px;align-items:start}
+  .p1-layout{display:grid;grid-template-columns:280px 1fr 280px;gap:24px;padding:24px 40px;height:880px}
 
-  /* Strengths column (left) */
-  .col-header{padding:12px 18px;font-size:16px;font-weight:800;color:#fff;border-radius:6px 6px 0 0}
+  /* Columns */
+  .col-wrap{display:flex;flex-direction:column}
+  .col-header{padding:16px 20px;font-size:15px;font-weight:800;color:#fff;border-radius:6px 6px 0 0;flex-shrink:0}
   .col-header.green{background:#2e7d32}
   .col-header.red{background:#c62828}
-  .col-body{background:#fff;border-radius:0 0 6px 6px;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .col-body{background:#fff;border-radius:0 0 6px 6px;box-shadow:0 2px 8px rgba(0,0,0,.06);flex:1;display:flex;flex-direction:column;justify-content:space-evenly}
 
-  .str-card{padding:18px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:14px}
+  .str-card{padding:24px 20px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;gap:16px;flex:1}
   .str-card:last-child{border-bottom:none}
-  .str-icon{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
-  .str-icon.green-sq{background:#2e7d32;color:#fff}
-  .str-icon.stars{background:transparent;color:#2e7d32;font-size:14px;width:auto}
-  .str-icon.blue-bar{background:transparent;width:auto}
-  .str-icon.pie-red{background:transparent;width:44px}
-  .str-icon.big-num{background:transparent;width:auto;font-size:28px;font-weight:900;line-height:1}
-  .str-icon.warn-tri{background:transparent;width:44px}
+  .str-icon{width:48px;height:48px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
   .str-text{flex:1}
   .str-text .val{font-size:18px;font-weight:800;color:#1a1a1a;line-height:1.3}
-  .str-text .desc{font-size:13px;color:#666;line-height:1.4;margin-top:2px}
+  .str-text .desc{font-size:13px;color:#666;line-height:1.4;margin-top:3px}
 
-  .vuln-card{padding:18px 20px;border-bottom:1px solid #e8e8e8;display:flex;align-items:flex-start;gap:14px;background:#f5f5f5}
+  .vuln-card{padding:24px 20px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;gap:16px;background:#f5f5f5;flex:1}
   .vuln-card:last-child{border-bottom:none;border-radius:0 0 6px 6px}
-  .vuln-card:first-child{border-radius:0}
 
   /* Center gauge */
-  .gauge-center{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:40px}
+  .gauge-center{display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+  /* KPI Grid below columns */
+  .kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:0 40px;margin-top:4px}
+  .kpi-card{background:#fff;border-radius:8px;padding:18px 16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .kpi-card .kl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#999;margin-bottom:6px}
+  .kpi-card .kv{font-size:22px;font-weight:900;color:#1a2744}
+
+  /* Executive summary */
+  .exec-bar{margin:12px 40px 0;background:#fff;border-left:5px solid #1a2744;border-radius:6px;padding:20px 28px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .exec-bar .el{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#1a2744;margin-bottom:6px}
+  .exec-bar .et{font-size:14px;color:#444;line-height:1.6}
 
   /* ════════════════════════════════════════════
      PAGE 2: ASSET X-RAY
      ════════════════════════════════════════════ */
 
-  .p2-title-bar{margin:32px 48px 0;padding:18px 28px;border:3px solid #1a2744;border-radius:8px}
-  .p2-title-bar h2{font-size:32px;font-weight:900;color:#1a1a1a;letter-spacing:-0.5px}
+  .p2-title-bar{margin:28px 40px 0;padding:16px 24px;border:3px solid #1a2744;border-radius:8px}
+  .p2-title-bar h2{font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:-0.5px}
 
-  .p2-meta{margin:16px 48px 0;padding:14px 28px;background:#f5f5f5;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:#444;letter-spacing:0.5px;display:flex;gap:12px;justify-content:space-between}
+  .p2-meta{margin:12px 40px 0;padding:12px 24px;background:#f5f5f5;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:#444;display:flex;gap:10px;justify-content:space-between}
   .p2-meta span{white-space:nowrap}
   .p2-meta .sep{color:#ccc}
 
-  .p2-main{flex:1;position:relative;padding:24px 48px;display:flex;align-items:center;justify-content:center}
-
-  /* Product image center */
-  .p2-screenshot{width:460px;height:520px;background:#fff;border:2px solid #ddd;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;z-index:1;box-shadow:0 4px 20px rgba(0,0,0,.08)}
-  .p2-screenshot img{width:100%;height:100%;object-fit:contain}
+  .p2-main{display:grid;grid-template-columns:220px 1fr 220px;gap:14px;padding:14px 40px;height:820px;align-items:center}
 
   /* Callout boxes */
-  .callout{position:absolute;width:220px;padding:16px 18px;border-radius:8px;border:2px solid;z-index:2;background:#fff}
-  .callout.green{border-color:#2e7d32;background:#f1f8e9}
-  .callout.red{border-color:#c62828;background:#fce4ec}
-  .callout .co-icon{position:absolute;top:10px;right:12px;font-size:18px}
-  .callout .co-title{font-size:15px;font-weight:800;color:#1a1a1a;line-height:1.3;padding-right:28px}
-  .callout .co-desc{font-size:12px;color:#555;line-height:1.4;margin-top:4px}
-  .callout.green .co-title{color:#1b5e20}
-  .callout.red .co-title{color:#b71c1c}
+  .callout-box{padding:20px 16px;border-radius:8px;border:2px solid;background:#fff}
+  .callout-box.green{border-color:#2e7d32;background:#f1f8e9}
+  .callout-box.red{border-color:#c62828;background:#fce4ec}
+  .co-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+  .co-icon{font-size:18px;flex-shrink:0}
+  .co-title{font-size:14px;font-weight:800;line-height:1.3;flex:1}
+  .callout-box.green .co-title{color:#1b5e20}
+  .callout-box.red .co-title{color:#b71c1c}
+  .co-desc{font-size:12px;color:#555;line-height:1.4;margin-top:6px}
 
-  /* Connector dots */
-  .connector-dot{position:absolute;width:10px;height:10px;background:#1a2744;border:2px solid #fff;border-radius:50%;z-index:3}
+  /* Center image area */
+  .p2-center{display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .p2-screenshot{width:100%;height:100%;min-height:400px;background:#fff;border:2px solid #ddd;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+  .p2-screenshot img{width:100%;height:100%;object-fit:contain}
 
-  /* SVG connector lines */
-  .p2-connectors{position:absolute;inset:0;z-index:2;pointer-events:none}
+  /* Callout columns */
+  .callout-col{display:flex;flex-direction:column;gap:20px;justify-content:center}
+
+  /* Connector lines */
+  .connector-row{display:flex;align-items:center;justify-content:center;gap:0}
+  .conn-line{width:16px;height:2px;background:#1a2744;opacity:.3}
+  .conn-dot{width:8px;height:8px;background:#1a2744;border:2px solid #fff;border-radius:50%;flex-shrink:0}
+
+  /* Product table */
+  .p2-table{margin:0 40px;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+  .p2-table table{width:100%;border-collapse:collapse}
+  .p2-table th{padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#1a2744;text-align:left;background:#f8f9fa;border-bottom:2px solid #1a2744}
+  .p2-table td{padding:9px 14px;font-size:12px;color:#444;border-bottom:1px solid #f0f0f0}
+  .p2-table tr:last-child td{border-bottom:none}
+  .badge-sm{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;display:inline-block;margin-right:2px}
+  .badge-prime{background:#e8f5e9;color:#2e7d32}
+  .badge-choice{background:#e3f2fd;color:#1565c0}
+  .badge-sponsored{background:#f5f5f5;color:#999}
+  .badge-notbrand{background:#fce4ec;color:#c62828}
 
   /* ════════════════════════════════════════════
      PAGE 3: COST OF FRICTION
      ════════════════════════════════════════════ */
 
-  .p3-header{padding:36px 48px 0}
-  .p3-header h2{font-size:36px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1.15}
-  .p3-header .sub{font-size:16px;color:#666;margin-top:8px;line-height:1.5}
+  .p3-header{padding:32px 40px 0}
+  .p3-header h2{font-size:34px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1.15}
+  .p3-header .sub{font-size:15px;color:#666;margin-top:8px;line-height:1.5}
 
-  .p3-cols{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px 48px;align-items:start}
+  .p3-body{flex:1;display:flex;flex-direction:column;padding:0 40px}
 
-  .p3-col-header{padding:14px 20px;border-radius:8px 8px 0 0;font-size:16px;font-weight:800;color:#fff;text-align:center}
+  .p3-cols{display:grid;grid-template-columns:1fr 48px 1fr;gap:0;margin-top:16px;height:580px;align-content:center}
+
+  .p3-col{display:flex;flex-direction:column}
+  .p3-col-header{padding:14px 20px;border-radius:8px 8px 0 0;font-size:15px;font-weight:800;color:#fff;text-align:center}
   .p3-col-header.leak{background:#c62828}
   .p3-col-header.plan{background:#1a2744}
-
   .p3-col-body{background:#f5f5f5;border-radius:0 0 8px 8px;padding:16px}
 
+  /* Arrow column */
+  .p3-arrows{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:60px;align-self:center}
+
   /* Leak cards */
-  .leak-card{background:#fff;border:2px solid #e53935;border-radius:8px;padding:20px;margin-bottom:16px}
+  .leak-card{background:#fff;border:2px solid #e53935;border-radius:8px;padding:20px;margin-bottom:14px}
   .leak-card:last-child{margin-bottom:0}
-  .leak-card h4{font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:8px}
-  .leak-card p{font-size:13px;color:#555;line-height:1.5;margin-bottom:12px}
-  .leak-amount{display:inline-block;background:#fce4ec;color:#c62828;font-size:18px;font-weight:800;font-style:italic;padding:6px 16px;border-radius:6px}
+  .leak-card h4{font-size:15px;font-weight:800;color:#1a1a1a;margin-bottom:8px}
+  .leak-card p{font-size:12.5px;color:#555;line-height:1.5;margin-bottom:12px}
+  .leak-amount{display:inline-block;background:#fce4ec;color:#c62828;font-size:16px;font-weight:800;font-style:italic;padding:6px 14px;border-radius:6px}
 
   /* Action cards */
-  .action-card{background:#fff;border:2px solid #1a2744;border-radius:8px;padding:20px;margin-bottom:16px}
+  .action-card{background:#fff;border:2px solid #1a2744;border-radius:8px;padding:20px;margin-bottom:14px}
   .action-card:last-child{margin-bottom:0}
-  .action-card h4{font-size:16px;font-weight:800;color:#1a1a1a;margin-bottom:8px}
-  .action-card p{font-size:13px;color:#555;line-height:1.5;margin-bottom:12px}
-  .action-impact{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:16px;font-weight:800;font-style:italic;padding:6px 16px;border-radius:6px}
+  .action-card h4{font-size:15px;font-weight:800;color:#1a1a1a;margin-bottom:8px}
+  .action-card p{font-size:12.5px;color:#555;line-height:1.5;margin-bottom:12px}
+  .action-impact{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:15px;font-weight:800;font-style:italic;padding:6px 14px;border-radius:6px}
 
-  /* Arrow between columns */
-  .p3-arrow-col{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0;z-index:2}
-  .arrow-svg{width:48px;height:48px;flex-shrink:0}
+  /* CTA section */
+  .cta-section{margin:16px 0 0;background:#1a2744;border-radius:10px;padding:32px 40px;text-align:center}
+  .cta-section h3{font-size:24px;font-weight:900;color:#fff;margin-bottom:8px}
+  .cta-section p{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:18px}
+  .cta-btn{display:inline-block;background:#fff;color:#1a2744;padding:14px 44px;border-radius:8px;font-size:14px;font-weight:800;text-decoration:none;letter-spacing:.5px}
 
-  /* Footer disclaimer */
-  .p3-disclaimer{margin:0 48px 20px;padding:14px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:12px;color:#666;line-height:1.5;font-style:italic}
+  /* Disclaimer */
+  .p3-disclaimer{margin:12px 0 0;padding:12px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;font-size:11px;color:#666;line-height:1.5;font-style:italic}
 
   /* Final footer */
   .fftr{flex-shrink:0}
-  .fftr-conf{text-align:center;padding:8px;font-size:11px;color:#999;border-top:1px solid #ddd}
-  .fftr-main{padding:12px 48px;display:flex;justify-content:space-between;align-items:center}
-  .fftr-left{font-size:13px;color:#666}
+  .fftr-conf{text-align:center;padding:8px;font-size:10px;color:#999;border-top:1px solid #ddd}
+  .fftr-main{padding:10px 40px;display:flex;justify-content:space-between;align-items:center}
+  .fftr-left{font-size:12px;color:#666}
   .fftr-left strong{color:#1a2744;font-weight:700}
   .fftr-left a{color:#1a2744;text-decoration:none}
   .fftr-right{font-size:11px;color:#999;text-align:right}
@@ -137,39 +164,46 @@
 
 <!-- ═══════════════ PAGE 1: THE PARADOX ═══════════════ -->
 <div class="page">
-  <div class="pb">
+  <div style="flex:1;display:flex;flex-direction:column">
     <div class="p1-title">The Paradox: High Brand Equity, Sub-Optimal Execution</div>
 
     <div class="p1-layout">
       <!-- LEFT: Strengths -->
-      <div>
+      <div class="col-wrap">
         <div class="col-header green">Brand Power (Strengths)</div>
-        <div class="col-body">
-          {{strengthCards}}
-        </div>
+        <div class="col-body">{{strengthCards}}</div>
       </div>
 
       <!-- CENTER: Gauge -->
-      <div class="gauge-center">
-        {{gaugeSVG}}
-      </div>
+      <div class="gauge-center">{{gaugeSVG}}</div>
 
       <!-- RIGHT: Vulnerabilities -->
-      <div>
+      <div class="col-wrap">
         <div class="col-header red">Amazon Mechanics (Vulnerabilities)</div>
-        <div class="col-body">
-          {{vulnerabilityCards}}
-        </div>
+        <div class="col-body">{{vulnerabilityCards}}</div>
       </div>
     </div>
 
-    <div class="ftr"><div>{{brandName}} &middot; Brand Audit</div><div>Page 1/3</div></div>
+    <!-- KPI strip -->
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kl">Products</div><div class="kv">{{brandProductCount}}</div></div>
+      <div class="kpi-card"><div class="kl">Prime</div><div class="kv">{{fbaPercent}}%</div></div>
+      <div class="kpi-card"><div class="kl">Rating</div><div class="kv">{{avgRating}} ★</div></div>
+      <div class="kpi-card"><div class="kl">Sellers</div><div class="kv">{{sellerCount}}</div></div>
+      <div class="kpi-card"><div class="kl">Competitors</div><div class="kv">{{competitorCount}}</div></div>
+      <div class="kpi-card"><div class="kl">Search Ads</div><div class="kv">{{ppcCount}}</div></div>
+    </div>
+
+    <!-- Executive summary -->
+    {{executiveSummaryBox}}
+
+    <div class="ftr"><div>{{brandName}} · Brand Audit</div><div>Page 1/3</div></div>
   </div>
 </div>
 
 <!-- ═══════════════ PAGE 2: ASSET X-RAY ═══════════════ -->
 <div class="page">
-  <div class="pb">
+  <div style="flex:1;display:flex;flex-direction:column">
     <div class="p2-title-bar">
       <h2>Asset X-Ray: {{bestAsinTitleShort}}</h2>
     </div>
@@ -185,85 +219,90 @@
     </div>
 
     <div class="p2-main">
-      <!-- Connector lines SVG -->
-      <svg class="p2-connectors" viewBox="0 0 904 700" preserveAspectRatio="none">
-        {{connectorLines}}
-      </svg>
-
       <!-- Left callouts -->
-      <div class="callout green" style="left:24px;top:40px">
-        <div class="co-icon">✅</div>
-        <div class="co-title">{{callout1Title}}</div>
-        <div class="co-desc">{{callout1Desc}}</div>
-      </div>
-
-      <div class="callout green" style="left:24px;bottom:60px">
-        <div class="co-icon">⭐</div>
-        <div class="co-title">{{callout2Title}}</div>
-        <div class="co-desc">{{callout2Desc}}</div>
+      <div class="callout-col">
+        <div class="callout-box green">
+          <div class="co-head"><div class="co-title">{{callout1Title}}</div><div class="co-icon">✅</div></div>
+          <div class="co-desc">{{callout1Desc}}</div>
+        </div>
+        <div class="callout-box green">
+          <div class="co-head"><div class="co-title">{{callout2Title}}</div><div class="co-icon">⭐</div></div>
+          <div class="co-desc">{{callout2Desc}}</div>
+        </div>
       </div>
 
       <!-- Center screenshot -->
-      <div class="p2-screenshot">
-        {{productImageHtml}}
+      <div class="p2-center">
+        <div class="p2-screenshot">{{productImageHtml}}</div>
       </div>
 
       <!-- Right callouts -->
-      <div class="callout red" style="right:24px;top:40px">
-        <div class="co-icon">⚠️</div>
-        <div class="co-title">{{callout3Title}}</div>
-        <div class="co-desc">{{callout3Desc}}</div>
-      </div>
-
-      <div class="callout red" style="right:24px;bottom:60px">
-        <div class="co-icon">🛡️</div>
-        <div class="co-title">{{callout4Title}}</div>
-        <div class="co-desc">{{callout4Desc}}</div>
+      <div class="callout-col">
+        <div class="callout-box red">
+          <div class="co-head"><div class="co-title">{{callout3Title}}</div><div class="co-icon">⚠️</div></div>
+          <div class="co-desc">{{callout3Desc}}</div>
+        </div>
+        <div class="callout-box red">
+          <div class="co-head"><div class="co-title">{{callout4Title}}</div><div class="co-icon">🛡️</div></div>
+          <div class="co-desc">{{callout4Desc}}</div>
+        </div>
       </div>
     </div>
 
-    <div class="ftr"><div>{{brandName}} &middot; Brand Audit</div><div>Page 2/3</div></div>
+    <!-- Product table -->
+    <div class="p2-table">
+      <table>
+        <thead><tr><th>#</th><th>Product</th><th>ASIN</th><th>Price</th><th>Rating</th><th>Reviews</th><th>Status</th></tr></thead>
+        <tbody>{{productRows}}</tbody>
+      </table>
+    </div>
+
+    <div class="ftr"><div>{{brandName}} · Brand Audit</div><div>Page 2/3</div></div>
   </div>
 </div>
 
 <!-- ═══════════════ PAGE 3: COST OF FRICTION ═══════════════ -->
 <div class="page">
-  <div class="pb">
+  <div style="flex:1;display:flex;flex-direction:column">
     <div class="p3-header">
       <h2>The Cost of Friction &amp; The 30-Day Intervention</h2>
       <div class="sub">Quantifying the top-line bleed and deploying the immediate mechanical fix.</div>
     </div>
 
-    <div style="position:relative;flex:1;display:flex;flex-direction:column">
+    <div class="p3-body">
       <div class="p3-cols">
         <!-- LEFT: Revenue Leak -->
-        <div>
+        <div class="p3-col">
           <div class="p3-col-header leak">The Revenue Leak (Current State)</div>
-          <div class="p3-col-body">
-            {{leakCards}}
-          </div>
+          <div class="p3-col-body">{{leakCards}}</div>
         </div>
 
+        <!-- CENTER: Arrows -->
+        <div class="p3-arrows">{{arrowsSVG}}</div>
+
         <!-- RIGHT: Growth Plan -->
-        <div>
+        <div class="p3-col">
           <div class="p3-col-header plan">The Growth Plan (Optimal State)</div>
-          <div class="p3-col-body">
-            {{actionCards}}
-          </div>
+          <div class="p3-col-body">{{actionCards}}</div>
         </div>
       </div>
 
-      <!-- Arrows between columns -->
-      {{arrowsSVG}}
+      <!-- CTA -->
+      <div class="cta-section">
+        <h3>Ready to Fix This?</h3>
+        <p>We fund 100% of inventory, marketing &amp; logistics. Zero fees, zero risk.</p>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn" class="cta-btn">Book a Strategy Call →</a>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="p3-disclaimer">Execution is handled entirely by the ProfitZon infrastructure—zero operational load or workflow changes for the {{brandName}} team.</div>
     </div>
 
-    <div class="p3-disclaimer">Execution is handled entirely by the ProfitZon infrastructure—zero operational load or workflow changes for the {{brandName}} team.</div>
-
     <div class="fftr">
-      <div class="fftr-conf">This report is confidential and prepared exclusively for {{brandName}}. &copy; 2026 Profitzon.</div>
+      <div class="fftr-conf">This report is confidential and prepared exclusively for {{brandName}}. © 2026 Profitzon.</div>
       <div class="fftr-main">
-        <div class="fftr-left"><strong>Profitzon</strong> &middot; Capital-Backed Amazon Growth Partner<br>gal@profitzon.net &middot; <a href="https://profitzon.net">profitzon.net</a></div>
-        <div class="fftr-right">Prepared for <strong>{{brandName}}</strong><br>Report ID: {{reportId}} &middot; Page 3/3</div>
+        <div class="fftr-left"><strong>Profitzon</strong> · Capital-Backed Amazon Growth Partner<br>gal@profitzon.net · <a href="https://profitzon.net">profitzon.net</a></div>
+        <div class="fftr-right">Prepared for <strong>{{brandName}}</strong><br>Report ID: {{reportId}} · Page 3/3</div>
       </div>
     </div>
   </div>
