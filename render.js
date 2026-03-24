@@ -96,6 +96,33 @@ function renderGaugeSVG(score) {
 }
 
 // ============================================================
+// SVG ICONS (render in Puppeteer without emoji fonts)
+// ============================================================
+
+const SVG = {
+  search: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>`,
+  chart: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>`,
+  rocket: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
+  dollar: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>`,
+  box: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`,
+  edit: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>`,
+  shield: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>`,
+  store: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 4H6v-4h6v4z"/></svg>`,
+  trendUp: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>`,
+  camera: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M21 6h-3.17L16 4h-6v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-5 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/><circle cx="12" cy="12" r="3.2"/></svg>`,
+  noEntry: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg>`,
+  hole: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>`,
+  moneyOff: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12.5 6.9c1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-.53.12-1.03.3-1.48.54l1.47 1.47c.41-.17.91-.27 1.51-.27zM5.33 4.06L4.06 5.33 7.5 8.77c0 2.08 1.56 3.21 3.91 3.91l3.51 3.51c-.34.48-1.14.89-2.42.89-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c.96-.18 1.82-.55 2.45-1.12l2.22 2.22 1.27-1.27L5.33 4.06z"/></svg>`,
+  trendDown: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>`,
+  broom: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19.36 2.72l1.42 1.42-5.72 5.71c1.07 1.54 1.22 3.39.32 4.59L9.06 8.12c1.2-.9 3.05-.75 4.59.32l5.71-5.72zM5.93 17.57c-2.01-2.01-3.24-4.41-3.58-6.65l4.88-2.09 7.44 7.44-2.09 4.88c-2.24-.34-4.64-1.57-6.65-3.58z"/></svg>`,
+  sparkle: `<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3L9.66 9.66 3 12l6.66 2.34L12 21l2.34-6.66L21 12l-6.66-2.34z"/></svg>`,
+};
+
+// ============================================================
 // STRENGTH CARDS (Page 1 — Left column)
 // ============================================================
 
@@ -108,21 +135,21 @@ function renderStrengthItems(data) {
   const rating = parseFloat(data.avgRating || 0);
 
   if (pct >= 30) {
-    items.push({ icon: '🔍', val: pct + '%', lbl: 'Brand Search Dominance' });
+    items.push({ icon: SVG.search, val: pct + '%', lbl: 'Brand Search Dominance' });
   } else {
-    items.push({ icon: '📊', val: bp + ' Products', lbl: 'Listed on Amazon' });
+    items.push({ icon: SVG.chart, val: bp + ' Products', lbl: 'Listed on Amazon' });
   }
 
   if (rating > 0) {
-    items.push({ icon: '⭐', val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
+    items.push({ icon: SVG.star, val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
   }
 
   if (fba >= 50) {
-    items.push({ icon: '🚀', val: fba + '% Prime', lbl: 'FBA Coverage' });
+    items.push({ icon: SVG.rocket, val: fba + '% Prime', lbl: 'FBA Coverage' });
   } else if (data.priceRange && data.priceRange !== 'N/A') {
-    items.push({ icon: '💰', val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
+    items.push({ icon: SVG.dollar, val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
   } else {
-    items.push({ icon: '📦', val: String(data.catalogSize || bp) + ' SKUs', lbl: 'Product Catalog' });
+    items.push({ icon: SVG.box, val: String(data.catalogSize || bp) + ' SKUs', lbl: 'Product Catalog' });
   }
 
   return items.map(i =>
@@ -143,25 +170,25 @@ function renderVulnItems(data) {
 
   if (fba < 50) {
     const fbaOf = bp > 0 ? Math.round(bp * fba / 100) : 0;
-    items.push({ icon: '🔒', val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
+    items.push({ icon: SVG.lock, val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
   }
 
   if (onPage >= 2) {
-    items.push({ icon: '🎯', val: 'Competitor Ads on Top Product Pages', lbl: `(${onPage} Rivals Siphoning Traffic)` });
+    items.push({ icon: SVG.target, val: 'Competitor Ads on Top Product Pages', lbl: `(${onPage} Rivals Siphoning Traffic)` });
   } else if (sc > 3) {
-    items.push({ icon: '👥', val: 'Unauthorized Sellers Competing', lbl: `(${sc} Sellers — Price Erosion Risk)` });
+    items.push({ icon: SVG.users, val: 'Unauthorized Sellers Competing', lbl: `(${sc} Sellers — Price Erosion Risk)` });
   }
 
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    items.push({ icon: '📝', val: 'Mixed Listing Maturity', lbl: '(Suppressing Algorithm Visibility)' });
+    items.push({ icon: SVG.edit, val: 'Mixed Listing Maturity', lbl: '(Suppressing Algorithm Visibility)' });
   } else if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    items.push({ icon: '🛡️', val: 'No Defensive Advertising', lbl: '(Competitors Bidding on Your Brand)' });
+    items.push({ icon: SVG.shield, val: 'No Defensive Advertising', lbl: '(Competitors Bidding on Your Brand)' });
   } else if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
-    items.push({ icon: '🏪', val: 'Missing Brand Storefront', lbl: '(Reducing Conversion Potential)' });
+    items.push({ icon: SVG.store, val: 'Missing Brand Storefront', lbl: '(Reducing Conversion Potential)' });
   }
 
   if (items.length === 0) {
-    items.push({ icon: '📈', val: 'Optimization Opportunities', lbl: '(Room for Growth)' });
+    items.push({ icon: SVG.trendUp, val: 'Optimization Opportunities', lbl: '(Room for Growth)' });
   }
 
   return items.slice(0, 3).map(i =>
@@ -185,52 +212,52 @@ function getCallouts(data) {
   // Green callout 1: Content quality
   let c1Title, c1Desc;
   if (imgs >= 7 && hasVideo) {
-    c1Title = `📸 ${imgs} Images & Video`;
+    c1Title = `${imgs} Images & Video`;
     c1Desc = 'Rich media present';
   } else if (imgs >= 5) {
-    c1Title = `📸 ${imgs} Product Images`;
+    c1Title = `${imgs} Product Images`;
     c1Desc = hasVideo ? 'Video present' : 'Missing product video';
   } else {
-    c1Title = `📸 ${imgs} Images Listed`;
+    c1Title = `${imgs} Images Listed`;
     c1Desc = 'Below optimal (7+ recommended)';
   }
 
   // Green callout 2: Rating
   let c2Title, c2Desc;
   if (rating >= 4.0) {
-    c2Title = `⭐ ${rating.toFixed(1)} Rating`;
+    c2Title = `${rating.toFixed(1)} Rating`;
     c2Desc = `${fmt(reviews)} Reviews`;
   } else if (rating >= 3.5) {
-    c2Title = `⭐ ${rating.toFixed(1)} Star Rating`;
+    c2Title = `${rating.toFixed(1)} Star Rating`;
     c2Desc = `${fmt(reviews)} Reviews`;
   } else {
-    c2Title = `⭐ ${rating.toFixed(1)} Rating`;
+    c2Title = `${rating.toFixed(1)} Rating`;
     c2Desc = `Below 4.0 purchase threshold`;
   }
 
   // Red callout 3: Prime/fulfillment
   let c3Title, c3Desc;
   if (fba === 0) {
-    c3Title = '🔒 Missing Prime Badge';
+    c3Title = 'Missing Prime Badge';
     c3Desc = 'FBM status lowering conversion rate.';
   } else if (fba < 50) {
-    c3Title = `🔒 Only ${fba}% Prime`;
+    c3Title = `Only ${fba}% Prime`;
     c3Desc = `Most listings missing Prime filter visibility.`;
   } else {
-    c3Title = `🔒 ${fba}% Prime Coverage`;
+    c3Title = `${fba}% Prime Coverage`;
     c3Desc = `Remaining products missing Prime eligibility.`;
   }
 
   // Red callout 4: Competition
   let c4Title, c4Desc;
   if (onPage >= 2) {
-    c4Title = `🎯 ${onPage} Competitor Ads`;
+    c4Title = `${onPage} Competitor Ads`;
     c4Desc = `Rival placements blocking Add to Cart path.`;
   } else if (data.ppcStatus === 'None') {
-    c4Title = '🛡️ No Brand Defense';
+    c4Title = 'No Brand Defense';
     c4Desc = 'Competitors freely bidding on your brand keywords.';
   } else {
-    c4Title = '🎯 Market Exposure';
+    c4Title = 'Market Exposure';
     c4Desc = 'Competitor presence on brand search results.';
   }
 
@@ -264,7 +291,7 @@ function renderProductImage(data) {
     return `<img src="${escapeHtml(data.productImageUrl)}" alt="${escapeHtml(data.brandName)} product" style="max-width:100%;max-height:100%;object-fit:contain">`;
   }
   return `<div style="text-align:center;padding:40px;color:#999">
-    <div style="font-size:60px;margin-bottom:16px">📦</div>
+    <div style="margin-bottom:16px;color:#999"><svg viewBox="0 0 24 24" width="60" height="60" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
     <div style="font-size:18px;font-weight:700;color:#666;margin-bottom:6px">${escapeHtml(data.brandName || 'Product')}</div>
     ${data.bestAsin ? `<div style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:#1a2744;margin-top:8px">${escapeHtml(data.bestAsin)}</div>` : ''}
   </div>`;
@@ -286,7 +313,8 @@ function renderLeakCards(data) {
     const lowEst = fmt(Math.round(missingCount * 500));
     const highEst = fmt(Math.round(missingCount * 1200));
     leaks.push({
-      title: '🚫 Leak 1: The Prime Penalty',
+      icon: SVG.noEntry,
+      title: 'Leak 1: The Prime Penalty',
       text: `${missingCount} of ${bp} catalog items missing FBA Prime badge, resulting in a 30-50% conversion drop.`,
       amount: `$${lowEst} - $${highEst} / month lost`
     });
@@ -295,7 +323,8 @@ function renderLeakCards(data) {
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
     const adLoss = fmt(Math.round(onPage * 320));
     leaks.push({
-      title: '🕳️ Leak 2: Search Siphoning',
+      icon: SVG.hole,
+      title: 'Leak 2: Search Siphoning',
       text: `${onPage} competitor placements on your brand page, diverting 10% of traffic to rivals.`,
       amount: `~$${adLoss} / month lost`
     });
@@ -303,7 +332,8 @@ function renderLeakCards(data) {
 
   if (sc > 3 && data.buyBoxIsTheBrand === false) {
     leaks.push({
-      title: '💸 Leak 3: Buy Box Leakage',
+      icon: SVG.moneyOff,
+      title: 'Leak 3: Buy Box Leakage',
       text: `${sc} sellers competing on your listings. Unauthorized resellers controlling Buy Box and capturing your revenue.`,
       amount: 'Revenue redirected to 3P sellers'
     });
@@ -311,7 +341,8 @@ function renderLeakCards(data) {
 
   if (leaks.length === 0) {
     leaks.push({
-      title: '📉 Leak 1: Growth Ceiling',
+      icon: SVG.trendDown,
+      title: 'Leak 1: Growth Ceiling',
       text: 'Current Amazon setup is leaving revenue on the table through sub-optimal operational execution.',
       amount: 'Significant upside available'
     });
@@ -319,7 +350,7 @@ function renderLeakCards(data) {
 
   return leaks.slice(0, 2).map(l =>
     `<div class="p3-card">
-      <h4>${escapeHtml(l.title)}</h4>
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:8px;color:#c62828">${l.icon}</span>${escapeHtml(l.title)}</h4>
       <p>${escapeHtml(l.text)}</p>
       <div class="p3-amt red">${escapeHtml(l.amount)}</div>
     </div>`
@@ -338,7 +369,8 @@ function renderActionCards(data) {
 
   if (fba < 50) {
     actions.push({
-      title: '🚀 Action 1: Prime Standardization',
+      icon: SVG.rocket,
+      title: 'Action 1: Prime Standardization',
       text: 'Inject all remaining SKUs through our Las Vegas FBA hub. Unlock access to 200M+ Prime filter users.',
       impact: '+30-50% Immediate Sales Lift'
     });
@@ -346,7 +378,8 @@ function renderActionCards(data) {
 
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
     actions.push({
-      title: '🛡️ Action 2: Brand Defense Protocol',
+      icon: SVG.shield,
+      title: 'Action 2: Brand Defense Protocol',
       text: `Launch targeted search ads on your own branded keywords to systematically evict the ${onPage} competitors.`,
       impact: 'Reclaim Hijacked Traffic & Revenue'
     });
@@ -354,7 +387,8 @@ function renderActionCards(data) {
 
   if (sc > 3) {
     actions.push({
-      title: '🧹 Action 3: Seller Map Cleanup',
+      icon: SVG.broom,
+      title: 'Action 3: Seller Map Cleanup',
       text: 'Enforce brand authorization and MAP pricing. Remove unauthorized resellers from your listings.',
       impact: 'Stabilize Pricing & Margins'
     });
@@ -362,7 +396,8 @@ function renderActionCards(data) {
 
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
     actions.push({
-      title: '✨ Action: A+ Content & Storefront',
+      icon: SVG.sparkle,
+      title: 'Action: A+ Content & Storefront',
       text: 'Build premium A+ content, video, and brand storefront — all funded and executed by Profitzon.',
       impact: '+15-25% Conversion Lift'
     });
@@ -370,7 +405,8 @@ function renderActionCards(data) {
 
   if (actions.length === 0) {
     actions.push({
-      title: '📈 Action 1: Scale Revenue',
+      icon: SVG.trendUp,
+      title: 'Action 1: Scale Revenue',
       text: 'Funded wholesale orders, new product launches, and advanced advertising — our capital, your brand.',
       impact: 'Accelerated Growth'
     });
@@ -378,7 +414,7 @@ function renderActionCards(data) {
 
   return actions.slice(0, 2).map(a =>
     `<div class="p3-card">
-      <h4>${escapeHtml(a.title)}</h4>
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:8px;color:#1a2744">${a.icon}</span>${escapeHtml(a.title)}</h4>
       <p>${escapeHtml(a.text)}</p>
       <div class="p3-amt green">${escapeHtml(a.impact)}</div>
     </div>`
