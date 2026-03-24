@@ -1,5 +1,5 @@
 /**
- * Profitzon Brand Audit Report Renderer v9.0-nomatic
+ * Profitzon Brand Audit Report Renderer v9.1-infographic
  * Clean corporate design: light grey bg, green strengths, red vulns, blue accents.
  * Pages: The Paradox | Asset X-Ray | Cost of Friction
  *
@@ -99,69 +99,37 @@ function renderGaugeSVG(score) {
 // STRENGTH CARDS (Page 1 — Left column)
 // ============================================================
 
-function renderStrengthCards(data) {
-  const cards = [];
+function renderStrengthItems(data) {
+  const items = [];
   const bp = parseInt(data.brandProductCount || 0);
   const tr = parseInt(data.totalResults || 1);
   const pct = Math.round((bp / tr) * 100);
   const fba = parseInt(data.fbaPercent || 0);
   const rating = parseFloat(data.avgRating || 0);
 
-  // Card 1: Search dominance
+  // Item 1: Search dominance or product count
   if (pct >= 30) {
-    cards.push({
-      icon: `<div class="str-icon green-sq"><svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="4" fill="#2e7d32"/></svg></div>`,
-      val: pct + '%',
-      desc: 'Brand Search Dominance'
-    });
+    items.push({ num: pct + '%', title: 'Brand Search Dominance', desc: `${bp} of ${tr} results are ${escapeHtml(data.brandName)} products` });
   } else {
-    cards.push({
-      icon: `<div class="str-icon green-sq"><svg width="28" height="28" viewBox="0 0 28 28"><rect width="28" height="28" rx="4" fill="#2e7d32"/></svg></div>`,
-      val: bp + ' Products',
-      desc: 'Listed on Amazon'
-    });
+    items.push({ num: bp.toString(), title: 'Products on Amazon', desc: 'Active listings in the brand catalog' });
   }
 
-  // Card 2: Rating
+  // Item 2: Rating
   if (rating > 0) {
-    const starFull = Math.floor(rating);
-    const starHalf = rating - starFull >= 0.3;
-    let starsHtml = '';
-    for (let i = 0; i < 5; i++) {
-      if (i < starFull) starsHtml += '★';
-      else if (i === starFull && starHalf) starsHtml += '★';
-      else starsHtml += '☆';
-    }
-    cards.push({
-      icon: `<div class="str-icon stars" style="color:#2e7d32;font-size:14px;letter-spacing:2px">${starsHtml}</div>`,
-      val: rating.toFixed(1) + ' Average',
-      desc: 'Customer Rating'
-    });
+    items.push({ num: rating.toFixed(1) + '★', title: 'Average Customer Rating', desc: 'Across all brand products' });
   }
 
-  // Card 3: Price range or Prime
+  // Item 3: Prime or Price
   if (fba >= 50) {
-    cards.push({
-      icon: `<div class="str-icon" style="color:#1a2744;font-size:22px;font-weight:900">✓</div>`,
-      val: fba + '% Prime',
-      desc: 'FBA Coverage'
-    });
+    items.push({ num: fba + '%', title: 'Prime FBA Coverage', desc: 'Products fulfilled by Amazon' });
   } else if (data.priceRange && data.priceRange !== 'N/A') {
-    cards.push({
-      icon: `<div class="str-icon blue-bar"><svg width="60" height="12" viewBox="0 0 60 12"><rect x="0" y="4" width="60" height="4" rx="2" fill="#e0e0e0"/><rect x="10" y="0" width="4" height="12" rx="1" fill="#1a2744"/><rect x="40" y="0" width="4" height="12" rx="1" fill="#1a2744"/></svg></div>`,
-      val: escapeHtml(data.priceRange),
-      desc: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range'
-    });
+    items.push({ num: escapeHtml(data.priceRange), title: data.priceStability === 'Stable' ? 'Stable Price Range' : 'Price Range', desc: 'Across the product catalog' });
   } else {
-    cards.push({
-      icon: `<div class="str-icon" style="color:#1a2744;font-size:22px;font-weight:900">📦</div>`,
-      val: String(data.catalogSize || bp) + ' SKUs',
-      desc: 'Product Catalog'
-    });
+    items.push({ num: String(data.catalogSize || bp), title: 'SKU Catalog Size', desc: 'Total product variants' });
   }
 
-  return cards.map(c =>
-    `<div class="str-card">${c.icon}<div class="str-text"><div class="val">${c.val}</div><div class="desc">${c.desc}</div></div></div>`
+  return items.map(i =>
+    `<div class="sv-item"><div class="sv-num g">${i.num}</div><div class="sv-info"><div class="t">${i.title}</div><div class="d">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
@@ -169,71 +137,41 @@ function renderStrengthCards(data) {
 // VULNERABILITY CARDS (Page 1 — Right column)
 // ============================================================
 
-function renderVulnerabilityCards(data) {
-  const cards = [];
+function renderVulnItems(data) {
+  const items = [];
   const fba = parseInt(data.fbaPercent || 0);
   const sc = parseInt(data.sellerCount || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
   const bp = parseInt(data.brandProductCount || 0);
-  const tr = parseInt(data.totalResults || 1);
 
   // Vuln 1: Prime coverage
   if (fba < 50) {
     const fbaOf = bp > 0 ? Math.round(bp * fba / 100) : 0;
-    cards.push({
-      icon: `<div class="str-icon pie-red"><svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#e0e0e0" stroke="#ccc" stroke-width="1"/><path d="M20 20 L20 4 A16 16 0 0 1 ${(20 + 16 * Math.sin(fba / 100 * 2 * Math.PI)).toFixed(1)} ${(20 - 16 * Math.cos(fba / 100 * 2 * Math.PI)).toFixed(1)} Z" fill="#c62828"/></svg></div>`,
-      val: `Only <strong>${fba}%</strong> Prime Coverage`,
-      desc: fbaOf > 0 ? `(${fbaOf} of ${bp} SKUs FBA)` : '(No FBA products)'
-    });
+    items.push({ num: fba + '%', title: 'Prime Coverage Gap', desc: fbaOf > 0 ? `Only ${fbaOf} of ${bp} SKUs have FBA` : 'No FBA products detected' });
   }
 
   // Vuln 2: Competitor ads
   if (onPage >= 2) {
-    cards.push({
-      icon: `<div class="str-icon big-num" style="color:#c62828">${onPage}</div>`,
-      val: 'Competitor Ads on Top Product Pages',
-      desc: '(Search Siphoning)'
-    });
+    items.push({ num: onPage.toString(), title: 'Competitor Ads on Brand Pages', desc: 'Active rival placements siphoning traffic' });
   } else if (sc > 3) {
-    cards.push({
-      icon: `<div class="str-icon big-num" style="color:#c62828">${sc}</div>`,
-      val: 'Unauthorized Sellers Competing',
-      desc: '(Price Erosion Risk)'
-    });
+    items.push({ num: sc.toString(), title: 'Unauthorized Sellers', desc: 'Price erosion and Buy Box competition' });
   }
 
-  // Vuln 3: Listing quality
+  // Vuln 3: Listing quality / PPC / Storefront
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    cards.push({
-      icon: `<div class="str-icon warn-tri"><svg width="36" height="36" viewBox="0 0 36 36"><path d="M18 4 L34 32 L2 32 Z" fill="#c62828"/><text x="18" y="28" text-anchor="middle" font-family="Inter" font-size="16" font-weight="900" fill="#fff">!</text></svg></div>`,
-      val: 'Mixed Listing Maturity',
-      desc: '(Suppressing Algorithm Visibility)'
-    });
+    items.push({ num: '!', title: 'Mixed Listing Maturity', desc: 'Suppressing algorithm visibility' });
   } else if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    cards.push({
-      icon: `<div class="str-icon warn-tri"><svg width="36" height="36" viewBox="0 0 36 36"><path d="M18 4 L34 32 L2 32 Z" fill="#c62828"/><text x="18" y="28" text-anchor="middle" font-family="Inter" font-size="16" font-weight="900" fill="#fff">!</text></svg></div>`,
-      val: 'No Defensive Advertising',
-      desc: '(Competitors Bidding on Your Brand)'
-    });
+    items.push({ num: '0', title: 'No Defensive Advertising', desc: 'Competitors bidding on your brand keywords' });
   } else if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
-    cards.push({
-      icon: `<div class="str-icon warn-tri"><svg width="36" height="36" viewBox="0 0 36 36"><path d="M18 4 L34 32 L2 32 Z" fill="#c62828"/><text x="18" y="28" text-anchor="middle" font-family="Inter" font-size="16" font-weight="900" fill="#fff">!</text></svg></div>`,
-      val: 'Missing Brand Storefront',
-      desc: '(Reducing Conversion Potential)'
-    });
+    items.push({ num: '!', title: 'Missing Brand Storefront', desc: 'Reducing conversion potential' });
   }
 
-  // Ensure at least 2 cards
-  if (cards.length === 0) {
-    cards.push({
-      icon: `<div class="str-icon warn-tri"><svg width="36" height="36" viewBox="0 0 36 36"><path d="M18 4 L34 32 L2 32 Z" fill="#f57f17"/><text x="18" y="28" text-anchor="middle" font-family="Inter" font-size="16" font-weight="900" fill="#fff">!</text></svg></div>`,
-      val: 'Optimization Opportunities',
-      desc: '(Room for Growth)'
-    });
+  if (items.length === 0) {
+    items.push({ num: '—', title: 'Optimization Opportunities', desc: 'Room for operational improvement' });
   }
 
-  return cards.slice(0, 3).map(c =>
-    `<div class="vuln-card">${c.icon}<div class="str-text"><div class="val">${c.val}</div><div class="desc">${c.desc}</div></div></div>`
+  return items.slice(0, 3).map(i =>
+    `<div class="sv-item"><div class="sv-num r">${i.num}</div><div class="sv-info"><div class="t">${i.title}</div><div class="d">${i.desc}</div></div></div>`
   ).join('\n');
 }
 
@@ -385,11 +323,14 @@ function renderLeakCards(data) {
     });
   }
 
-  return leaks.slice(0, 2).map(l =>
-    `<div class="leak-card">
-      <h4>${escapeHtml(l.title)}</h4>
-      <p>${escapeHtml(l.text)}</p>
-      <div class="leak-amount">${escapeHtml(l.amount)}</div>
+  return leaks.slice(0, 2).map((l, i) =>
+    `<div class="lk">
+      <div class="lk-icon">0${i + 1}</div>
+      <div>
+        <h4>${escapeHtml(l.title)}</h4>
+        <p>${escapeHtml(l.text)}</p>
+        <div class="lk-amt">${escapeHtml(l.amount)}</div>
+      </div>
     </div>`
   ).join('\n');
 }
@@ -444,11 +385,14 @@ function renderActionCards(data) {
     });
   }
 
-  return actions.slice(0, 2).map(a =>
-    `<div class="action-card">
-      <h4>${escapeHtml(a.title)}</h4>
-      <p>${escapeHtml(a.text)}</p>
-      <div class="action-impact">${escapeHtml(a.impact)}</div>
+  return actions.slice(0, 2).map((a, i) =>
+    `<div class="ak">
+      <div class="ak-icon">0${i + 1}</div>
+      <div>
+        <h4>${escapeHtml(a.title)}</h4>
+        <p>${escapeHtml(a.text)}</p>
+        <div class="ak-imp">${escapeHtml(a.impact)}</div>
+      </div>
     </div>`
   ).join('\n');
 }
@@ -478,6 +422,36 @@ function renderExecutiveSummaryBox(data) {
     <div class="el">Key Insight</div>
     <div class="et">${escapeHtml(data.opportunitySummary)}</div>
   </div>`;
+}
+
+// ============================================================
+// FINDINGS STRIP (Page 2 — between image and table)
+// ============================================================
+
+function renderFindingsStrip(data) {
+  const findings = data.findings || [];
+  if (!findings.length) {
+    // Generate default findings from data
+    const fba = parseInt(data.fbaPercent || 0);
+    const onPage = parseInt(data.onPageCompetitorCount || 0);
+    const defaults = [];
+    if (fba < 50) defaults.push({ type: 'issue', text: `Only ${fba}% of products have FBA Prime badge — invisible to Prime-filter shoppers.` });
+    if (onPage >= 2) defaults.push({ type: 'competitor', text: `${onPage} competitor ads detected on brand product pages, intercepting traffic.` });
+    if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') defaults.push({ type: 'warning', text: 'Listings lack A+ Enhanced Brand Content — suppressing conversion rates.' });
+    if (data.ppcStatus === 'None') defaults.push({ type: 'opportunity', text: 'No defensive advertising detected — opportunity to reclaim branded search traffic.' });
+    if (defaults.length === 0) defaults.push({ type: 'opportunity', text: 'Operational improvements available across fulfillment, advertising, and content.' });
+    return renderFindingsStripHTML(defaults.slice(0, 3));
+  }
+  return renderFindingsStripHTML(findings.slice(0, 3));
+}
+
+function renderFindingsStripHTML(findings) {
+  const typeLabels = { issue: 'Issue', opportunity: 'Opportunity', warning: 'Warning', competitor: 'Competitor' };
+  const cards = findings.map(f => {
+    const type = f.type || 'warning';
+    return `<div class="p2-find ${type}"><div class="ft">${typeLabels[type] || 'Finding'}</div><div class="fd">${escapeHtml(f.text)}</div></div>`;
+  });
+  return `<div class="p2-findings">${cards.join('\n')}</div>`;
 }
 
 // ============================================================
@@ -652,9 +626,10 @@ function renderHTML(data) {
     '{{reportId}}': reportId,
 
     // Page 1
+    '{{healthScore}}': String(healthScore),
     '{{gaugeSVG}}': renderGaugeSVG(healthScore),
-    '{{strengthCards}}': renderStrengthCards(data),
-    '{{vulnerabilityCards}}': renderVulnerabilityCards(data),
+    '{{strengthItems}}': renderStrengthItems(data),
+    '{{vulnItems}}': renderVulnItems(data),
     '{{brandProductCount}}': String(bp || '?'),
     '{{fbaPercent}}': String(data.fbaPercent || 0),
     '{{avgRating}}': String(data.avgRating || '0.0'),
@@ -678,6 +653,7 @@ function renderHTML(data) {
     '{{callout3Desc}}': escapeHtml(callouts.c3Desc),
     '{{callout4Title}}': escapeHtml(callouts.c4Title),
     '{{callout4Desc}}': escapeHtml(callouts.c4Desc),
+    '{{findingsStrip}}': renderFindingsStrip(data),
     '{{productRows}}': renderProductRows(data.topProducts),
 
     // Page 3
@@ -833,10 +809,10 @@ async function startServer(port) {
     fs.createReadStream(deckPath).pipe(res);
   });
 
-  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9.0-nomatic' }));
+  app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9.1-infographic' }));
 
   app.listen(port, () => {
-    console.log(`Profitzon Audit Renderer v9.0-nomatic running on port ${port}`);
+    console.log(`Profitzon Audit Renderer v9.1-infographic running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
   });
 }
@@ -934,7 +910,7 @@ async function main() {
 
   const html = renderHTML(sampleData);
   fs.writeFileSync(path.join(__dirname, 'demo-report.html'), html);
-  console.log('Demo report v9.0-nomatic saved to demo-report.html');
+  console.log('Demo report v9.1-infographic saved to demo-report.html');
 
   try {
     const tmpPdf = await renderPDF(sampleData);
