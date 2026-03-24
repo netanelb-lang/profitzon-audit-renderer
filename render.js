@@ -83,15 +83,15 @@ function renderGaugeSVG(score) {
   const nx = cx + needleLen * Math.cos(needleRad);
   const ny = cy + needleLen * Math.sin(needleRad);
 
-  return `<svg width="440" height="340" viewBox="0 0 440 340" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="440" height="400" viewBox="0 0 440 400" xmlns="http://www.w3.org/2000/svg">
     <path d="${arcPath(180, 360, r)}" fill="none" stroke="#e0e0e0" stroke-width="28" stroke-linecap="butt"/>
     ${arcs}
     <circle cx="${cx}" cy="${cy}" r="10" fill="#1a2744"/>
     <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#1a2744" stroke-width="5" stroke-linecap="round"/>
     <text x="${cx - r - 8}" y="${cy + 26}" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#999">0</text>
     <text x="${cx + r + 8}" y="${cy + 26}" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#999">100</text>
-    <text x="${cx}" y="${cy + 60}" text-anchor="middle" font-family="Inter, sans-serif" font-size="72" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="30" fill="#999">/100</tspan></text>
-    <text x="${cx}" y="${cy + 90}" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="800" fill="#666" letter-spacing="4">${label}</text>
+    <text x="${cx}" y="${cy + 100}" text-anchor="middle" font-family="Inter, sans-serif" font-size="72" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="30" fill="#999">/100</tspan></text>
+    <text x="${cx}" y="${cy + 132}" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="800" fill="#666" letter-spacing="4">${label}</text>
   </svg>`;
 }
 
@@ -108,19 +108,19 @@ function renderStrengthItems(data) {
   const rating = parseFloat(data.avgRating || 0);
 
   if (pct >= 30) {
-    items.push({ icon: '▮', val: pct + '%', lbl: 'Brand Search Dominance' });
+    items.push({ icon: '🔍', val: pct + '%', lbl: 'Brand Search Dominance' });
   } else {
-    items.push({ icon: '▮', val: bp + ' Products', lbl: 'Listed on Amazon' });
+    items.push({ icon: '📊', val: bp + ' Products', lbl: 'Listed on Amazon' });
   }
 
   if (rating > 0) {
-    items.push({ icon: '★★★★', val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
+    items.push({ icon: '⭐', val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
   }
 
   if (fba >= 50) {
-    items.push({ icon: '✓', val: fba + '% Prime', lbl: 'FBA Coverage' });
+    items.push({ icon: '🚀', val: fba + '% Prime', lbl: 'FBA Coverage' });
   } else if (data.priceRange && data.priceRange !== 'N/A') {
-    items.push({ icon: '▎▎', val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
+    items.push({ icon: '💰', val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
   } else {
     items.push({ icon: '📦', val: String(data.catalogSize || bp) + ' SKUs', lbl: 'Product Catalog' });
   }
@@ -143,25 +143,25 @@ function renderVulnItems(data) {
 
   if (fba < 50) {
     const fbaOf = bp > 0 ? Math.round(bp * fba / 100) : 0;
-    items.push({ icon: '◔', val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
+    items.push({ icon: '🔒', val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
   }
 
   if (onPage >= 2) {
-    items.push({ icon: onPage.toString(), val: 'Competitor Ads on Top Product Pages', lbl: '(Search Siphoning)' });
+    items.push({ icon: '🎯', val: 'Competitor Ads on Top Product Pages', lbl: `(${onPage} Rivals Siphoning Traffic)` });
   } else if (sc > 3) {
-    items.push({ icon: sc.toString(), val: 'Unauthorized Sellers Competing', lbl: '(Price Erosion Risk)' });
+    items.push({ icon: '👥', val: 'Unauthorized Sellers Competing', lbl: `(${sc} Sellers — Price Erosion Risk)` });
   }
 
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    items.push({ icon: '⚠', val: 'Mixed Listing Maturity', lbl: '(Suppressing Algorithm Visibility)' });
+    items.push({ icon: '📝', val: 'Mixed Listing Maturity', lbl: '(Suppressing Algorithm Visibility)' });
   } else if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    items.push({ icon: '⚠', val: 'No Defensive Advertising', lbl: '(Competitors Bidding on Your Brand)' });
+    items.push({ icon: '🛡️', val: 'No Defensive Advertising', lbl: '(Competitors Bidding on Your Brand)' });
   } else if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
-    items.push({ icon: '⚠', val: 'Missing Brand Storefront', lbl: '(Reducing Conversion Potential)' });
+    items.push({ icon: '🏪', val: 'Missing Brand Storefront', lbl: '(Reducing Conversion Potential)' });
   }
 
   if (items.length === 0) {
-    items.push({ icon: '—', val: 'Optimization Opportunities', lbl: '(Room for Growth)' });
+    items.push({ icon: '📈', val: 'Optimization Opportunities', lbl: '(Room for Growth)' });
   }
 
   return items.slice(0, 3).map(i =>
@@ -185,53 +185,53 @@ function getCallouts(data) {
   // Green callout 1: Content quality
   let c1Title, c1Desc;
   if (imgs >= 7 && hasVideo) {
-    c1Title = `${imgs} High-Quality Images & Video`;
-    c1Desc = 'Present';
+    c1Title = `📸 ${imgs} Images & Video`;
+    c1Desc = 'Rich media present';
   } else if (imgs >= 5) {
-    c1Title = `${imgs} Product Images`;
+    c1Title = `📸 ${imgs} Product Images`;
     c1Desc = hasVideo ? 'Video present' : 'Missing product video';
   } else {
-    c1Title = `${imgs} Images Listed`;
+    c1Title = `📸 ${imgs} Images Listed`;
     c1Desc = 'Below optimal (7+ recommended)';
   }
 
   // Green callout 2: Rating
   let c2Title, c2Desc;
   if (rating >= 4.0) {
-    c2Title = `Excellent ${rating.toFixed(1)} Rating`;
-    c2Desc = `(${fmt(reviews)} Reviews)`;
+    c2Title = `⭐ ${rating.toFixed(1)} Rating`;
+    c2Desc = `${fmt(reviews)} Reviews`;
   } else if (rating >= 3.5) {
-    c2Title = `${rating.toFixed(1)} Star Rating`;
-    c2Desc = `(${fmt(reviews)} Reviews)`;
+    c2Title = `⭐ ${rating.toFixed(1)} Star Rating`;
+    c2Desc = `${fmt(reviews)} Reviews`;
   } else {
-    c2Title = `${rating.toFixed(1)} Rating`;
+    c2Title = `⭐ ${rating.toFixed(1)} Rating`;
     c2Desc = `Below 4.0 purchase threshold`;
   }
 
   // Red callout 3: Prime/fulfillment
   let c3Title, c3Desc;
   if (fba === 0) {
-    c3Title = 'Missing Prime Badge:';
-    c3Desc = 'Fulfilled by Merchant (FBM) status artificially lowering conversion.';
+    c3Title = '🔒 Missing Prime Badge';
+    c3Desc = 'FBM status lowering conversion rate.';
   } else if (fba < 50) {
-    c3Title = 'Low Prime Coverage:';
-    c3Desc = `Only ${fba}% of products FBA. Missing Prime on most listings reduces visibility.`;
+    c3Title = `🔒 Only ${fba}% Prime`;
+    c3Desc = `Most listings missing Prime filter visibility.`;
   } else {
-    c3Title = 'Partial Prime Coverage:';
-    c3Desc = `${fba}% FBA — remaining products missing Prime filter eligibility.`;
+    c3Title = `🔒 ${fba}% Prime Coverage`;
+    c3Desc = `Remaining products missing Prime eligibility.`;
   }
 
   // Red callout 4: Competition
   let c4Title, c4Desc;
   if (onPage >= 2) {
-    c4Title = 'Competitor Intercept:';
-    c4Desc = `${onPage} active rival ad placements blocking the Add to Cart path.`;
+    c4Title = `🎯 ${onPage} Competitor Ads`;
+    c4Desc = `Rival placements blocking Add to Cart path.`;
   } else if (data.ppcStatus === 'None') {
-    c4Title = 'No Brand Defense:';
-    c4Desc = 'Competitors can freely bid on your brand keywords with no counter-ads.';
+    c4Title = '🛡️ No Brand Defense';
+    c4Desc = 'Competitors freely bidding on your brand keywords.';
   } else {
-    c4Title = 'Market Exposure:';
-    c4Desc = 'Competitor presence detected on brand search results.';
+    c4Title = '🎯 Market Exposure';
+    c4Desc = 'Competitor presence on brand search results.';
   }
 
   return { c1Title, c1Desc, c2Title, c2Desc, c3Title, c3Desc, c4Title, c4Desc };
@@ -286,7 +286,7 @@ function renderLeakCards(data) {
     const lowEst = fmt(Math.round(missingCount * 500));
     const highEst = fmt(Math.round(missingCount * 1200));
     leaks.push({
-      title: 'Leak 1: The Prime Penalty',
+      title: '🚫 Leak 1: The Prime Penalty',
       text: `${missingCount} of ${bp} catalog items missing FBA Prime badge, resulting in a 30-50% conversion drop.`,
       amount: `$${lowEst} - $${highEst} / month lost`
     });
@@ -295,7 +295,7 @@ function renderLeakCards(data) {
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
     const adLoss = fmt(Math.round(onPage * 320));
     leaks.push({
-      title: 'Leak 2: Search Siphoning',
+      title: '🕳️ Leak 2: Search Siphoning',
       text: `${onPage} competitor placements on your brand page, diverting 10% of traffic to rivals.`,
       amount: `~$${adLoss} / month lost`
     });
@@ -303,7 +303,7 @@ function renderLeakCards(data) {
 
   if (sc > 3 && data.buyBoxIsTheBrand === false) {
     leaks.push({
-      title: 'Leak 3: Buy Box Leakage',
+      title: '💸 Leak 3: Buy Box Leakage',
       text: `${sc} sellers competing on your listings. Unauthorized resellers controlling Buy Box and capturing your revenue.`,
       amount: 'Revenue redirected to 3P sellers'
     });
@@ -311,7 +311,7 @@ function renderLeakCards(data) {
 
   if (leaks.length === 0) {
     leaks.push({
-      title: 'Leak 1: Growth Ceiling',
+      title: '📉 Leak 1: Growth Ceiling',
       text: 'Current Amazon setup is leaving revenue on the table through sub-optimal operational execution.',
       amount: 'Significant upside available'
     });
@@ -338,7 +338,7 @@ function renderActionCards(data) {
 
   if (fba < 50) {
     actions.push({
-      title: 'Action 1: Prime Standardization',
+      title: '🚀 Action 1: Prime Standardization',
       text: 'Inject all remaining SKUs through our Las Vegas FBA hub. Unlock access to 200M+ Prime filter users.',
       impact: '+30-50% Immediate Sales Lift'
     });
@@ -346,7 +346,7 @@ function renderActionCards(data) {
 
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
     actions.push({
-      title: 'Action 2: Brand Defense Protocol',
+      title: '🛡️ Action 2: Brand Defense Protocol',
       text: `Launch targeted search ads on your own branded keywords to systematically evict the ${onPage} competitors.`,
       impact: 'Reclaim Hijacked Traffic & Revenue'
     });
@@ -354,7 +354,7 @@ function renderActionCards(data) {
 
   if (sc > 3) {
     actions.push({
-      title: 'Action 3: Seller Map Cleanup',
+      title: '🧹 Action 3: Seller Map Cleanup',
       text: 'Enforce brand authorization and MAP pricing. Remove unauthorized resellers from your listings.',
       impact: 'Stabilize Pricing & Margins'
     });
@@ -362,7 +362,7 @@ function renderActionCards(data) {
 
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
     actions.push({
-      title: 'Action: A+ Content & Storefront',
+      title: '✨ Action: A+ Content & Storefront',
       text: 'Build premium A+ content, video, and brand storefront — all funded and executed by Profitzon.',
       impact: '+15-25% Conversion Lift'
     });
@@ -370,7 +370,7 @@ function renderActionCards(data) {
 
   if (actions.length === 0) {
     actions.push({
-      title: 'Action 1: Scale Revenue',
+      title: '📈 Action 1: Scale Revenue',
       text: 'Funded wholesale orders, new product launches, and advanced advertising — our capital, your brand.',
       impact: 'Accelerated Growth'
     });
