@@ -8,10 +8,10 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Inter',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;background:#ecedf1;-webkit-font-smoothing:antialiased}
 
-  .cover{width:1000px;height:1414px;background:#ecedf1;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .cover{width:1376px;height:768px;background:#ecedf1;position:relative;overflow:hidden;display:flex;flex-direction:row}
 
-  /* Product watermark (faded wireframe on right) */
-  .product-watermark{position:absolute;right:-30px;top:120px;width:480px;opacity:.07;z-index:0;filter:grayscale(1)}
+  /* Product watermark (faded on right) */
+  .product-watermark{position:absolute;right:40px;top:50%;transform:translateY(-50%);width:360px;opacity:.06;z-index:0;filter:grayscale(1)}
 
   /* Subtle tech grid lines */
   .grid-lines{position:absolute;inset:0;z-index:0;opacity:.04}
@@ -19,19 +19,27 @@
   .grid-lines .h{width:100%;height:1px}
   .grid-lines .v{width:1px;height:100%}
 
+  /* Left content area */
+  .cover-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:48px 60px;position:relative;z-index:2}
+
   /* Confidential badge */
-  .conf-badge{display:inline-block;margin:52px 0 0 60px;padding:10px 24px;border:2px solid #2e7d32;border-radius:24px;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2e7d32;position:relative;z-index:2}
+  .conf-badge{display:inline-block;padding:8px 20px;border:2px solid #2e7d32;border-radius:24px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#2e7d32;margin-bottom:32px;align-self:flex-start}
 
   /* Main content */
-  .cover-main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 60px;position:relative;z-index:2}
-  .brand-title{font-size:72px;font-weight:900;color:#1a1a1a;letter-spacing:-2.5px;line-height:1.08;margin-bottom:28px;max-width:700px}
-  .blue-line{width:100%;max-width:680px;height:6px;background:#1a2744;margin-bottom:28px;border-radius:1px}
-  .subtitle{font-size:22px;color:#666;line-height:1.55;max-width:640px}
+  .brand-title{font-size:52px;font-weight:900;color:#1a1a1a;letter-spacing:-2px;line-height:1.1;margin-bottom:24px;max-width:700px}
+  .blue-line{width:100%;max-width:500px;height:5px;background:#1a2744;margin-bottom:20px;border-radius:1px}
+  .subtitle{font-size:18px;color:#666;line-height:1.5;max-width:560px}
 
   /* Footer */
-  .cover-footer{padding:48px 60px;position:relative;z-index:2}
-  .cover-footer-text{font-size:14px;color:#888;line-height:1.6}
+  .cover-footer{position:absolute;bottom:24px;left:60px;z-index:2}
+  .cover-footer-text{font-size:13px;color:#888;line-height:1.6}
   .cover-footer-text strong{color:#1a1a1a;font-weight:600}
+
+  /* Right accent panel */
+  .cover-right{width:420px;background:#1a2744;display:flex;align-items:center;justify-content:center;position:relative}
+  .cover-right-inner{text-align:center;color:#fff;padding:40px}
+  .cover-right-inner .logo-text{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:12px}
+  .cover-right-inner .tagline{font-size:14px;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase}
 
   @media print{body{background:#ecedf1}.cover{box-shadow:none}}
 </style>
@@ -40,21 +48,25 @@
 <div class="cover">
   <!-- Subtle grid lines -->
   <div class="grid-lines">
-    <div class="h" style="top:25%"></div>
-    <div class="h" style="top:50%"></div>
-    <div class="h" style="top:75%"></div>
-    <div class="v" style="left:33%"></div>
-    <div class="v" style="left:66%"></div>
+    <div class="h" style="top:33%"></div>
+    <div class="h" style="top:66%"></div>
+    <div class="v" style="left:50%"></div>
   </div>
 
   {{productImageWatermark}}
 
-  <div class="conf-badge">Private &amp; Confidential</div>
-
-  <div class="cover-main">
+  <div class="cover-left">
+    <div class="conf-badge">Private &amp; Confidential</div>
     <div class="brand-title">{{brandName}}: Amazon Control &amp; Growth Audit</div>
     <div class="blue-line"></div>
     <div class="subtitle">Uncovering operational leaks and unlocking top-line revenue for your top-performing ASINs.</div>
+  </div>
+
+  <div class="cover-right">
+    <div class="cover-right-inner">
+      <div class="logo-text">ProfitZon</div>
+      <div class="tagline">Capital-Backed Amazon Growth Partner</div>
+    </div>
   </div>
 
   <div class="cover-footer">

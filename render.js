@@ -51,8 +51,8 @@ function renderGaugeSVG(score) {
 
   const label = s < 45 ? 'NEEDS WORK' : s < 60 ? 'FAIR' : s < 75 ? 'GOOD' : s < 88 ? 'STRONG' : 'EXCELLENT';
 
-  // Half-circle arc gauge — large, centered
-  const cx = 180, cy = 175, r = 150;
+  // Half-circle arc gauge — fits landscape layout
+  const cx = 220, cy = 210, r = 180;
 
   function arcPath(startDeg, endDeg, radius) {
     const s1 = (startDeg * Math.PI) / 180;
@@ -83,15 +83,15 @@ function renderGaugeSVG(score) {
   const nx = cx + needleLen * Math.cos(needleRad);
   const ny = cy + needleLen * Math.sin(needleRad);
 
-  return `<svg width="360" height="280" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
-    <path d="${arcPath(180, 360, r)}" fill="none" stroke="#e0e0e0" stroke-width="24" stroke-linecap="butt"/>
+  return `<svg width="440" height="340" viewBox="0 0 440 340" xmlns="http://www.w3.org/2000/svg">
+    <path d="${arcPath(180, 360, r)}" fill="none" stroke="#e0e0e0" stroke-width="28" stroke-linecap="butt"/>
     ${arcs}
-    <circle cx="${cx}" cy="${cy}" r="8" fill="#1a2744"/>
-    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#1a2744" stroke-width="4" stroke-linecap="round"/>
-    <text x="${cx - r - 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">0</text>
-    <text x="${cx + r + 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">100</text>
-    <text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="Inter, sans-serif" font-size="56" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="24" fill="#999">/100</tspan></text>
-    <text x="${cx}" y="${cy + 76}" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="#666" letter-spacing="3">${label}</text>
+    <circle cx="${cx}" cy="${cy}" r="10" fill="#1a2744"/>
+    <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#1a2744" stroke-width="5" stroke-linecap="round"/>
+    <text x="${cx - r - 8}" y="${cy + 26}" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#999">0</text>
+    <text x="${cx + r + 8}" y="${cy + 26}" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#999">100</text>
+    <text x="${cx}" y="${cy + 60}" text-anchor="middle" font-family="Inter, sans-serif" font-size="72" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="30" fill="#999">/100</tspan></text>
+    <text x="${cx}" y="${cy + 90}" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="800" fill="#666" letter-spacing="4">${label}</text>
   </svg>`;
 }
 
@@ -107,29 +107,26 @@ function renderStrengthItems(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const rating = parseFloat(data.avgRating || 0);
 
-  // Item 1: Search dominance or product count
   if (pct >= 30) {
-    items.push({ num: pct + '%', title: 'Brand Search Dominance', desc: `${bp} of ${tr} results are ${escapeHtml(data.brandName)} products` });
+    items.push({ icon: '▮', val: pct + '%', lbl: 'Brand Search Dominance' });
   } else {
-    items.push({ num: bp.toString(), title: 'Products on Amazon', desc: 'Active listings in the brand catalog' });
+    items.push({ icon: '▮', val: bp + ' Products', lbl: 'Listed on Amazon' });
   }
 
-  // Item 2: Rating
   if (rating > 0) {
-    items.push({ num: rating.toFixed(1) + '★', title: 'Average Customer Rating', desc: 'Across all brand products' });
+    items.push({ icon: '★★★★', val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
   }
 
-  // Item 3: Prime or Price
   if (fba >= 50) {
-    items.push({ num: fba + '%', title: 'Prime FBA Coverage', desc: 'Products fulfilled by Amazon' });
+    items.push({ icon: '✓', val: fba + '% Prime', lbl: 'FBA Coverage' });
   } else if (data.priceRange && data.priceRange !== 'N/A') {
-    items.push({ num: escapeHtml(data.priceRange), title: data.priceStability === 'Stable' ? 'Stable Price Range' : 'Price Range', desc: 'Across the product catalog' });
+    items.push({ icon: '▎▎', val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
   } else {
-    items.push({ num: String(data.catalogSize || bp), title: 'SKU Catalog Size', desc: 'Total product variants' });
+    items.push({ icon: '📦', val: String(data.catalogSize || bp) + ' SKUs', lbl: 'Product Catalog' });
   }
 
   return items.map(i =>
-    `<div class="sv-item"><div class="sv-num g">${i.num}</div><div class="sv-info"><div class="t">${i.title}</div><div class="d">${i.desc}</div></div></div>`
+    `<div class="sv-item"><div class="sv-icon g">${i.icon}</div><div class="sv-text"><div class="val">${i.val}</div><div class="lbl">${i.lbl}</div></div></div>`
   ).join('\n');
 }
 
@@ -144,34 +141,31 @@ function renderVulnItems(data) {
   const onPage = parseInt(data.onPageCompetitorCount || 0);
   const bp = parseInt(data.brandProductCount || 0);
 
-  // Vuln 1: Prime coverage
   if (fba < 50) {
     const fbaOf = bp > 0 ? Math.round(bp * fba / 100) : 0;
-    items.push({ num: fba + '%', title: 'Prime Coverage Gap', desc: fbaOf > 0 ? `Only ${fbaOf} of ${bp} SKUs have FBA` : 'No FBA products detected' });
+    items.push({ icon: '◔', val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
   }
 
-  // Vuln 2: Competitor ads
   if (onPage >= 2) {
-    items.push({ num: onPage.toString(), title: 'Competitor Ads on Brand Pages', desc: 'Active rival placements siphoning traffic' });
+    items.push({ icon: onPage.toString(), val: 'Competitor Ads on Top Product Pages', lbl: '(Search Siphoning)' });
   } else if (sc > 3) {
-    items.push({ num: sc.toString(), title: 'Unauthorized Sellers', desc: 'Price erosion and Buy Box competition' });
+    items.push({ icon: sc.toString(), val: 'Unauthorized Sellers Competing', lbl: '(Price Erosion Risk)' });
   }
 
-  // Vuln 3: Listing quality / PPC / Storefront
   if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') {
-    items.push({ num: '!', title: 'Mixed Listing Maturity', desc: 'Suppressing algorithm visibility' });
+    items.push({ icon: '⚠', val: 'Mixed Listing Maturity', lbl: '(Suppressing Algorithm Visibility)' });
   } else if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    items.push({ num: '0', title: 'No Defensive Advertising', desc: 'Competitors bidding on your brand keywords' });
+    items.push({ icon: '⚠', val: 'No Defensive Advertising', lbl: '(Competitors Bidding on Your Brand)' });
   } else if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work') {
-    items.push({ num: '!', title: 'Missing Brand Storefront', desc: 'Reducing conversion potential' });
+    items.push({ icon: '⚠', val: 'Missing Brand Storefront', lbl: '(Reducing Conversion Potential)' });
   }
 
   if (items.length === 0) {
-    items.push({ num: '—', title: 'Optimization Opportunities', desc: 'Room for operational improvement' });
+    items.push({ icon: '—', val: 'Optimization Opportunities', lbl: '(Room for Growth)' });
   }
 
   return items.slice(0, 3).map(i =>
-    `<div class="sv-item"><div class="sv-num r">${i.num}</div><div class="sv-info"><div class="t">${i.title}</div><div class="d">${i.desc}</div></div></div>`
+    `<div class="sv-item"><div class="sv-icon r">${i.icon}</div><div class="sv-text"><div class="val">${i.val}</div><div class="lbl">${i.lbl}</div></div></div>`
   ).join('\n');
 }
 
@@ -323,14 +317,11 @@ function renderLeakCards(data) {
     });
   }
 
-  return leaks.slice(0, 2).map((l, i) =>
-    `<div class="lk">
-      <div class="lk-icon">0${i + 1}</div>
-      <div>
-        <h4>${escapeHtml(l.title)}</h4>
-        <p>${escapeHtml(l.text)}</p>
-        <div class="lk-amt">${escapeHtml(l.amount)}</div>
-      </div>
+  return leaks.slice(0, 2).map(l =>
+    `<div class="p3-card">
+      <h4>${escapeHtml(l.title)}</h4>
+      <p>${escapeHtml(l.text)}</p>
+      <div class="p3-amt red">${escapeHtml(l.amount)}</div>
     </div>`
   ).join('\n');
 }
@@ -385,14 +376,11 @@ function renderActionCards(data) {
     });
   }
 
-  return actions.slice(0, 2).map((a, i) =>
-    `<div class="ak">
-      <div class="ak-icon">0${i + 1}</div>
-      <div>
-        <h4>${escapeHtml(a.title)}</h4>
-        <p>${escapeHtml(a.text)}</p>
-        <div class="ak-imp">${escapeHtml(a.impact)}</div>
-      </div>
+  return actions.slice(0, 2).map(a =>
+    `<div class="p3-card">
+      <h4>${escapeHtml(a.title)}</h4>
+      <p>${escapeHtml(a.text)}</p>
+      <div class="p3-amt green">${escapeHtml(a.impact)}</div>
     </div>`
   ).join('\n');
 }
@@ -405,90 +393,13 @@ function renderArrowsSVG(leakCount) {
   const n = Math.min(leakCount, 2);
   const arrows = [];
   for (let i = 0; i < n; i++) {
-    arrows.push(`<svg width="36" height="36" viewBox="0 0 36 36" style="margin:8px 0">
-      <polygon points="4,10 22,10 22,4 34,18 22,32 22,26 4,26" fill="#1a2744"/>
+    arrows.push(`<svg class="p3-arrow" viewBox="0 0 60 36">
+      <polygon points="4,12 36,12 36,4 56,18 36,32 36,24 4,24" fill="#1a2744"/>
     </svg>`);
   }
   return arrows.join('\n');
 }
 
-// ============================================================
-// EXECUTIVE SUMMARY BOX (Page 1)
-// ============================================================
-
-function renderExecutiveSummaryBox(data) {
-  if (!data.opportunitySummary) return '';
-  return `<div class="exec-bar">
-    <div class="el">Key Insight</div>
-    <div class="et">${escapeHtml(data.opportunitySummary)}</div>
-  </div>`;
-}
-
-// ============================================================
-// FINDINGS STRIP (Page 2 — between image and table)
-// ============================================================
-
-function renderFindingsStrip(data) {
-  const findings = data.findings || [];
-  if (!findings.length) {
-    // Generate default findings from data
-    const fba = parseInt(data.fbaPercent || 0);
-    const onPage = parseInt(data.onPageCompetitorCount || 0);
-    const defaults = [];
-    if (fba < 50) defaults.push({ type: 'issue', text: `Only ${fba}% of products have FBA Prime badge — invisible to Prime-filter shoppers.` });
-    if (onPage >= 2) defaults.push({ type: 'competitor', text: `${onPage} competitor ads detected on brand product pages, intercepting traffic.` });
-    if (data.listingQuality === 'Weak/No A+' || data.listingQuality === 'Adequate') defaults.push({ type: 'warning', text: 'Listings lack A+ Enhanced Brand Content — suppressing conversion rates.' });
-    if (data.ppcStatus === 'None') defaults.push({ type: 'opportunity', text: 'No defensive advertising detected — opportunity to reclaim branded search traffic.' });
-    if (defaults.length === 0) defaults.push({ type: 'opportunity', text: 'Operational improvements available across fulfillment, advertising, and content.' });
-    return renderFindingsStripHTML(defaults.slice(0, 3));
-  }
-  return renderFindingsStripHTML(findings.slice(0, 3));
-}
-
-function renderFindingsStripHTML(findings) {
-  const typeLabels = { issue: 'Issue', opportunity: 'Opportunity', warning: 'Warning', competitor: 'Competitor' };
-  const cards = findings.map(f => {
-    const type = f.type || 'warning';
-    return `<div class="p2-find ${type}"><div class="ft">${typeLabels[type] || 'Finding'}</div><div class="fd">${escapeHtml(f.text)}</div></div>`;
-  });
-  return `<div class="p2-findings">${cards.join('\n')}</div>`;
-}
-
-// ============================================================
-// PRODUCT TABLE ROWS (Page 2)
-// ============================================================
-
-function renderBadges(product) {
-  const badges = [];
-  if (product.is_prime) badges.push('<span class="badge-sm badge-prime">PRIME</span>');
-  if (product.is_amazons_choice) badges.push('<span class="badge-sm badge-choice">CHOICE</span>');
-  if (product.is_sponsored) badges.push('<span class="badge-sm badge-sponsored">AD</span>');
-  if (product.notBrand) badges.push('<span class="badge-sm badge-notbrand">OTHER</span>');
-  return badges.join(' ') || '<span style="color:#ccc;font-size:9px">—</span>';
-}
-
-function renderProductRows(products) {
-  if (!products || !products.length) {
-    return '<tr><td colspan="7" style="text-align:center;color:#999;padding:14px">No product data available</td></tr>';
-  }
-  const valid = products.filter(p => p.price && p.price > 0);
-  if (!valid.length) {
-    return '<tr><td colspan="7" style="text-align:center;color:#999;padding:14px">No product data available</td></tr>';
-  }
-  return valid.slice(0, 5).map(p => {
-    const pos = p.pos ? `<strong style="color:#1a2744">#${p.pos}</strong>` : '—';
-    const asin = p.asin ? `<span style="font-size:10px;color:#1a2744;font-family:'IBM Plex Mono',monospace">${p.asin}</span>` : '—';
-    return `<tr${p.notBrand ? ' style="opacity:0.5"' : ''}>
-      <td>${pos}</td>
-      <td style="font-weight:600">${escapeHtml(truncate(p.title, 35))}</td>
-      <td>${asin}</td>
-      <td>$${(p.price || 0).toFixed(2)}</td>
-      <td>${(p.rating || 0).toFixed(1)} ★</td>
-      <td>${fmt(p.reviews_count || 0)}</td>
-      <td>${renderBadges(p)}</td>
-    </tr>`;
-  }).join('');
-}
 
 // ============================================================
 // NORMALIZE AGENT OUTPUT → RENDERER FORMAT
@@ -617,26 +528,14 @@ function renderHTML(data) {
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') leakCount++;
   if (leakCount === 0) leakCount = 1;
 
-  // Ownership percentage
-  const bp = parseInt(data.brandProductCount || 0);
-  const tr = parseInt(data.totalResults || 1);
-
   const replacements = {
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
     '{{reportId}}': reportId,
 
     // Page 1
-    '{{healthScore}}': String(healthScore),
     '{{gaugeSVG}}': renderGaugeSVG(healthScore),
     '{{strengthItems}}': renderStrengthItems(data),
     '{{vulnItems}}': renderVulnItems(data),
-    '{{brandProductCount}}': String(bp || '?'),
-    '{{fbaPercent}}': String(data.fbaPercent || 0),
-    '{{avgRating}}': String(data.avgRating || '0.0'),
-    '{{sellerCount}}': String(data.sellerCount || '0'),
-    '{{competitorCount}}': String(data.competitorCount || 0),
-    '{{ppcCount}}': String(data.ppcCount || 0),
-    '{{executiveSummaryBox}}': renderExecutiveSummaryBox(data),
 
     // Page 2
     '{{bestAsinTitleShort}}': escapeHtml(truncate(data.bestAsinTitle || data.brandName + ' - Top Product', 40)),
@@ -653,8 +552,6 @@ function renderHTML(data) {
     '{{callout3Desc}}': escapeHtml(callouts.c3Desc),
     '{{callout4Title}}': escapeHtml(callouts.c4Title),
     '{{callout4Desc}}': escapeHtml(callouts.c4Desc),
-    '{{findingsStrip}}': renderFindingsStrip(data),
-    '{{productRows}}': renderProductRows(data.topProducts),
 
     // Page 3
     '{{leakCards}}': renderLeakCards(data),
@@ -725,18 +622,18 @@ async function renderPDF(data) {
   const browser = await puppeteer.launch(launchOptions);
   const page = await browser.newPage();
 
-  await page.setViewport({ width: 1000, height: 1414, deviceScaleFactor: 3 });
+  await page.setViewport({ width: 1376, height: 768, deviceScaleFactor: 3 });
 
   await page.setContent(coverHtml, { waitUntil: 'domcontentloaded' });
   const coverPdfBytes = await page.pdf({
-    width: '1000px', height: '1414px',
+    width: '1376px', height: '768px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
 
   await page.setContent(auditHtml, { waitUntil: 'load', timeout: 15000 });
   const auditPdfBytes = await page.pdf({
-    width: '1000px', height: '1414px',
+    width: '1376px', height: '768px',
     printBackground: true,
     margin: { top: 0, right: 0, bottom: 0, left: 0 }
   });
