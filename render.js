@@ -83,15 +83,15 @@ function renderGaugeSVG(score) {
   const nx = cx + needleLen * Math.cos(needleRad);
   const ny = cy + needleLen * Math.sin(needleRad);
 
-  return `<svg width="360" height="230" viewBox="0 0 360 230" xmlns="http://www.w3.org/2000/svg">
+  return `<svg width="360" height="280" viewBox="0 0 360 280" xmlns="http://www.w3.org/2000/svg">
     <path d="${arcPath(180, 360, r)}" fill="none" stroke="#e0e0e0" stroke-width="24" stroke-linecap="butt"/>
     ${arcs}
     <circle cx="${cx}" cy="${cy}" r="8" fill="#1a2744"/>
     <line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="#1a2744" stroke-width="4" stroke-linecap="round"/>
-    <text x="${cx}" y="${cy - 40}" text-anchor="middle" font-family="Inter, sans-serif" font-size="60" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="26" fill="#999">/100</tspan></text>
-    <text x="${cx}" y="${cy - 8}" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="800" fill="#666" letter-spacing="3">${label}</text>
     <text x="${cx - r - 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">0</text>
     <text x="${cx + r + 6}" y="${cy + 22}" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#999">100</text>
+    <text x="${cx}" y="${cy + 50}" text-anchor="middle" font-family="Inter, sans-serif" font-size="56" font-weight="900" fill="#1a1a1a">${s}<tspan font-size="24" fill="#999">/100</tspan></text>
+    <text x="${cx}" y="${cy + 76}" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="800" fill="#666" letter-spacing="3">${label}</text>
   </svg>`;
 }
 
