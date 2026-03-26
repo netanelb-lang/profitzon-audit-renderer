@@ -702,6 +702,41 @@ async function renderPDF(data) {
 }
 
 // ============================================================
+// EMAIL TRACKING
+// ============================================================
+
+const MONDAY_BOARD_ID = '18401264535';
+const ENGAGEMENT_COL = 'color_mm1txp55';
+
+// 1x1 transparent GIF (43 bytes)
+const TRACKING_PIXEL = Buffer.from(
+  'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64'
+);
+
+// In-memory open counter per item (resets on server restart, but Monday status persists)
+const openCounts = new Map();
+
+async function updateMonday(itemId, columnId, value) {
+  const token = process.env.MONDAY_API_TOKEN;
+  if (!token) { console.error('MONDAY_API_TOKEN not set'); return; }
+
+  const mutation = `mutation { change_simple_column_value(board_id: ${MONDAY_BOARD_ID}, item_id: ${itemId}, column_id: "${columnId}", value: "${value}") { id } }`;
+
+  try {
+    const resp = await fetch('https://api.monday.com/v2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': token },
+      body: JSON.stringify({ query: mutation })
+    });
+    const result = await resp.json();
+    if (result.errors) console.error('Monday API error:', result.errors);
+    else console.log(`Tracking: item ${itemId} → ${value}`);
+  } catch (e) {
+    console.error('Monday API call failed:', e.message);
+  }
+}
+
+// ============================================================
 // EXPRESS SERVER
 // ============================================================
 
@@ -744,9 +779,44 @@ async function startServer(port) {
 
   app.get('/health', (req, res) => res.json({ status: 'ok', service: 'profitzon-audit-renderer', version: 'v9.1-infographic' }));
 
+  // ── Open tracking pixel ──
+  app.get('/t/o/:itemId', (req, res) => {
+    const itemId = req.params.itemId;
+    if (!/^\d+$/.test(itemId)) return res.status(400).send('Invalid ID');
+
+    // Return pixel immediately, update Monday in background
+    res.setHeader('Content-Type', 'image/gif');
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    res.setHeader('Expires', '0');
+    res.end(TRACKING_PIXEL);
+
+    // Track opens
+    const count = (openCounts.get(itemId) || 0) + 1;
+    openCounts.set(itemId, count);
+
+    const status = count >= 3 ? 'Multi-Open' : 'Opened';
+    updateMonday(itemId, ENGAGEMENT_COL, status);
+  });
+
+  // ── Click tracking redirect ──
+  app.get('/t/c/:itemId', (req, res) => {
+    const itemId = req.params.itemId;
+    const redirectUrl = req.query.r;
+
+    if (!/^\d+$/.test(itemId)) return res.status(400).send('Invalid ID');
+    if (!redirectUrl) return res.status(400).send('Missing redirect URL');
+
+    // Redirect immediately, update Monday in background
+    res.redirect(302, redirectUrl);
+
+    updateMonday(itemId, ENGAGEMENT_COL, 'Clicked');
+  });
+
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v9.1-infographic running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
+    console.log(`GET  /t/o/:id — open tracking pixel`);
+    console.log(`GET  /t/c/:id — click tracking redirect`);
   });
 }
 
