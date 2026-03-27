@@ -743,21 +743,30 @@ function shouldUpdate(itemId, newStatus) {
   return false;
 }
 
-async function updateMonday(itemId, columnId, value) {
+async function updateMonday(itemId, columnId, label) {
   const token = process.env.MONDAY_API_TOKEN;
   if (!token) { console.error('MONDAY_API_TOKEN not set'); return; }
 
-  const mutation = `mutation { change_simple_column_value(board_id: ${MONDAY_BOARD_ID}, item_id: ${itemId}, column_id: "${columnId}", value: "${value}") { id } }`;
+  // Status columns require JSON with {"label":"Value"} format via change_multiple_column_values
+  const columnValues = JSON.stringify({ [columnId]: { label: label } });
+  const mutation = `mutation ($boardId: ID!, $itemId: ID!, $columnValues: JSON!) { change_multiple_column_values(board_id: $boardId, item_id: $itemId, column_values: $columnValues) { id } }`;
 
   try {
     const resp = await fetch('https://api.monday.com/v2', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token },
-      body: JSON.stringify({ query: mutation })
+      body: JSON.stringify({
+        query: mutation,
+        variables: {
+          boardId: MONDAY_BOARD_ID,
+          itemId: String(itemId),
+          columnValues: columnValues
+        }
+      })
     });
     const result = await resp.json();
-    if (result.errors) console.error('Monday API error:', result.errors);
-    else console.log(`Tracking: item ${itemId} → ${value}`);
+    if (result.errors) console.error('Monday API error:', JSON.stringify(result.errors));
+    else console.log(`Tracking: item ${itemId} → ${label}`);
   } catch (e) {
     console.error('Monday API call failed:', e.message);
   }
