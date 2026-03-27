@@ -713,8 +713,35 @@ const TRACKING_PIXEL = Buffer.from(
   'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64'
 );
 
-// In-memory open counter per item (resets on server restart, but Monday status persists)
+// In-memory tracking per item (resets on server restart, but Monday status persists)
 const openCounts = new Map();
+const engagementLevel = new Map();
+
+// Gmail/Google pre-fetches images when SENDING, causing a false "Opened" immediately.
+// Fix: skip the first pixel hit (count=1) — it is always the pre-fetch.
+// Real opens start from count=2. Multi-Open from count=4.
+const PREFETCH_SKIP = 1;
+
+// Calendar booking link (hardcoded — never changes)
+const CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn';
+
+// Engagement priority: higher number = stronger signal, never downgrade
+const ENGAGEMENT_PRIORITY = {
+  'Sent': 1,
+  'Opened': 2,
+  'Multi-Open': 3,
+  'Clicked': 4
+};
+
+function shouldUpdate(itemId, newStatus) {
+  const currentLevel = engagementLevel.get(itemId) || 0;
+  const newLevel = ENGAGEMENT_PRIORITY[newStatus] || 0;
+  if (newLevel > currentLevel) {
+    engagementLevel.set(itemId, newLevel);
+    return true;
+  }
+  return false;
+}
 
 async function updateMonday(itemId, columnId, value) {
   const token = process.env.MONDAY_API_TOKEN;
@@ -784,39 +811,274 @@ async function startServer(port) {
     const itemId = req.params.itemId;
     if (!/^\d+$/.test(itemId)) return res.status(400).send('Invalid ID');
 
-    // Return pixel immediately, update Monday in background
+    // Always return pixel immediately
     res.setHeader('Content-Type', 'image/gif');
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     res.setHeader('Expires', '0');
     res.end(TRACKING_PIXEL);
 
-    // Track opens
+    // Count this hit
     const count = (openCounts.get(itemId) || 0) + 1;
     openCounts.set(itemId, count);
 
-    const status = count >= 3 ? 'Multi-Open' : 'Opened';
-    updateMonday(itemId, ENGAGEMENT_COL, status);
+    // Skip first hit — Gmail pre-fetches the image when sending
+    if (count <= PREFETCH_SKIP) {
+      console.log(`Tracking: item ${itemId} → pixel hit #${count} ignored (Gmail pre-fetch)`);
+      return;
+    }
+
+    // Real opens: hit 2-3 = Opened, hit 4+ = Multi-Open
+    const status = count >= 4 ? 'Multi-Open' : 'Opened';
+    if (shouldUpdate(itemId, status)) {
+      updateMonday(itemId, ENGAGEMENT_COL, status);
+    }
   });
 
-  // ── Click tracking redirect ──
-  app.get('/t/c/:itemId', (req, res) => {
+  // ── Click tracking: calendar link ──
+  app.get('/t/c/:itemId/calendar', (req, res) => {
     const itemId = req.params.itemId;
-    const redirectUrl = req.query.r;
-
     if (!/^\d+$/.test(itemId)) return res.status(400).send('Invalid ID');
-    if (!redirectUrl) return res.status(400).send('Missing redirect URL');
 
-    // Redirect immediately, update Monday in background
-    res.redirect(302, redirectUrl);
+    // Redirect to Google Calendar immediately
+    res.redirect(302, CALENDAR_URL);
 
-    updateMonday(itemId, ENGAGEMENT_COL, 'Clicked');
+    // Update Monday in background
+    if (shouldUpdate(itemId, 'Clicked')) {
+      updateMonday(itemId, ENGAGEMENT_COL, 'Clicked');
+    }
+  });
+
+  // ── Dashboard ──
+  app.get('/dashboard', (req, res) => {
+    const dashPath = path.join(__dirname, 'dashboard.html');
+    if (!fs.existsSync(dashPath)) return res.status(404).send('Dashboard not found');
+    res.setHeader('Content-Type', 'text/html');
+    res.send(fs.readFileSync(dashPath, 'utf8'));
+  });
+
+  // ── Dashboard API: Pipeline data ──
+  const MONDAY_TOKEN = () => process.env.MONDAY_API_TOKEN;
+  const BOARD_ID = MONDAY_BOARD_ID;
+
+  const GROUP_MAP = {
+    'group_mm0vgchm': { key: 'new', label: 'New Brands', color: '#64748b' },
+    'group_mm0yhp0c': { key: 'draft_review', label: 'Draft Review', color: '#f59e0b' },
+    'group_mm0v7hem': { key: 'email_sent', label: 'Email Sent', color: '#3b82f6' },
+    'group_mm0vyrrj': { key: 'follow_up', label: 'Follow-Up Active', color: '#8b5cf6' },
+    'group_mm0vn0h5': { key: 'replied', label: 'Replied', color: '#22c55e' },
+    'group_mm0v19hg': { key: 'meeting_booked', label: 'Meeting Booked', color: '#10b981' },
+    'group_mm0v58xm': { key: 'cold', label: 'Cold', color: '#6b7280' }
+  };
+
+  async function queryMonday(query, variables) {
+    const token = MONDAY_TOKEN();
+    if (!token) throw new Error('MONDAY_API_TOKEN not set');
+    const resp = await fetch('https://api.monday.com/v2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': token },
+      body: JSON.stringify({ query, variables })
+    });
+    const result = await resp.json();
+    if (result.errors) throw new Error(JSON.stringify(result.errors));
+    return result.data;
+  }
+
+  app.get('/api/pipeline', async (req, res) => {
+    try {
+      const query = `query {
+        boards(ids: [${BOARD_ID}]) {
+          groups { id title }
+          items_page(limit: 500) {
+            items {
+              id name group { id }
+              column_values(ids: ["text_mm0vpf6a","email_mm0vbdtm","numeric_mm0yv8q6","color_mm0vfp1h","color_mm1txp55","color_mm0v7z99","date_mm116z9v","text_mm1b85yc","long_text_mm0xpw78","long_text_mm0vjajn"]) {
+                id text value
+              }
+            }
+          }
+        }
+      }`;
+      const data = await queryMonday(query);
+      const board = data.boards[0];
+      const stages = {};
+
+      // Initialize all stages
+      for (const [gid, info] of Object.entries(GROUP_MAP)) {
+        stages[info.key] = { label: info.label, color: info.color, count: 0, items: [] };
+      }
+
+      // Status-based stage overrides (items in "New" group may have sub-statuses)
+      const STATUS_OVERRIDE = {
+        'Researching': 'researching',
+        'Draft Ready': 'draft_review',
+        'Approved': 'approved'
+      };
+
+      // Add stages not directly mapped to groups
+      if (!stages['researching']) stages['researching'] = { label: 'Researching', color: '#6366f1', count: 0, items: [] };
+      if (!stages['approved']) stages['approved'] = { label: 'Approved', color: '#14b8a6', count: 0, items: [] };
+
+      for (const item of board.items_page.items) {
+        const groupInfo = GROUP_MAP[item.group.id];
+        if (!groupInfo) continue;
+        const cv = {};
+        for (const c of item.column_values) { cv[c.id] = c.text || ''; }
+
+        // Determine effective stage: check Pipeline Status override first
+        const pipelineStatus = cv['color_mm0vfp1h'] || '';
+        const stageKey = STATUS_OVERRIDE[pipelineStatus] || groupInfo.key;
+
+        // Make sure the stage exists
+        if (!stages[stageKey]) stages[stageKey] = { label: stageKey, color: '#64748b', count: 0, items: [] };
+
+        stages[stageKey].items.push({
+          id: item.id,
+          name: item.name,
+          contactName: cv['text_mm0vpf6a'] || '',
+          contactEmail: cv['email_mm0vbdtm'] || '',
+          priorityScore: parseInt(cv['numeric_mm0yv8q6']) || 0,
+          pipelineStatus: cv['color_mm0vfp1h'] || '',
+          engagement: cv['color_mm1txp55'] || '',
+          maturity: cv['color_mm0v7z99'] || '',
+          lastActivity: cv['date_mm116z9v'] || '',
+          emailSubject: cv['text_mm1b85yc'] || '',
+          emailBody: cv['long_text_mm0xpw78'] || '',
+          opportunitySummary: cv['long_text_mm0vjajn'] || ''
+        });
+        stages[stageKey].count++;
+      }
+
+      res.json({ stages });
+    } catch (err) {
+      console.error('Pipeline API error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/stats', async (req, res) => {
+    try {
+      const query = `query {
+        boards(ids: [${BOARD_ID}]) {
+          items_page(limit: 500) {
+            items {
+              id group { id }
+              column_values(ids: ["color_mm1txp55","numeric_mm0yv8q6"]) { id text }
+            }
+          }
+        }
+      }`;
+      const data = await queryMonday(query);
+      const items = data.boards[0].items_page.items;
+
+      let total = items.length;
+      let sentCount = 0, openCount = 0, replyCount = 0, meetingCount = 0, coldCount = 0;
+      let prioritySum = 0, priorityCount = 0;
+
+      for (const item of items) {
+        const gid = item.group.id;
+        const cv = {};
+        for (const c of item.column_values) cv[c.id] = c.text || '';
+
+        const engagement = cv['color_mm1txp55'] || '';
+        const priority = parseInt(cv['numeric_mm0yv8q6']) || 0;
+        if (priority > 0) { prioritySum += priority; priorityCount++; }
+
+        if (['group_mm0v7hem','group_mm0vyrrj'].includes(gid)) sentCount++;
+        if (engagement.includes('Open') || engagement.includes('Click')) openCount++;
+        if (gid === 'group_mm0vn0h5') replyCount++;
+        if (gid === 'group_mm0v19hg') meetingCount++;
+        if (gid === 'group_mm0v58xm') coldCount++;
+      }
+
+      const emailedTotal = sentCount + replyCount + meetingCount + coldCount;
+
+      res.json({
+        totalBrands: total,
+        openRate: emailedTotal > 0 ? Math.round((openCount / emailedTotal) * 100) : 0,
+        replyRate: emailedTotal > 0 ? Math.round((replyCount / emailedTotal) * 100) : 0,
+        meetingsBooked: meetingCount,
+        sentTotal: emailedTotal,
+        coldCount,
+        avgPriorityScore: priorityCount > 0 ? Math.round(prioritySum / priorityCount) : 0
+      });
+    } catch (err) {
+      console.error('Stats API error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  app.get('/api/activity', async (req, res) => {
+    try {
+      const query = `query {
+        boards(ids: [${BOARD_ID}]) {
+          activity_logs(limit: 30) {
+            created_at data event entity
+          }
+        }
+      }`;
+      const data = await queryMonday(query);
+      const logs = data.boards[0].activity_logs || [];
+      const activities = logs.map(log => {
+        let parsed = {};
+        try { parsed = JSON.parse(log.data); } catch(e) {}
+        return {
+          timestamp: log.created_at,
+          event: log.event,
+          entity: log.entity,
+          brandName: parsed.pulse_name || parsed.item_name || '',
+          columnTitle: parsed.column_title || '',
+          oldValue: parsed.previous_value?.label?.text || parsed.previous_value || '',
+          newValue: parsed.value?.label?.text || parsed.value || '',
+          details: parsed
+        };
+      }).filter(a => a.brandName);
+
+      res.json({ activities });
+    } catch (err) {
+      console.error('Activity API error:', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  const STAGE_TO_GROUP = {};
+  for (const [gid, info] of Object.entries(GROUP_MAP)) { STAGE_TO_GROUP[info.key] = gid; }
+
+  app.post('/api/action', async (req, res) => {
+    try {
+      const { itemId, action, groupId, targetStage } = req.body;
+      if (!itemId) return res.status(400).json({ error: 'Missing itemId' });
+
+      if (action === 'move') {
+        const gid = groupId || STAGE_TO_GROUP[targetStage];
+        if (!gid) return res.status(400).json({ error: 'Missing groupId or targetStage' });
+        await queryMonday(`mutation { move_item_to_group(item_id: ${itemId}, group_id: "${gid}") { id } }`);
+        return res.json({ success: true, message: `Moved item ${itemId} to ${gid}` });
+      }
+
+      if (action === 'approve') {
+        await queryMonday(`mutation { change_simple_column_value(board_id: ${BOARD_ID}, item_id: ${itemId}, column_id: "color_mm0y3cmq", value: "Approved") { id } }`);
+        return res.json({ success: true, message: `Item ${itemId} approved` });
+      }
+
+      if (action === 'cold') {
+        await queryMonday(`mutation { move_item_to_group(item_id: ${itemId}, group_id: "group_mm0v58xm") { id } }`);
+        await queryMonday(`mutation { change_simple_column_value(board_id: ${BOARD_ID}, item_id: ${itemId}, column_id: "color_mm0vfp1h", value: "Cold") { id } }`);
+        return res.json({ success: true, message: `Item ${itemId} marked cold` });
+      }
+
+      res.status(400).json({ error: `Unknown action: ${action}` });
+    } catch (err) {
+      console.error('Action API error:', err);
+      res.status(500).json({ error: err.message });
+    }
   });
 
   app.listen(port, () => {
     console.log(`Profitzon Audit Renderer v9.1-infographic running on port ${port}`);
     console.log(`POST /render — send JSON data, get PDF`);
-    console.log(`GET  /t/o/:id — open tracking pixel`);
-    console.log(`GET  /t/c/:id — click tracking redirect`);
+    console.log(`GET  /t/o/:id — open tracking pixel (skips 1st hit = Gmail pre-fetch)`);
+    console.log(`GET  /t/c/:id/calendar — calendar click → Clicked`);
+    console.log(`GET  /dashboard — outreach command center`);
   });
 }
 
