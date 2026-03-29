@@ -723,7 +723,7 @@ const engagementLevel = new Map();
 const PREFETCH_SKIP = 1;
 
 // Calendar booking link (hardcoded — never changes)
-const CALENDAR_URL = 'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1XYd9SQ01a6L8gMxiPEkexk0ULhc2Q7tQ77rfMVNWo9BAyASi9_rB9odbMmssMhDYVBwtW1hyn';
+const CALENDAR_URL = 'https://calendar.app.google/2H1gCyXbshWbCxud9';
 
 // Engagement priority: higher number = stronger signal, never downgrade
 const ENGAGEMENT_PRIORITY = {
