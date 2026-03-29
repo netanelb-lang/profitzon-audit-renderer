@@ -307,26 +307,45 @@ function renderLeakCards(data) {
   const sc = parseInt(data.sellerCount || 0);
   const bp = parseInt(data.brandProductCount || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
+  const best = data.topProducts && data.topProducts[0];
+  const bestMonthly = best ? parseInt(String(best.monthly_sales || 0).replace(/[^0-9]/g, '')) : 0;
+  const bestPrice = best ? parseFloat(best.price || 0) : 0;
+  const monthlyRev = bestMonthly * bestPrice;
 
   if (fba < 50) {
     const missingCount = bp > 0 ? bp - Math.round(bp * fba / 100) : bp;
-    const lowEst = fmt(Math.round(missingCount * 500));
-    const highEst = fmt(Math.round(missingCount * 1200));
+    let amountText;
+    if (monthlyRev > 0) {
+      const lowEst = fmt(Math.round(monthlyRev * 0.30));
+      const highEst = fmt(Math.round(monthlyRev * 0.50));
+      amountText = `~$${lowEst} - $${highEst} / month lost`;
+    } else {
+      const lowEst = fmt(Math.round(missingCount * 500));
+      const highEst = fmt(Math.round(missingCount * 1200));
+      amountText = `$${lowEst} - $${highEst} / month lost`;
+    }
     leaks.push({
       icon: SVG.noEntry,
       title: 'Leak 1: The Prime Penalty',
       text: `${missingCount} of ${bp} catalog items missing FBA Prime badge, resulting in a 30-50% conversion drop.`,
-      amount: `$${lowEst} - $${highEst} / month lost`
+      amount: amountText
     });
   }
 
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
-    const adLoss = fmt(Math.round(onPage * 320));
+    let amountText;
+    if (monthlyRev > 0 && onPage > 0) {
+      const adLoss = fmt(Math.round(monthlyRev * 0.10));
+      amountText = `~$${adLoss} / month lost`;
+    } else {
+      const adLoss = fmt(Math.round(onPage * 320));
+      amountText = `~$${adLoss} / month lost`;
+    }
     leaks.push({
       icon: SVG.hole,
       title: 'Leak 2: Search Siphoning',
       text: `${onPage} competitor placements on your brand page, diverting 10% of traffic to rivals.`,
-      amount: `~$${adLoss} / month lost`
+      amount: amountText
     });
   }
 
@@ -335,7 +354,7 @@ function renderLeakCards(data) {
       icon: SVG.moneyOff,
       title: 'Leak 3: Buy Box Leakage',
       text: `${sc} sellers competing on your listings. Unauthorized resellers controlling Buy Box and capturing your revenue.`,
-      amount: 'Revenue redirected to 3P sellers'
+      amount: monthlyRev > 0 ? `~$${fmt(Math.round(monthlyRev))} / month at risk` : 'Revenue redirected to 3P sellers'
     });
   }
 
