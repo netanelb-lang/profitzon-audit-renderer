@@ -221,64 +221,74 @@ function getCallouts(data) {
   const reviews = best ? (best.reviews_count || 0) : 0;
   const fba = parseInt(data.fbaPercent || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
-
-  // Green callout 1: Content quality
-  let c1Title, c1Desc;
-  if (imgs >= 7 && hasVideo) {
-    c1Title = `${imgs} Images & Video`;
-    c1Desc = 'Rich media present';
-  } else if (imgs >= 5) {
-    c1Title = `${imgs} Product Images`;
-    c1Desc = hasVideo ? 'Video present' : 'Missing product video';
-  } else {
-    c1Title = `${imgs} Images Listed`;
-    c1Desc = 'Below optimal (7+ recommended)';
-  }
-
-  // Green callout 2: Rating
-  let c2Title, c2Desc;
-  if (rating >= 4.0) {
-    c2Title = `${rating.toFixed(1)} Rating`;
-    c2Desc = `${fmt(reviews)} Reviews`;
-  } else if (rating >= 3.5) {
-    c2Title = `${rating.toFixed(1)} Star Rating`;
-    c2Desc = `${fmt(reviews)} Reviews`;
-  } else {
-    c2Title = `${rating.toFixed(1)} Rating`;
-    c2Desc = `Below 4.0 purchase threshold`;
-  }
-
-  // Red callout 3: Price stability (preferred) → fulfillment fallback
   const cDrop = data.priceDropPct;
-  let c3Title, c3Desc;
+
+  // Build all callout items with good/bad flag
+  const greens = []; // strengths
+  const reds = [];   // weaknesses
+
+  // --- Content quality ---
+  if (imgs >= 7 && hasVideo) {
+    greens.push({ title: `${imgs} Images & Video`, desc: 'Rich media present' });
+  } else if (imgs >= 5) {
+    greens.push({ title: `${imgs} Product Images`, desc: hasVideo ? 'Video present' : 'Missing product video' });
+  } else {
+    reds.push({ title: `Only ${imgs} Images`, desc: 'Below optimal (7+ recommended). A+ Content & video needed.' });
+  }
+
+  // --- Rating ---
+  if (rating >= 4.0) {
+    greens.push({ title: `${rating.toFixed(1)} Rating`, desc: `${fmt(reviews)} Reviews` });
+  } else if (rating >= 3.5) {
+    greens.push({ title: `${rating.toFixed(1)} Star Rating`, desc: `${fmt(reviews)} Reviews` });
+  } else {
+    reds.push({ title: `${rating.toFixed(1)} Rating`, desc: 'Below 4.0 purchase threshold' });
+  }
+
+  // --- Price stability ---
   if (cDrop != null && cDrop > 5) {
-    c3Title = `${cDrop.toFixed(0)}% Price Drop`;
-    c3Desc = 'Buy Box price eroding over 30 days.';
+    reds.push({ title: `${cDrop.toFixed(0)}% Price Drop`, desc: 'Buy Box price eroding over 30 days.' });
   } else if (cDrop != null && cDrop >= 0) {
-    c3Title = 'Stable Buy Box';
-    c3Desc = 'Price held steady over 30 days.';
-  } else if (fba === 0) {
-    c3Title = 'Missing Prime Badge';
-    c3Desc = 'FBM status lowering conversion rate.';
-  } else {
-    c3Title = `${fba}% Prime`;
-    c3Desc = fba < 50 ? 'Most listings missing Prime filter.' : 'Partial Prime coverage.';
+    greens.push({ title: 'Stable Buy Box', desc: 'Price held steady over 30 days.' });
   }
 
-  // Red callout 4: Competition
-  let c4Title, c4Desc;
+  // --- Competition ---
   if (onPage >= 2) {
-    c4Title = `${onPage} Competitor Ads`;
-    c4Desc = `Rival placements blocking Add to Cart path.`;
-  } else if (data.ppcStatus === 'None') {
-    c4Title = 'No Brand Defense';
-    c4Desc = 'Competitors freely bidding on your brand keywords.';
+    reds.push({ title: `${onPage} Competitor Ads`, desc: 'Rival placements blocking Add to Cart path.' });
+  } else if (data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') {
+    reds.push({ title: 'No Brand Defense', desc: 'Competitors freely bidding on your brand keywords.' });
   } else {
-    c4Title = 'Market Exposure';
-    c4Desc = 'Competitor presence on brand search results.';
+    greens.push({ title: 'Brand Defense Active', desc: 'Advertising present on brand keywords.' });
   }
 
-  return { c1Title, c1Desc, c2Title, c2Desc, c3Title, c3Desc, c4Title, c4Desc };
+  // --- FBA / Prime (only add if we need to fill slots) ---
+  if (fba === 0) {
+    reds.push({ title: 'Missing Prime Badge', desc: 'FBM status lowering conversion rate.' });
+  } else if (fba < 50) {
+    reds.push({ title: `Only ${fba}% Prime`, desc: 'Most listings missing Prime filter.' });
+  } else if (fba >= 80) {
+    greens.push({ title: `${fba}% Prime Coverage`, desc: 'Strong FBA fulfillment.' });
+  }
+
+  // --- Storefront ---
+  if (data.storefront === 'Missing' || data.storefront === 'Exists - needs work' || data.storefront === 'Weak/Unoptimized') {
+    reds.push({ title: 'No Brand Storefront', desc: 'Missing 20-40% browse conversion. Profitzon builds premium storefronts.' });
+  }
+
+  // Ensure at least 2 of each by adding fallbacks
+  if (greens.length < 2) {
+    greens.push({ title: 'Growth Potential', desc: 'Strong foundation for scaling with the right partner.' });
+  }
+  if (reds.length < 2) {
+    reds.push({ title: 'A+ Content Unknown', desc: 'Manual check needed. Profitzon creates premium A+ Content for every partner.' });
+  }
+
+  return {
+    c1Title: greens[0].title, c1Desc: greens[0].desc,
+    c2Title: greens[1].title, c2Desc: greens[1].desc,
+    c3Title: reds[0].title, c3Desc: reds[0].desc,
+    c4Title: reds[1].title, c4Desc: reds[1].desc
+  };
 }
 
 // ============================================================
