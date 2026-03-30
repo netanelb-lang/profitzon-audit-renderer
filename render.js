@@ -144,10 +144,20 @@ function renderStrengthItems(data) {
     items.push({ icon: SVG.star, val: rating.toFixed(1) + ' Average', lbl: 'Customer Rating' });
   }
 
-  if (fba >= 50) {
-    items.push({ icon: SVG.rocket, val: fba + '% Prime', lbl: 'FBA Coverage' });
+  // Slot 3: Price stability (preferred) → monthly revenue → price range → SKU count
+  const pDrop = data.priceDropPct;
+  const bestP = data.topProducts && data.topProducts[0];
+  const mSales = bestP ? parseInt(String(bestP.monthly_sales || 0).replace(/[^0-9]/g, '')) : 0;
+  const mRev = mSales * (bestP ? parseFloat(bestP.price || 0) : 0);
+
+  if (pDrop != null && pDrop <= 3) {
+    items.push({ icon: SVG.dollar, val: 'Stable Pricing', lbl: 'Buy Box Price Consistent 30d' });
+  } else if (pDrop != null && pDrop > 3) {
+    items.push({ icon: SVG.dollar, val: pDrop.toFixed(0) + '% Price Drop', lbl: 'Buy Box Declined in 30 Days' });
+  } else if (mRev > 0) {
+    items.push({ icon: SVG.dollar, val: '$' + fmt(Math.round(mRev)) + '/mo', lbl: 'Top Product Revenue' });
   } else if (data.priceRange && data.priceRange !== 'N/A') {
-    items.push({ icon: SVG.dollar, val: escapeHtml(data.priceRange), lbl: data.priceStability === 'Stable' ? 'Stable Pricing Mechanics' : 'Price Range' });
+    items.push({ icon: SVG.dollar, val: escapeHtml(data.priceRange), lbl: 'Price Range' });
   } else {
     items.push({ icon: SVG.box, val: String(data.catalogSize || bp) + ' SKUs', lbl: 'Product Catalog' });
   }
@@ -168,7 +178,10 @@ function renderVulnItems(data) {
   const onPage = parseInt(data.onPageCompetitorCount || 0);
   const bp = parseInt(data.brandProductCount || 0);
 
-  if (fba < 50) {
+  const vDrop = data.priceDropPct;
+  if (vDrop != null && vDrop > 5) {
+    items.push({ icon: SVG.lock, val: `${vDrop.toFixed(0)}% Price Erosion`, lbl: '(Buy Box Price Dropping in 30 Days)' });
+  } else if (fba < 50) {
     const fbaOf = bp > 0 ? Math.round(bp * fba / 100) : 0;
     items.push({ icon: SVG.lock, val: `Only ${fba}% Prime Coverage`, lbl: `(${fbaOf} of ${bp} SKUs FBA)` });
   }
@@ -235,17 +248,21 @@ function getCallouts(data) {
     c2Desc = `Below 4.0 purchase threshold`;
   }
 
-  // Red callout 3: Prime/fulfillment
+  // Red callout 3: Price stability (preferred) → fulfillment fallback
+  const cDrop = data.priceDropPct;
   let c3Title, c3Desc;
-  if (fba === 0) {
+  if (cDrop != null && cDrop > 5) {
+    c3Title = `${cDrop.toFixed(0)}% Price Drop`;
+    c3Desc = 'Buy Box price eroding over 30 days.';
+  } else if (cDrop != null && cDrop >= 0) {
+    c3Title = 'Stable Buy Box';
+    c3Desc = 'Price held steady over 30 days.';
+  } else if (fba === 0) {
     c3Title = 'Missing Prime Badge';
     c3Desc = 'FBM status lowering conversion rate.';
-  } else if (fba < 50) {
-    c3Title = `Only ${fba}% Prime`;
-    c3Desc = `Most listings missing Prime filter visibility.`;
   } else {
-    c3Title = `${fba}% Prime Coverage`;
-    c3Desc = `Remaining products missing Prime eligibility.`;
+    c3Title = `${fba}% Prime`;
+    c3Desc = fba < 50 ? 'Most listings missing Prime filter.' : 'Partial Prime coverage.';
   }
 
   // Red callout 4: Competition
@@ -312,7 +329,23 @@ function renderLeakCards(data) {
   const bestPrice = best ? parseFloat(best.price || 0) : 0;
   const monthlyRev = bestMonthly * bestPrice;
 
-  if (fba < 50) {
+  const lDrop = data.priceDropPct;
+  if (lDrop != null && lDrop > 5) {
+    // Price erosion leak — verified data
+    let amountText;
+    if (monthlyRev > 0) {
+      const lossEst = fmt(Math.round(monthlyRev * lDrop / 100));
+      amountText = `~$${lossEst} / month in margin erosion`;
+    } else {
+      amountText = `${lDrop.toFixed(0)}% margin compression`;
+    }
+    leaks.push({
+      icon: SVG.noEntry,
+      title: 'Leak 1: Price Erosion',
+      text: `Buy Box price dropped ${lDrop.toFixed(0)}% in 30 days. Seller competition is compressing margins and devaluing your brand.`,
+      amount: amountText
+    });
+  } else if (fba < 50) {
     const missingCount = bp > 0 ? bp - Math.round(bp * fba / 100) : bp;
     let amountText;
     if (monthlyRev > 0) {
@@ -386,7 +419,15 @@ function renderActionCards(data) {
   const onPage = parseInt(data.onPageCompetitorCount || 0);
   const sc = parseInt(data.sellerCount || 0);
 
-  if (fba < 50) {
+  const aDrop = data.priceDropPct;
+  if (aDrop != null && aDrop > 5) {
+    actions.push({
+      icon: SVG.rocket,
+      title: 'Action 1: Price Stabilization',
+      text: 'Enforce MAP pricing, clean up unauthorized sellers, and lock Buy Box control through our wholesale exclusivity model.',
+      impact: 'Stop Margin Erosion & Protect Brand Value'
+    });
+  } else if (fba < 50) {
     actions.push({
       icon: SVG.rocket,
       title: 'Action 1: Prime Standardization',
@@ -510,6 +551,7 @@ function normalizeAgentData(input) {
     buyBoxIsFba: rd.buy_box_is_fba !== undefined ? rd.buy_box_is_fba : false,
     buyBoxPrice: bestProduct.price || 0,
     pricingOfferCount: bestProduct.sellers || sa.total_sellers || 0,
+    priceDropPct: rd.price_drop_pct != null ? parseFloat(rd.price_drop_pct) : null,
 
     bsrSubcategory: bestProduct.bsr_sub || '',
 
@@ -579,7 +621,7 @@ function renderHTML(data) {
   const fba = parseInt(data.fbaPercent || 0);
   const onPage = parseInt(data.onPageCompetitorCount || 0);
   let leakCount = 0;
-  if (fba < 50) leakCount++;
+  if ((data.priceDropPct != null && data.priceDropPct > 5) || fba < 50) leakCount++;
   if (onPage >= 2 || data.ppcStatus === 'None' || data.ppcStatus === 'Competitor Dominated') leakCount++;
   if (leakCount === 0) leakCount = 1;
 
