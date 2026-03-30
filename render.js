@@ -551,7 +551,7 @@ function normalizeAgentData(input) {
     buyBoxIsFba: rd.buy_box_is_fba !== undefined ? rd.buy_box_is_fba : false,
     buyBoxPrice: bestProduct.price || 0,
     pricingOfferCount: bestProduct.sellers || sa.total_sellers || 0,
-    priceDropPct: rd.price_drop_pct != null ? parseFloat(rd.price_drop_pct) : null,
+    priceDropPct: input.price_drop_pct != null ? parseFloat(input.price_drop_pct) : (rd.price_drop_pct != null ? parseFloat(rd.price_drop_pct) : null),
 
     bsrSubcategory: bestProduct.bsr_sub || '',
 
