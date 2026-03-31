@@ -96,6 +96,81 @@
   .fftr{padding:6px 48px;display:flex;justify-content:space-between;font-size:10px;color:#aaa}
   .fftr strong{color:#1a2744}
 
+  /* ════════ PAGE 4 — Storefront ════════ */
+
+  .p4-header{background:#fff;border-bottom:4px solid #1a2744;padding:16px 48px;text-align:center}
+  .p4-header h1{font-size:30px;font-weight:900;color:#1a1a1a;letter-spacing:-.5px}
+  .p4-sub{background:#f8f9fa;padding:10px 48px;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#c62828;font-weight:600;letter-spacing:.3px;border-bottom:1px solid #e0e0e0;text-align:center}
+
+  .p4-body{flex:1;display:grid;grid-template-columns:340px 1fr 340px;gap:16px;padding:16px 36px 12px;align-items:stretch}
+
+  .p4-col{display:flex;flex-direction:column;gap:12px}
+  .p4-col-hdr{padding:10px 16px;font-size:12px;font-weight:800;color:#fff;letter-spacing:1.5px;text-transform:uppercase;border-radius:8px 8px 0 0;text-align:center}
+  .p4-col-hdr.red{background:#c62828}
+  .p4-col-hdr.green{background:#2e7d32}
+
+  .p4-card{background:#fff;border-radius:8px;padding:16px 18px;flex:1;display:flex;flex-direction:column;justify-content:center;border-left:4px solid transparent}
+  .p4-card.red{border-left-color:#c62828}
+  .p4-card.green{border-left-color:#2e7d32}
+  .p4-card h4{font-size:15px;font-weight:800;margin-bottom:6px}
+  .p4-card.red h4{color:#b71c1c}
+  .p4-card.green h4{color:#1b5e20}
+  .p4-card p{font-size:12.5px;color:#555;line-height:1.5}
+
+  .p4-center{display:flex;flex-direction:column;gap:12px}
+  .mockup-box{flex:1;border-radius:10px;border:3px solid;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+  .mockup-box.bad{border-color:#c62828}
+  .mockup-box.good{border-color:#2e7d32}
+  .mockup-label{padding:8px 16px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff;text-align:center}
+  .mockup-box.bad .mockup-label{background:#c62828}
+  .mockup-box.good .mockup-label{background:#2e7d32}
+  .mockup-content{flex:1;padding:12px;position:relative;overflow:hidden}
+
+  .search-mock{display:flex;flex-direction:column;gap:6px;height:100%}
+  .sm-searchbar{height:22px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;padding:0 8px}
+  .sm-searchbar span{font-size:9px;color:#999;font-weight:600}
+  .sm-results{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .sm-item{background:#f8f8f8;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;position:relative}
+  .sm-item .thumb{width:100%;height:40px;background:#e0e0e0;border-radius:3px;margin-bottom:3px}
+  .sm-item .sm-title{font-size:7px;color:#888;text-align:center;line-height:1.2}
+  .sm-item .sm-price{font-size:8px;font-weight:700;color:#1a1a1a;margin-top:1px}
+  .sm-item.ad{border:1.5px solid #D63031}
+  .sm-item.ad::before{content:'Sponsored';position:absolute;top:2px;left:3px;font-size:6px;color:#D63031;font-weight:700;letter-spacing:.3px}
+  .sm-item.ad .thumb{background:#fce4ec}
+  .sm-item.competitor{border:1.5px dashed #e67e22}
+  .sm-item.competitor::before{content:'Competitor';position:absolute;top:2px;left:3px;font-size:6px;color:#e67e22;font-weight:700}
+  .sm-item.competitor .thumb{background:#fff3e0}
+  .sm-item.yours .thumb{background:#e3f2fd}
+  .sm-item.yours::after{content:'Your Product';position:absolute;bottom:2px;right:3px;font-size:5.5px;color:#1565c0;font-weight:700}
+
+  .store-mock{display:flex;flex-direction:column;gap:6px;height:100%}
+  .st-hero{height:48px;background:linear-gradient(135deg,#1a2744 0%,#2c3e6b 100%);border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative}
+  .st-hero span{color:#fff;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+  .st-hero .st-logo{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:28px;height:28px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#1a2744}
+  .st-nav{display:flex;gap:6px}
+  .st-nav span{flex:1;text-align:center;padding:5px 0;background:#f5f6fa;border-radius:4px;font-size:8px;font-weight:700;color:#1a2744;letter-spacing:.3px}
+  .st-nav span.active{background:#1a2744;color:#fff}
+  .st-collections{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .st-prod{background:#f8f9fb;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px}
+  .st-prod .sthumb{width:100%;height:34px;border-radius:3px;margin-bottom:2px}
+  .st-prod:nth-child(1) .sthumb{background:linear-gradient(135deg,#e3f2fd,#bbdefb)}
+  .st-prod:nth-child(2) .sthumb{background:linear-gradient(135deg,#e8f5e9,#c8e6c9)}
+  .st-prod:nth-child(3) .sthumb{background:linear-gradient(135deg,#fff3e0,#ffe0b2)}
+  .st-prod:nth-child(4) .sthumb{background:linear-gradient(135deg,#f3e5f5,#e1bee7)}
+  .st-prod:nth-child(5) .sthumb{background:linear-gradient(135deg,#fce4ec,#f8bbd0)}
+  .st-prod:nth-child(6) .sthumb{background:linear-gradient(135deg,#e0f7fa,#b2ebf2)}
+  .st-prod .st-name{font-size:7px;color:#555;font-weight:600}
+  .st-prod .st-price{font-size:8px;font-weight:800;color:#1a2744}
+  .st-brand-bar{height:26px;background:#f0faf0;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .st-brand-bar span{font-size:8px;font-weight:700;color:#2e7d32;letter-spacing:.3px}
+
+  .p4-cta{margin:0 36px 8px;padding:14px 32px;background:#1a2744;border-radius:8px;display:flex;align-items:center;justify-content:space-between}
+  .p4-cta-text{color:#fff;font-size:15px;font-weight:700}
+  .p4-cta-btn{background:#fff;color:#1a2744;font-size:13px;font-weight:800;padding:10px 28px;border-radius:6px;text-decoration:none;letter-spacing:.5px}
+
+  .p4-footer{padding:6px 48px 8px;display:flex;justify-content:space-between;font-size:10px;color:#aaa}
+  .p4-footer strong{color:#1a2744}
+
   @media print{body{background:#ecedf1}.page{box-shadow:none;margin:0}}
 </style>
 </head>
@@ -165,5 +240,97 @@
     <div>Prepared for <strong>{{brandName}}</strong> · Report ID: {{reportId}}</div>
   </div>
 </div>
+
+<!-- ═══════ PAGE 4 — Storefront ═══════ -->
+<div class="page">
+  <div class="p4-header">
+    <h1>Your Brand Has No Amazon Storefront</h1>
+  </div>
+  <div class="p4-sub">You're leaving 20-40% of browse-to-purchase conversion on the table.</div>
+
+  <div class="p4-body">
+    <!-- LEFT COLUMN -->
+    <div class="p4-col">
+      <div class="p4-col-hdr red">What's Happening Now</div>
+      <div class="p4-card red">
+        <h4>No Brand Home</h4>
+        <p>When customers search your name, they land on a generic search results page filled with competitor ads and unrelated products. There is no curated experience.</p>
+      </div>
+      <div class="p4-card red">
+        <h4>Zero Brand Story</h4>
+        <p>Amazon gives you a free, multi-page storefront to tell your story, show collections, and educate customers. Right now, that space does not exist for your brand.</p>
+      </div>
+      <div class="p4-card red">
+        <h4>Traffic Leaking to Competitors</h4>
+        <p>Without a storefront, every piece of external traffic (social media, email, Google) lands on a page where competitors can intercept your customers.</p>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN -->
+    <div class="p4-center">
+      <div class="mockup-box bad">
+        <div class="mockup-label">Current: Generic Search Page</div>
+        <div class="mockup-content">
+          <div class="search-mock">
+            <div class="sm-searchbar"><span>&#128269; "{{brandName}}"</span></div>
+            <div class="sm-results">
+              <div class="sm-item ad"><div class="thumb"></div><div class="sm-title">Rival Product</div><div class="sm-price">$29.99</div></div>
+              <div class="sm-item yours"><div class="thumb"></div><div class="sm-title">Your Product A</div><div class="sm-price">$34.99</div></div>
+              <div class="sm-item competitor"><div class="thumb"></div><div class="sm-title">Off-Brand Item</div><div class="sm-price">$19.99</div></div>
+              <div class="sm-item ad"><div class="thumb"></div><div class="sm-title">Competitor Z</div><div class="sm-price">$24.99</div></div>
+              <div class="sm-item yours"><div class="thumb"></div><div class="sm-title">Your Product B</div><div class="sm-price">$39.99</div></div>
+              <div class="sm-item competitor"><div class="thumb"></div><div class="sm-title">Random Seller</div><div class="sm-price">$22.99</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-box good">
+        <div class="mockup-label">With Profitzon: Premium Brand Storefront</div>
+        <div class="mockup-content">
+          <div class="store-mock">
+            <div class="st-hero"><div class="st-logo">{{brandInitial}}</div><span>{{brandName}} Store</span></div>
+            <div class="st-nav"><span class="active">Home</span><span>Best Sellers</span><span>Collections</span><span>About Us</span></div>
+            <div class="st-collections">
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product A</div><div class="st-price">$34.99</div></div>
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product B</div><div class="st-price">$39.99</div></div>
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product C</div><div class="st-price">$27.99</div></div>
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product D</div><div class="st-price">$44.99</div></div>
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product E</div><div class="st-price">$31.99</div></div>
+              <div class="st-prod"><div class="sthumb"></div><div class="st-name">Product F</div><div class="st-price">$29.99</div></div>
+            </div>
+            <div class="st-brand-bar"><span>&#10003; Brand Registered</span><span>&#10003; Curated Collections</span><span>&#10003; Lifestyle Content</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="p4-col">
+      <div class="p4-col-hdr green">What Profitzon Builds</div>
+      <div class="p4-card green">
+        <h4>Premium Brand Storefront</h4>
+        <p>A fully designed, multi-page Amazon storefront with hero banners, curated collections, lifestyle imagery, and brand storytelling. Built and funded by Profitzon.</p>
+      </div>
+      <div class="p4-card green">
+        <h4>Traffic Destination</h4>
+        <p>A dedicated URL for your brand on Amazon. Point social media, email campaigns, and paid ads to a page you control, not a search results page competitors can hijack.</p>
+      </div>
+      <div class="p4-card green">
+        <h4>Conversion Engine</h4>
+        <p>Brands with optimized storefronts see 20-40% higher browse-to-purchase conversion. Repeat visitors convert at 2x the rate of first-time visitors.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="p4-cta">
+    <span class="p4-cta-text">Ready to build your Amazon storefront? Let's get started.</span>
+    <a class="p4-cta-btn" href="https://calendar.app.google/2H1gCyXbshWbCxud9" target="_blank">Book a Strategy Call</a>
+  </div>
+  <div class="p4-footer">
+    <span><strong>Profitzon</strong> · Capital-Backed Amazon Growth Partner</span>
+    <span>Prepared for <strong>{{brandName}}</strong> · Report ID: {{reportId}}</span>
+  </div>
+</div>
+
 </body>
 </html>

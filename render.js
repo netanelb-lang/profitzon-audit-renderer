@@ -637,6 +637,7 @@ function renderHTML(data) {
 
   const replacements = {
     '{{brandName}}': escapeHtml(data.brandName || 'Unknown Brand'),
+    '{{brandInitial}}': escapeHtml((data.brandName || 'B').charAt(0).toUpperCase()),
     '{{reportId}}': reportId,
 
     // Page 1
