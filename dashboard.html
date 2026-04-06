@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profitzon Brand Outreach — Weekly Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0e1a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 40px 48px;
+    background: linear-gradient(135deg, #0f1629 0%, #1a1f3a 100%);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+  }
+  .header-left h1 {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #818cf8, #6366f1, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+  .header-left .subtitle {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .header-right .date {
+    font-size: 13px;
+    color: #64748b;
+  }
+  .header-right .logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #6366f1;
+    letter-spacing: 2px;
+  }
+
+  /* ── Top KPI Row ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: 14px;
+    padding: 20px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 14px 14px 0 0;
+  }
+  .kpi-card:nth-child(1)::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+  .kpi-card:nth-child(2)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .kpi-card:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+  .kpi-card:nth-child(4)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+  .kpi-card:nth-child(5)::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+  .kpi-number {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi-card:nth-child(1) .kpi-number { color: #818cf8; }
+  .kpi-card:nth-child(2) .kpi-number { color: #60a5fa; }
+  .kpi-card:nth-child(3) .kpi-number { color: #fbbf24; }
+  .kpi-card:nth-child(4) .kpi-number { color: #34d399; }
+  .kpi-card:nth-child(5) .kpi-number { color: #f87171; }
+  .kpi-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+  }
+  .kpi-sub {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  /* ── Two-column main ── */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .panel {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(99, 102, 241, 0.12);
+    border-radius: 14px;
+    padding: 22px 24px;
+  }
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #818cf8;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title .icon {
+    font-size: 16px;
+  }
+
+  /* ── Sender Table ── */
+  .sender-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .sender-table th {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #64748b;
+    padding: 0 8px 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(99,102,241,0.1);
+  }
+  .sender-table th:first-child { text-align: left; }
+  .sender-table td {
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sender-table td:first-child {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sender-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .sender-table .highlight {
+    color: #34d399;
+    font-weight: 700;
+  }
+  .sender-table .dim { color: #64748b; }
+  .sender-table tr:last-child td { border-bottom: none; }
+  .sender-name { font-weight: 600; color: #e2e8f0; }
+  .rate-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .rate-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s ease;
+  }
+
+  /* ── Engagement Donut ── */
+  .engagement-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .donut-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+  }
+  .donut-wrap svg { transform: rotate(-90deg); }
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .donut-center .pct {
+    font-size: 28px;
+    font-weight: 800;
+    color: #818cf8;
+    line-height: 1;
+  }
+  .donut-center .lbl {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .engagement-list { list-style: none; }
+  .engagement-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .engagement-list li:last-child { border-bottom: none; }
+  .eng-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .eng-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .eng-value {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .eng-pct {
+    font-size: 11px;
+    color: #64748b;
+    margin-left: 6px;
+  }
+
+  /* ── Pipeline Funnel ── */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .funnel-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .funnel-label {
+    width: 100px;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+  .funnel-bar-wrap {
+    flex: 1;
+    height: 28px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .funnel-bar {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    min-width: 40px;
+  }
+  .funnel-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── Sender Performance Bars ── */
+  .perf-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .perf-row:last-child { margin-bottom: 0; }
+  .perf-name {
+    width: 70px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    flex-shrink: 0;
+  }
+  .perf-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .perf-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .perf-bar-label {
+    width: 55px;
+    font-size: 10px;
+    color: #64748b;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .perf-bar-track {
+    flex: 1;
+    height: 14px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .perf-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* ── Alert Box ── */
+  .alert-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .alert-box {
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .alert-box.red {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+  .alert-box.green {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+  }
+  .alert-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .alert-content h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .alert-box.red h3 { color: #f87171; }
+  .alert-box.green h3 { color: #34d399; }
+  .alert-content p {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+
+  /* ── Bottom row ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(99,102,241,0.15);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #475569;
+  }
+
+  /* ── Full-width panel ── */
+  .full-width { grid-column: 1 / -1; }
+
+  @media print {
+    body { background: #0f1629; }
+    .page { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Brand Outreach Performance Report</h1>
+      <div class="subtitle">Cold outreach pipeline metrics — all senders combined</div>
+    </div>
+    <div class="header-right">
+      <div class="logo">PROFITZON</div>
+      <div class="date">Report Date: April 6, 2026</div>
+    </div>
+  </div>
+
+  <!-- Top KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-number">4,087</div>
+      <div class="kpi-label">Total Brands</div>
+      <div class="kpi-sub">In pipeline</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-number">772</div>
+      <div class="kpi-label">Emails Sent</div>
+      <div class="kpi-sub">Initial outreach</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-number">275</div>
+      <div class="kpi-label">Engaged</div>
+      <div class="kpi-sub">35.6% of sent</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-number">23</div>
+      <div class="kpi-label">Replies</div>
+      <div class="kpi-sub">3.0% reply rate</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-number">1</div>
+      <div class="kpi-label">Follow-Ups Sent</div>
+      <div class="kpi-sub" style="color:#f87171;">Out of 772 eligible</div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="alert-row">
+    <div class="alert-box red">
+      <div class="alert-icon">&#9888;</div>
+      <div class="alert-content">
+        <h3>Follow-Up Engine is Down</h3>
+        <p>Only 1 follow-up sent out of 772 eligible brands. Follow-ups typically 2-3x reply rates. Fixing this is the single highest-impact action.</p>
+      </div>
+    </div>
+    <div class="alert-box green">
+      <div class="alert-content">
+        <h3>35.6% Engagement Rate = Emails Are Landing</h3>
+        <p>Over a third of brands opened or clicked. The emails are reaching real inboxes and getting attention — the copy and subject lines work. The gap is in conversion to reply + follow-up persistence.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Two-Column -->
+  <div class="main-grid">
+
+    <!-- Left: Sender Breakdown Table -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">&#9993;</span> Performance by Sender</div>
+      <table class="sender-table">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Sent</th>
+            <th>Engaged</th>
+            <th>Eng %</th>
+            <th>Replies</th>
+            <th>Reply %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="sender-dot" style="background:#579bfc;"></span><span class="sender-name">Netanel</span></td>
+            <td>180</td>
+            <td>64</td>
+            <td class="highlight">35.6%</td>
+            <td class="highlight">7</td>
+            <td class="highlight">3.9%</td>
+          </tr>
+          <tr>
+            <td><span class="sender-dot" style="background:#037f4c;"></span><span class="sender-name">Gal</span></td>
+            <td>173</td>
+            <td>44</td>
+            <td>25.4%</td>
+            <td class="highlight">7</td>
+            <td class="highlight">4.0%</td>
+          </tr>
+          <tr>
+            <td><span class="sender-dot" style="background:#fdab3d;"></span><span class="sender-name">Refael</span></td>
+            <td>138</td>
+            <td>41</td>
+            <td>29.7%</td>
+            <td>2</td>
+            <td>1.4%</td>
+          </tr>
+          <tr>
+            <td><span class="sender-dot" style="background:#007eb5;"></span><span class="sender-name">Brands</span></td>
+            <td>114</td>
+            <td>42</td>
+            <td class="highlight">36.8%</td>
+            <td>4</td>
+            <td>3.5%</td>
+          </tr>
+          <tr>
+            <td><span class="sender-dot" style="background:#9d50dd;"></span><span class="sender-name">Nimrod</span></td>
+            <td>70</td>
+            <td>17</td>
+            <td>24.3%</td>
+            <td>1</td>
+            <td>1.4%</td>
+          </tr>
+          <tr>
+            <td><span class="sender-dot" style="background:#64748b;"></span><span class="sender-name dim">Unassigned</span></td>
+            <td class="dim">97</td>
+            <td class="dim">67</td>
+            <td class="dim">69.1%</td>
+            <td class="dim">2</td>
+            <td class="dim">2.1%</td>
+          </tr>
+          <tr style="border-top: 2px solid rgba(99,102,241,0.2);">
+            <td><span class="sender-dot" style="background:transparent;"></span><span class="sender-name" style="color:#818cf8;">TOTAL</span></td>
+            <td style="color:#818cf8; font-weight:800;">772</td>
+            <td style="color:#818cf8; font-weight:800;">275</td>
+            <td style="color:#818cf8; font-weight:800;">35.6%</td>
+            <td style="color:#818cf8; font-weight:800;">23</td>
+            <td style="color:#818cf8; font-weight:800;">3.0%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right: Engagement Donut -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">&#128200;</span> Email Engagement Breakdown</div>
+      <div class="engagement-grid">
+        <div class="donut-wrap">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <!-- Background -->
+            <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>
+            <!-- No engagement: 497/772 = 64.4% -->
+            <circle cx="70" cy="70" r="56" fill="none" stroke="#334155" stroke-width="16"
+              stroke-dasharray="226.5 351.86" stroke-dashoffset="0"/>
+            <!-- Opened: 82/772 = 10.6% -->
+            <circle cx="70" cy="70" r="56" fill="none" stroke="#6366f1" stroke-width="16"
+              stroke-dasharray="37.3 351.86" stroke-dashoffset="-226.5"/>
+            <!-- Clicked: 167/772 = 21.6% -->
+            <circle cx="70" cy="70" r="56" fill="none" stroke="#3b82f6" stroke-width="16"
+              stroke-dasharray="76.2 351.86" stroke-dashoffset="-263.8"/>
+            <!-- Multi-Open: 26/772 = 3.4% -->
+            <circle cx="70" cy="70" r="56" fill="none" stroke="#a78bfa" stroke-width="16"
+              stroke-dasharray="11.8 351.86" stroke-dashoffset="-340"/>
+          </svg>
+          <div class="donut-center">
+            <div class="pct">35.6%</div>
+            <div class="lbl">Engaged</div>
+          </div>
+        </div>
+        <ul class="engagement-list">
+          <li>
+            <span class="eng-label"><span class="eng-dot" style="background:#6366f1;"></span> Opened</span>
+            <span><span class="eng-value" style="color:#818cf8;">82</span><span class="eng-pct">10.6%</span></span>
+          </li>
+          <li>
+            <span class="eng-label"><span class="eng-dot" style="background:#3b82f6;"></span> Clicked (PDF)</span>
+            <span><span class="eng-value" style="color:#60a5fa;">167</span><span class="eng-pct">21.6%</span></span>
+          </li>
+          <li>
+            <span class="eng-label"><span class="eng-dot" style="background:#a78bfa;"></span> Multi-Open</span>
+            <span><span class="eng-value" style="color:#a78bfa;">26</span><span class="eng-pct">3.4%</span></span>
+          </li>
+          <li>
+            <span class="eng-label"><span class="eng-dot" style="background:#334155;"></span> No Engagement</span>
+            <span><span class="eng-value" style="color:#64748b;">497</span><span class="eng-pct">64.4%</span></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row -->
+  <div class="bottom-grid">
+    <!-- Pipeline Funnel -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">&#9660;</span> Pipeline Funnel</div>
+      <div class="funnel">
+        <div class="funnel-row">
+          <div class="funnel-label">Queued</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%; background: linear-gradient(90deg,#334155,#475569);">3,254</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Draft Ready</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:5%; background: linear-gradient(90deg,#eab308,#fbbf24);">37</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Email Sent</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:23.7%; background: linear-gradient(90deg,#3b82f6,#60a5fa);">772</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Engaged</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:8.5%; background: linear-gradient(90deg,#6366f1,#818cf8);">275</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Follow-Up 1</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:1.5%; min-width:36px; background: linear-gradient(90deg,#f97316,#fb923c);">1</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Replied</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:2.5%; min-width:36px; background: linear-gradient(90deg,#10b981,#34d399);">23</div></div>
+        </div>
+        <div class="funnel-row">
+          <div class="funnel-label">Meeting</div>
+          <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:1.5%; min-width:36px; background: linear-gradient(90deg,#8b5cf6,#a78bfa);">0</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Engagement by Sender (visual bars) -->
+    <div class="panel">
+      <div class="panel-title"><span class="icon">&#128202;</span> Engagement by Sender</div>
+      <div style="margin-bottom: 6px;">
+        <div style="display:flex; gap:16px; margin-bottom:14px; font-size:10px; color:#64748b;">
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#6366f1;margin-right:4px;"></span>Opened</span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#3b82f6;margin-right:4px;"></span>Clicked</span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#a78bfa;margin-right:4px;"></span>Multi-Open</span>
+          <span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#10b981;margin-right:4px;"></span>Replied</span>
+        </div>
+      </div>
+
+      <!-- Netanel -->
+      <div class="perf-row">
+        <div class="perf-name" style="color:#579bfc;">Netanel</div>
+        <div style="flex:1;">
+          <div style="display:flex; height:26px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,0.04);">
+            <div style="width:13.3%; background:#6366f1; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">24</div>
+            <div style="width:19.4%; background:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">35</div>
+            <div style="width:2.8%; background:#a78bfa; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">5</div>
+            <div style="width:3.9%; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">7</div>
+          </div>
+          <div style="font-size:10px; color:#64748b; margin-top:3px;">180 sent &middot; 64 engaged (35.6%) &middot; 7 replies (3.9%)</div>
+        </div>
+      </div>
+
+      <!-- Gal -->
+      <div class="perf-row">
+        <div class="perf-name" style="color:#037f4c;">Gal</div>
+        <div style="flex:1;">
+          <div style="display:flex; height:26px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,0.04);">
+            <div style="width:10.4%; background:#6366f1; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">18</div>
+            <div style="width:12.7%; background:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">22</div>
+            <div style="width:2.3%; background:#a78bfa; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">4</div>
+            <div style="width:4.0%; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">7</div>
+          </div>
+          <div style="font-size:10px; color:#64748b; margin-top:3px;">173 sent &middot; 44 engaged (25.4%) &middot; 7 replies (4.0%)</div>
+        </div>
+      </div>
+
+      <!-- Refael -->
+      <div class="perf-row">
+        <div class="perf-name" style="color:#fdab3d;">Refael</div>
+        <div style="flex:1;">
+          <div style="display:flex; height:26px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,0.04);">
+            <div style="width:5.8%; background:#6366f1; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">8</div>
+            <div style="width:23.2%; background:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">32</div>
+            <div style="width:0.7%; background:#a78bfa;"></div>
+            <div style="width:1.4%; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">2</div>
+          </div>
+          <div style="font-size:10px; color:#64748b; margin-top:3px;">138 sent &middot; 41 engaged (29.7%) &middot; 2 replies (1.4%)</div>
+        </div>
+      </div>
+
+      <!-- Nimrod -->
+      <div class="perf-row">
+        <div class="perf-name" style="color:#9d50dd;">Nimrod</div>
+        <div style="flex:1;">
+          <div style="display:flex; height:26px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,0.04);">
+            <div style="width:5.7%; background:#6366f1; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">4</div>
+            <div style="width:17.1%; background:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">12</div>
+            <div style="width:1.4%; background:#a78bfa;"></div>
+            <div style="width:1.4%; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">1</div>
+          </div>
+          <div style="font-size:10px; color:#64748b; margin-top:3px;">70 sent &middot; 17 engaged (24.3%) &middot; 1 reply (1.4%)</div>
+        </div>
+      </div>
+
+      <!-- Brands -->
+      <div class="perf-row">
+        <div class="perf-name" style="color:#007eb5;">Brands</div>
+        <div style="flex:1;">
+          <div style="display:flex; height:26px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,0.04);">
+            <div style="width:9.6%; background:#6366f1; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">11</div>
+            <div style="width:25.4%; background:#3b82f6; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">29</div>
+            <div style="width:1.8%; background:#a78bfa;"></div>
+            <div style="width:3.5%; background:#10b981; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#fff;">4</div>
+          </div>
+          <div style="font-size:10px; color:#64748b; margin-top:3px;">114 sent &middot; 42 engaged (36.8%) &middot; 4 replies (3.5%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span>Profitzon Brand Outreach System v3.1 &middot; Data pulled from Monday Board #18401264535</span>
+    <span>Generated April 6, 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
